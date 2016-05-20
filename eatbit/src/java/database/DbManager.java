@@ -10,8 +10,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.derby.client.am.SqlException;
 
 /**
  *
@@ -26,10 +28,10 @@ public class DbManager {
         con= DriverManager.getConnection(url);
     }
     
-    private boolean alreadyRegistered(User user) 
+    /*private boolean alreadyRegistered(User user) 
     {
         try {
-            ResultSet rs;
+            ResultSet rs=null;
             PreparedStatement st= con.prepareStatement("select * from users where NICKNAME=? OR EMAIL=?");
             boolean res=true;
             st.setString(1,user.getNickname());
@@ -43,25 +45,46 @@ public class DbManager {
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
+    }*/
+    
+    public boolean register(User user) 
+    {
+        try 
+        {
+            PreparedStatement st= con.prepareStatement("insert into users values(?,?,?,?,?,?,?,?)");
+            st.setInt(1,user.getId());
+            st.setString(2,user.getName());
+            st.setString(3,user.getSurname());
+            st.setString(4,user.getNickname());
+            st.setString(5,user.getEmail());
+            st.setString(6,BCrypt.hashpw(user.getPassword(),BCrypt.gentsalt()));
+            st.setInt(7,user.getReviews_counter());
+            st.setInt(8,user.getReviews_positive());
+            try
+            {
+                con.setAutoCommit(false);
+                st.executeUpdate();
+                con.commit();
+            }
+            catch(SQLException e)
+            {
+                if(e.getSQLState().equals("23505"))
+                {
+                    return false;
+                }
+                else 
+                    throw e;
+            }
+            finally
+            {
+                st.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
     
-    /*public User register(User user) 
-    {
-        if(!alreadyRegistered(user))
-        {
-            try {
-                PreparedStatement st= con.prepareStatement("insert into users values(?,?)");
-                st.setString(1, nameInput);
-                st.setString(2, passwordInput);
-                st.executeUpdate();
-                user=new User(nameInput);
-                st.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return user;
-    }*/
     public static void shutdown() 
     {
         try {
