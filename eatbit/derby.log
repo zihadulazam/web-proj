@@ -1,31 +1,771 @@
-Thu May 19 11:57:27 CEST 2016 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Fri May 20 08:45:06 CEST 2016 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Thu May 19 11:57:28 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0154-c872-ccc4-00004485e692 
-on database directory /home/jacopo/Desktop/git/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 08:45:06 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_77-b03
 user.dir=/usr/lib/jvm/java-8-oracle/db
 os.name=Linux
 os.arch=amd64
-os.version=4.2.0-34-generic
-derby.system.home=/home/jacopo/Desktop/git/web-proj/eatbit
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+Fri May 20 09:00:11 CEST 2016 Thread[DRDAConnThread_4,5,main] Cleanup action starting
+java.sql.SQLException: Database 'users' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Caused by: ERROR XJ004: Database 'users' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 18 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'users' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Fri May 20 09:00:11 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = users), (DRDAID = {4}), Database 'users' not found.
+Fri May 20 09:00:16 CEST 2016 Thread[DRDAConnThread_2,5,main] Cleanup action starting
+java.sql.SQLException: Database 'users' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Caused by: ERROR XJ004: Database 'users' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 18 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'users' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Fri May 20 09:00:16 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = users), (DRDAID = {6}), Database 'users' not found.
+----------------------------------------------------------------
+Fri May 20 09:02:13 CEST 2016:
+Shutting down instance a816c00e-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:02:13 CEST 2016 Thread[DRDAConnThread_5,5,main] (DATABASE = eatbitDB), (DRDAID = {8}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:02:49 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance f91a0030-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Thu May 19 11:57:40 CEST 2016:
-Shutting down instance a816c00e-0154-c872-ccc4-00004485e692 on database directory /home/jacopo/Desktop/git/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
-Thu May 19 11:57:40 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {2}), Database 'eatbitDB' shutdown.
+Fri May 20 09:02:52 CEST 2016:
+Shutting down instance f91a0030-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:02:52 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {10}), Database 'eatbitDB' shutdown.
 ----------------------------------------------------------------
-Thu May 19 11:59:50 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a65c80ac-0154-c872-ccc4-00004485e692 
-on database directory /home/jacopo/Desktop/git/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:02:54 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 81260031-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_77-b03
 user.dir=/usr/lib/jvm/java-8-oracle/db
 os.name=Linux
 os.arch=amd64
-os.version=4.2.0-34-generic
-derby.system.home=/home/jacopo/Desktop/git/web-proj/eatbit
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:13:19 CEST 2016:
+Shutting down instance 81260031-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:13:19 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {12}), Database 'eatbitDB' shutdown.
+Fri May 20 09:38:20 CEST 2016 Thread[DRDAConnThread_2,5,main] Cleanup action starting
+java.sql.SQLException: Database 'eatbitDB' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Caused by: ERROR XJ004: Database 'eatbitDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 18 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'eatbitDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Fri May 20 09:38:20 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {13}), Database 'eatbitDB' not found.
+Fri May 20 09:38:44 CEST 2016 Thread[DRDAConnThread_4,5,main] Cleanup action starting
+java.sql.SQLException: Database 'eatbitDB' not found.
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Caused by: ERROR XJ004: Database 'eatbitDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	... 18 more
+============= begin nested exception, level (1) ===========
+ERROR XJ004: Database 'eatbitDB' not found.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleDBNotFound(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
+	at org.apache.derby.impl.drda.Database.makeConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.getConnFromDatabaseName(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.verifyUserIdPassword(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseSECCHK(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parseDRDAConnection(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+============= end nested exception, level (1) ===========
+Cleanup action completed
+Fri May 20 09:38:44 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {14}), Database 'eatbitDB' not found.
+----------------------------------------------------------------
+Fri May 20 09:38:45 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 09324032-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:38:54 CEST 2016:
+Shutting down instance 09324032-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:38:54 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {16}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:39:16 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a13ec033-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:39:17 CEST 2016:
+Shutting down instance a13ec033-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:39:17 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {18}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:39:19 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 594b8034-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:42:02 CEST 2016:
+Shutting down instance 594b8034-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:42:02 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {20}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:42:04 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 41588035-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:42:04 CEST 2016:
+Shutting down instance 41588035-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:42:04 CEST 2016 Thread[DRDAConnThread_6,5,main] (DATABASE = eatbitDB), (DRDAID = {22}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:42:05 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 6965c036-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:45:14 CEST 2016:
+Shutting down instance 6965c036-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:45:14 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {25}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:45:15 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 05550069-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:47:14 CEST 2016:
+Shutting down instance 05550069-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:47:14 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {27}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:47:15 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 4d6f406a-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:59:34 CEST 2016:
+Shutting down instance 4d6f406a-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:59:34 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {29}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:59:35 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 2589c06b-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 09:59:36 CEST 2016:
+Shutting down instance 2589c06b-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 09:59:36 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {31}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 09:59:37 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 9da4806c-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:01:58 CEST 2016:
+Shutting down instance 9da4806c-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:01:58 CEST 2016 Thread[DRDAConnThread_7,5,main] (DATABASE = eatbitDB), (DRDAID = {34}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:01:59 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance aa7ac093-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:02:00 CEST 2016:
+Shutting down instance aa7ac093-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:02:00 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {36}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:02:01 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 629f8094-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:02:48 CEST 2016:
+Shutting down instance 629f8094-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:02:48 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {38}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:02:50 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 4ac48095-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:02:50 CEST 2016:
+Shutting down instance 4ac48095-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:02:50 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {40}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:02:51 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 72e9c096-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:02:57 CEST 2016:
+Shutting down instance 72e9c096-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:02:57 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {42}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:02:58 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance eb0f4097-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:02:58 CEST 2016:
+Shutting down instance eb0f4097-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:02:58 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {44}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:02:59 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c3350098-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:05:34 CEST 2016:
+Shutting down instance c3350098-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:05:34 CEST 2016 Thread[DRDAConnThread_5,5,main] (DATABASE = eatbitDB), (DRDAID = {47}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:05:35 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 921800c1-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:17:05 CEST 2016:
+Shutting down instance 921800c1-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:17:05 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {49}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:17:06 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 9a4840c2-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:18:31 CEST 2016:
+Shutting down instance 9a4840c2-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:18:31 CEST 2016 Thread[DRDAConnThread_6,5,main] (DATABASE = eatbitDB), (DRDAID = {51}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:18:32 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance b278c0c3-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:18:32 CEST 2016:
+Shutting down instance b278c0c3-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:18:32 CEST 2016 Thread[DRDAConnThread_6,5,main] (DATABASE = eatbitDB), (DRDAID = {53}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:18:33 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance eaa980c4-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:20:00 CEST 2016:
+Shutting down instance eaa980c4-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:20:00 CEST 2016 Thread[DRDAConnThread_5,5,main] (DATABASE = eatbitDB), (DRDAID = {56}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:20:00 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 3ad9c0eb-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:20:01 CEST 2016:
+Shutting down instance 3ad9c0eb-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:20:01 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {58}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:20:02 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance b31480ec-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:21:19 CEST 2016:
+Shutting down instance b31480ec-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:21:19 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {60}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:21:19 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance db4f80ed-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:21:49 CEST 2016:
+Shutting down instance db4f80ed-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:21:49 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {62}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:21:50 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance c38ac0ee-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:22:15 CEST 2016:
+Shutting down instance c38ac0ee-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:22:15 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {64}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:22:16 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 7bc640ef-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:22:17 CEST 2016:
+Shutting down instance 7bc640ef-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:22:17 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {66}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:22:17 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 140200f0-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:23:12 CEST 2016:
+Shutting down instance 140200f0-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:23:12 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {69}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:23:13 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 05df4117-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:30:13 CEST 2016:
+Shutting down instance 05df4117-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:30:14 CEST 2016 Thread[DRDAConnThread_8,5,main] (DATABASE = eatbitDB), (DRDAID = {71}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:30:15 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance de250118-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:32:13 CEST 2016:
+Shutting down instance de250118-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:32:13 CEST 2016 Thread[DRDAConnThread_3,5,main] (DATABASE = eatbitDB), (DRDAID = {74}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:32:14 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance 9188413f-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:32:14 CEST 2016:
+Shutting down instance 9188413f-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:32:14 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {76}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:32:15 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a9d80140-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:34:42 CEST 2016:
+Shutting down instance a9d80140-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:34:42 CEST 2016 Thread[DRDAConnThread_4,5,main] (DATABASE = eatbitDB), (DRDAID = {78}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:34:43 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance b2280141-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri May 20 10:43:32 CEST 2016:
+Shutting down instance b2280141-0154-cce9-0da5-ffffc11c9cd0 on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Fri May 20 10:43:32 CEST 2016 Thread[DRDAConnThread_2,5,main] (DATABASE = eatbitDB), (DRDAID = {80}), Database 'eatbitDB' shutdown.
+----------------------------------------------------------------
+Fri May 20 10:43:33 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance ba784142-0154-cce9-0da5-ffffc11c9cd0 
+on database directory /home/jacopo/Desktop/progettoweb/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_77-b03
+user.dir=/usr/lib/jvm/java-8-oracle/db
+os.name=Linux
+os.arch=amd64
+os.version=4.2.0-35-generic
+derby.system.home=/home/jacopo/Desktop/progettoweb/web-proj/eatbit
 Database Class Loader started - derby.database.classpath=''
