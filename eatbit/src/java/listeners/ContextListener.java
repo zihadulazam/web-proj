@@ -6,6 +6,7 @@
 package listeners;
 
 import database.DbManager;
+import database.User;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ import javax.servlet.ServletContextListener;
  * @author jacopo
  */
 public class ContextListener implements ServletContextListener {
-
+    
     @Override
     public void contextInitialized(ServletContextEvent sce)
     {

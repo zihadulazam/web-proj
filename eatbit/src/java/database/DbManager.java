@@ -26,51 +26,46 @@ public class DbManager {
     {
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         con= DriverManager.getConnection(url);
+        con.setAutoCommit(false);
     }
     
-    /*private boolean alreadyRegistered(User user) 
+      /**
+     * Prova ad inserire(registrare sul sito) un utente nel database.
+     * @param user Il bean user con i dati all'iterno
+     * @return 0 se è andata a buon fine, 1 se nn ha registrato xk esiste un
+     * utente con quella email, 2 se esiste un utente con quel nick, 3 se non
+     * è andata a buon fine per altri motivi
+     *  
+     */
+    public int registerUser(User user) 
     {
-        try {
-            ResultSet rs=null;
-            PreparedStatement st= con.prepareStatement("select * from users where NICKNAME=? OR EMAIL=?");
-            boolean res=true;
-            st.setString(1,user.getNickname());
-            st.setString(2,user.getEmail());
-            rs=st.executeQuery();
-            res=rs.next();//nn posso fare direttamente in return xk se chiudo la query result si chiude
-            st.close();
-            rs.close();
-            return res;
-        } catch (SQLException ex) {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return true;
-    }*/
-    
-    public boolean register(User user) 
-    {
+        int res=3;
         try 
         {
-            PreparedStatement st= con.prepareStatement("insert into users values(?,?,?,?,?,?,?,?)");
-            st.setInt(1,user.getId());
-            st.setString(2,user.getName());
-            st.setString(3,user.getSurname());
-            st.setString(4,user.getNickname());
-            st.setString(5,user.getEmail());
-            st.setString(6,BCrypt.hashpw(user.getPassword(),BCrypt.gentsalt()));
-            st.setInt(7,user.getReviews_counter());
-            st.setInt(8,user.getReviews_positive());
+            PreparedStatement st=con.prepareStatement("insert into users(NAME,SURNAME,NICKNAME,EMAIL,PASSWORD,REVIEWS_COUNTER,REVIEWS_POSITIVE) values(?,?,?,?,?,?,?)");
+            st.setString(1,user.getName());
+            st.setString(2,user.getSurname());
+            st.setString(3,user.getNickname());
+            st.setString(4,user.getEmail());
+            st.setString(5,BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
+            st.setInt(6,user.getReviews_counter());
+            st.setInt(7,user.getReviews_positive());
             try
             {
-                con.setAutoCommit(false);
                 st.executeUpdate();
                 con.commit();
+                res=0;
             }
             catch(SQLException e)
             {
+                //codice se trova roba con stesse keys o unique
                 if(e.getSQLState().equals("23505"))
                 {
-                    return false;
+                    if(findUserByEmail(user.getEmail()))
+                        res=1;
+                    else if(findUserByNickname(user.getNickname()))
+                        res=2;
+                    //fare che ritorna intero e 2 statement per fare query e cercare se è a causa email o nome
                 }
                 else 
                     throw e;
@@ -79,12 +74,53 @@ public class DbManager {
             {
                 st.close();
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) 
+        {
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return res;
     }
     
+    private boolean findUserByEmail(String email) throws SQLException
+    {
+        boolean res=true;
+        try
+        {
+            PreparedStatement st=con.prepareStatement("select * from USERS where EMAIL=?");
+            st.setString(1, email);
+            ResultSet rs=st.executeQuery(email);
+            con.commit();
+            res=rs.next();
+            rs.close();
+            st.close();
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+    
+    private boolean findUserByNickname(String nick) throws SQLException
+    {
+        boolean res=true;
+        try
+        {
+            PreparedStatement st=con.prepareStatement("select * from USERS where NICKNAME=?");
+            st.setString(1,nick);
+            ResultSet rs=st.executeQuery(nick);
+            con.commit();
+            res=rs.next();
+            rs.close();
+            st.close();
+        }
+        catch(SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
     public static void shutdown() 
     {
         try {
