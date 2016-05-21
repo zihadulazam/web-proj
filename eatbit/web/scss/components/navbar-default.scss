@@ -1,0 +1,97 @@
+@import "_var.scss";
+@import "_colors.scss";
+
+.eatbit-logo{
+    height: $logoHeight;
+    width: $logoWidth;
+}
+.eatbit-brand{
+    padding-left: 10px;   
+}
+.navbar-extra-width{
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.navbar-default{
+    
+    .navbar-brand {
+            color: #fff !important; 
+    }
+    
+    .navbar-toggle {
+        color: #fff !important; 
+        border-color: #fff !important;
+        
+        .icon-bar { 
+            background-color: #fff !important;
+            
+        }
+        &:hover{
+            background-color: #fff !important;
+            .icon-bar { 
+                background-color: $eatbit_red !important;
+            
+            }
+        }
+    }
+    
+    .navbar-nav>li>a {
+        color: white;
+        &:hover{
+            color:#b3c2bf;
+        }
+    }
+    
+}
+
+.navbar {
+	font-family: 'Open Sans', sans-serif !important;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: $eatbit_red;
+    min-width: 400px;
+    position: absolute;
+    width: 100%;
+    margin-bottom: 0px;
+    z-index: 3;
+    /* remove a visible border on chrome */
+    border-radius: 0px;
+    // remove focus ugly outline
+    .navbar-brand:focus {
+        outline:0;
+    }
+}
+
+#logged{
+    img{
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+        margin-right: 2px;
+        margin-top: 8px;
+        margin-left: 20px;
+        margin-bottom: 8px;
+        border: 1px solid;
+        border-color: #fff;
+    }
+    
+    >a {
+        padding: 0;
+        padding-left: 1px;
+        padding-right: 15px;
+        line-height: 50px;
+        color: #fff;
+        &:focus {
+            background-color: $eatbit_red;
+            color:#fff;
+        }
+    }
+    
+}
+@media only screen and (max-width: 1200px) {
+    .navbar {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}

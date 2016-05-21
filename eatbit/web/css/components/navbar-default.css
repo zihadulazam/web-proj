@@ -1,0 +1,99 @@
+/* line 4, ../../scss/components/navbar-default.scss */
+.eatbit-logo {
+  height: 31px;
+  width: 30px;
+}
+
+/* line 8, ../../scss/components/navbar-default.scss */
+.eatbit-brand {
+  padding-left: 10px;
+}
+
+/* line 11, ../../scss/components/navbar-default.scss */
+.navbar-extra-width {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+/* line 18, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-brand {
+  color: #fff !important;
+}
+/* line 22, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-toggle {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+/* line 26, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff !important;
+}
+/* line 30, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-toggle:hover {
+  background-color: #fff !important;
+}
+/* line 32, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-toggle:hover .icon-bar {
+  background-color: #e62739 !important;
+}
+/* line 39, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-nav > li > a {
+  color: white;
+}
+/* line 41, ../../scss/components/navbar-default.scss */
+.navbar-default .navbar-nav > li > a:hover {
+  color: #b3c2bf;
+}
+
+/* line 48, ../../scss/components/navbar-default.scss */
+.navbar {
+  font-family: 'Open Sans', sans-serif !important;
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: #e62739;
+  min-width: 400px;
+  position: absolute;
+  width: 100%;
+  margin-bottom: 0px;
+  z-index: 3;
+  /* remove a visible border on chrome */
+  border-radius: 0px;
+}
+/* line 61, ../../scss/components/navbar-default.scss */
+.navbar .navbar-brand:focus {
+  outline: 0;
+}
+
+/* line 67, ../../scss/components/navbar-default.scss */
+#logged img {
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  margin-right: 2px;
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-bottom: 8px;
+  border: 1px solid;
+  border-color: #fff;
+}
+/* line 79, ../../scss/components/navbar-default.scss */
+#logged > a {
+  padding: 0;
+  padding-left: 1px;
+  padding-right: 15px;
+  line-height: 50px;
+  color: #fff;
+}
+/* line 85, ../../scss/components/navbar-default.scss */
+#logged > a:focus {
+  background-color: #e62739;
+  color: #fff;
+}
+
+@media only screen and (max-width: 1200px) {
+  /* line 93, ../../scss/components/navbar-default.scss */
+  .navbar {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}

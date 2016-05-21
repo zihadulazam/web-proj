@@ -1,16 +1,120 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html lang="it">
     <head>
-        <title>TODO supply a title</title>
+        <title>eatBit | Home</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Bootstrap -->
+        <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- eatBit css -->
+        <link href="css/index.css" rel="stylesheet">
+        
     </head>
     <body>
-        <div>TODO write content</div>
+        <!-- nav-bar -->
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container-fluid">
+                
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand navbar-extra-width" herf="#">
+                        <img alt="eatBit" class="eatbit-logo" src="img/logo.png">
+                    </a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand eatbit-brand" href="#">eatBit</a>
+                </div>
+                
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    
+                    <!-- Seach form for not index pages -->  
+                    <div class="nav navbar-nav navbar-left" id="nav-search-bar">                
+                        <form class="navbar-form navbar-right" role="form">
+                            
+                            <!-- Nav search form -->
+                            <div class="form-group has-feedback has-feedback-left">
+                                <input type="text" class="form-control" placeholder="Dove?" />
+                                <i class="form-control-feedback glyphicon glyphicon-map-marker"></i>
+                            </div>
+                            <div class="form-group has-feedback has-feedback-left">
+                                <input type="text" class="form-control" placeholder="Nome del ristorante" />
+                                <i class="form-control-feedback glyphicon glyphicon-cutlery"></i>
+                            </div>
+                            <button type="submit" class="btn btn-info">Cerca</button>
+                        </form>
+                    </div>
+                    <!-- end nav search form -->
+                    
+                    <!-- login buttons & profile menu -->
+                    <!--
+                        /se sarà loggato #not-logged{display: none}
+                        /altrimenti #logged{display:none}
+                    -->
+                    <div class="nav navbar-nav navbar-right">  
+                        <ul class="nav navbar-nav navbar-right" id="not-logged">
+                            <li><a class="navbar-link" href="#">Registrati</a></li>
+                            <li><button type="submit" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#login">Accedi</button></li>
+                        </ul>
+                        <div id="logged">
+                            <img src="img/user_default.png"/> 
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Nome <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Profilo</a></li>
+                                    <li><a href="#">Esci</a></li>
+                                </ul>
+                        </div> 
+                    </div>
+                    <!-- End login & profile button -->
+                    
+                </div> 
+                <!-- end collaps -->
+            </div>
+        </div>
+        <!-- end nav bar -->
+        
+        <!-- Main Content -->
+        <!-- search jumbotorn -->
+            <div class="bg" id="getstarted">
+                <div class="jumbotron">
+                        <div class="wrapper horizontally-centered"> 
+                            <p class="name backnap-brand"><strong>eatBit</strong></p>
+                            <div class="motto horizontally-centered">
+                                <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+                            </div>
+                            <div class="input-group" id="backnap-getstarted-input">
+                                <input type="text" class="form-control services-typeahead" placeholder="Dove?">
+                                <span class="input-group-btn grouping"></span>
+                                <input type="text" class="form-control zip-code-typeahead" placeholder="Nome del ristorante">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#questions">Cerca</button>
+                                </span>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        <!-- end search jumbotorn -->
+        
+        
+         
+        <!-- End main content -->
+        
+        
+        <!-- footer -->
+        
+        <!-- scripts -->
+    
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    
+        <!-- js (Bootstrap) -->
+        <script src="js/bootstrap.min.js"></script>
+        
     </body>
 </html>
