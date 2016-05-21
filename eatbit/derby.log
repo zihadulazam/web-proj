@@ -12,3 +12,5 @@ os.arch=amd64
 os.version=4.2.0-34-generic
 derby.system.home=/home/jacopo/Desktop/git/web-proj/eatbit
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat May 21 22:51:52 CEST 2016: Shutting down Derby engine

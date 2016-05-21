@@ -31,7 +31,19 @@ public class User {
         this.reviews_counter = reviews_counter;
         this.reviews_positive = reviews_positive;
     }
-
+    
+    public User()
+    {
+        id=0;
+        name=null;
+        surname=null;
+        nickname=null;
+        email=null;
+        password=null;
+        avatar_path=null;
+        reviews_counter=0;
+        reviews_positive=0;
+    }
     public String getAvatar_path() {
         return avatar_path;
     }
