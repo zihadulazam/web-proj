@@ -42,14 +42,16 @@ public class DbManager {
         int res=3;
         try 
         {
-            PreparedStatement st=con.prepareStatement("insert into users(NAME,SURNAME,NICKNAME,EMAIL,PASSWORD,REVIEWS_COUNTER,REVIEWS_POSITIVE) values(?,?,?,?,?,?,?)");
+            PreparedStatement st=con.prepareStatement("insert into users(NAME,SURNAME,"
+                    + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE) values(?,?,?,?,?,?,?,?)");
             st.setString(1,user.getName());
             st.setString(2,user.getSurname());
             st.setString(3,user.getNickname());
             st.setString(4,user.getEmail());
             st.setString(5,BCrypt.hashpw(user.getPassword(),BCrypt.gensalt()));
-            st.setInt(6,user.getReviews_counter());
-            st.setInt(7,user.getReviews_positive());
+            st.setString(6,user.getAvatar_path());
+            st.setInt(7,user.getReviews_counter());
+            st.setInt(8,user.getReviews_positive());
             try
             {
                 st.executeUpdate();

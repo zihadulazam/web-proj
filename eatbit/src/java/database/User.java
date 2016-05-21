@@ -16,18 +16,28 @@ public class User {
     private String nickname;
     private String email;
     private String password;
+    private String avatar_path;
     private int reviews_counter;
     private int reviews_positive;
 
-    public User(int id, String name, String surname, String nickname, String email, String password, int reviews_counter, int reviews_positive) {
+    public User(int id, String name, String surname, String nickname, String email, String password, String avatar_path, int reviews_counter, int reviews_positive) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
         this.email = email;
         this.password = password;
+        this.avatar_path = avatar_path;
         this.reviews_counter = reviews_counter;
         this.reviews_positive = reviews_positive;
+    }
+
+    public String getAvatar_path() {
+        return avatar_path;
+    }
+
+    public void setAvatar_path(String avatar_path) {
+        this.avatar_path = avatar_path;
     }
 
     public String getNickname() {
