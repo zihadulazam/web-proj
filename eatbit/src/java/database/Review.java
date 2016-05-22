@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 public class Review {
     private int id;
     private int global_value;
+    private int food;
     private int service;
     private int value_for_money;
     private int atmosphere;
@@ -25,9 +26,10 @@ public class Review {
     private int id_photo;
     private int likes;
 
-    public Review(int id, int global_value, int service, int value_for_money, int atmosphere, String name, String description, Timestamp date_creation, int id_restaurant, int id_creator, int id_photo, int likes) {
+    public Review(int id, int global_value, int food, int service, int value_for_money, int atmosphere, String name, String description, Timestamp date_creation, int id_restaurant, int id_creator, int id_photo, int likes) {
         this.id = id;
         this.global_value = global_value;
+        this.food = food;
         this.service = service;
         this.value_for_money = value_for_money;
         this.atmosphere = atmosphere;
@@ -38,7 +40,17 @@ public class Review {
         this.id_creator = id_creator;
         this.id_photo = id_photo;
         this.likes = likes;
-        
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public Review() {
     }
 
     public int getId() {
