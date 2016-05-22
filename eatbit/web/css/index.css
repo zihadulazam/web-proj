@@ -1,51 +1,51 @@
-/* line 4, ../scss/components/navbar-default.scss */
+/* line 4, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .eatbit-logo {
   height: 31px;
   width: 30px;
 }
 
-/* line 8, ../scss/components/navbar-default.scss */
+/* line 8, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .eatbit-brand {
   padding-left: 10px;
 }
 
-/* line 11, ../scss/components/navbar-default.scss */
+/* line 11, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-extra-width {
   padding-bottom: 8px;
   padding-top: 8px;
 }
 
-/* line 18, ../scss/components/navbar-default.scss */
+/* line 18, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-brand {
   color: #fff !important;
 }
-/* line 22, ../scss/components/navbar-default.scss */
+/* line 22, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-toggle {
   color: #fff !important;
   border-color: #fff !important;
 }
-/* line 26, ../scss/components/navbar-default.scss */
+/* line 26, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #fff !important;
 }
-/* line 30, ../scss/components/navbar-default.scss */
+/* line 30, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-toggle:hover {
   background-color: #fff !important;
 }
-/* line 32, ../scss/components/navbar-default.scss */
+/* line 32, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-toggle:hover .icon-bar {
   background-color: #e62739 !important;
 }
-/* line 39, ../scss/components/navbar-default.scss */
+/* line 39, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-nav > li > a {
   color: white;
 }
-/* line 41, ../scss/components/navbar-default.scss */
+/* line 41, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar-default .navbar-nav > li > a:hover {
   color: #b3c2bf;
 }
 
-/* line 48, ../scss/components/navbar-default.scss */
+/* line 48, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar {
   font-family: 'Open Sans', sans-serif !important;
   padding-left: 50px;
@@ -58,51 +58,47 @@
   z-index: 3;
   /* remove a visible border on chrome */
   border-radius: 0px;
+  border: 0px !important;
 }
-/* line 61, ../scss/components/navbar-default.scss */
+/* line 62, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
 .navbar .navbar-brand:focus {
   outline: 0;
 }
 
-/* line 67, ../scss/components/navbar-default.scss */
-#logged img {
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  margin-right: 2px;
+/* line 67, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
+#logged {
   margin-top: 8px;
-  margin-left: 20px;
-  margin-bottom: 8px;
-  border: 1px solid;
-  border-color: #fff;
-}
-/* line 79, ../scss/components/navbar-default.scss */
-#logged > a {
-  padding: 0;
-  padding-left: 1px;
-  padding-right: 15px;
-  line-height: 50px;
-  color: #fff;
-}
-/* line 85, ../scss/components/navbar-default.scss */
-#logged > a:focus {
-  background-color: #e62739;
-  color: #fff;
 }
 
+/* line 72, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
+.user-thumbnail {
+  text-align: center;
+}
+/* line 74, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
+.user-thumbnail img {
+  width: 80px;
+  height: 80px;
+}
+
+@media (max-width: 767px) {
+  /* line 81, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+  }
+}
 @media only screen and (max-width: 1200px) {
-  /* line 93, ../scss/components/navbar-default.scss */
+  /* line 87, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;
   }
 }
-/* line 3, ../scss/components/navbar-index.scss */
-#nav-search-bar, #logged {
+/* line 3, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-index.scss */
+#not-logged {
   display: none;
 }
 
-/* line 1, ../scss/components/_utilities.scss */
+/* line 1, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
 .horizontally-centered {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -111,7 +107,7 @@
   text-align: center;
 }
 
-/* line 9, ../scss/components/_utilities.scss */
+/* line 9, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
 .drag-select-disabled {
   user-drag: none;
   -webkit-user-drag: none;
@@ -122,288 +118,28 @@
   pointer-events: none;
 }
 
-/* line 3, ../scss/index.scss */
+/* line 4, ../scss/index.scss */
 .jumbotron {
-  padding-top: 0px;
-}
-
-/* line 8, ../scss/index.scss */
-.bg {
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("../img/jumbobackground.jpg") center top no-repeat;
+  background: url("../img/jumbobackground.jpg") center top no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  height: 95vh;
-  min-height: 600px;
   position: relative;
 }
-/* line 18, ../scss/index.scss */
-.bg .wrapper {
-  width: 700px;
-  min-height: 450px;
-  padding-top: 40px;
-  padding-left: 20px;
-  padding-right: 20px;
-  /* anchor to bottom */
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  height: 30%;
-  margin-top: auto;
-  margin-bottom: auto;
-  @keyframes type {
-    /* line 99, ../scss/index.scss */
-    from {
-      width: 0;
-    }
+/* line 11, ../scss/index.scss */
+.jumbotron .jumbo-text-container {
+  color: #fff;
 }
-
-  @keyframes blink {
-    /* line 103, ../scss/index.scss */
-    to {
-      opacity: .0;
-    }
+/* line 13, ../scss/index.scss */
+.jumbotron .jumbo-text-container .name {
+  font-family: 'Exo 2', sans-serif;
 }
-
-  @keyframes bounce {
-    /* line 135, ../scss/index.scss */
-    to {
-      transform: scale(1.1);
-    }
+/* line 17, ../scss/index.scss */
+.jumbotron .jumbo-textbox-container {
+  width: 500px;
 }
-
-}
-/* line 32, ../scss/index.scss */
-.bg .wrapper .input-group .grouping {
-  width: 0px !important;
-}
-/* line 37, ../scss/index.scss */
-.bg .wrapper .input-group .input-group-btn .btn {
-  min-width: 120px;
-}
-/* line 43, ../scss/index.scss */
-.bg .wrapper .input-group-addon:first-child {
-  border-right: auto !important;
-  border-right-style: solid;
-}
-/* line 48, ../scss/index.scss */
-.bg .wrapper p {
-  color: white;
-  text-align: center;
-}
-/* line 53, ../scss/index.scss */
-.bg .wrapper .name {
-  font-size: 80px;
-  font-style: oblique;
-}
-/* line 58, ../scss/index.scss */
-.bg .wrapper .motto {
-  width: 530px;
-  height: 100px;
-  margin-bottom: 20px;
-}
-/* line 63, ../scss/index.scss */
-.bg .wrapper .motto p {
-  font-size: 29px;
-  margin-bottom: 20px;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-bottom: 0px;
-  display: inline-block;
-}
-/* line 72, ../scss/index.scss */
-.bg .wrapper .motto p:nth-child(1) {
-  width: 550px;
-  animation: type 2.5s steps(30, end);
-}
-/* line 77, ../scss/index.scss */
-.bg .wrapper .motto p:nth-child(2) {
-  width: 330px;
-  animation: type 1.5s steps(15, end);
-  animation-delay: 2.5s;
-  animation-fill-mode: backwards;
-}
-/* line 84, ../scss/index.scss */
-.bg .wrapper .motto .cursor {
-  position: absolute;
-  font-size: 29px;
-  color: white;
-  animation-name: blink;
-  animation-duration: 1s;
-  /* so in the last iteration it become invisible */
-  animation-fill-mode: forwards;
-  animation-iteration-count: 8;
-}
-/* line 106, ../scss/index.scss */
-.bg .wrapper .most-requested {
-  color: white;
-  margin-top: 20px;
-}
-/* line 110, ../scss/index.scss */
-.bg .wrapper .most-requested a {
-  color: white;
-  margin-left: 10px;
-  cursor: pointer;
-  text-decoration: underline;
-  display: inline-block;
-}
-/* line 119, ../scss/index.scss */
-.bg .wrapper .find-out {
-  font-weight: 700;
-  background-color: transparent;
-  color: white;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 16px;
-  border-color: white;
-  animation-name: bounce;
-  animation-duration: 0.8s;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-  margin-top: 80px;
-}
-
-@media only screen and (max-width: 768px) {
-  /* line 141, ../scss/index.scss */
-  .wrapper {
-    width: 90% !important;
-    padding-top: 80px;
-  }
-  /* line 145, ../scss/index.scss */
-  .wrapper .name {
-    font-size: 65px !important;
-  }
-  /* line 149, ../scss/index.scss */
-  .wrapper .motto {
-    height: 80px;
-  }
-  /* line 153, ../scss/index.scss */
-  .wrapper .motto p,
-  .wrapper .motto span {
-    font-size: 23px !important;
-  }
-  /* line 157, ../scss/index.scss */
-  .wrapper .motto p:nth-child(1) {
-    width: 420px !important;
-  }
-  /* line 161, ../scss/index.scss */
-  .wrapper .motto p:nth-child(2) {
-    width: 270px !important;
-  }
-  /* line 166, ../scss/index.scss */
-  .wrapper .find-out {
-    margin-top: 100px !important;
-  }
-
-  /* line 173, ../scss/index.scss */
-  .bg .bg-explanation.text-left,
-  .bg .bg-explanation.text-right {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    right: 0 !important;
-    left: 0 !important;
-    text-align: center;
-    /*disable transform*/
-    -o-transform: none !important;
-    -moz-transform: none !important;
-    -ms-transform: none !important;
-    -webkit-transform: none !important;
-    transform: none !important;
-    /*disable animations*/
-    -webkit-animation: none !important;
-    -moz-animation: none !important;
-    -o-animation: none !important;
-    -ms-animation: none !important;
-    animation: none !important;
-  }
-}
-@media only screen and (max-width: 600px) {
-  /* line 198, ../scss/index.scss */
-  .wrapper {
-    width: 90% !important;
-    padding-top: 50px;
-  }
-  /* line 202, ../scss/index.scss */
-  .wrapper .input-group {
-    background-color: rgba(248, 248, 248, 0.4);
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    /* hide the span that chains the text inputs to fix margins */
-    /* fixes a problem on chrome and opera where the inputs didn't 
-    collapse one under another till the page wasn't refreshed */
-  }
-  /* line 208, ../scss/index.scss */
-  .wrapper .input-group .form-control {
-    margin-bottom: 5px;
-  }
-  /* line 214, ../scss/index.scss */
-  .wrapper .input-group .form-control,
-  .wrapper .input-group .input-group-addon,
-  .wrapper .input-group .input-group-btn {
-    display: inline-flex;
-    margin-left: 0px;
-    margin-right: 0px;
-    border-radius: 4px !important;
-    width: 100%;
-  }
-  /* line 222, ../scss/index.scss */
-  .wrapper .input-group .input-group-btn .btn {
-    border-radius: 4px;
-    width: 100%;
-    /*fixes the -1px margin*/
-    margin-left: 0px;
-  }
-  /* line 230, ../scss/index.scss */
-  .wrapper .input-group .grouping {
-    display: none;
-  }
-  /* line 236, ../scss/index.scss */
-  .wrapper .input-group .twitter-typeahead {
-    display: table !important;
-  }
-  /* line 241, ../scss/index.scss */
-  .wrapper .name {
-    font-size: 50px !important;
-  }
-  /* line 245, ../scss/index.scss */
-  .wrapper .motto {
-    width: 95% !important;
-    height: 60px !important;
-  }
-  /* line 250, ../scss/index.scss */
-  .wrapper .motto p,
-  .wrapper .motto span {
-    font-size: 16px !important;
-    /*disable animations*/
-    -webkit-animation: none !important;
-    -moz-animation: none !important;
-    -o-animation: none !important;
-    -ms-animation: none !important;
-    animation: none !important;
-  }
-  /* line 261, ../scss/index.scss */
-  .wrapper .motto p:nth-child(1) {
-    width: 300px !important;
-  }
-  /* line 265, ../scss/index.scss */
-  .wrapper .motto p:nth-child(2) {
-    width: 185px !important;
-  }
-  /* line 269, ../scss/index.scss */
-  .wrapper .motto .cursor {
-    /* when animation is disabled it may still be visible */
-    display: none;
-    /*disable animations*/
-    -webkit-animation: none !important;
-    -moz-animation: none !important;
-    -o-animation: none !important;
-    -ms-animation: none !important;
-    animation: none !important;
-  }
-  /* line 282, ../scss/index.scss */
-  .wrapper .find-out {
-    margin-top: 45px !important;
-  }
+/* line 19, ../scss/index.scss */
+.jumbotron .jumbo-textbox-container .sapce-top {
+  margin-top: 2px;
 }

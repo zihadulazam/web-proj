@@ -57,6 +57,7 @@
     z-index: 3;
     /* remove a visible border on chrome */
     border-radius: 0px;
+    border: 0px !important;
     // remove focus ugly outline
     .navbar-brand:focus {
         outline:0;
@@ -64,31 +65,24 @@
 }
 
 #logged{
-    img{
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
-        margin-right: 2px;
         margin-top: 8px;
-        margin-left: 20px;
-        margin-bottom: 8px;
-        border: 1px solid;
-        border-color: #fff;
-    }
-    
-    >a {
-        padding: 0;
-        padding-left: 1px;
-        padding-right: 15px;
-        line-height: 50px;
-        color: #fff;
-        &:focus {
-            background-color: $eatbit_red;
-            color:#fff;
-        }
-    }
     
 }
+
+.user-thumbnail{
+    text-align: center;
+    img{
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 767px){
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+        color: #fff;
+     }
+}
+
 @media only screen and (max-width: 1200px) {
     .navbar {
         padding-left: 40px;

@@ -58,46 +58,42 @@
   z-index: 3;
   /* remove a visible border on chrome */
   border-radius: 0px;
+  border: 0px !important;
 }
-/* line 61, ../../scss/components/navbar-default.scss */
+/* line 62, ../../scss/components/navbar-default.scss */
 .navbar .navbar-brand:focus {
   outline: 0;
 }
 
 /* line 67, ../../scss/components/navbar-default.scss */
-#logged img {
-  height: 30px;
-  width: 30px;
-  border-radius: 15px;
-  margin-right: 2px;
+#logged {
   margin-top: 8px;
-  margin-left: 20px;
-  margin-bottom: 8px;
-  border: 1px solid;
-  border-color: #fff;
-}
-/* line 79, ../../scss/components/navbar-default.scss */
-#logged > a {
-  padding: 0;
-  padding-left: 1px;
-  padding-right: 15px;
-  line-height: 50px;
-  color: #fff;
-}
-/* line 85, ../../scss/components/navbar-default.scss */
-#logged > a:focus {
-  background-color: #e62739;
-  color: #fff;
 }
 
+/* line 72, ../../scss/components/navbar-default.scss */
+.user-thumbnail {
+  text-align: center;
+}
+/* line 74, ../../scss/components/navbar-default.scss */
+.user-thumbnail img {
+  width: 80px;
+  height: 80px;
+}
+
+@media (max-width: 767px) {
+  /* line 81, ../../scss/components/navbar-default.scss */
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+  }
+}
 @media only screen and (max-width: 1200px) {
-  /* line 93, ../../scss/components/navbar-default.scss */
+  /* line 87, ../../scss/components/navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;
   }
 }
 /* line 3, ../../scss/components/navbar-index.scss */
-#nav-search-bar, #logged {
+#not-logged {
   display: none;
 }
