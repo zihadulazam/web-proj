@@ -10,6 +10,8 @@ import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,13 +47,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("email");
+        String email = request.getParameter("email");
         String password = request.getParameter("password");
 
         // controllo nel DB se esiste un utente con lo stesso username + password
-        User user;
+        User user = null;
         
-            user =null; //manager.authenticate(username, password);
+        try {
+            user =manager.loginUserByEmailOrNickname(email, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // se non esiste, ridirigo verso pagina di login con messaggio di errore
         if (user == null) {

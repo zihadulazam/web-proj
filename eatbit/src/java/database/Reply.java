@@ -21,6 +21,9 @@ public class Reply {
     private int id_validator;
     private boolean validated;
 
+    public Reply() {
+    }
+
     public Reply(int id, String description, Timestamp date_creation, int id_review, int id_owner, Timestamp date_validation, int id_validator, boolean validated) {
         this.id = id;
         this.description = description;

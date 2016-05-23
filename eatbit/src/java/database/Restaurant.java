@@ -16,20 +16,34 @@ public class Restaurant {
     private String web_site_url;
     private int global_value;
     private int id_owner;
+    private int id_creator;
     private int id_price_range;
     private int reviews_counter;
     private boolean validated;
 
-    public Restaurant(int id, String name, String description, String web_site_url, int global_value, int id_owner, int id_price_range, int reviews_counter, boolean validated) {
+    public Restaurant(int id, String name, String description, String web_site_url, int global_value, int id_owner, int id_creator, int id_price_range, int reviews_counter, boolean validated) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.web_site_url = web_site_url;
         this.global_value = global_value;
         this.id_owner = id_owner;
+        this.id_creator = id_creator;
         this.id_price_range = id_price_range;
         this.reviews_counter = reviews_counter;
         this.validated = validated;
+    }
+
+    public int getId_creator() {
+        return id_creator;
+    }
+
+    public void setId_creator(int id_creator) {
+        this.id_creator = id_creator;
+    }
+
+    Restaurant() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId() {
