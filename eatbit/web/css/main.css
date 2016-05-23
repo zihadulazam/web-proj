@@ -1,0 +1,415 @@
+/* line 4, ../scss/components/_navbar-default.scss */
+.eatbit-logo {
+  height: 31px;
+  width: 30px;
+}
+
+/* line 8, ../scss/components/_navbar-default.scss */
+.eatbit-brand {
+  padding-left: 10px;
+}
+
+/* line 11, ../scss/components/_navbar-default.scss */
+.navbar-extra-width {
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+/* line 18, ../scss/components/_navbar-default.scss */
+.navbar-default .navbar-brand {
+  color: #fff !important;
+}
+/* line 22, ../scss/components/_navbar-default.scss */
+.navbar-default .navbar-toggle {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+/* line 26, ../scss/components/_navbar-default.scss */
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #fff !important;
+}
+/* line 30, ../scss/components/_navbar-default.scss */
+.navbar-default .navbar-toggle:hover {
+  background-color: #fff !important;
+}
+/* line 32, ../scss/components/_navbar-default.scss */
+.navbar-default .navbar-toggle:hover .icon-bar {
+  background-color: #e62739 !important;
+}
+
+/* line 41, ../scss/components/_navbar-default.scss */
+.navbar {
+  font-family: 'Open Sans', sans-serif !important;
+  padding-left: 50px;
+  padding-right: 50px;
+  background-color: #e62739;
+  min-width: 400px;
+  position: absolute;
+  width: 100%;
+  margin-bottom: 0px;
+  z-index: 3;
+  /* remove a visible border on chrome */
+  border-radius: 0px;
+  border: 0px !important;
+}
+/* line 55, ../scss/components/_navbar-default.scss */
+.navbar .navbar-brand:focus {
+  outline: 0;
+}
+/* line 60, ../scss/components/_navbar-default.scss */
+.navbar #not-logged li > a {
+  color: #fff;
+}
+/* line 62, ../scss/components/_navbar-default.scss */
+.navbar #not-logged li > a:hover {
+  color: #b3c2bf;
+}
+/* line 65, ../scss/components/_navbar-default.scss */
+.navbar #not-logged li > a:focus {
+  outline: 0;
+}
+/* line 69, ../scss/components/_navbar-default.scss */
+.navbar #not-logged .btn {
+  margin: 8px 15px;
+}
+/* line 71, ../scss/components/_navbar-default.scss */
+.navbar #not-logged .btn:focus {
+  outline: 0;
+}
+/* line 76, ../scss/components/_navbar-default.scss */
+.navbar #logged {
+  margin-top: 8px;
+}
+/* line 79, ../scss/components/_navbar-default.scss */
+.navbar #logged .dropdown .dropdown-menu {
+  padding-top: 0px !important;
+}
+/* line 81, ../scss/components/_navbar-default.scss */
+.navbar #logged .dropdown .dropdown-menu .user-thumbnail {
+  text-align: center;
+}
+/* line 83, ../scss/components/_navbar-default.scss */
+.navbar #logged .dropdown .dropdown-menu .user-thumbnail img {
+  width: 80px;
+  height: 80px;
+}
+
+@media (max-width: 767px) {
+  /* line 95, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+  }
+
+  /* line 100, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse .navbar-form {
+    border-top: 0px;
+  }
+  /* line 103, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse .btn {
+    width: 100%;
+  }
+  /* line 107, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #not-logged .btn {
+    margin: 8px 0px;
+  }
+  /* line 110, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #not-logged .navbar-link {
+    text-align: center;
+  }
+  /* line 115, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse .dropdown-menu li {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  /* line 124, ../scss/components/_navbar-default.scss */
+  .navbar {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+/* line 2, ../scss/components/_login-register.scss */
+.animated {
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/* line 13, ../scss/components/_login-register.scss */
+.animated.hinges {
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  -o-animation-duration: 2s;
+  animation-duration: 2s;
+}
+
+/* line 20, ../scss/components/_login-register.scss */
+.animated.slow {
+  -webkit-animation-duration: 3s;
+  -moz-animation-duration: 3s;
+  -o-animation-duration: 3s;
+  animation-duration: 3s;
+}
+
+/* line 27, ../scss/components/_login-register.scss */
+.animated.snail {
+  -webkit-animation-duration: 4s;
+  -moz-animation-duration: 4s;
+  -o-animation-duration: 4s;
+  animation-duration: 4s;
+}
+
+@-webkit-keyframes shake {
+  /* line 35, ../scss/components/_login-register.scss */
+  0%, 100% {
+    -webkit-transform: translateX(0);
+  }
+
+  /* line 36, ../scss/components/_login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translateX(-10px);
+  }
+
+  /* line 37, ../scss/components/_login-register.scss */
+  20%, 40%, 60%, 80% {
+    -webkit-transform: translateX(10px);
+  }
+}
+
+@-moz-keyframes shake {
+  /* line 41, ../scss/components/_login-register.scss */
+  0%, 100% {
+    -moz-transform: translateX(0);
+  }
+
+  /* line 42, ../scss/components/_login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -moz-transform: translateX(-10px);
+  }
+
+  /* line 43, ../scss/components/_login-register.scss */
+  20%, 40%, 60%, 80% {
+    -moz-transform: translateX(10px);
+  }
+}
+
+@-o-keyframes shake {
+  /* line 47, ../scss/components/_login-register.scss */
+  0%, 100% {
+    -o-transform: translateX(0);
+  }
+
+  /* line 48, ../scss/components/_login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -o-transform: translateX(-10px);
+  }
+
+  /* line 49, ../scss/components/_login-register.scss */
+  20%, 40%, 60%, 80% {
+    -o-transform: translateX(10px);
+  }
+}
+
+@keyframes shake {
+  /* line 53, ../scss/components/_login-register.scss */
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  /* line 54, ../scss/components/_login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+
+  /* line 55, ../scss/components/_login-register.scss */
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* line 58, ../scss/components/_login-register.scss */
+.shake {
+  -webkit-animation-name: shake;
+  -moz-animation-name: shake;
+  -o-animation-name: shake;
+  animation-name: shake;
+}
+
+/* line 65, ../scss/components/_login-register.scss */
+.login .modal-dialog {
+  min-width: 350px;
+  width: 40%;
+}
+
+/* line 69, ../scss/components/_login-register.scss */
+.login .modal-footer {
+  border-top: 0;
+  margin-top: 0px;
+  padding: 10px 20px 20px;
+  padding-top: 0px;
+}
+
+/* line 75, ../scss/components/_login-register.scss */
+.login .modal-header {
+  border: 0 none;
+  padding: 15px 15px 15px;
+  margin-left: 10%;
+  /*     padding: 11px 15px; */
+}
+
+/* line 81, ../scss/components/_login-register.scss */
+.login .modal-body {
+  /*     background-color: #eeeeee; */
+  width: 80%;
+  margin-left: 10% !important;
+  margin-right: 10% !important;
+}
+/* line 86, ../scss/components/_login-register.scss */
+.login .modal-body .help-block {
+  text-align: right;
+}
+/* line 89, ../scss/components/_login-register.scss */
+.login .modal-body .from-group > label {
+  text-align: left;
+}
+
+/* line 93, ../scss/components/_login-register.scss */
+.login .division {
+  float: none;
+  margin: 0 auto 10px;
+  margin-top: 10px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+/* line 102, ../scss/components/_login-register.scss */
+.login .division .line {
+  border-top: 1px solid #DFDFDF;
+  position: absolute;
+  top: 10px;
+  width: 34%;
+}
+
+/* line 108, ../scss/components/_login-register.scss */
+.login .division .line.l {
+  left: 0;
+}
+
+/* line 111, ../scss/components/_login-register.scss */
+.login .division .line.r {
+  right: 0;
+}
+
+/* line 114, ../scss/components/_login-register.scss */
+.login .division span {
+  color: #424242;
+  font-size: 17px;
+}
+
+/* line 119, ../scss/components/_login-register.scss */
+.login .forgot {
+  color: #797979;
+  margin-left: 0;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}
+
+/* line 126, ../scss/components/_login-register.scss */
+.login .btn-login, .registerBox .btn-register {
+  background-color: #337ab7;
+  border-color: #337ab7;
+  border-width: 0;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  display: block;
+  margin: 0 auto;
+  padding: 15px 50px;
+  text-transform: uppercase;
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* line 139, ../scss/components/_login-register.scss */
+.login .btn-login:hover, .registerBox .btn-register:hover {
+  background-color: #286090;
+  color: #FFFFFF;
+}
+
+/* line 143, ../scss/components/_login-register.scss */
+.login .form-control {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+  color: #FFFFFF;
+}
+
+/* line 149, ../scss/components/_login-register.scss */
+.login .form-control:hover {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+/* line 152, ../scss/components/_login-register.scss */
+.login .form-control:focus {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+  background-color: rgba(0, 0, 0, 0.23);
+  color: #FFFFFF;
+}
+
+/* line 157, ../scss/components/_login-register.scss */
+.login .box .form input[type="text"], .login .box .form input[type="password"] {
+  border-radius: 3px;
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  height: 46px;
+  margin-bottom: 5px;
+  padding: 13px 12px;
+  width: 100%;
+}
+
+@media (max-width: 400px) {
+  /* line 171, ../scss/components/_login-register.scss */
+  .login .modal-dialog {
+    width: 100%;
+  }
+}
+/* line 176, ../scss/components/_login-register.scss */
+.big-login, .big-register {
+  background-color: #00bbff;
+  color: #FFFFFF;
+  border-radius: 7px;
+  border-width: 2px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 200;
+  padding: 16px 60px;
+  text-transform: uppercase;
+  transition: all 0.3s ease 0s;
+}
+
+/* line 188, ../scss/components/_login-register.scss */
+.big-login:hover {
+  background-color: #00A4E4;
+  color: #FFFFFF;
+}
+
+/* line 192, ../scss/components/_login-register.scss */
+.big-register {
+  background-color: rgba(0, 0, 0, 0);
+  color: #00bbff;
+  border-color: #00bbff;
+}
+
+/* line 197, ../scss/components/_login-register.scss */
+.big-register:hover {
+  border-color: #00A4E4;
+  color: #00A4E4;
+}

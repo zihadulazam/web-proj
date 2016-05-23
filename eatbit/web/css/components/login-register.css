@@ -1,0 +1,321 @@
+/* line 2, ../../scss/components/login-register.scss */
+.animated {
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  -o-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+/* line 13, ../../scss/components/login-register.scss */
+.animated.hinges {
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  -o-animation-duration: 2s;
+  animation-duration: 2s;
+}
+
+/* line 20, ../../scss/components/login-register.scss */
+.animated.slow {
+  -webkit-animation-duration: 3s;
+  -moz-animation-duration: 3s;
+  -o-animation-duration: 3s;
+  animation-duration: 3s;
+}
+
+/* line 27, ../../scss/components/login-register.scss */
+.animated.snail {
+  -webkit-animation-duration: 4s;
+  -moz-animation-duration: 4s;
+  -o-animation-duration: 4s;
+  animation-duration: 4s;
+}
+
+@-webkit-keyframes shake {
+  /* line 35, ../../scss/components/login-register.scss */
+  0%, 100% {
+    -webkit-transform: translateX(0);
+  }
+
+  /* line 36, ../../scss/components/login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -webkit-transform: translateX(-10px);
+  }
+
+  /* line 37, ../../scss/components/login-register.scss */
+  20%, 40%, 60%, 80% {
+    -webkit-transform: translateX(10px);
+  }
+}
+
+@-moz-keyframes shake {
+  /* line 41, ../../scss/components/login-register.scss */
+  0%, 100% {
+    -moz-transform: translateX(0);
+  }
+
+  /* line 42, ../../scss/components/login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -moz-transform: translateX(-10px);
+  }
+
+  /* line 43, ../../scss/components/login-register.scss */
+  20%, 40%, 60%, 80% {
+    -moz-transform: translateX(10px);
+  }
+}
+
+@-o-keyframes shake {
+  /* line 47, ../../scss/components/login-register.scss */
+  0%, 100% {
+    -o-transform: translateX(0);
+  }
+
+  /* line 48, ../../scss/components/login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    -o-transform: translateX(-10px);
+  }
+
+  /* line 49, ../../scss/components/login-register.scss */
+  20%, 40%, 60%, 80% {
+    -o-transform: translateX(10px);
+  }
+}
+
+@keyframes shake {
+  /* line 53, ../../scss/components/login-register.scss */
+  0%, 100% {
+    transform: translateX(0);
+  }
+
+  /* line 54, ../../scss/components/login-register.scss */
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+
+  /* line 55, ../../scss/components/login-register.scss */
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* line 58, ../../scss/components/login-register.scss */
+.shake {
+  -webkit-animation-name: shake;
+  -moz-animation-name: shake;
+  -o-animation-name: shake;
+  animation-name: shake;
+}
+
+/* line 65, ../../scss/components/login-register.scss */
+.login .modal-dialog {
+  width: 350px;
+}
+
+/* line 68, ../../scss/components/login-register.scss */
+.login .modal-footer {
+  border-top: 0;
+  margin-top: 0px;
+  padding: 10px 20px 20px;
+}
+
+/* line 73, ../../scss/components/login-register.scss */
+.login .modal-header {
+  border: 0 none;
+  padding: 15px 15px 15px;
+  /*     padding: 11px 15px; */
+}
+
+/* line 78, ../../scss/components/login-register.scss */
+.login .modal-body {
+  /*     background-color: #eeeeee; */
+}
+
+/* line 81, ../../scss/components/login-register.scss */
+.login .division {
+  float: none;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+/* line 89, ../../scss/components/login-register.scss */
+.login .division .line {
+  border-top: 1px solid #DFDFDF;
+  position: absolute;
+  top: 10px;
+  width: 34%;
+}
+
+/* line 95, ../../scss/components/login-register.scss */
+.login .division .line.l {
+  left: 0;
+}
+
+/* line 98, ../../scss/components/login-register.scss */
+.login .division .line.r {
+  right: 0;
+}
+
+/* line 101, ../../scss/components/login-register.scss */
+.login .division span {
+  color: #424242;
+  font-size: 17px;
+}
+
+/* line 105, ../../scss/components/login-register.scss */
+.login .box .social {
+  float: none;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+/* line 111, ../../scss/components/login-register.scss */
+.login .social .circle {
+  background-color: #EEEEEE;
+  color: #FFFFFF;
+  border-radius: 100px;
+  display: inline-block;
+  margin: 0 17px;
+  padding: 15px;
+}
+
+/* line 119, ../../scss/components/login-register.scss */
+.login .social .circle .fa {
+  font-size: 16px;
+}
+
+/* line 122, ../../scss/components/login-register.scss */
+.login .social .facebook {
+  background-color: #455CA8;
+  color: #FFFFFF;
+}
+
+/* line 126, ../../scss/components/login-register.scss */
+.login .social .google {
+  background-color: #F74933;
+}
+
+/* line 129, ../../scss/components/login-register.scss */
+.login .social .github {
+  background-color: #403A3A;
+}
+
+/* line 132, ../../scss/components/login-register.scss */
+.login .facebook:hover {
+  background-color: #6E83CD;
+}
+
+/* line 135, ../../scss/components/login-register.scss */
+.login .google:hover {
+  background-color: #FF7566;
+}
+
+/* line 138, ../../scss/components/login-register.scss */
+.login .github:hover {
+  background-color: #4D4D4d;
+}
+
+/* line 141, ../../scss/components/login-register.scss */
+.login .forgot {
+  color: #797979;
+  margin-left: 0;
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}
+
+/* line 148, ../../scss/components/login-register.scss */
+.login .btn-login, .registerBox .btn-register {
+  background-color: #00BBFF;
+  border-color: #00BBFF;
+  border-width: 0;
+  color: #FFFFFF;
+  display: block;
+  margin: 0 auto;
+  padding: 15px 50px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+/* line 159, ../../scss/components/login-register.scss */
+.login .btn-login:hover, .registerBox .btn-register:hover {
+  background-color: #00A4E4;
+  color: #FFFFFF;
+}
+
+/* line 163, ../../scss/components/login-register.scss */
+.login .form-control {
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+  color: #FFFFFF;
+}
+
+/* line 169, ../../scss/components/login-register.scss */
+.login .form-control:hover {
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+/* line 172, ../../scss/components/login-register.scss */
+.login .form-control:focus {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+  background-color: rgba(0, 0, 0, 0.23);
+  color: #FFFFFF;
+}
+
+/* line 177, ../../scss/components/login-register.scss */
+.login .box .form input[type="text"], .login .box .form input[type="password"] {
+  border-radius: 3px;
+  border: none;
+  color: #333333;
+  font-size: 16px;
+  height: 46px;
+  margin-bottom: 5px;
+  padding: 13px 12px;
+  width: 100%;
+}
+
+@media (max-width: 400px) {
+  /* line 190, ../../scss/components/login-register.scss */
+  .login .modal-dialog {
+    width: 100%;
+  }
+}
+/* line 195, ../../scss/components/login-register.scss */
+.big-login, .big-register {
+  background-color: #00bbff;
+  color: #FFFFFF;
+  border-radius: 7px;
+  border-width: 2px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 200;
+  padding: 16px 60px;
+  text-transform: uppercase;
+  transition: all 0.3s ease 0s;
+}
+
+/* line 207, ../../scss/components/login-register.scss */
+.big-login:hover {
+  background-color: #00A4E4;
+  color: #FFFFFF;
+}
+
+/* line 211, ../../scss/components/login-register.scss */
+.big-register {
+  background-color: rgba(0, 0, 0, 0);
+  color: #00bbff;
+  border-color: #00bbff;
+}
+
+/* line 216, ../../scss/components/login-register.scss */
+.big-register:hover {
+  border-color: #00A4E4;
+  color: #00A4E4;
+}

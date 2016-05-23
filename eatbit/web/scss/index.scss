@@ -1,4 +1,4 @@
-@import "components/navbar-index.scss";
+@import "components/_navbar-index.scss";
 @import "components/_utilities.scss";
 
 .jumbotron{
@@ -14,11 +14,24 @@
             font-family: 'Exo 2', sans-serif;
         }   
     }
-    .jumbo-textbox-container{
-        width: 500px; 
-        .sapce-top{
-            margin-top: 2px;
-        }  
+    .input-thumbnail{
+        display: inline-block;
+        width: 50%;
+        background-color: rgb(0, 0, 0) !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        border: 0px;
+        min-width: 270px; 
+        //position: absolute;
+        .jumbo-textbox-container{
+            padding: 10px 10px;
+            margin-bottom: 0px;
+            .sapce-top{
+                margin-top: 8px;
+            }  
+        }
+        .jumbo-button-container{
+            padding: 10px 10px;
+        }
     }
     
 }

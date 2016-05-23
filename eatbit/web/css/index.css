@@ -1,104 +1,14 @@
-/* line 4, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.eatbit-logo {
-  height: 31px;
-  width: 30px;
-}
-
-/* line 8, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.eatbit-brand {
-  padding-left: 10px;
-}
-
-/* line 11, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-extra-width {
-  padding-bottom: 8px;
-  padding-top: 8px;
-}
-
-/* line 18, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-brand {
-  color: #fff !important;
-}
-/* line 22, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-toggle {
-  color: #fff !important;
-  border-color: #fff !important;
-}
-/* line 26, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-toggle .icon-bar {
-  background-color: #fff !important;
-}
-/* line 30, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-toggle:hover {
-  background-color: #fff !important;
-}
-/* line 32, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-toggle:hover .icon-bar {
-  background-color: #e62739 !important;
-}
-/* line 39, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-nav > li > a {
-  color: white;
-}
-/* line 41, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar-default .navbar-nav > li > a:hover {
-  color: #b3c2bf;
-}
-
-/* line 48, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar {
-  font-family: 'Open Sans', sans-serif !important;
-  padding-left: 50px;
-  padding-right: 50px;
-  background-color: #e62739;
-  min-width: 400px;
-  position: absolute;
-  width: 100%;
-  margin-bottom: 0px;
-  z-index: 3;
-  /* remove a visible border on chrome */
-  border-radius: 0px;
-  border: 0px !important;
-}
-/* line 62, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.navbar .navbar-brand:focus {
-  outline: 0;
-}
-
-/* line 67, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-#logged {
-  margin-top: 8px;
-}
-
-/* line 72, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.user-thumbnail {
-  text-align: center;
-}
-/* line 74, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-.user-thumbnail img {
-  width: 80px;
-  height: 80px;
-}
-
-@media (max-width: 767px) {
-  /* line 81, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #fff;
-  }
-}
-@media only screen and (max-width: 1200px) {
-  /* line 87, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-default.scss */
-  .navbar {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-}
-/* line 3, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/navbar-index.scss */
-#not-logged {
+/* line 2, ../scss/components/_navbar-index.scss */
+#nav-search-bar, #logged {
   display: none;
 }
 
-/* line 1, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
+/*
+#not-logged{
+    display: none;
+}
+*/
+/* line 1, ../scss/components/_utilities.scss */
 .horizontally-centered {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -107,7 +17,7 @@
   text-align: center;
 }
 
-/* line 9, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
+/* line 9, ../scss/components/_utilities.scss */
 .drag-select-disabled {
   user-drag: none;
   -webkit-user-drag: none;
@@ -116,6 +26,11 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   pointer-events: none;
+}
+
+/* line 19, ../scss/components/_utilities.scss */
+.no-border {
+  border: 0px;
 }
 
 /* line 4, ../scss/index.scss */
@@ -136,10 +51,24 @@
   font-family: 'Exo 2', sans-serif;
 }
 /* line 17, ../scss/index.scss */
-.jumbotron .jumbo-textbox-container {
-  width: 500px;
+.jumbotron .input-thumbnail {
+  display: inline-block;
+  width: 50%;
+  background-color: black !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: 0px;
+  min-width: 270px;
 }
-/* line 19, ../scss/index.scss */
-.jumbotron .jumbo-textbox-container .sapce-top {
-  margin-top: 2px;
+/* line 25, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container {
+  padding: 10px 10px;
+  margin-bottom: 0px;
+}
+/* line 28, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container .sapce-top {
+  margin-top: 8px;
+}
+/* line 32, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-button-container {
+  padding: 10px 10px;
 }
