@@ -27,24 +27,19 @@ public class Review
     private int id_creator;
     private int id_photo;
     private int likes;
+    private int dislikes;
 
-    public Review(int id, int global_value, int food, int service, int value_for_money, int atmosphere, String name, String description, Timestamp date_creation, int id_restaurant, int id_creator, int id_photo, int likes)
+    public int getDislikes()
     {
-        this.id = id;
-        this.global_value = global_value;
-        this.food = food;
-        this.service = service;
-        this.value_for_money = value_for_money;
-        this.atmosphere = atmosphere;
-        this.name = name;
-        this.description = description;
-        this.date_creation = date_creation;
-        this.id_restaurant = id_restaurant;
-        this.id_creator = id_creator;
-        this.id_photo = id_photo;
-        this.likes = likes;
+        return dislikes;
     }
 
+    public void setDislikes(int dislikes)
+    {
+        this.dislikes = dislikes;
+    }
+
+    
     public int getFood()
     {
         return food;

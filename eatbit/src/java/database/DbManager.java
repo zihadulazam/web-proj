@@ -40,55 +40,41 @@ public class DbManager
      * Prova ad inserire(registrare sul sito) un utente nel database, l'utente
      * così registrato sarà sempre un utente normale (non ristoratre e non
      * admin).
-     *
      * @param user Oggetto User con i dati all'iterno
      * @return 0 se è andata a buon fine, 1 se nn ha registrato xk esiste un
      * utente con quella email, 2 se esiste un utente con quel nick, 3 se non è
      * andata a buon fine per altri motivi
+     * @throws java.sql.SQLException
      *
      */
-    public int registerUser(User user)
+    public int registerUser(User user) throws SQLException
     {
         int res = 3;
-        try
+        try(PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
+                + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?)");)
         {
-            PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
-                    + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?)");
-            st.setString(1, user.getName());
-            st.setString(2, user.getSurname());
-            st.setString(3, user.getNickname());
-            st.setString(4, user.getEmail());
-            st.setString(5, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-            st.setString(6, user.getAvatar_path());
-            st.setInt(7, user.getReviews_counter());
-            st.setInt(8, user.getReviews_positive());
-            st.setInt(9, 0);
-            try
+            if (findUserByEmail(user.getEmail()))
             {
-                st.executeUpdate();
-                con.commit();
-                res = 0;
-            } catch (SQLException e)
+                res = 1;
+            } else if (findUserByNickname(user.getNickname()))
             {
-                //codice se trova roba con stesse keys o unique
-                if (e.getSQLState().equals("23505"))
-                {
-                    if (findUserByEmail(user.getEmail()))
-                    {
-                        res = 1;
-                    } else if (findUserByNickname(user.getNickname()))
-                    {
-                        res = 2;
-                    }
-                    //fare che ritorna intero e 2 statement per fare query e cercare se è a causa email o nome
-                } else
-                {
-                    throw e;
-                }
-            } finally
-            {
-                st.close();
+                res = 2;
             }
+            else
+            {
+                st.setString(1, user.getName());
+                st.setString(2, user.getSurname());
+                st.setString(3, user.getNickname());
+                st.setString(4, user.getEmail());
+                st.setString(5, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+                st.setString(6, user.getAvatar_path());
+                st.setInt(7, user.getReviews_counter());
+                st.setInt(8, user.getReviews_positive());
+                st.setInt(9, 0);
+                st.executeUpdate();
+                res = 0;
+            } 
+            con.commit();
         } catch (SQLException ex)
         {
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,7 +128,12 @@ public class DbManager
         }
         return user;
     }
-
+/**
+ * Attenzione! Non fa commit!
+ * @param email
+ * @return
+ * @throws SQLException 
+ */
     private boolean findUserByEmail(String email) throws SQLException
     {
         boolean res = true;
@@ -152,7 +143,6 @@ public class DbManager
             try (ResultSet rs = st.executeQuery())
             {
                 res = rs.next();
-                con.commit();
             }
         } catch (SQLException ex)
         {
@@ -160,7 +150,12 @@ public class DbManager
         }
         return res;
     }
-
+/**
+ * Attenzione! Non fa commit!
+ * @param nick
+ * @return
+ * @throws SQLException 
+ */
     private boolean findUserByNickname(String nick) throws SQLException
     {
         boolean res = true;
@@ -170,7 +165,6 @@ public class DbManager
             try (ResultSet rs = st.executeQuery())
             {
                 res = rs.next();
-                con.commit();
             }
         } catch (SQLException ex)
         {
@@ -210,6 +204,7 @@ public class DbManager
                     review.setId_creator(rs.getInt("ID_CREATOR"));
                     review.setId_photo(rs.getInt("ID_PHOTO"));
                     review.setLikes(rs.getInt("LIKES"));
+                    review.setDislikes(rs.getInt("DISLIKES"));
                     reviews.add(review);
                 }
                 con.commit();
@@ -345,6 +340,7 @@ public class DbManager
                     review.setId_creator(rs.getInt("ID_CREATOR"));
                     review.setId_photo(rs.getInt("ID_PHOTO"));
                     review.setLikes(rs.getInt("LIKES"));
+                    review.setDislikes(rs.getInt("DISLIKES"));
                 }
             }
         }
@@ -450,7 +446,12 @@ public class DbManager
         }
         return photo;
     }
-
+/**
+ * Non fa commit.
+ * @param id
+ * @return
+ * @throws SQLException 
+ */
     private Restaurant getRestaurantById(int id) throws SQLException
     {
         Restaurant restaurant = null;
@@ -473,7 +474,6 @@ public class DbManager
                     restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
                     restaurant.setValidated(rs.getBoolean("VALIDATED"));
                 }
-                con.commit();
             }
         }
         return restaurant;
@@ -641,7 +641,171 @@ public class DbManager
             }
         }
     }
-
+    
+    /**
+     * Metodo per inserire nel db un claim di un ristorante, nelle classi User e Restaurant passate
+     * basta che siano presenti gli id.
+     * @param user L'utente che fa la creazione/claim del ristorante.
+     * @param restaurant Il ristorante in questione.
+     * @param userTextClaim Il testo che l'utente ha dato come giustificazione del claim, se esiste.
+     * @param creationClaimBoth Flag che dice se questa è una creazione, claim, o entrambe di ristorante.
+     * @throws SQLException 
+     */
+    public void addClaim(User user, Restaurant restaurant, String userTextClaim, int creationClaimBoth) throws SQLException
+    {
+        try(PreparedStatement st1= con.prepareStatement("select from RESTAURANTS_REQUESTS WHERRE ID_USER=? AND ID_RESTAURANT=?");
+            PreparedStatement st2= con.prepareStatement("INSERT INTO RESTAURANT_REQUESTS VALUES(?,?,?,?,?)"))
+        {
+            st1.setInt(1, user.getId());
+            st1.setInt(2, restaurant.getId());
+            try(ResultSet st= st1.executeQuery())
+            {//se questa request non esiste già
+                if(!st.next())
+                {
+                    st2.setInt(1, user.getId());
+                    st2.setInt(2, restaurant.getId());
+                    st2.setTimestamp(3, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
+                    st2.setInt(4, creationClaimBoth);
+                    st2.setString(5, userTextClaim);
+                    st2.executeUpdate();
+                    con.commit();
+                }
+            }
+        }
+    }
+    /**
+     * Aggiunge una review, in base al suo voto globale ciò farà variare la media
+     * globale del ristorante in questione. Nell'oggetto review non è necessario
+     * settare la data di creazione o il numero di likes.
+     * @param review
+     * @return false se non ci sono stati problemi, vero altrimenti
+     * @throws SQLException 
+     */
+    public boolean addReview(Review review) throws SQLException
+    {
+        boolean res = true;
+        try(PreparedStatement st = con.prepareStatement("insert into REVIEWS(GLOBAL_VALUE,FOOD,"
+                + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement updateSt= con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, REVIEWS_COUNTER=? WHERE ID=?"))
+        {
+            Restaurant restaurant= null;
+            //il ristorante esiste vado avanti
+            if((restaurant=getRestaurantById(review.getId_restaurant()))!=null)
+            {
+                int newReviewsCounter= restaurant.getReviews_counter()+1;
+                int newGlobal = (restaurant.getReviews_counter()*restaurant.getGlobal_value()+
+                        review.getGlobal_value())/(newReviewsCounter);
+                st.setInt(1, review.getGlobal_value());
+                st.setInt(2, review.getFood());
+                st.setInt(3, review.getService());
+                st.setInt(4, review.getValue_for_money());
+                st.setInt(5, review.getAtmosphere());
+                st.setString(6, review.getName());
+                st.setString(7, review.getDescription());
+                st.setTimestamp(8, new Timestamp(Calendar.getInstance().getTime().getTime()));
+                st.setInt(9, review.getId_restaurant());
+                st.setInt(10, review.getId_creator());
+                st.setInt(11, review.getId_photo());
+                st.setInt(12, 0);
+                st.setInt(13, 0);
+                updateSt.setInt(1, newGlobal);
+                updateSt.setInt(2, newReviewsCounter);
+                updateSt.setInt(3, review.getId_restaurant());
+                st.executeUpdate();
+                updateSt.executeUpdate();
+                res=false;
+            } 
+            con.commit();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+    /**
+     * Per settare la foto dello user. L'oggetto user deve avere campi nickname 
+     * e email corretti, il resto non importa (prenderlo dalla sessione).
+     * @param user Lo User in questione.
+     * @param photoPath Una stringa che è il path della foto all'interno dell'applicazione.
+     * @return false se non ci sono stati problemi ,vero altrimenti
+     * @throws SQLException 
+     */
+    public boolean setUserPhoto(User user, String photoPath) throws SQLException
+    {
+        //non viene controllato prima se lo user esiste xk si assume che sia preso dalla
+        //sessione, e quindi corretto
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE NICKNAME=? AND EMAIL=?"))
+        {
+            st.setString(1, photoPath);
+            st.setString(2, user.getNickname());
+            st.setString(3, user.getEmail());
+            con.commit();
+            res=false;
+        }
+        return res;
+    }
+    /**
+     * Per inserire una foto da parte di uno user che riguarda un ristorante
+     * non suo.
+     * @param restaurantId Id del ristorante di cui mettere la foto.
+     * @param user User che sta mettendo la foto.
+     * @param photo Photo caricata.
+     * @return Falso se è andato tutto bene, vero altrimenti.
+     * @throws SQLException 
+     */
+    public boolean addPhotoToRestaurantFromUser(int restaurantId, User user, Photo photo) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("INSERT INTO PHOTOS(NAME,"
+                + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)"))
+        {
+            if(getRestaurantById(restaurantId)!=null)
+            {
+                st.setString(1, photo.getName());
+                st.setString(2, photo.getDescription());
+                st.setString(3, photo.getPath());
+                st.setInt(4, restaurantId);
+                st.setInt(5, user.getId());
+                st.executeUpdate();
+                res=false;
+            }
+            con.commit();
+        }
+        return res;
+    }
+    
+    public boolean addLike(int reviewTarget, User liker) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement checkLikeExist= con.prepareStatement("SELECT * FROM USER_REVIEW_LIKES WHERE ID_USER=? "
+                + "AND ID_REVIEW=? AND ID_CREATOR=?"))
+        {
+            Review review= null;
+            if(getUserById(review.getId_creator())!=null && (review=getReviewById(reviewTarget))!=null)
+            {
+                checkLikeExist.setInt(1, liker.getId());
+                checkLikeExist.setInt(2, reviewTarget);
+                checkLikeExist.setInt(3, review.getId_creator());
+                try(ResultSet rs= checkLikeExist.executeQuery())
+                {
+                    //se like non esiste lo metto io e aggiorno like utente e review
+                    if(!rs.next())
+                    {
+                        try(PreparedStatement st1= con.prepareStatement("INSERT INTO"
+                                + " USER_REVIEW_LIKES VALUES(?,?,?,?,?)");
+                            PreparedStatement updateUser= con.prepareStatement(""))
+                        {
+                            //da finire
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    
     /**
      * Chiude la connessione al database!
      */
