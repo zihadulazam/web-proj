@@ -18,26 +18,28 @@
 /* line 18, ../scss/components/_navbar-default.scss */
 .navbar-default .navbar-brand {
   color: #fff !important;
+  font-family: 'Exo 2', sans-serif;
+  font-size: 30px;
 }
-/* line 22, ../scss/components/_navbar-default.scss */
+/* line 24, ../scss/components/_navbar-default.scss */
 .navbar-default .navbar-toggle {
   color: #fff !important;
   border-color: #fff !important;
 }
-/* line 26, ../scss/components/_navbar-default.scss */
+/* line 28, ../scss/components/_navbar-default.scss */
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #fff !important;
 }
-/* line 30, ../scss/components/_navbar-default.scss */
+/* line 32, ../scss/components/_navbar-default.scss */
 .navbar-default .navbar-toggle:hover {
   background-color: #fff !important;
 }
-/* line 32, ../scss/components/_navbar-default.scss */
+/* line 34, ../scss/components/_navbar-default.scss */
 .navbar-default .navbar-toggle:hover .icon-bar {
   background-color: #e62739 !important;
 }
 
-/* line 41, ../scss/components/_navbar-default.scss */
+/* line 43, ../scss/components/_navbar-default.scss */
 .navbar {
   font-family: 'Open Sans', sans-serif !important;
   padding-left: 50px;
@@ -52,77 +54,77 @@
   border-radius: 0px;
   border: 0px !important;
 }
-/* line 55, ../scss/components/_navbar-default.scss */
+/* line 57, ../scss/components/_navbar-default.scss */
 .navbar .navbar-brand:focus {
   outline: 0;
 }
-/* line 60, ../scss/components/_navbar-default.scss */
+/* line 62, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a {
   color: #fff;
 }
-/* line 62, ../scss/components/_navbar-default.scss */
+/* line 64, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a:hover {
   color: #b3c2bf;
 }
-/* line 65, ../scss/components/_navbar-default.scss */
+/* line 67, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a:focus {
   outline: 0;
 }
-/* line 69, ../scss/components/_navbar-default.scss */
+/* line 71, ../scss/components/_navbar-default.scss */
 .navbar #not-logged .btn {
   margin: 8px 15px;
 }
-/* line 71, ../scss/components/_navbar-default.scss */
+/* line 73, ../scss/components/_navbar-default.scss */
 .navbar #not-logged .btn:focus {
   outline: 0;
 }
-/* line 76, ../scss/components/_navbar-default.scss */
+/* line 78, ../scss/components/_navbar-default.scss */
 .navbar #logged {
   margin-top: 8px;
 }
-/* line 79, ../scss/components/_navbar-default.scss */
+/* line 81, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu {
   padding-top: 0px !important;
 }
-/* line 81, ../scss/components/_navbar-default.scss */
+/* line 83, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu .user-thumbnail {
   text-align: center;
 }
-/* line 83, ../scss/components/_navbar-default.scss */
+/* line 85, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu .user-thumbnail img {
   width: 80px;
   height: 80px;
 }
 
 @media (max-width: 767px) {
-  /* line 95, ../scss/components/_navbar-default.scss */
+  /* line 97, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #fff;
   }
 
-  /* line 100, ../scss/components/_navbar-default.scss */
+  /* line 102, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .navbar-form {
     border-top: 0px;
   }
-  /* line 103, ../scss/components/_navbar-default.scss */
+  /* line 105, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .btn {
     width: 100%;
   }
-  /* line 107, ../scss/components/_navbar-default.scss */
+  /* line 109, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .btn {
     margin: 8px 0px;
   }
-  /* line 110, ../scss/components/_navbar-default.scss */
+  /* line 112, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .navbar-link {
     text-align: center;
   }
-  /* line 115, ../scss/components/_navbar-default.scss */
+  /* line 117, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .dropdown-menu li {
     text-align: center;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 124, ../scss/components/_navbar-default.scss */
+  /* line 126, ../scss/components/_navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;
@@ -346,20 +348,20 @@
 /* line 143, ../scss/components/_login-register.scss */
 .login .form-control {
   border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0) inset;
   color: #FFFFFF;
 }
 
 /* line 149, ../scss/components/_login-register.scss */
 .login .form-control:hover {
-  background-color: rgba(0, 0, 0, 0.16);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /* line 152, ../scss/components/_login-register.scss */
 .login .form-control:focus {
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
-  background-color: rgba(0, 0, 0, 0.23);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0) inset;
+  background-color: rgba(0, 0, 0, 0);
   color: #FFFFFF;
 }
 
