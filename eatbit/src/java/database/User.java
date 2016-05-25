@@ -21,10 +21,22 @@ public class User
     private String avatar_path;
     private int reviews_counter;
     private int reviews_positive;
+    private int reviews_negative;
     private int type;
 
+    
     public User()
     {
+    }
+
+    public int getReviews_negative()
+    {
+        return reviews_negative;
+    }
+
+    public void setReviews_negative(int reviews_negative)
+    {
+        this.reviews_negative = reviews_negative;
     }
 
     public String getAvatar_path()

@@ -51,7 +51,7 @@ public class DbManager
     {
         int res = 3;
         try(PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
-                + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?)");)
+                + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,REVIEWS_NEGATIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?,?)");)
         {
             if (findUserByEmail(user.getEmail()))
             {
@@ -69,8 +69,9 @@ public class DbManager
                 st.setString(5, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
                 st.setString(6, user.getAvatar_path());
                 st.setInt(7, user.getReviews_counter());
-                st.setInt(8, user.getReviews_positive());
+                st.setInt(8, 0);
                 st.setInt(9, 0);
+                st.setInt(10, 0);
                 st.executeUpdate();
                 res = 0;
             } 
@@ -93,7 +94,6 @@ public class DbManager
      */
     public User loginUserByEmailOrNickname(String nickOrEmail, String password) throws SQLException
     {
-        System.out.println("Sto cercando: "+nickOrEmail+" "+password);
         User user = null;
         try (PreparedStatement st = con.prepareStatement("select * from USERS where EMAIL=? OR NICKNAME=?"))
         {
@@ -113,6 +113,8 @@ public class DbManager
                     user.setAvatar_path(rs.getString("AVATAR_PATH"));
                     user.setReviews_counter(rs.getInt("REIVEWS_COUNTER"));
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
+                    user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
+                    user.setType(rs.getInt("USERTYPE"));
                     if (!BCrypt.checkpw(password, user.getPassword()))
                     {
                         user = null;
@@ -376,6 +378,7 @@ public class DbManager
                     user.setAvatar_path(rs.getString("AVATAR_PATH"));
                     user.setReviews_counter(rs.getInt("REIVEWS_COUNTER"));
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
+                    user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
                 }
             }
@@ -442,10 +445,37 @@ public class DbManager
                     photo.setId_restaurant(rs.getInt("ID_RESTAURANT"));
                     photo.setId_owner(rs.getInt("ID_OWNER"));
                 }
-                con.commit();
             }
         }
         return photo;
+    }
+    
+    private boolean existReportedPhotoById(int id) throws SQLException
+    {
+        boolean res=true;
+        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_PHOTOS where id=?"))
+        {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery())
+            {
+                res=rs.next();
+            }
+        }
+        return res;
+    }
+    
+    private boolean existReportedReviewById(int id) throws SQLException
+    {
+        boolean res=true;
+        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_REVIEWS where id=?"))
+        {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery())
+            {
+                res=rs.next();
+            }
+        }
+        return res;
     }
 /**
  * Non fa commit.
@@ -568,7 +598,6 @@ public class DbManager
 
     /**
      * Metodo per inserire una foto nelle foto reportate, utilizzando il suo id.
-     *
      * @param photo_id
      * @throws SQLException
      */
@@ -580,29 +609,43 @@ public class DbManager
             st1.setInt(1, photo_id);
             try (ResultSet rs1 = st1.executeQuery())
             {
-                //esiste effettivamente una foto con quell'id, la inserisco nelle reported
-                if (rs1.next())
+                //se la foto esiste e non è già stata reportata inserisco il report
+                if (rs1.next() && !existReportedPhotoById(photo_id))
                 {
                     st2.setInt(1, photo_id);
                     st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
-                    try
-                    {
-                        st2.executeUpdate();
-                        con.commit();
-                    } catch (SQLException e)
-                    {
-                        //se la foto era già stata reportata è già in questa table, ignoro l'eccezione
-                        //se l'eccezione non è quella relative al fatto che esiste già la throwo
-                        if (!e.getSQLState().equals("23505"))
-                        {
-                            throw e;
-                        }
-                    }
+                    st2.executeUpdate();
                 }
             }
+            con.commit();
         }
     }
-
+    /**
+     * Metodo per inserire una review nelle review reportate, utilizzando il suo id.
+     * @param review_id
+     * @throws SQLException
+     */
+    public void reportReview(int review_id) throws SQLException
+    {
+        try (PreparedStatement st2 = con.prepareStatement("INSERT INTO REPORTED_REVIEWS VALUES(?,?)");
+                PreparedStatement st1 = con.prepareStatement("SELECT FROM REVIEWS WHERE ID=?"))
+        {
+            st1.setInt(1, review_id);
+            try (ResultSet rs1 = st1.executeQuery())
+            {
+                //se la review esiste e non è già stata reportata inserisco il report
+                if (rs1.next() && !existReportedReviewById(review_id))
+                {
+                    st2.setInt(1, review_id);
+                    st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
+                    st2.executeUpdate();
+                }
+            }
+            con.commit();
+        }
+    }
+    
+    
     /**
      * Per inserire una reply da parte di un ristoratore a una sua recensione,
      * verrà inserite anche fra le reply che gli admin devono controllare e
@@ -612,7 +655,7 @@ public class DbManager
      * @param reply
      * @throws SQLException
      */
-    public void postReply(Reply reply) throws SQLException
+    public void addReply(Reply reply) throws SQLException
     {
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPLIES(DESCRIPTION,DATE_CREATION,ID_REVIEW,ID_OWNER"
                 + ",DATE_VALIDATION,ID_VALIDATOR,VALIDATED) VALUES (?,?,?.?,?,?,?)");
@@ -686,17 +729,23 @@ public class DbManager
     {
         boolean res = true;
         try(PreparedStatement st = con.prepareStatement("insert into REVIEWS(GLOBAL_VALUE,FOOD,"
-                + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
+                + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
+                + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
                 + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            PreparedStatement updateSt= con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, REVIEWS_COUNTER=? WHERE ID=?"))
+            PreparedStatement updateSt= con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, "
+                    + "REVIEWS_COUNTER=? WHERE ID=?");
+            PreparedStatement updateUs= con.prepareStatement("UPDATE USERS SET REVIEWS_COUNTER=? WHERE ID=?"))
+                
         {
             Restaurant restaurant= null;
             //il ristorante esiste vado avanti
             if((restaurant=getRestaurantById(review.getId_restaurant()))!=null)
             {
+                User user= getUserById(review.getId_creator());
                 int newReviewsCounter= restaurant.getReviews_counter()+1;
                 int newGlobal = (restaurant.getReviews_counter()*restaurant.getGlobal_value()+
                         review.getGlobal_value())/(newReviewsCounter);
+                int newUserReviewCounter=user.getReviews_counter()+1;
                 st.setInt(1, review.getGlobal_value());
                 st.setInt(2, review.getFood());
                 st.setInt(3, review.getService());
@@ -713,8 +762,11 @@ public class DbManager
                 updateSt.setInt(1, newGlobal);
                 updateSt.setInt(2, newReviewsCounter);
                 updateSt.setInt(3, review.getId_restaurant());
+                updateUs.setInt(1, newUserReviewCounter);
+                updateUs.setInt(2, user.getId());
                 st.executeUpdate();
                 updateSt.executeUpdate();
+                updateUs.executeUpdate();
                 res=false;
             } 
             con.commit();
@@ -776,36 +828,181 @@ public class DbManager
         }
         return res;
     }
-    
-    public boolean addLike(int reviewTarget, User liker) throws SQLException
+    /**
+     * Per aggiungere il like/dislike di un utente rispetto a una review. Così facendo
+     * verrà aggiornato il numero di like/dislike della review e del creatore della review.
+     * Se il like dello user per la review esiste già ma il like è di un tipo diverso da quello
+     * vecchio il like viene cambiato e Review e creatore review aggiornati.
+     * @param reviewTarget Id della review target del like.
+     * @param type Il tipo di like, deve essere 0(dislike) o 1(like).
+     * @param liker L'utente che ha fatto il like.
+     * @return True se sono sorti problemi, falso altrimenti.
+     * @throws SQLException 
+     */
+    public boolean addLike(int reviewTarget, int type, User liker) throws SQLException
     {
         boolean res=true;
         try(PreparedStatement checkLikeExist= con.prepareStatement("SELECT * FROM USER_REVIEW_LIKES WHERE ID_USER=? "
                 + "AND ID_REVIEW=? AND ID_CREATOR=?"))
         {
-            Review review= null;
-            if(getUserById(review.getId_creator())!=null && (review=getReviewById(reviewTarget))!=null)
+            Review review= getReviewById(reviewTarget);
+            User creator= null;
+            //controllo se utente creatore e review esistono
+            if(review!=null && creator!=getUserById(review.getId_creator()))
             {
                 checkLikeExist.setInt(1, liker.getId());
                 checkLikeExist.setInt(2, reviewTarget);
                 checkLikeExist.setInt(3, review.getId_creator());
                 try(ResultSet rs= checkLikeExist.executeQuery())
                 {
-                    //se like non esiste lo metto io e aggiorno like utente e review
+                    //se like non esiste lo metto io e aggiorno like del creatore review e review
                     if(!rs.next())
                     {
-                        try(PreparedStatement st1= con.prepareStatement("INSERT INTO"
-                                + " USER_REVIEW_LIKES VALUES(?,?,?,?,?)");
-                            PreparedStatement updateUser= con.prepareStatement(""))
+                        try(PreparedStatement makeLike= con.prepareStatement("INSERT INTO"
+                                + " USER_REVIEW_LIKES VALUES(?,?,?,?,?)"))
                         {
-                            //da finire
+                            makeLike.setInt(1,liker.getId());
+                            makeLike.setInt(2, reviewTarget);
+                            makeLike.setInt(3, creator.getId());
+                            makeLike.setInt(4, type);
+                            makeLike.setTimestamp(5,new Timestamp(Calendar.getInstance().getTime().getTime()));
+                            makeLike.executeUpdate();
+                            if(type==1)
+                            {
+                                incrementUserLikes(creator);
+                                incrementReviewLikes(review);
+                            }
+                            else
+                            {
+                                incrementUserDislikes(creator);
+                                incrementReviewDislikes(review);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //se esiste già lo modifico se è diverso(l'utente sta modificando
+                        //il suo like) o lo ignoro se è uguale
+                        int oldType=rs.getInt("LIKE_TYPE");
+                        if(type!=oldType)
+                        {
+                            try(PreparedStatement changeLike= con.prepareStatement("UPDATE USER_REVIEW_LIKES "
+                                    + "SET LIKE_TYPE=? WHERE ID_USER=? AND ID_REVIEW=? AND ID_CREATOR=?"))
+                            {
+                                changeLike.setInt(1, type);
+                                changeLike.setInt(2, liker.getId());
+                                changeLike.setInt(3, review.getId());
+                                changeLike.setInt(4, review.getId_creator());
+                                changeLike.executeUpdate();
+                                //se likenuovo!=vecchio e quello nuovo è positivo
+                                if(type==1)
+                                {
+                                    moveUserDislikeToLike(creator);
+                                    moveReviewDislikeToLike(review);
+                                    
+                                }
+                                else
+                                {
+                                    //se il nuovo like è negativo
+                                    moveUserLikeToDislike(creator);
+                                    moveReviewLikeToDislike(review);
+                                }
+                            }
                         }
                     }
                 }
             }
+            con.commit();
+            res=false;
         }
         return res;
     }
+    
+    private void incrementUserLikes(User user) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET REVIEWS_POSITIVE=? WHERE ID=?"))
+        {
+            st.setInt(1, user.getReviews_positive()+1);
+            st.setInt(2, user.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void incrementUserDislikes(User user) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET REVIEWS_NEGATIVE=? WHERE ID=?"))
+        {
+            st.setInt(1, user.getReviews_negative()+1);
+            st.setInt(2, user.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void moveUserLikeToDislike(User user) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET REVIEWS_POSITIVE=?, REVIEWS_NEGATIVE=? WHERE ID=?"))
+        {
+            st.setInt(1, user.getReviews_positive()-1);
+            st.setInt(2, user.getReviews_negative()+1);
+            st.setInt(3, user.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void moveUserDislikeToLike(User user) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET REVIEWS_POSITIVE=?, REVIEWS_NEGATIVE=? WHERE ID=?"))
+        {
+            st.setInt(1, user.getReviews_positive()+1);
+            st.setInt(2, user.getReviews_negative()-1);
+            st.setInt(3, user.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void incrementReviewLikes(Review review) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE REVIEWS SET LIKES=? WHERE ID=?"))
+        {
+            st.setInt(1, review.getLikes());
+            st.setInt(2, review.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void incrementReviewDislikes(Review review) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE REVIEWS SET DISLIKES WHERE ID=?"))
+        {
+            st.setInt(1, review.getDislikes()+1);
+            st.setInt(2, review.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void moveReviewLikeToDislike(Review review) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE REVIEWS SET LIKES=?, DISLIKES=? WHERE ID=?"))
+        {
+            st.setInt(1, review.getLikes()-1);
+            st.setInt(2, review.getDislikes()+1);
+            st.setInt(3, review.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    private void moveReviewDislikeToLike(Review review) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("UPDATE REVIEWS SET LIKES=?, DISLIKES=? WHERE ID=?"))
+        {
+            st.setInt(1, review.getLikes()+1);
+            st.setInt(2, review.getDislikes()-1);
+            st.setInt(3, review.getId());
+            st.executeUpdate();
+        }
+    }
+    
+    
     
     /**
      * Chiude la connessione al database!
@@ -820,5 +1017,5 @@ public class DbManager
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
 }
