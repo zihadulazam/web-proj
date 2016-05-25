@@ -39,14 +39,18 @@
   background-color: #e62739 !important;
 }
 
-/* line 43, ../scss/components/_navbar-default.scss */
+              /*.navbar-fixed-top {
+//top: -70px; /* you'll have to figure out the exact number here */
+  /*position: relative;
+}*/
+/* line 49, ../scss/components/_navbar-default.scss */
 .navbar {
   font-family: 'Open Sans', sans-serif !important;
   padding-left: 50px;
   padding-right: 50px;
   background-color: #e62739;
   min-width: 400px;
-  position: absolute;
+  position: static;
   width: 100%;
   margin-bottom: 0px;
   z-index: 3;
@@ -54,77 +58,77 @@
   border-radius: 0px;
   border: 0px !important;
 }
-/* line 57, ../scss/components/_navbar-default.scss */
+/* line 63, ../scss/components/_navbar-default.scss */
 .navbar .navbar-brand:focus {
   outline: 0;
 }
-/* line 62, ../scss/components/_navbar-default.scss */
+/* line 68, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a {
   color: #fff;
 }
-/* line 64, ../scss/components/_navbar-default.scss */
+/* line 70, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a:hover {
   color: #b3c2bf;
 }
-/* line 67, ../scss/components/_navbar-default.scss */
+/* line 73, ../scss/components/_navbar-default.scss */
 .navbar #not-logged li > a:focus {
   outline: 0;
 }
-/* line 71, ../scss/components/_navbar-default.scss */
+/* line 77, ../scss/components/_navbar-default.scss */
 .navbar #not-logged .btn {
   margin: 8px 15px;
 }
-/* line 73, ../scss/components/_navbar-default.scss */
+/* line 79, ../scss/components/_navbar-default.scss */
 .navbar #not-logged .btn:focus {
   outline: 0;
 }
-/* line 78, ../scss/components/_navbar-default.scss */
+/* line 84, ../scss/components/_navbar-default.scss */
 .navbar #logged {
   margin-top: 8px;
 }
-/* line 81, ../scss/components/_navbar-default.scss */
+/* line 87, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu {
   padding-top: 0px !important;
 }
-/* line 83, ../scss/components/_navbar-default.scss */
+/* line 89, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu .user-thumbnail {
   text-align: center;
 }
-/* line 85, ../scss/components/_navbar-default.scss */
+/* line 91, ../scss/components/_navbar-default.scss */
 .navbar #logged .dropdown .dropdown-menu .user-thumbnail img {
   width: 80px;
   height: 80px;
 }
 
 @media (max-width: 767px) {
-  /* line 97, ../scss/components/_navbar-default.scss */
+  /* line 103, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #fff;
   }
 
-  /* line 102, ../scss/components/_navbar-default.scss */
+  /* line 108, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .navbar-form {
     border-top: 0px;
   }
-  /* line 105, ../scss/components/_navbar-default.scss */
+  /* line 111, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .btn {
     width: 100%;
   }
-  /* line 109, ../scss/components/_navbar-default.scss */
+  /* line 115, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .btn {
     margin: 8px 0px;
   }
-  /* line 112, ../scss/components/_navbar-default.scss */
+  /* line 118, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .navbar-link {
     text-align: center;
   }
-  /* line 117, ../scss/components/_navbar-default.scss */
+  /* line 123, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .dropdown-menu li {
     text-align: center;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 126, ../scss/components/_navbar-default.scss */
+  /* line 132, ../scss/components/_navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;
@@ -348,20 +352,20 @@
 /* line 143, ../scss/components/_login-register.scss */
 .login .form-control {
   border-radius: 3px;
-  background-color: rgba(0, 0, 0, 0);
-  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0) inset;
+  background-color: rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.09) inset;
   color: #FFFFFF;
 }
 
 /* line 149, ../scss/components/_login-register.scss */
 .login .form-control:hover {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.16);
 }
 
 /* line 152, ../scss/components/_login-register.scss */
 .login .form-control:focus {
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0) inset;
-  background-color: rgba(0, 0, 0, 0);
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04) inset;
+  background-color: rgba(0, 0, 0, 0.23);
   color: #FFFFFF;
 }
 
@@ -383,7 +387,13 @@
     width: 100%;
   }
 }
-/* line 176, ../scss/components/_login-register.scss */
+@media (max-width: 767px) {
+  /* line 177, ../scss/components/_login-register.scss */
+  .login .modal-dialog {
+    margin: 30px auto;
+  }
+}
+/* line 182, ../scss/components/_login-register.scss */
 .big-login, .big-register {
   background-color: #00bbff;
   color: #FFFFFF;
@@ -397,20 +407,20 @@
   transition: all 0.3s ease 0s;
 }
 
-/* line 188, ../scss/components/_login-register.scss */
+/* line 194, ../scss/components/_login-register.scss */
 .big-login:hover {
   background-color: #00A4E4;
   color: #FFFFFF;
 }
 
-/* line 192, ../scss/components/_login-register.scss */
+/* line 198, ../scss/components/_login-register.scss */
 .big-register {
   background-color: rgba(0, 0, 0, 0);
   color: #00bbff;
   border-color: #00bbff;
 }
 
-/* line 197, ../scss/components/_login-register.scss */
+/* line 203, ../scss/components/_login-register.scss */
 .big-register:hover {
   border-color: #00A4E4;
   color: #00A4E4;

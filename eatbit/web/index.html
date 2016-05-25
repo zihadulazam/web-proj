@@ -143,9 +143,16 @@
                              <div class="content">
                                 <div class="error"></div>
                                 <div class="form loginBox">
-                                    <form method="post" action="/login" accept-charset="UTF-8">
-                                        <input id="email" class="form-control" type="text" placeholder="Email" name="email">
-                                        <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+                                    <form method="post" action="/login" accept-charset="UTF-8" id="login-form">
+                                        <!-- da verifivare id emailor Nickname -->
+                                        <div class="form-group">
+                                            <label for="emailorNickname">Email o Nickname:</label>
+                                            <input id="emailorNickname" class="form-control" type="text" placeholder="Email o Nickname" name="emailorNickname">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Password:</label>
+                                            <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+                                        </div>
                                         <button class="btn btn-success btn-login" type="button"  onclick="loginAjax()" aria-label="Left Align">
                                             <span class="glyphicon glyphicon glyphicon glyphicon-lock" aria-hidden="true"></span>
                                             Accedi
@@ -229,7 +236,7 @@
         <!-- scripts -->
     
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/jquery-1.12.4.min.js"></script>
     
         <!-- js (Bootstrap) -->
         <script src="js/bootstrap.min.js"></script>

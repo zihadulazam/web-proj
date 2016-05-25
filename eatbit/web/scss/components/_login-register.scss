@@ -173,6 +173,12 @@
     }
 }
 
+@media (max-width: 767px){
+    .login .modal-dialog{
+        margin: 30px auto;
+    }
+}
+
 .big-login, .big-register{
     background-color: #00bbff;
     color: #FFFFFF;

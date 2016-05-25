@@ -1,14 +1,14 @@
-/*
-#nav-search-bar, #logged{
-    display: none;
-}
-*/
-/* line 6, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_navbar-index.scss */
-#not-logged {
+/* line 2, ../scss/components/_navbar-index.scss */
+#nav-search-bar, #logged {
   display: none;
 }
 
-/* line 1, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
+/*
+#not-logged{
+    display: none;
+}
+*/
+/* line 1, ../scss/components/_utilities.scss */
 .horizontally-centered {
   margin-left: auto !important;
   margin-right: auto !important;
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-/* line 9, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
+/* line 9, ../scss/components/_utilities.scss */
 .drag-select-disabled {
   user-drag: none;
   -webkit-user-drag: none;
@@ -28,7 +28,7 @@
   pointer-events: none;
 }
 
-/* line 19, C:/Users/zihadul/Desktop/progetto-web/web-proj/eatbit/web/scss/components/_utilities.scss */
+/* line 19, ../scss/components/_utilities.scss */
 .no-border {
   border: 0px;
 }
@@ -54,8 +54,8 @@
 .jumbotron .input-thumbnail {
   display: inline-block;
   width: 50%;
-  background-color: black !important;
-  background-color: rgba(0, 0, 0, 0) !important;
+  background-color: white !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
   border: 0px;
   min-width: 270px;
 }

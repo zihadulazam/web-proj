@@ -40,13 +40,19 @@
     
 }
 
+/*.navbar-fixed-top {
+  //top: -70px; /* you'll have to figure out the exact number here */
+  /*position: relative;
+}*/
+
+
 .navbar {
 	font-family: 'Open Sans', sans-serif !important;
     padding-left: 50px;
     padding-right: 50px;
     background-color: $eatbit_red;
     min-width: 400px;
-    position: absolute;
+    position: static;
     width: 100%;
     margin-bottom: 0px;
     z-index: 3;

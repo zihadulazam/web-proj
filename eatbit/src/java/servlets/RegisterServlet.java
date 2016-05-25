@@ -56,11 +56,12 @@ public class RegisterServlet extends HttpServlet {
         user.setPassword(request.getParameter("password"));
         
         
+       
         if (manager.registerUser(user)==0) {
-            
+
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
-            
+
             // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
             request.setAttribute("message", "Username/password non esistente !");
             RequestDispatcher rd = request.getRequestDispatcher("/index.html");

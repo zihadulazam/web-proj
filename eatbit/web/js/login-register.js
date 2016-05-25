@@ -45,18 +45,23 @@ function openRegisterModal(){
 }
 
 function loginAjax(){
-    /*   Remove this comments when moving to server
-    $.post( "/login", function( data ) {
-            if(data == 1){
-                window.location.replace("/home");            
-            } else {
-                 shakeModal(); 
+    $.post( "../eatbit/LoginServlet", function( data ) {
+            if(data == "loggato"){
+                //window.location.replace("/home");
+                  $('.error').addClass('alert alert-danger').html("Ok,Loggato !!!"+data);
+                        
+            } 
+            else{
+                if(data=="errore"){
+                     $('.error').addClass('alert alert-danger').html("Errore !!!"+data);
+                }
+                else {
+                    shakeModal();
+                } 
             }
         });
-    */
-
 /*   Simulate error message from the server   */
-     shakeModal();
+     /*shakeModal();*/
 }
 
 function shakeModal(){
@@ -106,7 +111,20 @@ function shakeModal(){
                     || value.length >= 6
                     && /[a-z]/i.test(value);
                 }, 'La tua password deve avere almeno 6 caratteri e deve contenere almeno un numero!!');
-
+                
+                //login validation
+                $("login-form").validate({
+                    rules:{
+                        emailorNickname:'required',
+                        password:"required"
+                    },
+                    messages:{
+                        emailorNickname:'*Campo obligatorio',
+                        password:'*Campo obligatorio'
+                    }
+                });
+                
+                // registration validation
                 $("#register-form").validate({
                     rules:{
                         name:'required',

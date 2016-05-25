@@ -53,6 +53,12 @@ public class LoginServlet extends HttpServlet {
         // controllo nel DB se esiste un utente con lo stesso username + password
         User user = null;
         
+        String text = " ";
+
+        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+        
+        
         try {
             user =manager.loginUserByEmailOrNickname(email, password);
         } catch (SQLException ex) {
@@ -62,9 +68,7 @@ public class LoginServlet extends HttpServlet {
         // se non esiste, ridirigo verso pagina di login con messaggio di errore
         if (user == null) {
             // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            request.setAttribute("message", "Username/password non esistente !");
-            RequestDispatcher rd = request.getRequestDispatcher("/index.html");
-            rd.forward(request, response);
+            text="errore";
 
         } else {
 
@@ -73,10 +77,9 @@ public class LoginServlet extends HttpServlet {
             // con, ad esempio, il timestamp di login
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
-
-            // mando un redirect alla servlet che carica i prodotti
-            response.sendRedirect(request.getContextPath() + "/userProfile.jsp");
+            text="loggato";
         }
+        response.getWriter().write(text);       // Write response body.
     }
 
     /**

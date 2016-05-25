@@ -93,6 +93,7 @@ public class DbManager
      */
     public User loginUserByEmailOrNickname(String nickOrEmail, String password) throws SQLException
     {
+        System.out.println("Sto cercando: "+nickOrEmail+" "+password);
         User user = null;
         try (PreparedStatement st = con.prepareStatement("select * from USERS where EMAIL=? OR NICKNAME=?"))
         {
