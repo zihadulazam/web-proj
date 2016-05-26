@@ -9,6 +9,7 @@ import database.contexts.AttemptContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -53,6 +54,7 @@ public class DbManager implements Serializable
         try(PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
                 + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,REVIEWS_NEGATIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?,?)");)
         {
+            
             if (findUserByEmail(user.getEmail()))
             {
                 res = 1;
@@ -115,13 +117,17 @@ public class DbManager implements Serializable
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
-                    if (!BCrypt.checkpw(password, user.getPassword()))
+                    
+                    System.out.println(" ");
+                    System.out.println("/****************");
+                    System.out.println("Entrato: "+password+" : "+" : "+user.getPassword()+" : "+(BCrypt.checkpw("Az565656", user.getPassword())));
+                    System.out.println("****************/");
+                    
+                    if (!BCrypt.checkpw(password,user.getPassword()))
                     {
-                        System.out.println("***************"+"pasword diversi");
                         user = null;
                     } else
                     {
-                        System.out.println("***************"+"pasword ok");
                         user.setPassword("placeholder");
                     }
                 }
