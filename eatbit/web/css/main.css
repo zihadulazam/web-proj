@@ -426,7 +426,74 @@
   color: #00A4E4;
 }
 
-/* line 5, ../scss/main.scss */
+/*
+Global
+============================= */
+/* line 8, ../scss/main.scss */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #666;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+/* line 17, ../scss/main.scss */
+* {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+/* line 21, ../scss/main.scss */
+p {
+  line-height: 24px;
+}
+
+/* line 22, ../scss/main.scss */
+a {
+  color: #0088cc;
+}
+
+/* line 23, ../scss/main.scss */
+a:hover {
+  text-decoration: none;
+}
+
+/* line 27, ../scss/main.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* line 29, ../scss/main.scss */
+h1 {
+  font-size: 50px;
+  font-weight: 200;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* line 30, ../scss/main.scss */
+h2 {
+  font-size: 30px;
+  font-weight: 300;
+  color: #444;
+  margin: 30px 0;
+}
+
+/* line 31, ../scss/main.scss */
+h3 {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 20px 0;
+}
+
+/* line 32, ../scss/main.scss */
+h4 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* line 37, ../scss/main.scss */
 .hide-this {
   display: none;
 }
