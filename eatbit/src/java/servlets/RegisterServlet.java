@@ -57,7 +57,12 @@ public class RegisterServlet extends HttpServlet {
         
         
        
+<<<<<<< HEAD
        try {
+=======
+       try
+       {
+>>>>>>> 8fac148314c2ea849ba2bcc12b01e2db23aa640f
            if (manager.registerUser(user)==0) {
                
                HttpSession session = request.getSession(true);
@@ -78,7 +83,12 @@ public class RegisterServlet extends HttpServlet {
                // mando un redirect alla servlet che carica i prodotti
                response.sendRedirect(request.getContextPath() + "/userProfile.jsp");
            }
+<<<<<<< HEAD
        } catch (SQLException ex) {
+=======
+       } catch (SQLException ex)
+       {
+>>>>>>> 8fac148314c2ea849ba2bcc12b01e2db23aa640f
            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
        }
     }
