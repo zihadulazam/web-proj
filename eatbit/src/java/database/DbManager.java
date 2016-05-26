@@ -9,6 +9,7 @@ import database.contexts.AttemptContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
