@@ -1,2 +1,7 @@
 @import "components/_navbar-default.scss";
-@import "components/_login-register.scss"
+@import "components/_login-register.scss";
+
+.hide-this
+{
+    display: none;
+};

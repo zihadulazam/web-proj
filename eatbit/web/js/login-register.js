@@ -45,19 +45,18 @@ function openRegisterModal(){
 }
 
 function loginAjax(){
-    $.post( "../eatbit/LoginServlet", function( data ) {
+    formdata=$('#login-form').serializeArray();
+    $.post( "../eatbit/LoginServlet", formdata,function( data ) {
             if(data == "loggato"){
                 //window.location.replace("/home");
                   $('.error').addClass('alert alert-danger').html("Ok,Loggato !!!"+data);
-                        
+                  // inserisci data nel nav bar
+                  insertUserData();
+                  $('#loginModal').modal('hide');     
             } 
             else{
-                if(data=="errore"){
-                     $('.error').addClass('alert alert-danger').html("Errore !!!"+data);
-                }
-                else {
-                    shakeModal();
-                } 
+                $('.error').addClass('alert alert-danger').html("Email oppure Password non valido!!");
+                shakeModal();
             }
         });
 /*   Simulate error message from the server   */
@@ -66,11 +65,16 @@ function loginAjax(){
 
 function shakeModal(){
     $('#loginModal .modal-dialog').addClass('shake');
-             $('.error').addClass('alert alert-danger').html("Email/Password combinazione invalido !!!");
+             //$('.error').addClass('alert alert-danger').html("Email/Password combinazione invalido !!!");
              $('input[type="password"]').val('');
              setTimeout( function(){ 
                 $('#loginModal .modal-dialog').removeClass('shake'); 
     }, 1000 ); 
+}
+
+function insertUserData(){
+    $('#not-logged').addClass('hide-this');
+    $('#logged').removeClass('hide-this');
 }
 
 // verifica i input, se non è valido genera errore

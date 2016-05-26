@@ -57,26 +57,30 @@ public class RegisterServlet extends HttpServlet {
         
         
        
-        if (manager.registerUser(user)==0) {
-
-            HttpSession session = request.getSession(true);
-            session.setAttribute("user", user);
-
-            // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            request.setAttribute("message", "Username/password non esistente !");
-            RequestDispatcher rd = request.getRequestDispatcher("/index.html");
-            rd.forward(request, response);
-
-        } else {
-
-            // imposto l'utente connesso come attributo di sessione
-            // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
-            // con, ad esempio, il timestamp di login
-
-
-            // mando un redirect alla servlet che carica i prodotti
-            response.sendRedirect(request.getContextPath() + "/userProfile.jsp");
-        }
+       try {
+           if (manager.registerUser(user)==0) {
+               
+               HttpSession session = request.getSession(true);
+               session.setAttribute("user", user);
+               
+               // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
+               request.setAttribute("message", "Username/password non esistente !");
+               RequestDispatcher rd = request.getRequestDispatcher("/index.html");
+               rd.forward(request, response);
+               
+           } else {
+               
+               // imposto l'utente connesso come attributo di sessione
+               // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
+               // con, ad esempio, il timestamp di login
+               
+               
+               // mando un redirect alla servlet che carica i prodotti
+               response.sendRedirect(request.getContextPath() + "/userProfile.jsp");
+           }
+       } catch (SQLException ex) {
+           Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+       }
     }
 
     /**

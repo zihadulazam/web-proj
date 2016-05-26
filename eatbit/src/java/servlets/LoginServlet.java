@@ -47,9 +47,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
+        String email = request.getParameter("emailorNickname");
         String password = request.getParameter("password");
-
+        
         // controllo nel DB se esiste un utente con lo stesso username + password
         User user = null;
         

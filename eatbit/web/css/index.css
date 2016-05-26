@@ -1,5 +1,5 @@
 /* line 2, ../scss/components/_navbar-index.scss */
-#nav-search-bar, #logged {
+#nav-search-bar {
   display: none;
 }
 
@@ -50,25 +50,29 @@
 .jumbotron .jumbo-text-container .name {
   font-family: 'Exo 2', sans-serif;
 }
-/* line 17, ../scss/index.scss */
+/* line 16, ../scss/index.scss */
+.jumbotron .jumbo-text-container h1 {
+  font-size: 70px;
+}
+/* line 20, ../scss/index.scss */
 .jumbotron .input-thumbnail {
   display: inline-block;
   width: 50%;
-  background-color: white !important;
-  background-color: rgba(255, 255, 255, 0.4) !important;
   border: 0px;
+  background-color: rgba(248, 248, 248, 0.3) !important;
+  padding: 15px 15px;
   min-width: 270px;
-}
-/* line 25, ../scss/index.scss */
-.jumbotron .input-thumbnail .jumbo-textbox-container {
-  padding: 10px 10px;
   margin-bottom: 0px;
 }
 /* line 28, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container {
+  margin-bottom: 0px;
+}
+/* line 31, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-textbox-container .sapce-top {
   margin-top: 8px;
 }
-/* line 32, ../scss/index.scss */
+/* line 35, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container {
-  padding: 10px 10px;
+  padding-top: 10px;
 }

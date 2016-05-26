@@ -93,7 +93,7 @@ public class DbManager
      */
     public User loginUserByEmailOrNickname(String nickOrEmail, String password) throws SQLException
     {
-        System.out.println("Sto cercando: "+nickOrEmail+" "+password);
+        System.out.println("***************"+nickOrEmail+" "+password);
         User user = null;
         try (PreparedStatement st = con.prepareStatement("select * from USERS where EMAIL=? OR NICKNAME=?"))
         {
@@ -115,9 +115,11 @@ public class DbManager
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     if (!BCrypt.checkpw(password, user.getPassword()))
                     {
+                        System.out.println("***************"+"pasword diversi");
                         user = null;
                     } else
                     {
+                        System.out.println("***************"+"pasword ok");
                         user.setPassword("placeholder");
                     }
                 }
