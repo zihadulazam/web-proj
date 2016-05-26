@@ -27,19 +27,6 @@ public class ContextListener implements ServletContextListener {
         {
             String url= (String) sce.getServletContext().getInitParameter("dburl");
             sce.getServletContext().setAttribute("dbmanager", new DbManager(url));
-            User user= new User();
-            user.setAvatar_path("à");
-            user.setEmail(".ì");
-            user.setId(1);
-            user.setName("yy");
-            user.setNickname("kek");
-            user.setPassword("ciao");
-            user.setReviews_counter(1);
-            user.setReviews_negative(2);
-            user.setReviews_positive(2);
-            user.setSurname("ge");
-            user.setType(2);
-            ((DbManager)sce.getServletContext().getAttribute("dbmanager")).registerUser(user);
         } 
         catch (ClassNotFoundException ex) {
             Logger.getLogger(ContextListener.class.getName()).log(Level.SEVERE, null, ex);

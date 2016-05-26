@@ -68,7 +68,7 @@ public class DbManager
                 st.setString(4, user.getEmail());
                 st.setString(5, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
                 st.setString(6, user.getAvatar_path());
-                st.setInt(7, user.getReviews_counter());
+                st.setInt(7, 0);
                 st.setInt(8, 0);
                 st.setInt(9, 0);
                 st.setInt(10, 0);
