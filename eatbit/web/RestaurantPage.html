@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+        <title>eatBit | Inserisci nuovo ristorante</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Bootstrap -->
+        <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- eatBit css -->
+        <link href="css/main.css" rel="stylesheet">
+        <link href="css/index.css" rel="stylesheet">
+        
+        <!-- google font link -->
+        <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        
+    </head>
+    <body>
+        <!-- nav-bar -->
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand navbar-extra-width" herf="#">
+                        <img class="eatbit-logo" src="img/eatbit.png">
+                    </a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand eatbit-brand" href="#">eatBit</a>
+                </div>
+            </div>
+        </div>
+                        <center><form style="width: 1000px;">
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="restaurant">Nome del ristorante:</label>
+                                        <input id="name" class="form-control" type="text" placeholder="Nome ristorante" name="restaurant">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">Città:</label>                                          
+                                        <input id="surname" class="form-control" type="text" placeholder="Città" name="city">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="province">Provincia:</label> 
+                                        <input id="nickname" class="form-control" type="text" placeholder="Provincia" name="province">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cap">Cap:</label> 
+                                        <input id="email" class="form-control" type="text" placeholder="Cap" name="cap">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Indirizzo:</label> 
+                                        <input id="email" class="form-control" type="text" placeholder="Indirizzo" name="address">
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="image">Inserisci immagini:</label>
+                                    <input type="file" onchange="previewFile()"><br>
+   
+                                    </div>
+                                    <button class="btn btn-default btn-register" type="submit" name="commit" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon glyphicon glyphicon-check" aria-hidden="true"></span>
+                                        Registra ristorante
+                                    </button>
+                        </form></center>
+</body>
+</html>
