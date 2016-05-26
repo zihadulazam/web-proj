@@ -46,21 +46,71 @@ function openRegisterModal(){
 
 function loginAjax(){
     formdata=$('#login-form').serializeArray();
-    $.post( "../eatbit/LoginServlet", formdata,function( data ) {
+    $.ajax(
+    {
+        url : "../eatbit/LoginServlet",
+        type: "POST",
+        data : formdata,
+        success:function(data, textStatus, jqXHR) 
+        {
+            //data: return data from server
             if(data == "loggato"){
                 //window.location.replace("/home");
                   $('.error').addClass('alert alert-danger').html("Ok,Loggato !!!"+data);
                   // inserisci data nel nav bar
                   insertUserData();
-                  $('#loginModal').modal('hide');     
+                  //$('#loginModal').modal('hide');     
             } 
             else{
                 $('.error').addClass('alert alert-danger').html("Email oppure Password non valido!!");
                 shakeModal();
             }
-        });
-/*   Simulate error message from the server   */
-     /*shakeModal();*/
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+                shakeModal();      
+        }
+    });
+}
+
+function regAjax(){
+    rformdata=$('#register-form').serializeArray();
+    $.ajax(
+    {
+        url : "../eatbit/RegisterServlet",
+        type: "POST",
+        data : rformdata,
+        success:function(data, textStatus, jqXHR) 
+        {
+            //data: return data from server
+            if(data == "registrato"){
+                //window.location.replace("/home");
+                  $('.error').addClass('alert alert-danger').html(data);     
+            } 
+            else{
+                if(data=="errore-email")
+                {
+                    $('.error').addClass('alert alert-danger').html(data);     
+                }
+                else{
+                    if(data=="errore-nickname")
+                    {
+                        $('.error').addClass('alert alert-danger').html(data);     
+                    }
+                    else{
+                        $('.error').addClass('alert alert-danger').html(data);     
+                    }
+                }
+            }
+            shakeModal();
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+            shakeModal();      
+        }
+    });
 }
 
 function shakeModal(){
@@ -117,7 +167,7 @@ function insertUserData(){
                 }, 'La tua password deve avere almeno 6 caratteri e deve contenere almeno un numero!!');
                 
                 //login validation
-                $("login-form").validate({
+               $("#login-form").validate({
                     rules:{
                         emailorNickname:'required',
                         password:"required"
@@ -125,6 +175,9 @@ function insertUserData(){
                     messages:{
                         emailorNickname:'*Campo obligatorio',
                         password:'*Campo obligatorio'
+                    },
+                    submitHandler: function(form) {
+                        loginAjax();
                     }
                 });
                 
@@ -138,13 +191,13 @@ function insertUserData(){
                             required:true,
                             email:true
                         },
-                        password:{
+                        regPassword:{
                             required: true,
                             strongPassword: true
                         },
                         password_confirmation:{
                             required:true,
-                            equalTo: "#password"
+                            equalTo: "#regPassword"
                         }
                     },
                     messages:{
@@ -155,14 +208,16 @@ function insertUserData(){
                             required: '*Campo obligatorio',
                             email:'Per favore inserisci un indirizzo email valido'
                         },
-                        password:{
-                            required: '*Campo obligatorio',
-                            minlength:'eve avere almeno 5 caratteri!!'
+                        regPassword:{
+                            required: '*Campo obligatorio'
                         },
                         password_confirmation:{
                             required: '*Campo obligatorio',
                             equalTo: 'Le password non corrispondono!!'
                         }
+                    },
+                    submitHandler: function(form) {
+                        regAjax();
                     }
                 });
             }

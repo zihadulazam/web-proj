@@ -98,34 +98,51 @@
         <!-- end nav bar -->
         
         <!-- Main Content -->
-        <!-- search jumbotorn -->
-            
-        <div class="jumbotron">
-            <div class="container-fluid">
-                <div class="horizontally-centered">
-                    <div class="jumbo-text-container"> 
-                        <h1 class="name"><strong>eatBit</strong></h1>
-                        <div class="motto horizontally-centered">
-                            <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+            <!-- search jumbotorn -->
+                
+            <div class="jumbotron">
+                <div class="container-fluid">
+                    <div class="horizontally-centered">
+                        <div class="jumbo-text-container"> 
+                            <h1 class="name"><strong>eatBit</strong></h1>
+                            <div class="motto horizontally-centered">
+                                <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+                            </div>
                         </div>
-                    </div>
-                    <div class="input-thumbnail thumbnail">
-                        <form role="form">
-                            <div class="jumbo-textbox-container form-group horizontally-centered">
-                                <input type="text" class="form-control" placeholder="Dove?">
-                                <input type="text" class="sapce-top form-control" placeholder="Nome del ristorante">
-                            </div>
-                            <div class="jumbo-button-container">
-                                <button class="btn btn-danger btn-lg btn-block" type="submit" aria-label="Left Align">
-                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Cerca</button>
-                            </div>
-                        </form>
+                        <div class="input-thumbnail thumbnail">
+                            <form role="form">
+                                <div class="jumbo-textbox-container form-group horizontally-centered">
+                                    <input type="text" class="form-control" placeholder="Dove?">
+                                    <input type="text" class="sapce-top form-control" placeholder="Nome del ristorante">
+                                </div>
+                                <div class="jumbo-button-container">
+                                    <button class="btn btn-danger btn-lg btn-block" type="submit" aria-label="Left Align">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Cerca</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end search jumbotorn -->
-        
+            <!-- end search jumbotorn -->
+            
+            <!-- body after jumbotron -->
+            <!--
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
+                    <div class="col-xs-6 col-md-8">
+                        <div class="carousel-caption">
+                            <h1>Example headline</h1>
+                            <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                            <a class="btn btn-large btn-primary" href="#">Sign up today</a>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
+                </div>
+            </div>
+            -->
+        <!-- end Main container -->
         
         <!-- Modals -->
         
@@ -143,7 +160,7 @@
                              <div class="content">
                                 <div class="error"></div>
                                 <div class="form loginBox">
-                                    <form method="post" action="/login" accept-charset="UTF-8" id="login-form">
+                                    <form method="post" accept-charset="UTF-8" id="login-form">
                                         <!-- da verifivare id emailor Nickname -->
                                         <div class="form-group">
                                             <label for="emailorNickname">Email o Nickname:</label>
@@ -151,9 +168,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="password">Password:</label>
-                                            <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+                                            <input id="Password" class="form-control" type="password" placeholder="Password" name="password">
                                         </div>
-                                        <button class="btn btn-success btn-login" type="button"  onclick="loginAjax()" aria-label="Left Align">
+                                        <button class="btn btn-success btn-login" type="submit" aria-label="Left Align">
                                             <span class="glyphicon glyphicon glyphicon glyphicon-lock" aria-hidden="true"></span>
                                             Accedi
                                         </button>
@@ -167,7 +184,7 @@
                         <div class="box">
                             <div class="content registerBox" style="display:none;">
                              <div class="form">
-                                <form method="post" html="{:multipart=>true}" data-remote="true" action="/register" accept-charset="UTF-8" id="register-form">
+                                <form method="post" html="{:multipart=>true}" data-remote="true" action="" accept-charset="UTF-8" id="register-form">
                                     <div class="form-group">
                                         <label for="name">Nome:</label>
                                         <input id="name" class="form-control" type="text" placeholder="Nome" name="name">
@@ -186,14 +203,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password:</label> 
-                                        <input id="password" class="form-control" type="password" placeholder="Password" name="password">
+                                        <input id="regPassword" class="form-control" type="password" placeholder="Password" name="regPassword">
                                     </div>
                                     <div class="form-group">
                                         <label for="password_confirmation">Ripeti Password:</label> 
                                         <input id="password_confirmation" class="form-control" type="password" placeholder="Ripeti Password" name="password_confirmation">
                                         <div class="error-pass"></div>
                                     </div>
-                                    <button class="btn btn-default btn-register" type="submit" name="commit" aria-label="Left Align">
+                                    <button class="btn btn-default btn-register" type="submit" name="commit" aria-label="Left Align" type="submit">
                                         <span class="glyphicon glyphicon glyphicon glyphicon-check" aria-hidden="true"></span>
                                         Crea un account
                                     </button>
