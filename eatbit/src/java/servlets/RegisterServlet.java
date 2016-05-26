@@ -57,7 +57,7 @@ public class RegisterServlet extends HttpServlet {
         //
         //set avatar default path
         //
-        user.setAvatar_path("img/user_default.png");
+        user.setAvatar_path("img/avater/avater.png");
         
         int res;
         String msg;

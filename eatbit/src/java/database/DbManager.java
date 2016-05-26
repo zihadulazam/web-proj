@@ -118,11 +118,6 @@ public class DbManager implements Serializable
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
                     
-                    System.out.println(" ");
-                    System.out.println("/****************");
-                    System.out.println("Entrato: "+password+" : "+" : "+user.getPassword()+" : "+(BCrypt.checkpw("Az565656", user.getPassword())));
-                    System.out.println("****************/");
-                    
                     if (!BCrypt.checkpw(password,user.getPassword()))
                     {
                         user = null;

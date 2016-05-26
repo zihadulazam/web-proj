@@ -59,11 +59,11 @@ function loginAjax(){
             if(data == "loggato"){
                 //window.location.replace("/home");
                 // inserisci data nel nav bar
-                insertUserData();
                 $('#loginModal').modal('hide');
+                location.reload();
             } 
             else{
-                $('.error').addClass('alert alert-danger').html("Email oppure Password non valido!!");
+                $('.error').addClass('alert alert-danger').html("Email/Password non valido!!");
                 shakeModal();
             }
         },
@@ -74,7 +74,11 @@ function loginAjax(){
         }
     });
 }
-
+function logoutAjax(){
+    $.get("../eatbit/LogoutServlet",function (data){
+        location.reload();
+    });
+}
 function regAjax(){
     rformdata=$('#register-form').serializeArray();
     $.ajax(
@@ -124,13 +128,6 @@ function shakeModal(){
     }, 1000 ); 
 }
 
-function insertUserData(){
-    //carica data profilo dal session attribuit
-    //$('.error').addClass('alert alert-danger').html(someSessionVariable);
-    
-    $('#not-logged').addClass('hide-this');
-    $('#logged').removeClass('hide-this');
-}
 
 // verifica i input, se non è valido genera errore
 (function($,W,D)
