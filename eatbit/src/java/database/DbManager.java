@@ -24,10 +24,10 @@ import java.util.logging.Logger;
  *
  * @author jacopo
  */
-public class DbManager
+public class DbManager implements Serializable
 {
 
-    private Connection con;
+    private transient Connection con;
 
     public DbManager(String url) throws ClassNotFoundException, SQLException
     {
@@ -111,7 +111,7 @@ public class DbManager
                     user.setEmail(rs.getString("EMAIL"));
                     user.setPassword(rs.getString("PASSWORD"));
                     user.setAvatar_path(rs.getString("AVATAR_PATH"));
-                    user.setReviews_counter(rs.getInt("REIVEWS_COUNTER"));
+                    user.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
