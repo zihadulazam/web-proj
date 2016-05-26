@@ -48,49 +48,57 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        User user = null;
+        User user = new User();
         user.setName(request.getParameter("name"));
         user.setSurname(request.getParameter("surname"));
         user.setNickname(request.getParameter("nickname"));
         user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));
         
-        
+        //System.out.println("\n"+user.getName()+" "+user.getSurname()+" "+user.getNickname()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getAvatar_path());
+        //
+        //set avatar default path
+        //
+        user.setAvatar_path("img/user_default.png");
+        int res;
+        String msg;
+        response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8");
        
-<<<<<<< HEAD
-       try {
-=======
-       try
-       {
->>>>>>> 8fac148314c2ea849ba2bcc12b01e2db23aa640f
-           if (manager.registerUser(user)==0) {
-               
-               HttpSession session = request.getSession(true);
-               session.setAttribute("user", user);
-               
-               // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-               request.setAttribute("message", "Username/password non esistente !");
-               RequestDispatcher rd = request.getRequestDispatcher("/index.html");
-               rd.forward(request, response);
-               
-           } else {
-               
-               // imposto l'utente connesso come attributo di sessione
-               // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
-               // con, ad esempio, il timestamp di login
-               
-               
-               // mando un redirect alla servlet che carica i prodotti
-               response.sendRedirect(request.getContextPath() + "/userProfile.jsp");
-           }
-<<<<<<< HEAD
-       } catch (SQLException ex) {
-=======
-       } catch (SQLException ex)
-       {
->>>>>>> 8fac148314c2ea849ba2bcc12b01e2db23aa640f
-           Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
-       }
+        try
+        {
+            //System.out.println("\n"+user.getName()+" "+user.getSurname()+" "+user.getNickname()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getAvatar_path());
+            res=manager.registerUser(user);
+            if (res==0) {
+                //andato buon fine
+                //avvio e imposto session attribiut
+                HttpSession session = request.getSession(true);
+                session.setAttribute("user", user);
+                msg="registrato";
+
+            } else {
+                if(res==1){
+                    //esiste già email
+                    msg="errore-email";
+                }
+                else{
+                    if(res==2){
+                        //esiste già nickname
+                        msg="errore-nickname";
+                    }
+                    else
+                    {
+                        msg="errore";
+                    }
+                }
+            }
+            //return msg
+            response.getWriter().write(msg); 
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -100,6 +108,6 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Short description: servlet for registration";
     }
 }

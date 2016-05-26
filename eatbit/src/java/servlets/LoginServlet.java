@@ -52,11 +52,10 @@ public class LoginServlet extends HttpServlet {
         
         // controllo nel DB se esiste un utente con lo stesso username + password
         User user = null;
-        
-        String text = " ";
-
-        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
+      
+        String msg = " ";
+        response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8"); 
         
         
         try {
@@ -68,18 +67,17 @@ public class LoginServlet extends HttpServlet {
         // se non esiste, ridirigo verso pagina di login con messaggio di errore
         if (user == null) {
             // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            text="errore";
+            msg="errore";
 
         } else {
-
             // imposto l'utente connesso come attributo di sessione
             // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
             // con, ad esempio, il timestamp di login
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
-            text="loggato";
+            msg="loggato";
         }
-        response.getWriter().write(text);       // Write response body.
+        response.getWriter().write(msg);       // Write response body.
     }
 
     /**
@@ -89,7 +87,7 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "Short description: servlet for login";
     }// </editor-fold>
 
 }
