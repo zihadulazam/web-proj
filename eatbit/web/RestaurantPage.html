@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="restaurant">Descrizione:</label> <br>
-                                        <textarea rows="4" cols="95" style="color:black"> </textarea>
+                                        <textarea id="description" rows="4" style="color:black" style="width: 100%"> </textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="city">Sito web:</label>                                          
@@ -55,33 +55,33 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="city">Città:</label>                                          
-                                        <input id="surname" class="form-control" type="text" placeholder="Città" name="city">
+                                        <input id="citta" class="form-control" type="text" placeholder="Città" name="city">
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="province">Provincia:</label> 
-                                        <input id="nickname" class="form-control" type="text" placeholder="Provincia" name="province">
+                                        <label for="stato">Stato:</label> 
+                                        <input id="stato" class="form-control" type="text" placeholder="Provincia" name="province">
                                     </div>
            
                                     <div class="form-group">
                                         <label for="address">Indirizzo:</label> 
-                                        <input id="email" class="form-control" type="text" placeholder="Indirizzo" name="address">
+                                        <input id="indirizzo" class="form-control" type="text" placeholder="Indirizzo" name="address">
                                     </div>
                                     <div class="form-group">
                                     <label for="image">Inserisci immagini:</label>
-                                    <input type="file" onchange="previewFile()"><br>
+                                    <input id="immagine" type="file" onchange="previewFile()"><br>
                                     </div>
                                     <div class="form-group">
                                     <label for="image">Tipo di cucina:</label>
                                     <fieldset>
-                                    Cinese <input type="checkbox" name="chinese" value="chinese" style="width: 50%">
-                                    Thailandese <input type="checkbox" name="thai" value="thai">
+                                    Cinese <input id="cinese" type="checkbox" name="chinese" value="chinese" style="width: 50%">
+                                    Thailandese <input id="thailandese" type="checkbox" name="thai" value="thai">
                                     <br>
-                                    Italiano <input type="checkbox" name="italian" value="italian" style="width: 50%">
-                                    Messicano <input type="checkbox" name="mexican" value="mexican">
+                                    Italiano <input id="italiana" type="checkbox" name="italian" value="italian" style="width: 50%">
+                                    Messicano <input id="messicana" type="checkbox" name="mexican" value="mexican">
                                     <br>
-                                    Brasiliano <input type="checkbox" name="brazilian" value="brazilian" style="width: 50%">
-                                    Giapponese <input type="checkbox" name="japanese" value="japanese">
+                                    Brasiliano <input id="brasiliana"type="checkbox" name="brazilian" value="brazilian" style="width: 50%">
+                                    Giapponese <input id="japanese" type="checkbox" name="japanese" value="japanese">
                                     </fieldset>
                                     </div>
                                     <div class="form-group">
@@ -140,7 +140,7 @@
                                     <br>
                                     <div class="form-group">
                                     <fieldset>
-                                    <input type="checkbox" name="owner" value="owner"> Sono il proprietario
+                                    <input id="claim" type="checkbox" name="owner" value="owner"> Sono il proprietario
                                     </fieldset>
                                     </div>
                                     </div>
