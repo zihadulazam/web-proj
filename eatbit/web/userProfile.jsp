@@ -4,8 +4,13 @@
     Author     : mario
 --%>
 
+<%@page import="database.Notification"%>
+<%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -28,6 +33,8 @@
         
     </head>
     <body>
+        <jsp:useBean id="user" scope="session" class="database.User"/>
+        
         <h1>------------------------------------------Barra--------------------------------------</h1>
         <div class="container">
         
@@ -38,21 +45,27 @@
                       <img src="img/user_default.png" alt="normal user">
                     <div class="caption">
                       <hr>
-                      <h3>UserName</h3>
+                      
+                      <h3><%= user.getNickname() %></h3>
+                      <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
                       <hr>
-                      <p>Subscribed - </p>
-                      <p>Reviews - </p>
-                      <br>
+                      <p><b>Tuo Nome:</b>
+                          <br> <%= user.getName()%> <%= user.getSurname()%>  </p>
+                      <p><b>Email:</b>
+                          <br> <%= user.getEmail()%>  </p>
+                      <p><b>Reviews:</b>
+                          <br><%= user.getReviews_counter() %> </p>
+                      
                       <p>
                           <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              More <span class="caret"></span>
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
+                              Altro <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-                              <li><a href="#">Update your info</a></li>
-                              <li><a href="#">Your Restaurants</a></li>
-          
-                              <li role="separator" class="divider"></li>
+                              <li><a href="#">Vedi tuoi Ristoranti</a></li>
+                              <li><a href="#">Modifica dati Profilo</a></li>
+                              
+                              <li class="divider"></li>
                               <li><a href="#">Log Out</a></li>
                             </ul>
                           </div>
@@ -65,15 +78,32 @@
         <div class="col-md-9">
           <h2>Private Resources</h2>
           <ul class="nav nav-pills">
-              <li class="active"><a data-toggle="tab" href="#home">Notifications<span class="badge">1</span></a></li>
-            <li><a data-toggle="tab" href="#menu1">My Reviews<span class="badge">1</span></a></li>
-            <li><a data-toggle="tab" href="#menu2">Profile Info</a></li>
+                <li class="active"><a data-toggle="tab" href="#home">Notifications<span class="badge"><%= session.getAttribute("numberNotification")%></span></a></li>
+                <li><a data-toggle="tab" href="#menu1">My Reviews<span class="badge"><%= session.getAttribute("numberReview")%></span></a></li>
+                <li><a data-toggle="tab" href="#menu2">Profile Info</a></li>
           </ul>
 
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
+             
+              
               <h3>Notifications</h3>
               
+              <div class="list-group">
+                  
+           
+              
+              
+                
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">List group item heading</h4>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading">List group item heading</h4>
+                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                </a>
+              </div>
               
               
             </div>

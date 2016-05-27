@@ -11,10 +11,10 @@ package database;
  */
 public class Notification
 {
-
+    private int id;
     private int user_id;
     private String description;
-
+    
     public Notification(int user_id, String description)
     {
         this.user_id = user_id;
@@ -43,6 +43,20 @@ public class Notification
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
