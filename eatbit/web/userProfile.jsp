@@ -24,7 +24,14 @@
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <!-- eatBit css -->
+        <link href="css/main.css" rel="stylesheet">
+        <link href="css/index.css" rel="stylesheet">
         
+        <!-- google font link -->
+        <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>               
                 
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -35,7 +42,10 @@
     <body>
         <jsp:useBean id="user" scope="session" class="database.User"/>
         
-        <h1>------------------------------------------Barra--------------------------------------</h1>
+        <!-- include navbar hear -->
+        <!--BARRA-->
+       
+        
         <div class="container">
         
         <div class="col-md-3">

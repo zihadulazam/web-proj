@@ -1,7 +1,7 @@
-Thu May 26 10:18:55 CEST 2016 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Fri May 27 11:39:22 CEST 2016 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Thu May 26 10:19:00 CEST 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0154-ec25-1c3e-00004485e692 
+Fri May 27 11:39:22 CEST 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-0154-f195-1e62-00004485e692 
 on database directory /home/jacopo/Desktop/git/web-proj/eatbit/eatbitDB with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/usr/lib/jvm/java-8-oracle/db/lib/derby.jar
 java.vendor=Oracle Corporation
