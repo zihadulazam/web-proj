@@ -74,6 +74,7 @@ public class LoginServlet extends HttpServlet {
             // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
             // con, ad esempio, il timestamp di login
             HttpSession session = request.getSession(true);
+            session.setAttribute("user", user);
             session.setAttribute("user_name", user.getName());
             session.setAttribute("user_surname",user.getSurname());
             session.setAttribute("user_nickname",user.getNickname());
