@@ -10,6 +10,7 @@ import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
 import java.io.Serializable;
+import static java.lang.Math.abs;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -237,6 +238,7 @@ public class DbManager implements Serializable
                 while (rs.next())
                 {
                     Notification notification = new Notification();
+                    notification.setId(rs.getInt("ID"));
                     notification.setUser_id(rs.getInt("ID"));
                     notification.setDescription(rs.getString("DESCRIPTION"));
                     notifications.add(notification);
@@ -245,9 +247,6 @@ public class DbManager implements Serializable
             }
 
         }
-        //Timestamp currentTimestamp =new Timestamp(Calendar.getInstance().getTime().getTime());
-        // SELECT * FROM SAMEPLE_TABLE FETCH FIRST 10 ROWS ONLY
-        //roba per dopo
         return notifications;
     }
 
@@ -379,7 +378,7 @@ public class DbManager implements Serializable
                     user.setEmail(rs.getString("EMAIL"));
                     user.setPassword("placeholder");
                     user.setAvatar_path(rs.getString("AVATAR_PATH"));
-                    user.setReviews_counter(rs.getInt("REIVEWS_COUNTER"));
+                    user.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
@@ -695,7 +694,7 @@ public class DbManager implements Serializable
      * @param user L'utente che fa la creazione/claim del ristorante.
      * @param restaurant Il ristorante in questione.
      * @param userTextClaim Il testo che l'utente ha dato come giustificazione del claim, se esiste.
-     * @param creationClaimBoth Flag che dice se questa è una creazione, claim, o entrambe di ristorante.
+     * @param creationClaimBoth Flag che dice se questa è una creazione, claim, o entrambe di ristorante(0,1,2).
      * @throws SQLException 
      */
     public void addClaim(User user, Restaurant restaurant, String userTextClaim, int creationClaimBoth) throws SQLException
@@ -728,7 +727,7 @@ public class DbManager implements Serializable
      * @return false se non ci sono stati problemi, vero altrimenti
      * @throws SQLException 
      */
-    public boolean addReview(Review review) throws SQLException
+    public boolean addReview(Review review, Photo photo) throws SQLException
     {
         boolean res = true;
         try(PreparedStatement st = con.prepareStatement("insert into REVIEWS(GLOBAL_VALUE,FOOD,"
@@ -759,7 +758,7 @@ public class DbManager implements Serializable
                 st.setTimestamp(8, new Timestamp(Calendar.getInstance().getTime().getTime()));
                 st.setInt(9, review.getId_restaurant());
                 st.setInt(10, review.getId_creator());
-                st.setInt(11, review.getId_photo());
+                st.setInt(11, addPhotoForReview(review.getId_restaurant(),user,photo));
                 st.setInt(12, 0);
                 st.setInt(13, 0);
                 updateSt.setInt(1, newGlobal);
@@ -770,6 +769,7 @@ public class DbManager implements Serializable
                 st.executeUpdate();
                 updateSt.executeUpdate();
                 updateUs.executeUpdate();
+                
                 res=false;
             } 
             con.commit();
@@ -779,29 +779,29 @@ public class DbManager implements Serializable
         }
         return res;
     }
+    
     /**
-     * Per settare la foto dello user. L'oggetto user deve avere campi nickname 
-     * e email corretti, il resto non importa (prenderlo dalla sessione).
-     * @param user Lo User in questione.
+     * Per settare la foto dello user.
+     * Non viene controllato prima se lo user esiste perchè si assume che sia
+     * preso dalla sessione e quindi corretto.
+     * @param userId Id dell'utente.
      * @param photoPath Una stringa che è il path della foto all'interno dell'applicazione.
      * @return false se non ci sono stati problemi ,vero altrimenti
      * @throws SQLException 
      */
-    public boolean setUserPhoto(User user, String photoPath) throws SQLException
+    public boolean modifyUserPhoto(int userId, String photoPath) throws SQLException
     {
-        //non viene controllato prima se lo user esiste xk si assume che sia preso dalla
-        //sessione, e quindi corretto
         boolean res=true;
-        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE NICKNAME=? AND EMAIL=?"))
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE ID=?"))
         {
             st.setString(1, photoPath);
-            st.setString(2, user.getNickname());
-            st.setString(3, user.getEmail());
+            st.setInt(2, userId);
             con.commit();
             res=false;
         }
         return res;
     }
+    
     /**
      * Per inserire una foto da parte di uno user che riguarda un ristorante
      * non suo.
@@ -831,6 +831,31 @@ public class DbManager implements Serializable
         }
         return res;
     }
+    
+    private int addPhotoForReview(int restaurantId, User user, Photo photo) throws SQLException
+    {
+        int res=-1;
+        try(PreparedStatement st= con.prepareStatement("INSERT INTO PHOTOS(NAME,"
+                + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)"))
+        {
+            if(getRestaurantById(restaurantId)!=null)
+            {
+                st.setString(1, photo.getName());
+                st.setString(2, photo.getDescription());
+                st.setString(3, photo.getPath());
+                st.setInt(4, restaurantId);
+                st.setInt(5, user.getId());
+                st.executeUpdate();
+                try(ResultSet rs= st.getGeneratedKeys())
+                {
+                    res=rs.getInt(1);
+                }
+            }
+            con.commit();
+        }
+        return res;
+    }
+    
     /**
      * Per aggiungere il like/dislike di un utente rispetto a una review. Così facendo
      * verrà aggiornato il numero di like/dislike della review e del creatore della review.
@@ -1005,7 +1030,662 @@ public class DbManager implements Serializable
         }
     }
     
+    /**
+     * Metodo per inserire un ristorante, le foto vanno inserite a parte chiamando
+     * addPhotoToRestaurantFromUser(...).
+     * @param restaurant Il ristorante da inserire.
+     * @param cucine Il tipo di cucine che ha, una lista di stringhe. (devono essere uguali alle voci nel db)
+     * @param coordinate Le coordinate del ristorante.
+     * @param range Gli orari del ristorante, 7 HourRange.
+     * @param userTextClaim Una stringa di descrizione che l'utente può mettere nella creazione o nel claim,
+     * che verrà vista letta dall'admin quando decide se confermare o no.
+     * @param min La spesa minima in questo ristorante.
+     * @param max La spesa max in questo ristorante.
+     * @param isClaim Booleano per dire se è anche un claim oltre che una creazione(true), o solo creazione(false).
+     * @return True se ci sono stati problemi, false se ha avuto successo.
+     * @throws SQLException 
+     */
+    public boolean addRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, String userTextClaim, double min, double max, boolean isClaim) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
+                + "WEB_SITE_URL,GLOBAL_VALUE,ID_OWNER,ID_CREATOR,ID_PRICE_RANGE,REVIEWS_COUNTER,VALIDATED"))
+        {
+            st.setString(1, restaurant.getName());
+            st.setString(2, restaurant.getDescription());
+            st.setString(3, restaurant.getWeb_site_url());
+            st.setInt(4, 0);
+            st.setInt(5, -1);
+            st.setInt(6, restaurant.getId_creator());
+            st.setInt(7, findClosestPrice(min,max));
+            st.setInt(8, 0);
+            st.setBoolean(9, false);
+            st.executeUpdate();
+            try(ResultSet rs= st.getGeneratedKeys())
+            {
+                int restId= rs.getInt(1);
+                //per ogni cucina aggiunto la relazione, se quella cucina esiste nel nostro db
+                for(int i=0;i<cucine.size();i++)
+                {
+                    int cuisineId= findCuisine(cucine.get(i));
+                    if(cuisineId!=-1)
+                    {
+                        addRestaurantXCuisine(restId,cuisineId);
+                    }
+                }
+                //aggiungo le coordinate
+                addCoordinate(restId,coordinate);
+                //aggiungo gli orari
+                for(int i=0;i<range.size();i++)
+                    addHourRange(restId,range.get(i));
+                restaurant.setId(restId);
+            }
+            User user= new User();
+            user.setId(restaurant.getId_creator());
+            //aggiungo il ristorante alla lista dei ristoranti da essere
+            //confermati da un admin, con flag per dire se è anche un claim
+            addClaim(user,restaurant,userTextClaim,isClaim?2:0);
+            con.commit();
+            res=false;
+        }
+        return res;
+    }
     
+    private int findCuisine(String cuisine) throws SQLException
+    {
+        int res = -1;
+        try (PreparedStatement st = con.prepareStatement("select * from CUISINES where NAME=?"))
+        {
+            st.setString(1, cuisine);
+            try (ResultSet rs = st.executeQuery())
+            {
+                if(rs.next())
+                    res= rs.getInt("ID");
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+    
+    private void addRestaurantXCuisine(int idRest, int cuisine) throws SQLException
+    {
+        try(PreparedStatement check= con.prepareStatement("SELECT * FROM RESTAURANT_CUISINE "
+                + "WHERE ID_RESTAURANT=? AND ID_CUISINE=?");
+                PreparedStatement st= con.prepareStatement("INSERT INTO RESTAURANT_CUISINE VALUES(?,?)"))
+        {
+            check.setInt(1,idRest);
+            check.setInt(2, cuisine);
+            try(ResultSet rs= check.executeQuery())
+            {
+                if(!rs.next())
+                {
+                    st.setInt(1, idRest);
+                    st.setInt(2, cuisine);
+                    st.executeUpdate();
+                }
+            }
+        }
+    }
+    
+    private void addHourRange(int idRest,HourRange range) throws SQLException
+    {
+        try(PreparedStatement ins= con.prepareStatement("INSERT INTO OPENING_HOURS_RANGES("
+                + "DAY_OF_THE_WEEK,START_HOUR,END_HOUR) VALUES(?,?,?)");
+            PreparedStatement ins2= con.prepareStatement("INSERT INTO OPENING_HOURS_RANGE_RESTAURANT"
+                    + " VALUES(?,?)"))
+        {
+            ins.setInt(1, range.getDay());
+            ins.setTime(2, range.getStart_hour());
+            ins.setTime(3, range.getEnd_hour());
+            ins.executeUpdate();
+            try(ResultSet st= ins.getGeneratedKeys())
+            {
+                ins2.setInt(1, idRest);
+                ins2.setInt(2, st.getInt(1));
+                ins2.executeUpdate();
+            }
+        }
+    }
+    
+    private void addCoordinate(int idRest, Coordinate cord) throws SQLException
+    {
+        try(PreparedStatement ins= con.prepareStatement("INSERT INTO COORDINATES("
+                + "LATITUDE,LONGITUDE,ADDRESS,CITY,STATE) VALUES(?,?,?,?,?)");
+            PreparedStatement ins2= con.prepareStatement("INSERT INTO RESTAURANT_COORDINATE"
+                    + " VALUES(?,?)"))
+        {
+            ins.setDouble(1, cord.getLatitude());
+            ins.setDouble(2,  cord.getLongitude());
+            ins.setString(3, cord.getAddress());
+            ins.setString(4, cord.getCity());
+            ins.setString(5, cord.getState());
+            ins.executeUpdate();
+            try(ResultSet st= ins.getGeneratedKeys())
+            {
+                ins2.setInt(1, idRest);
+                ins2.setInt(2, st.getInt(1));
+                ins2.executeUpdate();
+            }
+        }
+    }
+    
+    private int findClosestPrice(double min,double max) throws SQLException
+    {
+        int res=-1;
+        double minDiff=10000000;
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM PRICE_RANGES"))
+        {
+            try(ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    double tmp=abs(rs.getDouble("MIN_VALUE")-min)+abs(rs.getDouble("MAX_VALUE")-max);
+                    if(tmp<minDiff)
+                    {
+                        minDiff=tmp;
+                        res=rs.getInt("ID");
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Metodo per permette all'admin di rimuovere una foto dalle foto reportate.
+     * @param id Id della foto.
+     * @throws SQLException 
+     */
+    public void unreportPhoto(int id) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM REPORTED_PHOTOS WHERE ID=?"))
+        {
+             st.setInt(1, id);
+             st.executeUpdate();
+        }
+        con.commit();
+    }
+    
+    /**
+     * Metodo per permette all'admin di rimuovere una foto che era stata reportata.
+     * Questo metodo non rimuove la foto dal filesystem, ma solo il path dal db.
+     * @param idPhoto
+     * @param idUser
+     * @throws SQLException 
+     */
+    public void removePhoto(int idPhoto, int idUser) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
+        {
+             Photo photo= getPhotoById(idPhoto);
+             unreportPhoto(idPhoto);//rimuovo dalla lista reportati
+             st.setInt(1, idPhoto);
+             st.executeUpdate();
+             if(photo!=null)
+                 notifyUser(idUser,"La tua foto "+photo.getName()+ " è stata rimossa perchè non rispettava il nostro regolamento");
+        }
+        con.commit();
+    }
+    
+    /**
+     * Aggiunge la stringa alle notifiche dell'utente, che appariranno poi
+     * nelle sue notifiche nella pagina profilo. Queste notifiche non riguardano
+     * le notifiche di foto/review etc segnalate che arrivano agli admin.
+     * @param idUser L'id dell'utente a cui fare arrivare la notifica.
+     * @param notifica La stringa che verrà vista dall'utente come notifica.
+     * @throws SQLException 
+     */
+    public void notifyUser(int idUser,String notifica) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("INSERT INTO NOTIFICATIONS"
+                + "(USER_ID,DESCRIPTION) VALUES(?,?)"))
+        {
+            st.setInt(1, idUser);
+            st.setString(2, notifica);
+            st.executeUpdate();
+        }
+    }
+    
+    /**
+     * Metodo per permette all'admin di rimuovere una review dalle review reportate.
+     * @param id Id della review.
+     * @throws SQLException 
+     */
+    public void unreportReview(int id) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM REPORTED_REVIEWS WHERE ID=?"))
+        {
+             st.setInt(1, id);
+             st.executeUpdate();
+        }
+        con.commit();
+    }
+    
+    /**
+     * Metodo per permette all'admin di rimuovere una review che era stata reportata.
+     * Il ristorante risulterà avere una review in meno e la media cambiata, e l'utente creatore
+     * perderà i like e dislikes a essa associati, e avrà una review in meno.
+     * Verrà rimossa la foto dalla tabella foto e da quelle segnalate (se lo è).
+     * La review verrà rimossa da quelle segnalate.
+     * Verranno aggiornati i like nella tabella user_review_likes.
+     * Viene cancellata la reply del ristoratore a questa review.
+     * @param idReview
+     * @param idUser Id di chi ha fatto la review.
+     * @throws SQLException 
+     */
+    public void removeReview(int idReview, int idUser) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM REVIEWS WHERE ID=?"))
+        {
+            unreportReview(idReview);
+            Review review= getReviewById(idReview);
+            st.setInt(1, idReview);
+            st.executeUpdate();
+            if(review!=null)
+            {
+                notifyUser(idUser,"La tua review "+review.getName()+ " è stata rimossa perchè non rispettava il nostro regolamento");
+                try(PreparedStatement rm1= con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
+                        + "*REVIEWS_COUNTER)-?)/(REVIEWS_COUNTER-1),REVIEWS_COUNTER="
+                        + "REVIEWS_COUNTER-1 WHERE ID=?");
+                    PreparedStatement rm2= con.prepareStatement("UPDATE USERS SET REVIEWS_COUNTER=REVIEWS_COUNTER-1,"
+                            + "REVIEWS_POSITIVE=REVIEWS_POSITIVE-?,REVIEWS_NEGATIVE=REVIEWS_NEGATIVE-? WHERE ID=?");
+                    PreparedStatement rm3= con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?");
+                    PreparedStatement rm4= con.prepareStatement("DELETE FROM REPLIES WHERE ID_REVIEW=?");
+                    PreparedStatement rm5= con.prepareStatement("DELETE FROM USER_REVIEW_LIKES WHERE ID_REVIEW=?");)
+                {
+                    //rm1 aggiorna ristorante
+                    //rm2 aggiorna utente
+                    //rm3 rimuove la photo della review
+                    //rm4 rimuove la reply della review
+                    //rm5 rimuove i like della review
+                    rm1.setInt(1, review.getGlobal_value());
+                    rm1.setInt(2, review.getId_restaurant());
+                    rm2.setInt(1, review.getLikes());
+                    rm2.setInt(2, review.getDislikes());
+                    rm2.setInt(3, idUser);
+                    rm3.setInt(1, review.getId_photo());
+                    rm4.setInt(1, idReview);
+                    rm5.setInt(1, idReview);
+                    rm1.executeUpdate();
+                    rm2.executeUpdate();
+                    rm3.executeUpdate();
+                    rm4.executeUpdate();
+                    rm5.executeUpdate();
+                    unreportPhoto(review.getId_photo());
+                }
+            }
+        }
+        con.commit();
+    }
+    
+    /**
+     *Per non accettare una reply di un ristoratore. La reply verrà cancellata
+     * dal db e l'utente verrà notificato.
+     * @param idReply
+     * @throws SQLException
+     */
+    public void unconfirmReply(int idReply) throws SQLException
+    {
+        ReplyContext context= getReplyContext(idReply);
+        try(PreparedStatement rm1= con.prepareStatement("DELETE FROM REPLIES_TO_BE_CONFIRMED WHERE ID=?");
+            PreparedStatement rm2= con.prepareStatement("DELETE FROM REPLIES WHERE ID=?"))
+        {
+            rm1.setInt(1, idReply);
+            rm2.setInt(1, idReply);
+            rm1.executeUpdate();
+            rm2.executeUpdate();
+            if(context.getReply()!=null&&context.getReview()!=null&&context.getUser()!=null)
+                notifyUser(context.getUser().getId(),"La tua reply alla review "+context.getReview().getName()+
+                        " è stata rimossa perchè non rispettava il nostro regolamento.");
+            con.commit();
+        }
+    }
+    
+    /**
+     *Per accettare una reply di un ristoratore. La reply verrà cancellata
+     * fra quelle in attesa e validata fra quelle "normali".
+     * @param idAdmin L'admin che ha fatto la validazione.
+     * @param idReply L'id della reply da validare.
+     * @throws SQLException
+     */
+    public void confirmReply(int idReply,int idAdmin) throws SQLException
+    {
+        ReplyContext context= getReplyContext(idReply);
+        try(PreparedStatement rm1= con.prepareStatement("DELETE FROM REPLIES_TO_BE_CONFIRMED WHERE ID=?");
+            PreparedStatement rm2= con.prepareStatement("UPDATE REPLIES SET DATE_VALIDATION=?,VALIDATED=TRUE,ID_VALIDATOR=? WHERE ID=?"))
+        {
+            rm1.setInt(1, idReply);
+            rm2.setTimestamp(1,new Timestamp(Calendar.getInstance().getTime().getTime()));
+            rm2.setInt(2, idAdmin);
+            rm2.setInt(3, idReply);
+            rm1.executeUpdate();
+            rm2.executeUpdate();
+            if(context.getReply()!=null&&context.getReview()!=null&&context.getUser()!=null)
+                notifyUser(context.getUser().getId(),"La tua reply alla review "+context.getReview().getName()+
+                        " è stata accettata.");
+            con.commit();
+        }
+    }
+    
+    /**
+     * Per fare in modo che un utente segni una notifica come vista, e venga quindi eliminata
+     * in modo da non disturbarlo più.
+     * @param idNotification L'id della notifica.
+     * @param user Serve lo user preso dalla sessione in modo che uno user non possa 
+     * "forgiare" l'http request e mettersi a eliminare notifiche degli altri.
+     * @throws SQLException 
+     */
+    public void acceptNotification(int idNotification,User user) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM NOTIFICATIONS WHERE ID=? AND USER_ID=?"))
+        {
+             st.setInt(1, idNotification);
+             st.setInt(2, user.getId());
+             st.executeUpdate();
+        }
+        con.commit();
+    }
+    
+    /**
+     * Per fare in modo che la creazione o il claim di un ristorante venga accettato.
+     * @param idUser
+     * @param idRestaurant
+     * @throws SQLException 
+     */
+    public void acceptRestaurantRequest(int idUser, int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM RESTAURANTS_"
+                + "REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
+            PreparedStatement valid= con.prepareStatement("UPDATE RESTAURANTS SET "
+                    + "ID_OWNER=?,VALIDATED=TRUE WHERE ID=?"))
+        {
+            int type=requestType(idUser,idRestaurant);
+            Restaurant restaurant= getRestaurantById(idRestaurant);
+            if(type!=-1&&restaurant!=null)
+            {
+                st.setInt(1, idUser);
+                st.setInt(2, idRestaurant);
+                if(type==1||type==2)//se è un claim o creazione+claim setto l'owner
+                    valid.setInt(1, idUser);
+                else
+                    valid.setInt(1, -1);
+                valid.setInt(2, idRestaurant);
+                st.executeUpdate();
+                valid.executeUpdate();
+                String tmp="creazione e properità";
+                if(type==0)
+                    tmp="creazione";
+                else if(type==1)
+                    tmp="proprietà";
+                notifyUser(idUser,"La tua richiesta di "+tmp+" del ristorante "+restaurant.getName()
+                    +" è stata accettata.");
+            }
+            
+            con.commit();
+        }
+    }
+    
+    /**
+     * L'admin nega la creazione o il claim di un ristorante.
+     * @param idUser L'utente che ha fatto la richiesta.
+     * @param idRestaurant Il ristorante in questione.
+     * @throws SQLException 
+     */
+    public void denyRestaurantRequest(int idUser, int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM RESTAURANTS_"
+                + "REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?"))
+        {
+            int type=requestType(idUser,idRestaurant);
+            Restaurant restaurant= getRestaurantById(idRestaurant);
+            if(type!=-1&&restaurant!=null)
+            {
+                st.setInt(1, idUser);
+                st.setInt(2, idRestaurant);
+                st.executeUpdate();
+                String tmp=null;
+                switch (type)
+                {
+                    case 0:
+                        tmp="creazione";
+                        removeRestaurant(idRestaurant);
+                        break;
+                    case 1:
+                        tmp="proprietà";
+                        break;
+                    default:
+                        tmp="creazione e prorietà";
+                        removeRestaurant(idRestaurant);
+                        break;
+                }
+                notifyUser(idUser,"La tua richiesta di "+tmp+" del ristorante "+restaurant.getName()
+                    +" non è stata accettata.");
+            }
+            con.commit();
+        }
+    }
+    
+    private void removeRestaurant(int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM RESTAURANTS WHERE ID=?"))
+        {
+            st.setInt(1, idRestaurant);
+            removeRestaurantHourRange(idRestaurant);
+            removeRestaurantCuisine(idRestaurant);
+            removeRestaurantCoordinate(idRestaurant);
+            st.executeUpdate();
+        }
+    }
+    
+    private void removeRestaurantHourRange(int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st1= con.prepareStatement("DELETE FROM "
+                + "OPENING_HOURS_RANGE_RESTAURANT WHERE ID_RESTAURANT=?");
+            PreparedStatement st2= con.prepareStatement("DELETE FROM "
+                    + "OPENING_HOURS_RANGES WHERE ID NOT IN "
+                    + "(SELECT ID_OPENING_HOURS_RANGE FROM OPENING_HOURS_RANGE_RESTAURANT"))
+        {
+            st1.setInt(1, idRestaurant);
+            st1.executeUpdate();
+            st2.executeUpdate();
+        }
+    }
+    
+    private void removeRestaurantCuisine(int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st= con.prepareStatement("DELETE FROM "
+                + "RESTAURANT_CUISINE WHERE ID_RESTAURANT=?"))
+        {
+            st.setInt(1, idRestaurant);
+        }
+    }
+
+     private void removeRestaurantCoordinate(int idRestaurant) throws SQLException
+    {
+        try(PreparedStatement st1= con.prepareStatement("DELETE FROM "
+                + "RESTAURANT_COORDINATE WHERE ID_RESTAURANT=?");
+            PreparedStatement st2= con.prepareStatement("DELETE FROM "
+                    + "COORDINATES WHERE ID NOT IN "
+                    + "(SELECT ID_COORDINATE FROM RESTAURANT_COORDINATE"))
+        {
+            st1.setInt(1, idRestaurant);
+            st1.executeUpdate();
+            st2.executeUpdate();
+        }
+    }
+     
+    private int requestType(int idUser, int idRestaurant) throws SQLException
+    {
+        int res=-1;
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM RESTAURANTS_"
+                + "REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?"))
+        {
+            st.setInt(1, idUser);
+            st.setInt(2, idRestaurant);
+            try(ResultSet rs= st.executeQuery())
+            {
+                if(rs.next())
+                    res=rs.getInt("CREATION_CLAIM_BOTH_FLAG");
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Permette la modifica di un ristorante da parte di un utente.
+     * @param restaurant L'oggetto ristorante, serve che nome, id, descrizione e url siano
+     * giusti (in caso vengano cambiati dall'utente), il resto viene passato 
+     * tramite gli altri argomenti o trovato nel db.
+     * @param cucine Nuove cucine rappresentate da stringhe.
+     * @param coordinate Nuove coordinate.
+     * @param range Nuovi orari (7 HourRange messi in ArrayList)-
+     * @param min Nuovo prezzo minimo.
+     * @param max Il nuovo prezzo massimo.
+     * @return true se ci sono stati problemi, falso altrimenti
+     * @throws SQLException 
+     */
+    public boolean modifyRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, double min, double max) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("UPDATE RESTAURANTS SET "
+                + "NAME=?,DESCRIPTION=?,WEB_SITE_URL=?,GLOBAL_VALUE=?,ID_OWNER=?,"
+                + "ID_CREATOR=?,ID_PRICE_RANGE=?,REVIEWS_COUNTER=?,VALIDATED=? "
+                + "WHERE ID=?"))
+        {
+            Restaurant restaurantCheck= getRestaurantById(restaurant.getId());
+            //controllo se il prorietario è lo stesso che fa la richiesta
+            if(restaurantCheck!=null&&restaurantCheck.getId_owner()==restaurant.getId_owner())
+            {
+                st.setString(1, restaurant.getName());
+                st.setString(2, restaurant.getDescription());
+                st.setString(3, restaurant.getWeb_site_url());
+                st.setInt(4, restaurantCheck.getGlobal_value());
+                st.setInt(5, restaurantCheck.getId_owner());
+                st.setInt(6, restaurantCheck.getId_creator());
+                st.setInt(7, findClosestPrice(min,max));
+                st.setInt(8, restaurantCheck.getReviews_counter());
+                st.setBoolean(9, restaurantCheck.isValidated());
+                st.executeUpdate();
+                //per ogni cucina aggiunto la relazione, se quella cucina esiste nel nostro db
+                //dopo aver pulito quelle prima
+                removeRestaurantCuisine(restaurant.getId());
+                for(int i=0;i<cucine.size();i++)
+                {
+                    int cuisineId= findCuisine(cucine.get(i));
+                    if(cuisineId!=-1)
+                    {
+                        addRestaurantXCuisine(restaurant.getId(),cuisineId);
+                    }
+                }
+                //pulisco e riaggiungo coordinate
+                removeRestaurantCoordinate(restaurant.getId());
+                addCoordinate(restaurant.getId(),coordinate);
+                //pulisco e aggiungo gli orari
+                removeRestaurantHourRange(restaurant.getId());
+                for(int i=0;i<range.size();i++)
+                    addHourRange(restaurant.getId(),range.get(i));
+                con.commit();
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Per settare la foto dello user. 
+     * Non viene controllato prima se lo user esiste perchè si assume che sia
+     * preso dalla sessione e quindi corretto.
+     * @param userId Id dell utente.
+     * @param email La nuova email.
+     * @return false se non ci sono stati problemi ,vero altrimenti
+     * @throws SQLException 
+     */
+    public boolean modifyUserEmail(int userId, String email) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement checkEmail=con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=?");
+            PreparedStatement st= con.prepareStatement("UPDATE USERS SET EMAIL=? WHERE ID=?"))
+        {
+            checkEmail.setString(1,email);
+            try(ResultSet rs= checkEmail.executeQuery())
+            {
+                if(!rs.next())
+                {
+                    st.setString(1, email);
+                    st.setInt(2, userId);
+                    con.commit();
+                    res=false;
+                }
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Permette all'utente di modificare nome e cognome. 
+     * @param user L'utente in questione, id, nome e cognome devono essere 
+     * corretti, il resto non importa.
+     * @return True se non è andato a buon fine, falso altrimenti.
+     * @throws SQLException 
+     */
+    public boolean modifyUserNameSurname(User user) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET NAME=?,SURNAME=? WHERE ID=?"))
+        {
+            st.setString(1, user.getName());
+            st.setString(2,user.getSurname());
+            st.setInt(3, user.getId());
+            con.commit();
+            res=false;
+        }
+        return res;
+    }
+    
+    /**
+     * Per modificare la password di uno user.
+     * @param userId L'id dell'utente.
+     * @param password La nuova password.
+     * @return
+     * @throws SQLException 
+     */
+    public boolean modifyUserPassword(int userId,String password) throws SQLException
+    {
+        boolean res=true;
+        try(PreparedStatement st= con.prepareStatement("UPDATE USERS SET PASSWORD=? WHERE ID=?"))
+        {
+            st.setString(1,BCrypt.hashpw(password, BCrypt.gensalt()));
+            st.setInt(2, userId);
+            con.commit();
+            res=false;
+        }
+        return res;
+    }
+    
+    /**
+     * Metodo per l'autocomplete, torna (al max) 5 nomi del tipo LIKE term%.
+     * @param term La stringa cui cercare.
+     * @return Un ArrayList di nomi LIKE term%.
+     * @throws SQLException 
+     */
+    public ArrayList<String> autoCompleteName(String term) throws SQLException
+    {
+        ArrayList<String> res=new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT NAME FROM RESTAURANTS WHERE"
+                + " upper(NAME) like upper('?%') FETCH FIRST 5 ROWS ONLY"))
+        {
+            st.setString(1, term);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    res.add(rs.getString("NAME"));
+                }
+            }
+        }
+        return res;
+    }
     
     /**
      * Chiude la connessione al database!
