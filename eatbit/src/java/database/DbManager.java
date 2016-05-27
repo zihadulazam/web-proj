@@ -1031,8 +1031,7 @@ public class DbManager implements Serializable
     }
     
     /**
-     * Metodo per inserire un ristorante, le foto vanno inserite a parte chiamando
-     * addPhotoToRestaurantFromUser(...).
+     * Per inserire un ristorante.
      * @param restaurant Il ristorante da inserire.
      * @param cucine Il tipo di cucine che ha, una lista di stringhe. (devono essere uguali alle voci nel db)
      * @param coordinate Le coordinate del ristorante.
@@ -1045,7 +1044,7 @@ public class DbManager implements Serializable
      * @return True se ci sono stati problemi, false se ha avuto successo.
      * @throws SQLException 
      */
-    public boolean addRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, String userTextClaim, double min, double max, boolean isClaim) throws SQLException
+    public boolean addRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, String userTextClaim, Photo photo, double min, double max, boolean isClaim) throws SQLException
     {
         boolean res=true;
         try(PreparedStatement st= con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
@@ -1061,9 +1060,10 @@ public class DbManager implements Serializable
             st.setInt(8, 0);
             st.setBoolean(9, false);
             st.executeUpdate();
+            int restId=-1;
             try(ResultSet rs= st.getGeneratedKeys())
             {
-                int restId= rs.getInt(1);
+                restId= rs.getInt(1);
                 //per ogni cucina aggiunto la relazione, se quella cucina esiste nel nostro db
                 for(int i=0;i<cucine.size();i++)
                 {
@@ -1082,6 +1082,8 @@ public class DbManager implements Serializable
             }
             User user= new User();
             user.setId(restaurant.getId_creator());
+            //aggiungo foto
+            addPhotoToRestaurantFromUser(restId,user,photo);
             //aggiungo il ristorante alla lista dei ristoranti da essere
             //confermati da un admin, con flag per dire se è anche un claim
             addClaim(user,restaurant,userTextClaim,isClaim?2:0);
@@ -1666,7 +1668,7 @@ public class DbManager implements Serializable
     /**
      * Metodo per l'autocomplete, torna (al max) 5 nomi del tipo LIKE term%.
      * @param term La stringa cui cercare.
-     * @return Un ArrayList di nomi LIKE term%.
+     * @return Un ArrayList di nomi LIKE term
      * @throws SQLException 
      */
     public ArrayList<String> autoCompleteName(String term) throws SQLException
