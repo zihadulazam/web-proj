@@ -44,7 +44,7 @@
         
         <!-- include navbar hear -->
         <!--BARRA-->
-        <%@include file="components/navbar-index.jsp"%>
+       
         
         <div class="container">
         
