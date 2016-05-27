@@ -1,4 +1,10 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%-- 
+    Document   : navbar
+    Created on : 27-mag-2016, 11.35.00
+    Author     : zihadul
+--%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<jsp:useBean id="user" scope="session" class="database.User"/>
 <!-- nav-bar -->
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -24,7 +30,7 @@
                     //altrimenti #logged{display:none} -->--%>
                     
             <c:choose>
-                <c:when test="${sessionScope.user_name == null}">
+                <c:when test="${sessionScope.user.getNickname()==null}">
                     <ul class="nav navbar-nav navbar-right" id="not-logged">
                         <li><a class="navbar-link" href="" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();" >Registrati</a></li>
                         <li><button class="btn btn-default navbar-btn" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Accedi</button></li>
@@ -36,16 +42,16 @@
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span>
-                                <%= session.getAttribute("user_nickname")%>
+                                <%= user.getNickname() %>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li class="no-border">
                                     <div class="user-thumbnail thumbnail">
-                                        <img src="<%=session.getAttribute("user_avatar")%>" alt="user foto">
+                                        <img src="<%= user.getAvatar_path()%>" alt="user foto" class="img-circle">
                                         <div class="caption">
-                                            <h5><%= session.getAttribute("user_name")%> <%= session.getAttribute("user_surname")%></h5>
-                                            <a href="#">Profilo</a> 
+                                            <h5><%=user.getName()%> <%= user.getSurname() %></h5>
+                                            <a href="/ProfileServlet">Profilo</a> 
                                         </div>
                                     </div>
                                 </li>

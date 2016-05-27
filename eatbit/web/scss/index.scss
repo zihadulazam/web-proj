@@ -1,4 +1,5 @@
 @import "components/_utilities.scss";
+@import "components/colors.scss";
 
 .jumbotron{
     background: url('../img/jumbobackground.jpg') center top no-repeat;background-size: cover;
@@ -19,7 +20,7 @@
     .input-thumbnail{
         display: inline-block;
         width: 50%;
-        border: 0px;
+        border-color: #B6B6B6;
         background-color: rgba(248, 248, 248, 0.3) !important;
         padding: 15px 15px;
         min-width: 270px; 
@@ -38,10 +39,197 @@
     
 }
 
-.info-box{
-    padding: 0px 20px;
-    padding-bottom: 5px;
-    text-align: center;
+#last-update{
+    #info-box{
+        font-family:'Source Sans Pro', sans-serif;
+        color:#666;
+        padding: 0px 20px;
+        padding-bottom: 5px;
+        text-align: center;
+    }
+    #updates{
+        padding: 10px 10px;
+        .update{
+            padding: 0px;
+            padding-top: 20px;
+            .update-head-img{
+                padding-bottom: 10px; 
+                img{
+                    height: 100px;
+                    width: auto;
+                    text-align: center;
+                }
+            }
+            .update-body{
+                border: 0px;
+                .comment{
+                    margin-top: 25px;
+                    box-shadow: 10px 10px 5px #dedede;
+                    background-color: $eatbit-red;
+                    color: white;
+                    .container-fluid{
+                        padding-right: 5px;
+                        padding-left: 5px;
+                        .row{
+                            .comment-writer{
+                                //background-color: red;
+                                text-align: center;
+                                margin-top: 10px;
+                                img{
+                                    border: 2px solid white;
+                                    width: auto;
+                                    height: 80px;
+                                    margin: 2px;
+                                }
+                                .comment-data{
+                                    color: #fff;
+                                }
+                            }
+                            .comment-content{
+                                .comment-nome-ristorante{
+                                    text-align: right;
+                                    a{
+                                        color: #f2b632;
+                                    }   
+                                }
+                                .comment-title{
+                                    margin-top: 15px;
+                                    margin-bottom: 5px;
+                                }
+                                .rating-stars{
+                                    margin-left: 0px;
+                                    margin-bottom:10px;  
+                                    display: block;
+                                    img{
+                                        height: 20px;
+                                        width: auto;
+                                    }
+                                }
+                                p{
+                                    text-align: justify;
+                                }
+                            }
+                        }
+                    }
+                }
+                .restaurant{
+                    margin-top: 15px;
+                    box-shadow: 10px 10px 5px #dedede;
+                    border: 1px solid #dedede;
+                    .row{
+                        .restaurant-title{
+                            text-align: center;
+                            margin-top: 10px;
+                            .r-img{
+                                border: 2px solid white;
+                                width: auto;
+                                height: 80px;
+                                margin: 2px;
+                            }
+                            .rating-stars{
+                                margin-left: 0px;
+                                margin-bottom:10px;  
+                                display: block;
+                                img{
+                                    height: 20px;
+                                    width: auto;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
 }
+
+.restaurant-body{
+    margin-top: 10px;
+}
+
+.info-lable{
+    font-weight: bold;
+    font-size: 16px;
+    color: #2196F3;
+}
+.info-text{
+    font-size: 15px;
+}
+.btn-visita{
+    text-align: right;
+    margin-bottom: 10px;
+    button{
+        background-color: #009688;
+        &:hover{
+            background-color: #00796B;
+        }
+    }
+}
+
+#second-update-row{
+    margin-top: 40px;
+}
+
+#update-left{
+    padding-right: 20px;
+    .restaurant{
+        border-color: $eatbit-blue  !important;
+    }
+    .btn-visita{
+        button{
+        background-color: #3F51B5 !important;
+        &:hover{
+            background-color: #303F9F !important;
+        }
+    }
+    }
+}
+#update-right{
+    padding-left: 20px;
+    .restaurant{
+        border-color: #00796B !important;
+    }
+}
+
+/*
+Global
+============================= */
+/*
+body{
+	font-family:'Source Sans Pro', sans-serif;
+	color:#666;
+	font-size:16px;
+	font-weight: 400;
+	  -webkit-font-smoothing: antialiased;
+     font-smoothing: antialiased;
+}
+
+* {
+     text-shadow: 0 1px 1px rgba(255,255,255,.3);
+}
+
+p{line-height: 24px}
+a{color:#0088cc;}
+a:hover{text-decoration: none;}
+
+
+
+h1,h2,h3,h4,h5,h6{ 
+	font-family:'Source Sans Pro', sans-serif
+}
+
+h1{font-size:50px; font-weight: 200; color: #555; margin-bottom: 20px;}
+h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
+h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
+h4{font-size:18px; font-weight: 400}
+*/
+//=============================end global
+
+.hide-this
+{
+    display: none;
+};
+
 
 
