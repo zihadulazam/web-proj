@@ -54,6 +54,7 @@ public class DbManager implements Serializable
         try(PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
                 + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,REVIEWS_NEGATIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?,?)");)
         {
+            
             if (findUserByEmail(user.getEmail()))
             {
                 res = 1;
@@ -116,13 +117,12 @@ public class DbManager implements Serializable
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
-                    if (!BCrypt.checkpw(password, user.getPassword()))
+                    
+                    if (!BCrypt.checkpw(password,user.getPassword()))
                     {
-                        System.out.println("***************"+"pasword diversi");
                         user = null;
                     } else
                     {
-                        System.out.println("***************"+"pasword ok");
                         user.setPassword("placeholder");
                     }
                 }

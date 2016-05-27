@@ -53,13 +53,12 @@ public class RegisterServlet extends HttpServlet {
         user.setSurname(request.getParameter("surname"));
         user.setNickname(request.getParameter("nickname"));
         user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
-        
-        //System.out.println("\n"+user.getName()+" "+user.getSurname()+" "+user.getNickname()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getAvatar_path());
+        user.setPassword(request.getParameter("regPassword"));
         //
         //set avatar default path
         //
-        user.setAvatar_path("img/user_default.png");
+        user.setAvatar_path("img/avater/avater.png");
+        
         int res;
         String msg;
         response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
@@ -67,8 +66,8 @@ public class RegisterServlet extends HttpServlet {
        
         try
         {
-            //System.out.println("\n"+user.getName()+" "+user.getSurname()+" "+user.getNickname()+" "+user.getEmail()+" "+user.getPassword()+" "+user.getAvatar_path());
             res=manager.registerUser(user);
+            
             if (res==0) {
                 //andato buon fine
                 //avvio e imposto session attribiut

@@ -13,7 +13,8 @@ function showRegisterForm(){
             $('.register-footer').fadeIn('fast');
         });
         $('.modal-title').html('Registrazione');
-    }); 
+    });
+    $('.error').removeClass('alert-success');   
     $('.error').removeClass('alert alert-danger').html('');
        
 }
@@ -25,7 +26,8 @@ function showLoginForm(){
         });
         
         $('.modal-title').html('Login');
-    });       
+    });
+     $('.error').removeClass('alert-success');       
      $('.error').removeClass('alert alert-danger').html(''); 
 }
 
@@ -56,13 +58,12 @@ function loginAjax(){
             //data: return data from server
             if(data == "loggato"){
                 //window.location.replace("/home");
-                  $('.error').addClass('alert alert-danger').html("Ok,Loggato !!!"+data);
-                  // inserisci data nel nav bar
-                  insertUserData();
-                  //$('#loginModal').modal('hide');     
+                // inserisci data nel nav bar
+                $('#loginModal').modal('hide');
+                location.reload();
             } 
             else{
-                $('.error').addClass('alert alert-danger').html("Email oppure Password non valido!!");
+                $('.error').addClass('alert alert-danger').html("Email/Password non valido!!");
                 shakeModal();
             }
         },
@@ -73,7 +74,11 @@ function loginAjax(){
         }
     });
 }
-
+function logoutAjax(){
+    $.get("../eatbit/LogoutServlet",function (data){
+        location.reload();
+    });
+}
 function regAjax(){
     rformdata=$('#register-form').serializeArray();
     $.ajax(
@@ -85,25 +90,26 @@ function regAjax(){
         {
             //data: return data from server
             if(data == "registrato"){
-                //window.location.replace("/home");
-                  $('.error').addClass('alert alert-danger').html(data);     
+                //se reg andato a buon fine
+                showLoginForm();
+                $('.error').addClass('alert alert-success').html("<strong>Congratulazioni !!</strong> adesso sei un nostro utente, adesso <strong>Accedi</strong> per entrare nel tuo profilo.");     
             } 
             else{
                 if(data=="errore-email")
                 {
-                    $('.error').addClass('alert alert-danger').html(data);     
+                    $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo indirizzo e-mail");     
                 }
                 else{
                     if(data=="errore-nickname")
                     {
-                        $('.error').addClass('alert alert-danger').html(data);     
+                        $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo nickname");    
                     }
                     else{
-                        $('.error').addClass('alert alert-danger').html(data);     
+                        $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> Riprova");     
                     }
                 }
+                shakeModal();
             }
-            shakeModal();
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
@@ -122,10 +128,6 @@ function shakeModal(){
     }, 1000 ); 
 }
 
-function insertUserData(){
-    $('#not-logged').addClass('hide-this');
-    $('#logged').removeClass('hide-this');
-}
 
 // verifica i input, se non è valido genera errore
 (function($,W,D)
