@@ -16,6 +16,7 @@
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
         
     </head>
     <body>
@@ -52,7 +53,7 @@
             
             <!-- body after jumbotron -->
             
-            <div class="container-fluid" id="main">
+            <div class="container" id="main">
                 <div id="last-update">
                     <div id="info-box">
                                 <h1>Ultime aggiornamenti</h1>
@@ -181,7 +182,7 @@
                                     <div class="col-md-6 update">
                                         <div id="update-left">
                                             <div class="update-head-img horizontally-centered">
-                                                <h2>Top 5 per qualità</h2>
+                                                <h2>Top 5 per voto</h2>
                                             </div>
                                             <div class="top-by-rates update-body">
                                                 <!-- primo elemento -->
@@ -205,7 +206,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Visita</button></div>
+                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
                                                         </div>
                                                     </div> <!-- fine primo elemento -->
                                                     <div class="container-fluid restaurant">
@@ -228,7 +229,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Visita</button></div>
+                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
                                                         </div>
                                                     </div> 
                                                     
@@ -252,7 +253,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Visita</button></div>
+                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
                                                         </div>
                                                     </div> 
                                             </div>
@@ -263,7 +264,7 @@
                                 <div class="col-md-6 update">
                                     <div id="update-right">
                                         <div class="update-head-img horizontally-centered">
-                                            <h2>Top 5 per recensioni</h2>
+                                            <h2>Top 5 per # recensioni</h2>
                                         </div>
                                         <div class="top-by-reviews update-body">
                                                 <!-- primo elemento -->
@@ -351,6 +352,8 @@
         <%@include file="components/log-reg-modal.jsp"%>
         
         <!-- footer -->
+        <%@include file="components/footer.html"%>
+        
         
         <!-- scripts -->
     
