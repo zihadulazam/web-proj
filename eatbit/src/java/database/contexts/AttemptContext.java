@@ -7,6 +7,7 @@ package database.contexts;
 
 import database.Restaurant;
 import database.User;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -18,7 +19,7 @@ import java.sql.Timestamp;
  *
  * @author jacopo
  */
-public class AttemptContext
+public class AttemptContext implements Serializable
 {
 
     private User user;

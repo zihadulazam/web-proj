@@ -5,11 +5,13 @@
  */
 package database;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jacopo
  */
-public class Coordinate
+public class Coordinate implements Serializable
 {
     private double latitude;
     private double longitude;

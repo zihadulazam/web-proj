@@ -5,11 +5,13 @@
  */
 package database;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jacopo
  */
-public class Restaurant
+public class Restaurant implements Serializable
 {
 
     private int id;

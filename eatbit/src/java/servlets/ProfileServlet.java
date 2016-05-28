@@ -69,7 +69,7 @@ public class ProfileServlet extends HttpServlet {
 
         //provo a interrogare il DB per ottenere le info
         try{
-            listNotification = manager.getUserNotifications(user);
+            listNotification = manager.getUserNotifications(user.getId());
             listReview = manager.getUserReviews(user);
         } catch (SQLException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);

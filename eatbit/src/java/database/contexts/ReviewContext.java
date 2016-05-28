@@ -7,6 +7,7 @@ package database.contexts;
 
 import database.Review;
 import database.User;
+import java.io.Serializable;
 
 /**
  * Contesto di una review (usato per review segnalate), contiene lo user
@@ -14,7 +15,7 @@ import database.User;
  *
  * @author jacopo
  */
-public class ReviewContext
+public class ReviewContext implements Serializable
 {
 
     private User user;

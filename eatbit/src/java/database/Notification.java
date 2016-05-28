@@ -5,11 +5,13 @@
  */
 package database;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jacopo
  */
-public class Notification
+public class Notification implements Serializable
 {
     private int id;
     private int user_id;

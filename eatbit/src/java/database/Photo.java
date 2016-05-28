@@ -5,11 +5,13 @@
  */
 package database;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jacopo
  */
-public class Photo
+public class Photo implements Serializable
 {
 
     private int id;

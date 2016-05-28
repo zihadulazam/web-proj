@@ -6,6 +6,7 @@
 package database;
 
 import database.contexts.AttemptContext;
+import database.contexts.OwnUserContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static java.lang.Math.abs;
 
 /**
  *
@@ -228,12 +230,12 @@ public class DbManager implements Serializable
      * @return Un ArrayList contenente oggetti di tipo Notification.
      * @throws SQLException
      */
-    public ArrayList<Notification> getUserNotifications(User user) throws SQLException
+    public ArrayList<Notification> getUserNotifications(int id) throws SQLException
     {
         ArrayList<Notification> notifications = new ArrayList();
         try (PreparedStatement st = con.prepareStatement("select * from NOTIFICATIONS where ID=?"))
         {
-            st.setInt(1, user.getId());
+            st.setInt(1, id);
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -1046,7 +1048,7 @@ public class DbManager implements Serializable
      * @return True se ci sono stati problemi, false se ha avuto successo.
      * @throws SQLException 
      */
-    public boolean addRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, String userTextClaim, Photo photo, double min, double max, boolean isClaim) throws SQLException
+    public boolean addRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HoursRange> range, String userTextClaim, Photo photo, double min, double max, boolean isClaim) throws SQLException
     {
         boolean res=true;
         try(PreparedStatement st= con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
@@ -1133,7 +1135,7 @@ public class DbManager implements Serializable
         }
     }
     
-    private void addHourRange(int idRest,HourRange range) throws SQLException
+    private void addHourRange(int idRest,HoursRange range) throws SQLException
     {
         try(PreparedStatement ins= con.prepareStatement("INSERT INTO OPENING_HOURS_RANGES("
                 + "DAY_OF_THE_WEEK,START_HOUR,END_HOUR) VALUES(?,?,?)");
@@ -1156,7 +1158,7 @@ public class DbManager implements Serializable
     private void addCoordinate(int idRest, Coordinate cord) throws SQLException
     {
         try(PreparedStatement ins= con.prepareStatement("INSERT INTO COORDINATES("
-                + "LATITUDE,LONGITUDE,ADDRESS,CITY,STATE) VALUES(?,?,?,?,?)");
+                + "LATITUDE,LONGITUDE,ADDRESS,CITY,STATE,COMPLETE_LOCATION) VALUES(?,?,?,?,?,?||', '||?||', '||?)");
             PreparedStatement ins2= con.prepareStatement("INSERT INTO RESTAURANT_COORDINATE"
                     + " VALUES(?,?)"))
         {
@@ -1165,6 +1167,9 @@ public class DbManager implements Serializable
             ins.setString(3, cord.getAddress());
             ins.setString(4, cord.getCity());
             ins.setString(5, cord.getState());
+            ins.setString(6, cord.getAddress());
+            ins.setString(7, cord.getCity());
+            ins.setString(8, cord.getState());
             ins.executeUpdate();
             try(ResultSet st= ins.getGeneratedKeys())
             {
@@ -1564,7 +1569,7 @@ public class DbManager implements Serializable
      * @return true se ci sono stati problemi, falso altrimenti
      * @throws SQLException 
      */
-    public boolean modifyRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HourRange> range, double min, double max) throws SQLException
+    public boolean modifyRestaurant(Restaurant restaurant,ArrayList<String> cucine,Coordinate coordinate,ArrayList<HoursRange> range, double min, double max) throws SQLException
     {
         boolean res=true;
         try(PreparedStatement st= con.prepareStatement("UPDATE RESTAURANTS SET "
@@ -1701,25 +1706,55 @@ public class DbManager implements Serializable
                     res.add(rs.getString("NAME"));
                 }
             }
+            con.commit();
+        }
+        return res;
+    }
+    
+    /**
+     * Per autocomplete a livello di luoghi, del tipo %term%.
+     * Se per esempio esiste nel db via pinco pallino, Povo, Italia e
+     * via pinco pallino, riva del garda, Italia, e un utente cerca
+     * "via pinco" l'autocomplete darà entrambi i result.
+     * Scrivere invece riva proporrà solo la seconda entry.
+     * @param term La stringa di cui cercare località complete.
+     * @return 5 Stringhe del tipo %term%.
+     * @throws SQLException 
+     */
+    public ArrayList<String> autoCompleteLocation(String term) throws SQLException
+    {
+        ArrayList<String> res=new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT COMPLETE_LOCATION FROM COORDINATES WHERE"
+                + " upper(COMPLETE_LOCATION) like upper('%?%') FETCH FIRST 5 ROWS ONLY"))
+        {
+            st.setString(1, term);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    res.add(rs.getString("COMPLETE_LOCATION"));
+                }
+                con.commit();
+            }
         }
         return res;
     }
     
     /**
      * Restituisce un ArrayList di id (int) di ristoranti che hanno indirizzo,
-     * città o stato pari a location.
+     * città, stato, o complete_location pari a location.
      * @param location
      * @return
      * @throws SQLException 
      */
-    public ArrayList<Integer> getRestIdsFromLocation(String location) throws SQLException
+    private ArrayList<Integer> getRestIdsFromLocation(String location) throws SQLException
     {
         ArrayList<Integer> res= new ArrayList();
         try(PreparedStatement st= con.prepareStatement("SELECT RESTAURANTS.ID " +
         "FROM " +
         "(select RESTAURANT_COORDINATE.ID_RESTAURANT " +
         "FROM " +
-        "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=?) IDCord, RESTAURANT_COORDINATE " +
+        "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=? OR COMPLETE_LOCATION=?) IDCord, RESTAURANT_COORDINATE " +
         "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS " +
         "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID " +
         ""))
@@ -1727,6 +1762,7 @@ public class DbManager implements Serializable
             st.setString(1, location);
             st.setString(2, location);
             st.setString(3, location);
+            st.setString(4, location);
             try(ResultSet rs= st.executeQuery())
             {
                 while(rs.next())
@@ -1736,6 +1772,158 @@ public class DbManager implements Serializable
         return res;
     }
     
+    /**
+     * Per prendere il contesto di uno user per la sua pagina personale.
+     * Il contesto contiene le informazioni necessarie per la pagina utente.
+     * @param id Id dell'utente di cui vogliamo avere il contesto.
+     * @return Il contesto dell'utente (User,photos,reviews,restaurants,notifactions).
+     * @throws SQLException 
+     */
+    public OwnUserContext getOwnUserContext(int id) throws SQLException
+    {
+        OwnUserContext contesto= new OwnUserContext();
+        try
+        {
+            contesto.setUser(getUserById(id));
+            contesto.setPhotos(getUserPhotos(id));
+            contesto.setReviews(getUserReviews(id));
+            contesto.setRestaurant(getUserRestaurants(id));
+            contesto.setNotification(getUserNotifications(id));
+            con.commit();
+        }
+        catch(Exception e)
+        {
+            contesto=null;
+        }
+        return contesto;
+    }
+    
+    private ArrayList<Photo> getUserPhotos(int id) throws SQLException
+    {
+        ArrayList<Photo> res= new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM PHOTOS WHERE ID_OWNER=?"))
+        {
+            st.setInt(1, id);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Photo photo= new Photo();
+                    photo.setId(rs.getInt("ID"));
+                    photo.setName(rs.getString("NAME"));
+                    photo.setDescription(rs.getString("DESCRIPTION"));
+                    photo.setPath(rs.getString("PATH"));
+                    photo.setId_restaurant(rs.getInt("ID_RESTAURANT"));
+                    photo.setId_owner(rs.getInt("ID_OWNER"));
+                    res.add(photo);
+                }
+            }
+        }
+        return res;
+    }
+    
+    private ArrayList<Review> getUserReviews(int id) throws SQLException
+    {
+        ArrayList<Review> res= new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM REVIEWS WHERE ID_CREATOR=? "
+                + "ORDER BY DATE_CREATION DESC"))
+        {
+            st.setInt(1, id);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Review review= new Review();
+                    review.setId(rs.getInt("ID"));
+                    review.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    review.setFood(rs.getInt("FOOD"));
+                    review.setService(rs.getInt("SERVICE"));
+                    review.setValue_for_money(rs.getInt("VALUE_FOR_MONEY"));
+                    review.setAtmosphere(rs.getInt("ATMOSPHERE"));
+                    review.setName(rs.getString("NAME"));
+                    review.setDescription(rs.getString("DESCRIPTION"));
+                    review.setDate_creation(rs.getTimestamp("DATE_CREATION"));
+                    review.setId_restaurant(rs.getInt("ID_RESTAURANT"));
+                    review.setId_creator(rs.getInt("ID_CREATOR"));
+                    review.setId_photo(rs.getInt("ID_PHOTO"));
+                    review.setLikes(rs.getInt("LIKES"));
+                    review.setDislikes(rs.getInt("DISLIKES"));
+                    res.add(review);
+                }
+            }
+        }
+        return res;
+    }
+    
+    private ArrayList<Restaurant> getUserRestaurants(int id) throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM RESTAURANTS WHERE ID_OWNER=? "
+                + "ORDER BY REVIEWS_COUNTER DESC"))
+        {
+            st.setInt(1, id);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        return res;
+    }
+    
+    private ArrayList<String> getRestaurantCuisines(int id) throws SQLException
+    {
+        ArrayList<String> res= new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT NAME " +
+        "FROM " +
+        "(SELECT ID_CUISINE FROM RESTAURANT_CUISINE WHERE ID_RESTAURANT=?) IDC, CUISINES " +
+        "WHERE IDC.ID_CUISINE=CUISINES.ID"))
+        {
+            st.setInt(1, id);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    res.add(rs.getString("NAME"));
+                }
+            }
+        }
+        return res;
+    }
+    
+    private PriceRange getRestaurantPriceRange(int priceId) throws SQLException
+    {
+        PriceRange res= new PriceRange();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM PRICE_RANGES WHERE ID=?"))
+        {
+            st.setInt(1, priceId);
+            try(ResultSet rs= st.executeQuery())
+            {
+                if(rs.next())
+                {
+                    res.setName(rs.getString("NAME"));
+                    res.setMin(rs.getDouble("MIN_VALUE"));
+                    res.setMax(rs.getDouble("MAX_VALUE"));
+                }
+                else
+                    res=null;
+            }
+        }
+        return res;
+    }
     /**
      * Chiude la connessione al database!
      */

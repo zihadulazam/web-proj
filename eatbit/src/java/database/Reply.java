@@ -5,13 +5,14 @@
  */
 package database;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  *
  * @author jacopo
  */
-public class Reply
+public class Reply implements Serializable
 {
 
     private int id;

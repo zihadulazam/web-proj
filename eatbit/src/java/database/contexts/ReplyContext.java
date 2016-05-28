@@ -8,6 +8,7 @@ package database.contexts;
 import database.Reply;
 import database.Review;
 import database.User;
+import java.io.Serializable;
 
 /**
  * Contiene informazioni utili per mostrare una reply in attesa di conferma,
@@ -15,7 +16,7 @@ import database.User;
  *
  * @author jacopo
  */
-public class ReplyContext
+public class ReplyContext implements Serializable
 {
 
     private Review review;

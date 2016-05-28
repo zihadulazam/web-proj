@@ -5,11 +5,13 @@
  */
 package database;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jacopo
  */
-public class User
+public class User implements Serializable
 {
 
     private int id;

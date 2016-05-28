@@ -7,12 +7,13 @@ package database.contexts;
 
 import database.Photo;
 import database.User;
+import java.io.Serializable;
 
 /**
  *
  * @author jacopo
  */
-public class PhotoContext
+public class PhotoContext implements Serializable
 {
 
     private User user;
