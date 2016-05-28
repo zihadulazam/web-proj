@@ -246,6 +246,17 @@
   border-color: #00796B !important;
 }
 
+@media (max-width: 767px) {
+  /* line 196, ../scss/index.scss */
+  #update-left {
+    padding-right: 0px;
+  }
+
+  /* line 199, ../scss/index.scss */
+  #update-right {
+    padding-left: 0px;
+  }
+}
 /*
 Global
 ============================= */
@@ -278,7 +289,7 @@ h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
 h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
 h4{font-size:18px; font-weight: 400}
 */
-/* line 230, ../scss/index.scss */
+/* line 241, ../scss/index.scss */
 .hide-this {
   display: none;
 }
