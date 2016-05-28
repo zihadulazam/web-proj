@@ -69,7 +69,7 @@ function loginAjax(){
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi"+textStatus);
                 shakeModal();      
         }
     });

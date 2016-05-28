@@ -89,7 +89,7 @@
                         ?</span>
                     </div>
                     <div class="forgot register-footer" style="display:none">
-                            <span>Hai gi‡† un account?</span>
+                            <span>Hai gi√† un account?</span>
                             <a href="javascript: showLoginForm();">Login</a>
                     </div>
                 </div>        
