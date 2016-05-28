@@ -1038,6 +1038,7 @@ public class DbManager implements Serializable
      * @param range Gli orari del ristorante, 7 HourRange.
      * @param userTextClaim Una stringa di descrizione che l'utente può mettere nella creazione o nel claim,
      * che verrà vista letta dall'admin quando decide se confermare o no.
+     * @param photo Prima foto del ristorante, non è necessario l'id del ristorante.
      * @param min La spesa minima in questo ristorante.
      * @param max La spesa max in questo ristorante.
      * @param isClaim Booleano per dire se è anche un claim oltre che una creazione(true), o solo creazione(false).
@@ -1401,7 +1402,9 @@ public class DbManager implements Serializable
         try(PreparedStatement st= con.prepareStatement("DELETE FROM RESTAURANTS_"
                 + "REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
             PreparedStatement valid= con.prepareStatement("UPDATE RESTAURANTS SET "
-                    + "ID_OWNER=?,VALIDATED=TRUE WHERE ID=?"))
+                    + "ID_OWNER=?,VALIDATED=TRUE WHERE ID=?");
+            PreparedStatement updateUser= con.prepareStatement("UPDATE USERS SET "
+                    + "USERTYPE=1 WHERE ID=? AND USERTYPE=0"))
         {
             int type=requestType(idUser,idRestaurant);
             Restaurant restaurant= getRestaurantById(idRestaurant);
@@ -1416,13 +1419,25 @@ public class DbManager implements Serializable
                 valid.setInt(2, idRestaurant);
                 st.executeUpdate();
                 valid.executeUpdate();
-                String tmp="creazione e properità";
-                if(type==0)
-                    tmp="creazione";
-                else if(type==1)
-                    tmp="proprietà";
+                String tmp;
+                updateUser.setInt(1, idUser);
+                switch (type)
+                {
+                    case 0:
+                        tmp="creazione";
+                        break;
+                    case 1:
+                        tmp="proprietà";
+                        updateUser.executeUpdate();
+                        break;
+                    default:
+                        tmp="creazione e proprietà";
+                        updateUser.executeUpdate();
+                        break;
+                }
                 notifyUser(idUser,"La tua richiesta di "+tmp+" del ristorante "+restaurant.getName()
                     +" è stata accettata.");
+                
             }
             
             con.commit();
@@ -1684,6 +1699,37 @@ public class DbManager implements Serializable
                 {
                     res.add(rs.getString("NAME"));
                 }
+            }
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce un ArrayList di id (int) di ristoranti che hanno indirizzo,
+     * città o stato pari a location.
+     * @param location
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<Integer> getRestIdsFromLocation(String location) throws SQLException
+    {
+        ArrayList<Integer> res= new ArrayList();
+        try(PreparedStatement st= con.prepareStatement("SELECT RESTAURANTS.ID " +
+        "FROM " +
+        "(select RESTAURANT_COORDINATE.ID_RESTAURANT " +
+        "FROM " +
+        "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=?) IDCord, RESTAURANT_COORDINATE " +
+        "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS " +
+        "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID " +
+        ""))
+        {
+            st.setString(1, location);
+            st.setString(2, location);
+            st.setString(3, location);
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getInt("ID"));
             }
         }
         return res;
