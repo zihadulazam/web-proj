@@ -66,8 +66,22 @@
 .jumbotron .input-thumbnail .jumbo-button-container {
   padding-top: 10px;
 }
+/* line 37, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-button-container .btn-block {
+  background-color: #e62739;
+  color: #fff;
+  border: 1px solid #fff;
+}
+/* line 41, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-button-container .btn-block:hover {
+  background-color: #FF5722;
+}
+/* line 46, ../scss/index.scss */
+.jumbotron .input-thumbnail form {
+  margin-bottom: 0px;
+}
 
-/* line 43, ../scss/index.scss */
+/* line 54, ../scss/index.scss */
 #last-update #info-box {
   font-family: 'Source Sans Pro', sans-serif;
   color: #666;
@@ -75,184 +89,184 @@
   padding-bottom: 5px;
   text-align: center;
 }
-/* line 50, ../scss/index.scss */
+/* line 61, ../scss/index.scss */
 #last-update #updates {
   padding: 10px 10px;
 }
-/* line 52, ../scss/index.scss */
+/* line 63, ../scss/index.scss */
 #last-update #updates .update {
   padding: 0px;
   padding-top: 20px;
 }
-/* line 55, ../scss/index.scss */
+/* line 66, ../scss/index.scss */
 #last-update #updates .update .update-head-img {
   padding-bottom: 10px;
 }
-/* line 57, ../scss/index.scss */
+/* line 68, ../scss/index.scss */
 #last-update #updates .update .update-head-img img {
   height: 100px;
   width: auto;
   text-align: center;
 }
-/* line 63, ../scss/index.scss */
+/* line 74, ../scss/index.scss */
 #last-update #updates .update .update-body {
   border: 0px;
 }
-/* line 65, ../scss/index.scss */
+/* line 76, ../scss/index.scss */
 #last-update #updates .update .update-body .comment {
   margin-top: 25px;
   box-shadow: 10px 10px 5px #dedede;
   background-color: #e62739;
   color: white;
 }
-/* line 70, ../scss/index.scss */
+/* line 81, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid {
   padding-right: 5px;
   padding-left: 5px;
 }
-/* line 74, ../scss/index.scss */
+/* line 85, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer {
   text-align: center;
   margin-top: 10px;
 }
-/* line 78, ../scss/index.scss */
+/* line 89, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer img {
   border: 2px solid white;
-  width: auto;
+  width: 80px;
   height: 80px;
   margin: 2px;
 }
-/* line 84, ../scss/index.scss */
+/* line 95, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .comment-data {
   color: #fff;
 }
-/* line 89, ../scss/index.scss */
+/* line 100, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante {
   text-align: right;
 }
-/* line 91, ../scss/index.scss */
+/* line 102, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante a {
-  color: #f2b632;
+  color: #62bcfa;
 }
-/* line 95, ../scss/index.scss */
+/* line 106, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-title {
   margin-top: 15px;
   margin-bottom: 5px;
 }
-/* line 99, ../scss/index.scss */
+/* line 110, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 103, ../scss/index.scss */
+/* line 114, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars img {
   height: 20px;
   width: auto;
 }
-/* line 108, ../scss/index.scss */
+/* line 119, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content p {
   text-align: justify;
 }
-/* line 115, ../scss/index.scss */
+/* line 126, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant {
   margin-top: 15px;
   box-shadow: 10px 10px 5px #dedede;
   border: 1px solid #dedede;
 }
-/* line 120, ../scss/index.scss */
+/* line 131, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title {
   text-align: center;
   margin-top: 10px;
 }
-/* line 123, ../scss/index.scss */
+/* line 134, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .r-img {
   border: 2px solid white;
-  width: auto;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin: 2px;
 }
-/* line 129, ../scss/index.scss */
+/* line 140, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 133, ../scss/index.scss */
+/* line 144, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars img {
   height: 20px;
   width: auto;
 }
 
-/* line 147, ../scss/index.scss */
+/* line 158, ../scss/index.scss */
 .restaurant-body {
   margin-top: 10px;
 }
 
-/* line 151, ../scss/index.scss */
+/* line 162, ../scss/index.scss */
 .info-lable {
   font-weight: bold;
   font-size: 16px;
   color: #2196F3;
 }
 
-/* line 156, ../scss/index.scss */
+/* line 167, ../scss/index.scss */
 .info-text {
   font-size: 15px;
 }
 
-/* line 159, ../scss/index.scss */
+/* line 170, ../scss/index.scss */
 .btn-visita {
   text-align: right;
   margin-bottom: 10px;
 }
-/* line 162, ../scss/index.scss */
+/* line 173, ../scss/index.scss */
 .btn-visita button {
   background-color: #009688;
 }
-/* line 164, ../scss/index.scss */
+/* line 175, ../scss/index.scss */
 .btn-visita button:hover {
   background-color: #00796B;
 }
 
-/* line 170, ../scss/index.scss */
+/* line 181, ../scss/index.scss */
 #second-update-row {
   margin-top: 40px;
 }
 
-/* line 174, ../scss/index.scss */
+/* line 185, ../scss/index.scss */
 #update-left {
   padding-right: 20px;
 }
-/* line 176, ../scss/index.scss */
+/* line 187, ../scss/index.scss */
 #update-left .restaurant {
   border-color: #3f51b5 !important;
 }
-/* line 180, ../scss/index.scss */
+/* line 191, ../scss/index.scss */
 #update-left .btn-visita button {
   background-color: #3F51B5 !important;
 }
-/* line 182, ../scss/index.scss */
+/* line 193, ../scss/index.scss */
 #update-left .btn-visita button:hover {
   background-color: #303F9F !important;
 }
 
-/* line 188, ../scss/index.scss */
+/* line 199, ../scss/index.scss */
 #update-right {
   padding-left: 20px;
 }
-/* line 190, ../scss/index.scss */
+/* line 201, ../scss/index.scss */
 #update-right .restaurant {
   border-color: #00796B !important;
 }
 
 @media (max-width: 767px) {
-  /* line 196, ../scss/index.scss */
+  /* line 207, ../scss/index.scss */
   #update-left {
     padding-right: 0px;
   }
 
-  /* line 199, ../scss/index.scss */
+  /* line 210, ../scss/index.scss */
   #update-right {
     padding-left: 0px;
   }
@@ -289,7 +303,7 @@ h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
 h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
 h4{font-size:18px; font-weight: 400}
 */
-/* line 241, ../scss/index.scss */
+/* line 252, ../scss/index.scss */
 .hide-this {
   display: none;
 }

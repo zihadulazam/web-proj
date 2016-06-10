@@ -8,6 +8,9 @@
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
         
+        <!-- Bootstrap -->
+        <link href="css/jquery-ui.css" rel="stylesheet">
+        
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
@@ -22,30 +25,29 @@
     <body>
         <!-- include navbar hear -->
         <%@include file="components/navbar-index.jsp"%>
+        
         <!-- Main Content -->
-            <!-- search jumbotorn -->
-                
+            
+            <!-- search jumbotorn --> 
             <div class="jumbotron">
-                <div class="container-fluid">
-                    <div class="horizontally-centered">
-                        <div class="jumbo-text-container"> 
-                            <h1 class="name"><strong>eatBit</strong></h1>
-                            <div class="motto horizontally-centered">
-                                <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+                <div class="container-fluid horizontally-centered">
+                    <div class="jumbo-text-container"> 
+                        <h1 class="name"><strong>eatBit</strong></h1>
+                        <div class="motto horizontally-centered">
+                            <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+                        </div>
+                    </div>
+                    <div class="input-thumbnail thumbnail">
+                        <form role="form">
+                            <div class="jumbo-textbox-container form-group horizontally-centered">
+                                <input type="text" class="form-control" placeholder="Dove?">
+                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" placeholder="Nome del ristorante">
                             </div>
-                        </div>
-                        <div class="input-thumbnail thumbnail">
-                            <form role="form">
-                                <div class="jumbo-textbox-container form-group horizontally-centered">
-                                    <input type="text" class="form-control" placeholder="Dove?">
-                                    <input type="text" class="sapce-top form-control" placeholder="Nome del ristorante">
-                                </div>
-                                <div class="jumbo-button-container">
-                                    <button class="btn btn-danger btn-lg btn-block" type="submit" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Cerca</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="jumbo-button-container">
+                                <button class="btn btn-default btn-lg btn-block" type="submit" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Cerca</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -189,7 +191,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -212,7 +214,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -236,7 +238,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -271,7 +273,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -294,7 +296,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -318,7 +320,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/avater/avater.png" class="r-img img-circle"/>
+                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
                                                                 <h4>Nome del Ristorante</h4>
                                                                 <div class="row rating-stars">
                                                                         <img src="img/star-full.png"/>
@@ -362,6 +364,12 @@
     
         <!-- js (Bootstrap) -->
         <script src="js/bootstrap.min.js"></script>
+        
+        <!-- js jquery ui -->
+        <script src="js/jquery-ui.min.js"></script>
+        
+         <!-- js myJs -->
+        <script src="js/myJs.js"></script>
         
         <!-- login modal js -->
         <script src="js/login-register.js"></script>

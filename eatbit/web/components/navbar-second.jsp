@@ -37,7 +37,7 @@
                         <i class="form-control-feedback glyphicon glyphicon-map-marker"></i>
                     </div>
                     <div class="form-group has-feedback has-feedback-left">
-                        <input type="text" class="form-control" placeholder="Nome del ristorante" />
+                        <input type="text" class="form-control" id="nomeRisto" placeholder="Nome del ristorante" />
                         <i class="form-control-feedback glyphicon glyphicon-cutlery"></i>
                     </div>
                     <button type="submit" class="btn btn-info">Cerca</button>
@@ -50,7 +50,7 @@
                     //altrimenti #logged{display:none} -->--%>
                     
             <c:choose>
-                <c:when test="${sessionScope.user==null}">
+                <c:when test="${sessionScope.user.getNickname()==null}">
                     <ul class="nav navbar-nav navbar-right" id="not-logged">
                         <li><a class="navbar-link" href="" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();" >Registrati</a></li>
                         <li><button class="btn btn-default navbar-btn" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Accedi</button></li>
@@ -71,7 +71,7 @@
                                         <img src="<%= user.getAvatar_path()%>" alt="user foto" class="img-circle">
                                         <div class="caption">
                                             <h5><%=user.getName()%> <%= user.getSurname() %></h5>
-                                            <a href="/ProfileServlet">Profilo</a> 
+                                            <a href="/eatbit/ProfileServlet">Profilo</a> 
                                         </div>
                                     </div>
                                 </li>

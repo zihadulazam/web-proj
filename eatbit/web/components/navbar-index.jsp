@@ -51,7 +51,7 @@
                                         <img src="<%= user.getAvatar_path()%>" alt="user foto" class="img-circle">
                                         <div class="caption">
                                             <h5><%=user.getName()%> <%= user.getSurname() %></h5>
-                                            <a href="/ProfileServlet">Profilo</a> 
+                                            <a href="/eatbit/ProfileServlet">Profilo</a> 
                                         </div>
                                     </div>
                                 </li>
