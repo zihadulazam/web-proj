@@ -5,9 +5,7 @@
  */
 package servlets;
 
-import database.Coordinate;
 import database.DbManager;
-import database.Restaurant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,16 +17,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.simple.JSONArray;
-
 
 /**
  *
- * @author zihadul
+ * @author jacopo
  */
-@WebServlet(name = "NameAutocompleteServlet", urlPatterns = {"/NameAutocompleteServlet"})
-public class NameAutocompleteServlet extends HttpServlet {
+@WebServlet(name = "LocationAutoCompleteServlet", urlPatterns = {"/LocationAutoCompleteServlet"})
+public class LocationAutoCompleteServlet extends HttpServlet {
+
      private DbManager manager;
     
     @Override
@@ -50,24 +47,18 @@ public class NameAutocompleteServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String user_keys=request.getParameter("keys");
-        ArrayList <String> nomi=new ArrayList<String>();
+        ArrayList <String> luoghi=new ArrayList<>();
         try {
-            nomi = manager.autoCompleteName(user_keys);
+            luoghi = manager.autoCompleteLocation(user_keys);
         } catch (SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //*********************prova DA CANCELLARE********************
-         nomi.add("java");
-         nomi.add("javac");
-        //***********************************************************
-         
-        JSONArray jnomi=new JSONArray();
-        for(String elemento:nomi){
-            jnomi.add(elemento);
+        JSONArray jluoghi=new JSONArray();
+        for(String elemento:luoghi){
+            jluoghi.add(elemento);
         }
         response.setContentType("application/json");
-        response.getWriter().write(jnomi.toString());
+        response.getWriter().write(jluoghi.toString());
     }
 
     /**
@@ -79,5 +70,4 @@ public class NameAutocompleteServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

@@ -4,7 +4,14 @@
         <description>ServletContextListener</description>
         <listener-class>listeners.ContextListener</listener-class>
     </listener>
-    
+    <servlet>
+        <servlet-name>LocationAutocompleteServlet</servlet-name>
+        <servlet-class>servlets.LocationAutocompleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LocationAutocompleteServlet</servlet-name>
+        <url-pattern>/LocationAutocompleteServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

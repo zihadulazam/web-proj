@@ -6,6 +6,7 @@
 package database;
 
 import java.io.Serializable;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -141,6 +142,22 @@ public class Restaurant implements Serializable
     public void setValidated(boolean validated)
     {
         this.validated = validated;
+    }
+    
+    public JSONObject toJSONObject()
+    {
+        JSONObject res= new JSONObject();
+        res.put("id", id);
+        res.put("name",name);
+        res.put("description", description);
+        res.put("web_site_url",web_site_url);
+        res.put("global_value",global_value);
+        res.put("id_owner",id_owner);
+        res.put("id_creator",id_creator);
+        res.put("id_price_range",id_price_range);
+        res.put("reviews_counter",reviews_counter);
+        res.put("validated",validated);
+        return res;
     }
 
 }

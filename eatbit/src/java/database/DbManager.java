@@ -81,9 +81,10 @@ public class DbManager implements Serializable
                 res = 0;
             } 
             con.commit();
-        } catch (SQLException ex)
+        } 
+        catch (SQLException ex)
         {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            con.rollback();
         }
         return res;
     }
@@ -132,9 +133,12 @@ public class DbManager implements Serializable
                 }
                 con.commit();
             }
-        } catch (SQLException ex)
+        } 
+        catch (SQLException ex)
         {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return user;
     }
@@ -154,9 +158,6 @@ public class DbManager implements Serializable
             {
                 res = rs.next();
             }
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return res;
     }
@@ -176,10 +177,7 @@ public class DbManager implements Serializable
             {
                 res = rs.next();
             }
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         return res;
     }
 
@@ -220,6 +218,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }        
         return reviews;
     }
 
@@ -249,6 +253,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
 
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return notifications;
     }
@@ -285,6 +295,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return contesti;
     }
 
@@ -320,6 +336,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return reply;
     }
 
@@ -351,6 +373,12 @@ public class DbManager implements Serializable
                     review.setDislikes(rs.getInt("DISLIKES"));
                 }
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return review;
     }
@@ -388,6 +416,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return user;
     }
 
@@ -421,6 +455,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return contesti;
     }
 
@@ -452,6 +492,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return photo;
     }
     
@@ -465,6 +511,12 @@ public class DbManager implements Serializable
             {
                 res=rs.next();
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -480,6 +532,12 @@ public class DbManager implements Serializable
                 res=rs.next();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
 /**
@@ -488,7 +546,7 @@ public class DbManager implements Serializable
  * @return
  * @throws SQLException 
  */
-    private Restaurant getRestaurantById(int id) throws SQLException
+    public Restaurant getRestaurantById(int id) throws SQLException
     {
         Restaurant restaurant = null;
         try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS where id=?"))
@@ -511,6 +569,12 @@ public class DbManager implements Serializable
                     restaurant.setValidated(rs.getBoolean("VALIDATED"));
                 }
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return restaurant;
     }
@@ -558,6 +622,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return contesti;
     }
 
@@ -589,6 +659,12 @@ public class DbManager implements Serializable
                 }
                 con.commit();
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return contesti;
     }
@@ -624,6 +700,12 @@ public class DbManager implements Serializable
             }
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     /**
      * Metodo per inserire una review nelle review reportate, utilizzando il suo id.
@@ -647,6 +729,12 @@ public class DbManager implements Serializable
                 }
             }
             con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -689,6 +777,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -720,6 +814,12 @@ public class DbManager implements Serializable
                     con.commit();
                 }
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     /**
@@ -776,9 +876,12 @@ public class DbManager implements Serializable
                 res=false;
             } 
             con.commit();
-        } catch (SQLException ex)
+        } 
+        catch (SQLException ex)
         {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -801,6 +904,12 @@ public class DbManager implements Serializable
             st.setInt(2, userId);
             con.commit();
             res=false;
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -832,6 +941,12 @@ public class DbManager implements Serializable
             }
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -856,6 +971,12 @@ public class DbManager implements Serializable
             }
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -870,7 +991,7 @@ public class DbManager implements Serializable
      * @return True se sono sorti problemi, falso altrimenti.
      * @throws SQLException 
      */
-    public boolean addLike(int reviewTarget, int type, User liker) throws SQLException
+    public void addLike(int reviewTarget, int type, int id_liker) throws SQLException
     {
         boolean res=true;
         try(PreparedStatement checkLikeExist= con.prepareStatement("SELECT * FROM USER_REVIEW_LIKES WHERE ID_USER=? "
@@ -881,7 +1002,7 @@ public class DbManager implements Serializable
             //controllo se utente creatore e review esistono
             if(review!=null && creator!=getUserById(review.getId_creator()))
             {
-                checkLikeExist.setInt(1, liker.getId());
+                checkLikeExist.setInt(1, id_liker);
                 checkLikeExist.setInt(2, reviewTarget);
                 checkLikeExist.setInt(3, review.getId_creator());
                 try(ResultSet rs= checkLikeExist.executeQuery())
@@ -892,7 +1013,7 @@ public class DbManager implements Serializable
                         try(PreparedStatement makeLike= con.prepareStatement("INSERT INTO"
                                 + " USER_REVIEW_LIKES VALUES(?,?,?,?,?)"))
                         {
-                            makeLike.setInt(1,liker.getId());
+                            makeLike.setInt(1, id_liker);
                             makeLike.setInt(2, reviewTarget);
                             makeLike.setInt(3, creator.getId());
                             makeLike.setInt(4, type);
@@ -921,7 +1042,7 @@ public class DbManager implements Serializable
                                     + "SET LIKE_TYPE=? WHERE ID_USER=? AND ID_REVIEW=? AND ID_CREATOR=?"))
                             {
                                 changeLike.setInt(1, type);
-                                changeLike.setInt(2, liker.getId());
+                                changeLike.setInt(2, id_liker);
                                 changeLike.setInt(3, review.getId());
                                 changeLike.setInt(4, review.getId_creator());
                                 changeLike.executeUpdate();
@@ -944,9 +1065,13 @@ public class DbManager implements Serializable
                 }
             }
             con.commit();
-            res=false;
         }
-        return res;
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void incrementUserLikes(User user) throws SQLException
@@ -957,6 +1082,12 @@ public class DbManager implements Serializable
             st.setInt(2, user.getId());
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void incrementUserDislikes(User user) throws SQLException
@@ -966,6 +1097,12 @@ public class DbManager implements Serializable
             st.setInt(1, user.getReviews_negative()+1);
             st.setInt(2, user.getId());
             st.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -978,6 +1115,12 @@ public class DbManager implements Serializable
             st.setInt(3, user.getId());
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void moveUserDislikeToLike(User user) throws SQLException
@@ -989,6 +1132,12 @@ public class DbManager implements Serializable
             st.setInt(3, user.getId());
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void incrementReviewLikes(Review review) throws SQLException
@@ -999,6 +1148,12 @@ public class DbManager implements Serializable
             st.setInt(2, review.getId());
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void incrementReviewDislikes(Review review) throws SQLException
@@ -1008,6 +1163,12 @@ public class DbManager implements Serializable
             st.setInt(1, review.getDislikes()+1);
             st.setInt(2, review.getId());
             st.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -1020,6 +1181,12 @@ public class DbManager implements Serializable
             st.setInt(3, review.getId());
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void moveReviewDislikeToLike(Review review) throws SQLException
@@ -1030,6 +1197,12 @@ public class DbManager implements Serializable
             st.setInt(2, review.getDislikes()-1);
             st.setInt(3, review.getId());
             st.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -1094,6 +1267,12 @@ public class DbManager implements Serializable
             con.commit();
             res=false;
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1108,9 +1287,12 @@ public class DbManager implements Serializable
                 if(rs.next())
                     res= rs.getInt("ID");
             }
-        } catch (SQLException ex)
+        } 
+        catch (SQLException ex)
         {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1133,6 +1315,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void addHourRange(int idRest,HoursRange range) throws SQLException
@@ -1152,6 +1340,12 @@ public class DbManager implements Serializable
                 ins2.setInt(2, st.getInt(1));
                 ins2.executeUpdate();
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -1178,6 +1372,12 @@ public class DbManager implements Serializable
                 ins2.executeUpdate();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private int findClosestPrice(double min,double max) throws SQLException
@@ -1199,6 +1399,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1213,8 +1419,14 @@ public class DbManager implements Serializable
         {
              st.setInt(1, id);
              st.executeUpdate();
+             con.commit();
         }
-        con.commit();
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1234,8 +1446,14 @@ public class DbManager implements Serializable
              st.executeUpdate();
              if(photo!=null)
                  notifyUser(idUser,"La tua foto "+photo.getName()+ " è stata rimossa perchè non rispettava il nostro regolamento");
+             con.commit();
         }
-        con.commit();
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1255,6 +1473,12 @@ public class DbManager implements Serializable
             st.setString(2, notifica);
             st.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1268,8 +1492,14 @@ public class DbManager implements Serializable
         {
              st.setInt(1, id);
              st.executeUpdate();
+              con.commit();
         }
-        con.commit();
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1325,8 +1555,14 @@ public class DbManager implements Serializable
                     unreportPhoto(review.getId_photo());
                 }
             }
+            con.commit();
         }
-        con.commit();
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1349,6 +1585,12 @@ public class DbManager implements Serializable
                 notifyUser(context.getUser().getId(),"La tua reply alla review "+context.getReview().getName()+
                         " è stata rimossa perchè non rispettava il nostro regolamento.");
             con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -1376,6 +1618,12 @@ public class DbManager implements Serializable
                         " è stata accettata.");
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1393,8 +1641,14 @@ public class DbManager implements Serializable
              st.setInt(1, idNotification);
              st.setInt(2, user.getId());
              st.executeUpdate();
+             con.commit();
         }
-        con.commit();
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1448,6 +1702,12 @@ public class DbManager implements Serializable
             
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -1488,6 +1748,12 @@ public class DbManager implements Serializable
             }
             con.commit();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void removeRestaurant(int idRestaurant) throws SQLException
@@ -1499,6 +1765,12 @@ public class DbManager implements Serializable
             removeRestaurantCuisine(idRestaurant);
             removeRestaurantCoordinate(idRestaurant);
             st.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
     
@@ -1514,6 +1786,12 @@ public class DbManager implements Serializable
             st1.executeUpdate();
             st2.executeUpdate();
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     private void removeRestaurantCuisine(int idRestaurant) throws SQLException
@@ -1522,6 +1800,12 @@ public class DbManager implements Serializable
                 + "RESTAURANT_CUISINE WHERE ID_RESTAURANT=?"))
         {
             st.setInt(1, idRestaurant);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
 
@@ -1536,6 +1820,12 @@ public class DbManager implements Serializable
             st1.setInt(1, idRestaurant);
             st1.executeUpdate();
             st2.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
     }
      
@@ -1552,6 +1842,12 @@ public class DbManager implements Serializable
                 if(rs.next())
                     res=rs.getInt("CREATION_CLAIM_BOTH_FLAG");
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1612,6 +1908,12 @@ public class DbManager implements Serializable
                 con.commit();
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1642,6 +1944,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1663,6 +1971,12 @@ public class DbManager implements Serializable
             con.commit();
             res=false;
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1682,6 +1996,12 @@ public class DbManager implements Serializable
             st.setInt(2, userId);
             con.commit();
             res=false;
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1707,6 +2027,12 @@ public class DbManager implements Serializable
                 }
             }
             con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1736,6 +2062,12 @@ public class DbManager implements Serializable
                 }
                 con.commit();
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1768,6 +2100,12 @@ public class DbManager implements Serializable
                 while(rs.next())
                     res.add(rs.getInt("ID"));
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1819,6 +2157,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1852,6 +2196,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1881,6 +2231,12 @@ public class DbManager implements Serializable
                 }
             }
         }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
         return res;
     }
     
@@ -1900,6 +2256,12 @@ public class DbManager implements Serializable
                     res.add(rs.getString("NAME"));
                 }
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }
@@ -1921,6 +2283,12 @@ public class DbManager implements Serializable
                 else
                     res=null;
             }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
         }
         return res;
     }

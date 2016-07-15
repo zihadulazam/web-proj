@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import database.Coordinate;
 import database.DbManager;
 import database.Restaurant;
 import java.io.IOException;
@@ -19,17 +18,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.simple.JSONArray;
-
 
 /**
  *
- * @author zihadul
+ * @author jacopo
  */
-@WebServlet(name = "NameAutocompleteServlet", urlPatterns = {"/NameAutocompleteServlet"})
-public class NameAutocompleteServlet extends HttpServlet {
-     private DbManager manager;
+@WebServlet(name = "GetRestaurantByIdServlet", urlPatterns = {"/GetRestaurantByIdServlet"})
+public class GetRestaurantByIdServlet extends HttpServlet {
+   private DbManager manager;
     
     @Override
     public void init() throws ServletException {
@@ -48,26 +45,22 @@ public class NameAutocompleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String user_keys=request.getParameter("keys");
-        ArrayList <String> nomi=new ArrayList<String>();
-        try {
-            nomi = manager.autoCompleteName(user_keys);
-        } catch (SQLException ex) {
+        try
+        {
+            int id_restaurant= Integer.parseInt(request.getParameter("id_restaurant"));
+            response.setContentType("application/json");
+            response.getWriter().write(manager.getRestaurantById(id_restaurant).toJSONObject().toJSONString());
+        }
+        catch (SQLException ex) 
+        {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException("sql exception");
         }
-        
-        //*********************prova DA CANCELLARE********************
-         nomi.add("java");
-         nomi.add("javac");
-        //***********************************************************
-         
-        JSONArray jnomi=new JSONArray();
-        for(String elemento:nomi){
-            jnomi.add(elemento);
+        catch (NumberFormatException ex) 
+        {
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException("format exception");
         }
-        response.setContentType("application/json");
-        response.getWriter().write(jnomi.toString());
     }
 
     /**
