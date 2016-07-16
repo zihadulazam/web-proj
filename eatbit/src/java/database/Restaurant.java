@@ -24,9 +24,12 @@ public class Restaurant implements Serializable
     private int id_creator;
     private int id_price_range;
     private int reviews_counter;
+    private int votes_counter;
     private boolean validated;
 
-    public Restaurant(int id, String name, String description, String web_site_url, int global_value, int id_owner, int id_creator, int id_price_range, int reviews_counter, boolean validated)
+    public Restaurant(int id, String name, String description, String web_site_url,
+            int global_value, int id_owner, int id_creator, int id_price_range, 
+            int reviews_counter, int votes_counter, boolean validated)
     {
         this.id = id;
         this.name = name;
@@ -37,7 +40,16 @@ public class Restaurant implements Serializable
         this.id_creator = id_creator;
         this.id_price_range = id_price_range;
         this.reviews_counter = reviews_counter;
+        this.votes_counter= votes_counter;
         this.validated = validated;
+    }
+
+    public int getVotes_counter() {
+        return votes_counter;
+    }
+
+    public void setVotes_counter(int votes_counter) {
+        this.votes_counter = votes_counter;
     }
 
     public int getId_creator()

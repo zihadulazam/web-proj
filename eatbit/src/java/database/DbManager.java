@@ -11,6 +11,8 @@ import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
 import java.io.Serializable;
+import static java.lang.Integer.max;
+import static java.lang.Integer.min;
 import static java.lang.Math.abs;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -566,6 +568,7 @@ public class DbManager implements Serializable
                     restaurant.setId_creator(rs.getInt("ID_CREATOR"));
                     restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
                     restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
                     restaurant.setValidated(rs.getBoolean("VALIDATED"));
                 }
             }
@@ -848,8 +851,9 @@ public class DbManager implements Serializable
             {
                 User user= getUserById(review.getId_creator());
                 int newReviewsCounter= restaurant.getReviews_counter()+1;
-                int newGlobal = (restaurant.getReviews_counter()*restaurant.getGlobal_value()+
-                        review.getGlobal_value())/(newReviewsCounter);
+                int newGlobal = ((restaurant.getReviews_counter()+restaurant.getVotes_counter())*restaurant.getGlobal_value()+
+                        review.getGlobal_value())/(newReviewsCounter+restaurant.getVotes_counter());
+                // (( (#rec+#voti)*media ) + valore_recensione) /(#rec+1+#voti)
                 int newUserReviewCounter=user.getReviews_counter()+1;
                 st.setInt(1, review.getGlobal_value());
                 st.setInt(2, review.getFood());
@@ -1225,7 +1229,8 @@ public class DbManager implements Serializable
     {
         boolean res=true;
         try(PreparedStatement st= con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
-                + "WEB_SITE_URL,GLOBAL_VALUE,ID_OWNER,ID_CREATOR,ID_PRICE_RANGE,REVIEWS_COUNTER,VALIDATED"))
+                + "WEB_SITE_URL,GLOBAL_VALUE,ID_OWNER,ID_CREATOR,ID_PRICE_RANGE,REVIEWS_COUNTER,VOTES_COUNTER,VALIDATED)"
+                + " VALUES(?,?,?,?,?,?,?,?,?,?)"))
         {
             st.setString(1, restaurant.getName());
             st.setString(2, restaurant.getDescription());
@@ -1235,7 +1240,8 @@ public class DbManager implements Serializable
             st.setInt(6, restaurant.getId_creator());
             st.setInt(7, findClosestPrice(min,max));
             st.setInt(8, 0);
-            st.setBoolean(9, false);
+            st.setInt(9,0);
+            st.setBoolean(10, false);
             st.executeUpdate();
             int restId=-1;
             try(ResultSet rs= st.getGeneratedKeys())
@@ -1855,8 +1861,9 @@ public class DbManager implements Serializable
     /**
      * Permette la modifica di un ristorante da parte di un utente.
      * @param restaurant L'oggetto ristorante, serve che nome, id, descrizione e url siano
-     * giusti (in caso vengano cambiati dall'utente), il resto viene passato 
-     * tramite gli altri argomenti o trovato nel db.
+     * giusti (in caso vengano cambiati dall'utente), va inolre settato l'id del proprietario
+     * (per esempio prendendolo dalla sessione) in modo che si possa verificare che 
+     * sia il proprietario.
      * @param cucine Nuove cucine rappresentate da stringhe.
      * @param coordinate Nuove coordinate.
      * @param range Nuovi orari (7 HourRange messi in ArrayList)-
@@ -1870,7 +1877,7 @@ public class DbManager implements Serializable
         boolean res=true;
         try(PreparedStatement st= con.prepareStatement("UPDATE RESTAURANTS SET "
                 + "NAME=?,DESCRIPTION=?,WEB_SITE_URL=?,GLOBAL_VALUE=?,ID_OWNER=?,"
-                + "ID_CREATOR=?,ID_PRICE_RANGE=?,REVIEWS_COUNTER=?,VALIDATED=? "
+                + "ID_CREATOR=?,ID_PRICE_RANGE=?,REVIEWS_COUNTER=?,VOTES_COUNTER=?,VALIDATED=? "
                 + "WHERE ID=?"))
         {
             Restaurant restaurantCheck= getRestaurantById(restaurant.getId());
@@ -1885,7 +1892,9 @@ public class DbManager implements Serializable
                 st.setInt(6, restaurantCheck.getId_creator());
                 st.setInt(7, findClosestPrice(min,max));
                 st.setInt(8, restaurantCheck.getReviews_counter());
-                st.setBoolean(9, restaurantCheck.isValidated());
+                st.setInt(9, restaurantCheck.getVotes_counter());
+                st.setBoolean(10, restaurantCheck.isValidated());
+                st.setInt(11, restaurantCheck.getId());
                 st.executeUpdate();
                 //per ogni cucina aggiunto la relazione, se quella cucina esiste nel nostro db
                 //dopo aver pulito quelle prima
@@ -1906,6 +1915,7 @@ public class DbManager implements Serializable
                 for(int i=0;i<range.size();i++)
                     addHourRange(restaurant.getId(),range.get(i));
                 con.commit();
+                res=false;
             }
         }
         catch (SQLException ex)
@@ -2226,6 +2236,7 @@ public class DbManager implements Serializable
                     restaurant.setId_creator(rs.getInt("ID_CREATOR"));
                     restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
                     restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
                     restaurant.setValidated(rs.getBoolean("VALIDATED"));
                     res.add(restaurant);
                 }
@@ -2266,6 +2277,132 @@ public class DbManager implements Serializable
         return res;
     }
     
+    /**
+     * Restituisce (al massimo) 5 ristoranti, ordinati per global value, il primo 
+     * ha quello più alto.
+     * @return Un ArrayList contenente i ristoranti.
+     * @throws SQLException 
+     */
+    public ArrayList<Restaurant> getTop5RestaurantsByValue() throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList<>();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM RESTAURANTS "
+                + "ORDER BY GLOBAL_VALUE DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce (al massimo) 5 ristoranti, ordinati per numero di reviews, il
+     * primo ha quello più alto.
+     * @return Un ArrayList contenente i ristoranti.
+     * @throws SQLException 
+     */
+    public ArrayList<Restaurant> getTop5RestaurantsByReviewsCounter() throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList<>();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM RESTAURANTS "
+                + "ORDER BY REVIEWS_COUNTER DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce (al massimo) 5 review, le più recenti. La prima è la più
+     * recente.
+     * @return Un ArrayList contenente i ristoranti.
+     * @throws SQLException 
+     */
+    public ArrayList<Review> getLast5Reviews() throws SQLException
+    {
+        ArrayList<Review> res= new ArrayList<>();
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM REVIEWS "
+                + "ORDER BY DATE_CREATION DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try(ResultSet rs= st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Review review = new Review();
+                    review.setId(rs.getInt("ID"));
+                    review.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    review.setFood(rs.getInt("FOOD"));
+                    review.setService(rs.getInt("SERVICE"));
+                    review.setValue_for_money(rs.getInt("VALUE_FOR_MONEY"));
+                    review.setAtmosphere(rs.getInt("ATMOSPHERE"));
+                    review.setName(rs.getString("NAME"));
+                    review.setDescription(rs.getString("DESCRIPTION"));
+                    review.setDate_creation(rs.getTimestamp("DATE_CREATION"));
+                    review.setId_restaurant(rs.getInt("ID_RESTAURANT"));
+                    review.setId_creator(rs.getInt("ID_CREATOR"));
+                    review.setId_photo(rs.getInt("ID_PHOTO"));
+                    review.setLikes(rs.getInt("LIKES"));
+                    review.setDislikes(rs.getInt("DISLIKES"));
+                    res.add(review);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
     private PriceRange getRestaurantPriceRange(int priceId) throws SQLException
     {
         PriceRange res= new PriceRange();
@@ -2291,6 +2428,111 @@ public class DbManager implements Serializable
             throw ex;
         }
         return res;
+    }
+    
+    /**
+     * Se l'utente ha già fatto un voto a questo ristorante refresha la data
+     * a quella corrente, altrimenti crea un record con un timestamp pari alla
+     * data corrente.
+     * @param id_user Id dell'utente che fa il voto.
+     * @param id_restaurant Id del ristorante votato.
+     * @return res Vero se non ha mai votato questo ristorante o se il voto 
+     * dell'utente più recente per questo ristorante era più vecchio di 24h, false
+     * se l'ultimo voto ha meno di 24h.
+     */
+    private boolean addOrRefreshVote(int id_user, int id_restaurant) throws SQLException
+    {
+        boolean res=false;
+        try(PreparedStatement st= con.prepareStatement("SELECT * FROM USER_VOTES_ON_RESTAURANTS"
+                + " WHERE ID_USER=? AND ID_RESTAURANT=? "))
+        {
+            st.setInt(1, id_user);
+            st.setInt(2, id_restaurant);
+            try(ResultSet rs= st.executeQuery())
+            {
+                Timestamp now= new Timestamp(System.currentTimeMillis());
+                //se non ha mai votato allora inserisco un record, altrimenti
+                //controllo che la differenza fra i 2 timestamp sia di almeno 24h
+                if(rs.next())
+                {
+                    Timestamp old= rs.getTimestamp(3);
+                    if(compareTwoTimestamps(old,now)>24)
+                    {
+                        try(PreparedStatement updateSt= con.prepareStatement(
+                                "UPDATE USER_VOTES_ON_RESTAURANTS SET TIME_OF_VOTE=? WHERE ID_USER=?"
+                                        + "AND ID_RESTAURANT=?"))
+                        {
+                            updateSt.setTimestamp(1, now);
+                            updateSt.setInt(2, id_user);
+                            updateSt.setInt(3, id_restaurant);
+                            updateSt.executeUpdate();
+                        }
+                        res=true;
+                    }
+                }
+                else
+                {
+                    try(PreparedStatement createSt= con.prepareStatement("INSERT "
+                            + "INTO USER_VOTES_ON_RESTAURANTS VALUES(?,?.?)"))
+                    {
+                        createSt.setInt(1, id_user);
+                        createSt.setInt(2, id_restaurant);
+                        createSt.setTimestamp(3, now);
+                    }
+                    res=true;
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    public boolean addUserVoteOnRestaurant(int vote, int id_user, int id_restaurant) throws SQLException
+    {
+        boolean res= addOrRefreshVote(id_user,id_restaurant);
+        vote= min(vote,5);
+        vote= max(vote,0);
+        if(res)//se può votare xk nn ha mai votato o è più vecchio di 24h
+        {
+            res=false;
+            try(PreparedStatement updateSt= con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, "
+                    + "VOTES_COUNTER=? WHERE ID=?"))
+            {
+                Restaurant restaurant= getRestaurantById(id_restaurant);
+                int newGlobal = ((restaurant.getReviews_counter()+restaurant.getVotes_counter())*restaurant.getGlobal_value()+
+                            vote)/(restaurant.getReviews_counter()+restaurant.getVotes_counter()+1);
+                // (( (#rec+#voti)*media ) + valore_voto) /(#rec+#voti+1)
+                updateSt.setInt(1, newGlobal);
+                updateSt.setInt(2, restaurant.getVotes_counter()+1);
+                updateSt.setInt(3, id_restaurant);
+                con.commit();
+                res=true;
+            }   
+            catch (SQLException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                con.rollback();
+                throw ex;
+            }
+        }
+        return res;        
+    }
+    private static long compareTwoTimestamps(Timestamp oldTime,Timestamp currentTime)
+    {
+        long milliseconds1 = oldTime.getTime();
+        long milliseconds2 = currentTime.getTime();
+        long diff = milliseconds2 - milliseconds1;
+        //long diffSeconds = diff / 1000;
+        //long diffMinutes = diff / (60 * 1000);
+        long diffHours = diff / (60 * 60 * 1000);
+        //long diffDays = diff / (24 * 60 * 60 * 1000);
+        return diffHours;
     }
     /**
      * Chiude la connessione al database!

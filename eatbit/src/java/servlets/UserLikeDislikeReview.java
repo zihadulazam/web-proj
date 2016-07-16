@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *Servlet per inserire o modificare il like di un utente ad una recensione, attraverso
- * il metodo get vanno forniti l'id della review, dell'utente che fa il like e il tipo di like.
+ * il metodo get vanno forniti l'id della review e il tipo di like.
+ * Viene eseguito un controllo in sessione per vedere se esiste l'attributo "user", perchè
+ * solo gli utenti registrati possono votare.
  * @author jacopo
  */
 @WebServlet(name = "UserLikeDislikeReview", urlPatterns = {"/UserLikeDislikeReview"})
@@ -72,11 +75,14 @@ private DbManager manager;
             throws ServletException, IOException {
         try
         {
-            int review_id= Integer.parseInt(request.getParameter("review_id"));
-            int like_type= Integer.parseInt(request.getParameter("like_type"));
-            int user_id= Integer.parseInt(request.getParameter("user_id"));
-            manager.addLike(review_id, like_type, user_id);
-            //like_type: 0 per dislike, 1 per like
+            User user= (User) request.getSession().getAttribute("user");
+            if(user!=null)
+            {
+                int review_id= Integer.parseInt(request.getParameter("review_id"));
+                int like_type= Integer.parseInt(request.getParameter("like_type"));
+                manager.addLike(review_id, like_type, user.getId());
+                //like_type: 0 per dislike, 1 per like
+            }
         }
         catch(NumberFormatException ex)
         {
