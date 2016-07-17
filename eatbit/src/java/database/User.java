@@ -25,6 +25,15 @@ public class User implements Serializable
     private int reviews_positive;
     private int reviews_negative;
     private int type;
+    private boolean verified;
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
 
     
     public User()

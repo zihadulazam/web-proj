@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.lang.Math.abs;
+import java.util.UUID;
 
 /**
  *
@@ -57,7 +58,8 @@ public class DbManager implements Serializable
     {
         int res = 3;
         try(PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
-                + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,REVIEWS_NEGATIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?,?)");)
+                + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,"
+                + "REVIEWS_NEGATIVE,USERTYPE) values(?,?,?,?,?,?,?,?,?,?)");)
         {
             
             if (findUserByEmail(user.getEmail()))
@@ -79,25 +81,109 @@ public class DbManager implements Serializable
                 st.setInt(8, 0);
                 st.setInt(9, 0);
                 st.setInt(10, 0);
+                st.setBoolean(11, false);
                 st.executeUpdate();
                 res = 0;
+                try(PreparedStatement st2 = con.prepareStatement("insert into USERS_TO_VERIFY(ID_USER,TOKEN)"
+                        + " VALUES(?,?)");
+                    ResultSet rs= st.getGeneratedKeys())
+                {
+                    String uuid = UUID.randomUUID().toString();
+                    st2.setInt(1,rs.getInt(1));
+                    st2.setString(2, uuid);
+                }
             } 
             con.commit();
         } 
         catch (SQLException ex)
         {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             con.rollback();
+            throw ex;
         }
         return res;
     }
 
+    /**
+     * Metodo per avere il token di verifica corrispondente ad una certa email,
+     * e quindi ad un utente.
+     * @param email L'email di cui si cerca il token.
+     * @return Un token alfanumerico, null se non si ha trovato nulla.
+     * @throws SQLException 
+     */
+    public String getUserVerificationToken(String email) throws SQLException
+    {
+        String res= null;
+        try (PreparedStatement st = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE EMAIL=?"))
+        {
+            st.setString(1, email);
+            try (ResultSet rs = st.executeQuery())
+            {
+                if(rs.next())
+                    res=rs.getString("TOKEN");
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Verifica un utente, togliendolo dalla tabella USERS_TO_VERIFY e settando
+     * la voce VERIFIED a true nella tabella USERS.
+     * @param email La email da verificare.
+     * @param token Il token alfanumerico fornito dall'utente.
+     * @return True se la verifica è andata a buon fine, falso altrimenti.
+     * @throws SQLException 
+     */
+    public boolean verifyUser(String email, String token) throws SQLException
+    {
+        boolean res=false;
+        try (PreparedStatement st1 = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE EMAIL=?"))
+        {
+            st1.setString(1, email);
+            try (ResultSet rs = st1.executeQuery())
+            {
+                if(rs.next())
+                {
+                    String readToken= rs.getString("TOKEN");
+                    if(readToken.equals(token))
+                    {
+                        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM USERS_TO_VERIFY WHERE EMAIL=?");
+                             PreparedStatement st3 = con.prepareStatement("UPDATE USERS SET VERIFIED=TRUE WHERE EMAIL=?"))
+                        {
+                            st2.setString(1, email);
+                            st3.setString(1, email);
+                            st2.executeUpdate();
+                            st3.executeUpdate();
+                            con.commit();
+                            res=true;
+                        }
+                    }
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
     /**
      * Per autenticare uno User, di cui si fornisce nick/mail e password.
      *
      * @param nickOrEmail nick o email dell utente che fa login
      * @param password password
      * @return null se la password non matcha o se l'utente non esiste, uno User
-     * con password "pulita via" altrimenti
+     * con password "pulita via" e verified a falso se non ha verificato via mail,
+     * uno User con psw pulita e verified a vero se la psw matcha ed è verificato
      * @throws java.sql.SQLException
      */
     public User loginUserByEmailOrNickname(String nickOrEmail, String password) throws SQLException
@@ -124,6 +210,7 @@ public class DbManager implements Serializable
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
+                    user.setVerified(rs.getBoolean("VERIFIED"));
                     
                     if (!BCrypt.checkpw(password,user.getPassword()))
                     {
@@ -2523,6 +2610,7 @@ public class DbManager implements Serializable
         }
         return res;        
     }
+    
     private static long compareTwoTimestamps(Timestamp oldTime,Timestamp currentTime)
     {
         long milliseconds1 = oldTime.getTime();
@@ -2534,6 +2622,7 @@ public class DbManager implements Serializable
         //long diffDays = diff / (24 * 60 * 60 * 1000);
         return diffHours;
     }
+    
     /**
      * Chiude la connessione al database!
      */
@@ -2541,7 +2630,7 @@ public class DbManager implements Serializable
     {
         try
         {
-            DriverManager.getConnection("jdbc:derby://localhost:1527/eatbitDB;shutdown=true;user=eatbitDB;password=password");
+            DriverManager.getConnection("jdbc:derby://localhost:1527/eatbitDB;shutdown=true;user=eatbitDB;password=password;");
         } catch (SQLException ex)
         {
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
