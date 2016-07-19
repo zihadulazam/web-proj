@@ -26,14 +26,14 @@ import org.json.simple.JSONArray;
 @WebServlet(name = "LocationAutoCompleteServlet", urlPatterns = {"/LocationAutoCompleteServlet"})
 public class LocationAutoCompleteServlet extends HttpServlet {
 
-     private DbManager manager;
-    
+    private DbManager manager;
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -45,16 +45,17 @@ public class LocationAutoCompleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String user_keys=request.getParameter("keys");
-        ArrayList <String> luoghi=new ArrayList<>();
+
+        String user_keys = request.getParameter("keys");
+        ArrayList<String> luoghi = new ArrayList<>();
         try {
             luoghi = manager.autoCompleteLocation(user_keys);
         } catch (SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw new ServletException(ex);
         }
-        JSONArray jluoghi=new JSONArray();
-        for(String elemento:luoghi){
+        JSONArray jluoghi = new JSONArray();
+        for (String elemento : luoghi) {
             jluoghi.add(elemento);
         }
         response.setContentType("application/json");

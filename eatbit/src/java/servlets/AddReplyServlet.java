@@ -19,20 +19,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per aggiungere una reply da parte di un ristoratore ad una review,
- * attraverso il metodo POST, e usa i parametri description,id_owner e id_review.
+ * Servlet per aggiungere una reply da parte di un ristoratore ad una review,
+ * attraverso il metodo POST, e usa i parametri description,id_owner e
+ * id_review.
+ *
  * @author jacopo
  */
 @WebServlet(name = "AddReplyServlet", urlPatterns = {"/AddReplyServlet"})
 public class AddReplyServlet extends HttpServlet {
+
     private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,7 +53,7 @@ public class AddReplyServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");            
+            out.println("<title>Servlet ReportPhotoServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
@@ -71,7 +74,7 @@ public class AddReplyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -85,9 +88,8 @@ public class AddReplyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            Reply reply= new Reply();
+        try {
+            Reply reply = new Reply();
             reply.setDescription(request.getParameter("description"));
             reply.setDate_creation(null);
             reply.setId_review(Integer.parseInt(request.getParameter("id_review")));
@@ -96,16 +98,9 @@ public class AddReplyServlet extends HttpServlet {
             reply.setId_validator(0);
             reply.setValidated(false);
             manager.addReply(reply);
-        }
-        catch(NumberFormatException ex)
-        {
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException("format exception");
-        } 
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException("db exception");
+            throw new ServletException(ex);
         }
     }
 

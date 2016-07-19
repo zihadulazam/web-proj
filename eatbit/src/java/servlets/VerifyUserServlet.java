@@ -21,22 +21,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per la verifica della email di un utente attraverso il metodo get,
- * ci si aspetta i parametri token e email nella request, in base al successo o al
+ * Servlet per la verifica della email di un utente attraverso il metodo get, ci
+ * si aspetta i parametri token e email nella request, in base al successo o al
  * fallimento il controllo verrà passato a 2 jsp diverse, al momento success.jsp
  * e failure.jsp.
+ *
  * @author jacopo
  */
 @WebServlet(name = "VerifyUserServlet", urlPatterns = {"/verify"})
 public class VerifyUserServlet extends HttpServlet {
+
     private DbManager manager;
-    
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -48,23 +50,20 @@ public class VerifyUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            String email= request.getParameter("email");
-            String token= request.getParameter("token");
-            if(email!=null&&token!=null)
-            {
+        try {
+            String email = request.getParameter("email");
+            String token = request.getParameter("token");
+            if (email != null && token != null) {
                 //se la verifica è andata a buon fine passo il controllo a una jsp che conferma il successo
                 //altrimenti a una jsp che comunica il fallimento della verifica
-                if(manager.verifyUser(email, token))
+                if (manager.verifyUser(email, token)) {
                     request.getRequestDispatcher("/success.jsp").forward(request, response);
-                else
+                } else {
                     request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                }
             }
-        }
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException("sql exception");
         }
     }
@@ -80,5 +79,3 @@ public class VerifyUserServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-
-    

@@ -19,22 +19,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per inserire o modificare il like di un utente ad una recensione, attraverso
- * il metodo get vanno forniti l'id della review e il tipo di like.
- * Viene eseguito un controllo in sessione per vedere se esiste l'attributo "user", perchè
- * solo gli utenti registrati possono votare.
+ * Servlet per inserire o modificare il like di un utente ad una recensione,
+ * attraverso il metodo get vanno forniti l'id della review e il tipo di like.
+ * Viene eseguito un controllo in sessione per vedere se esiste l'attributo
+ * "user", perchè solo gli utenti registrati possono votare.
+ *
  * @author jacopo
  */
 @WebServlet(name = "UserLikeDislikeReview", urlPatterns = {"/UserLikeDislikeReview"})
 public class UserLikeDislikeReview extends HttpServlet {
-private DbManager manager;
+
+    private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,7 +54,7 @@ private DbManager manager;
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");            
+            out.println("<title>Servlet ReportPhotoServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
@@ -73,23 +75,17 @@ private DbManager manager;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            User user= (User) request.getSession().getAttribute("user");
-            if(user!=null)
-            {
-                int review_id= Integer.parseInt(request.getParameter("review_id"));
-                int like_type= Integer.parseInt(request.getParameter("like_type"));
+        try {
+            User user = (User) request.getSession().getAttribute("user");
+            if (user != null) {
+                int review_id = Integer.parseInt(request.getParameter("review_id"));
+                int like_type = Integer.parseInt(request.getParameter("like_type"));
                 manager.addLike(review_id, like_type, user.getId());
                 //like_type: 0 per dislike, 1 per like
             }
-        }
-        catch(NumberFormatException ex)
-        {
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-        } 
-        catch (SQLException ex) {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
     }
 

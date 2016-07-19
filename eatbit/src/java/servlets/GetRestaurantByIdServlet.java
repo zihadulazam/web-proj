@@ -26,14 +26,15 @@ import org.json.simple.JSONArray;
  */
 @WebServlet(name = "GetRestaurantByIdServlet", urlPatterns = {"/GetRestaurantByIdServlet"})
 public class GetRestaurantByIdServlet extends HttpServlet {
-   private DbManager manager;
-    
+
+    private DbManager manager;
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -45,21 +46,13 @@ public class GetRestaurantByIdServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            int id_restaurant= Integer.parseInt(request.getParameter("id_restaurant"));
+        try {
+            int id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
             response.setContentType("application/json");
             response.getWriter().write(manager.getRestaurantById(id_restaurant).toJSONObject().toJSONString());
-        }
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException("sql exception");
-        }
-        catch (NumberFormatException ex) 
-        {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException("format exception");
+        } catch (SQLException | NumberFormatException ex) {
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw new ServletException(ex);
         }
     }
 

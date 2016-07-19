@@ -26,14 +26,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ShutdownServlet", urlPatterns = {"/shutdown"})
 public class ShutdownServlet extends HttpServlet {
-private DbManager manager;
-    
+
+    private DbManager manager;
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -45,7 +46,7 @@ private DbManager manager;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            DbManager.shutdown();
+        DbManager.shutdown();
     }
 
     /**

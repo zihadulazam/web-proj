@@ -23,14 +23,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ReportReviewServlet", urlPatterns = {"/ReportReviewServlet"})
 public class ReportReviewServlet extends HttpServlet {
-private DbManager manager;
+
+    private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,7 +49,7 @@ private DbManager manager;
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");            
+            out.println("<title>Servlet ReportPhotoServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
@@ -69,18 +70,13 @@ private DbManager manager;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            int review_id= Integer.parseInt(request.getParameter("review_id"));
+        try {
+            int review_id = Integer.parseInt(request.getParameter("review_id"));
             manager.reportReview(review_id);
-            
-        }
-        catch(NumberFormatException ex)
-        {
+
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-        } 
-        catch (SQLException ex) {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
     }
 

@@ -21,20 +21,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet che mette in request i 5 top ristoranti per voto, 5 per numero recensioni
- *  e le ultime 5 review. Passa poi il controllo a /index.jsp.
+ * Servlet che mette in request i 5 top ristoranti per voto, 5 per numero
+ * recensioni e le ultime 5 review. Passa poi il controllo a /index.jsp.
+ *
  * @author jacopo
  */
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
-private DbManager manager;
-    
+
+    private DbManager manager;
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -46,20 +48,17 @@ private DbManager manager;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            ArrayList<Restaurant> top5RestByValue= manager.getTop5RestaurantsByValue();
-            ArrayList<Restaurant> top5RestByReviews= manager.getTop5RestaurantsByReviewsCounter();
-            ArrayList<Review> last5Reviews= manager.getLast5Reviews();
+        try {
+            ArrayList<Restaurant> top5RestByValue = manager.getTop5RestaurantsByValue();
+            ArrayList<Restaurant> top5RestByReviews = manager.getTop5RestaurantsByReviewsCounter();
+            ArrayList<Review> last5Reviews = manager.getLast5Reviews();
             request.setAttribute("top5RestByValue", top5RestByValue);
             request.setAttribute("top5RestByReviews", top5RestByReviews);
             request.setAttribute("last5Reviews", last5Reviews);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
-        }
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException("sql exception");
+        } catch (SQLException ex) {
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw new ServletException(ex);
         }
     }
 

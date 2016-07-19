@@ -29,9 +29,9 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,7 +49,7 @@ public class ReportPhotoServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");            
+            out.println("<title>Servlet ReportPhotoServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
@@ -70,18 +70,13 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            int photo_id= Integer.parseInt(request.getParameter("photo_id"));
+        try {
+            int photo_id = Integer.parseInt(request.getParameter("photo_id"));
             manager.reportPhoto(photo_id);
-            
-        }
-        catch(NumberFormatException ex)
-        {
+
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-        } 
-        catch (SQLException ex) {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
     }
 

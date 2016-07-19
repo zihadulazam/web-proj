@@ -96,7 +96,8 @@ public class RegisterServlet extends HttpServlet {
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throw new ServletException(ex);
         }
     }
 

@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
             user =manager.loginUserByEmailOrNickname(email, password);
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
 
         // se non esiste, ridirigo verso pagina di login con messaggio di errore

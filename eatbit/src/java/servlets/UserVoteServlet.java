@@ -11,6 +11,8 @@ import database.Review;
 import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.max;
+import static java.lang.Integer.min;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -22,20 +24,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per permettere ad un utente di votare un ristorante (da 0 a 5) senza
+ * Servlet per permettere ad un utente di votare un ristorante (da 0 a 5) senza
  * fare una recensione.
+ *
  * @author jacopo
  */
 @WebServlet(name = "UserVoteServlet", urlPatterns = {"/UserVoteServlet"})
 public class UserVoteServlet extends HttpServlet {
+
     private DbManager manager;
-    
+
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
+        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -47,23 +51,19 @@ public class UserVoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try
-        {
-            int id_rest= Integer.parseInt(request.getParameter("id_restaurant"));
-            int voto= Integer.parseInt(request.getParameter("vote"));
-            User user= (User) request.getSession().getAttribute("user");
-            if(user!=null)
+        try {
+            int id_rest = Integer.parseInt(request.getParameter("id_restaurant"));
+            int voto = Integer.parseInt(request.getParameter("vote"));
+            voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 
+            voto = max(voto, 0);
+            User user = (User) request.getSession().getAttribute("user");
+            if (user != null) {
                 manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest);
-        }
-        catch(NumberFormatException ex)
-        {
+            }
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-        } 
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
-        
     }
 
     /**

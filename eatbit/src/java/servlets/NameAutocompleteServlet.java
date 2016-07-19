@@ -55,6 +55,7 @@ public class NameAutocompleteServlet extends HttpServlet {
             nomi = manager.autoCompleteName(user_keys);
         } catch (SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServletException(ex);
         }
         
         //*********************prova DA CANCELLARE********************
