@@ -45,12 +45,13 @@ public class DbManager implements Serializable
 
     /**
      * Prova ad inserire(registrare sul sito) un utente nel database, l'utente
-     * così registrato sarà sempre un utente normale (non ristoratre e non
+     * così registrato sarà sempre un utente normale (non ristoratore e non
      * admin).
-     *
+     * L'id dell'oggetto user passato sarà settato come l'id generato dal db
+     * per l inserimento del record, in caso di successo.
      * @param user Oggetto User con i dati all'iterno
      * @return 0 se è andata a buon fine, 1 se nn ha registrato xk esiste un
-     * utente con quella email, 2 se esiste un utente con quel nick, 3 se non è
+     * utente con quella email (o sia email e nick uguali), 2 se esiste un utente con quel nick, 3 se non è
      * andata a buon fine per altri motivi
      * @throws java.sql.SQLException
      *
@@ -60,7 +61,7 @@ public class DbManager implements Serializable
         int res = 3;
         try (PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
                 + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,"
-                + "REVIEWS_NEGATIVE,USERTYPE,VERIFIED) values(?,?,?,?,?,?,?,?,?,?,?)"))
+                + "REVIEWS_NEGATIVE,USERTYPE,VERIFIED) values(?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS))
         {
             if (findUserByEmail(user.getEmail()))
             {
@@ -85,11 +86,18 @@ public class DbManager implements Serializable
                 st.setBoolean(11, false);
                 st.executeUpdate();
                 res = 0;
-                try (PreparedStatement st2 = con.prepareStatement("insert into USERS_TO_VERIFY(EMAIL,TOKEN)"
+                try (ResultSet rs = st.getGeneratedKeys())
+                {
+                    if (rs.next())
+                        user.setId(rs.getInt(1));
+                    else
+                        throw new SQLException("no generated key from user registration");
+                }
+                try (PreparedStatement st2 = con.prepareStatement("insert into USERS_TO_VERIFY(ID,TOKEN)"
                         + " VALUES(?,?)"))
                 {
-                    String uuid = UUID.randomUUID().toString();
-                    st2.setString(1, user.getEmail());
+                    String uuid = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
+                    st2.setInt(1, user.getId());
                     st2.setString(2, uuid);
                     st2.executeUpdate();
                     con.commit();
@@ -113,12 +121,12 @@ public class DbManager implements Serializable
      * @return Un token alfanumerico, null se non si ha trovato nulla.
      * @throws SQLException
      */
-    public String getUserVerificationToken(String email) throws SQLException
+    public String getUserVerificationToken(int id) throws SQLException
     {
         String res = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE EMAIL=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE ID=?"))
         {
-            st.setString(1, email);
+            st.setInt(1,id);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
@@ -145,12 +153,12 @@ public class DbManager implements Serializable
      * @return True se la verifica è andata a buon fine, falso altrimenti.
      * @throws SQLException
      */
-    public boolean verifyUser(String email, String token) throws SQLException
+    public boolean verifyUser(int id, String token) throws SQLException
     {
         boolean res = false;
-        try (PreparedStatement st1 = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE EMAIL=?"))
+        try (PreparedStatement st1 = con.prepareStatement("SELECT TOKEN FROM USERS_TO_VERIFY WHERE ID=?"))
         {
-            st1.setString(1, email);
+            st1.setInt(1,id);
             try (ResultSet rs = st1.executeQuery())
             {
                 if (rs.next())
@@ -158,11 +166,11 @@ public class DbManager implements Serializable
                     String readToken = rs.getString("TOKEN");
                     if (readToken.equals(token))
                     {
-                        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM USERS_TO_VERIFY WHERE EMAIL=?");
-                                PreparedStatement st3 = con.prepareStatement("UPDATE USERS SET VERIFIED=TRUE WHERE EMAIL=?"))
+                        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM USERS_TO_VERIFY WHERE ID=?");
+                                PreparedStatement st3 = con.prepareStatement("UPDATE USERS SET VERIFIED=TRUE WHERE ID=?"))
                         {
-                            st2.setString(1, email);
-                            st3.setString(1, email);
+                            st2.setInt(1,id);
+                            st3.setInt(1,id);
                             st2.executeUpdate();
                             st3.executeUpdate();
                             con.commit();
@@ -192,7 +200,7 @@ public class DbManager implements Serializable
      */
     public String addToUsersToChangePassword(int id_user) throws SQLException
     {
-        String uuid = UUID.randomUUID().toString();
+        String uuid = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
         try (PreparedStatement del = con.prepareStatement("DELETE FROM USERS_TO_CHANGE_PSW WHERE ID=?");
                 PreparedStatement st = con.prepareStatement("insert into USERS_TO_CHANGE_PSW(ID,TOKEN)"
                         + " VALUES(?,?)"))
@@ -504,6 +512,38 @@ public class DbManager implements Serializable
         return contesti;
     }
 
+    /**
+     * Recupera tutti i contesti di reply di un ristoratore che non sono ancora state 
+     * processate, e quindi presenti nel sistema.
+     * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
+     * di una richiesta da processare.
+     * @return Un ArrayList contenente tutte le richieste(i contesti) di reply da processare.
+     * @throws SQLException 
+     */
+    public ArrayList<ReplyContext> getAllRepliesToBeConfirmed() throws SQLException
+    {
+        ArrayList<ReplyContext> contesti = new ArrayList();
+        try (PreparedStatement st = con.prepareStatement("select * from REPLIES_TO_BE_CONFIRMED"
+                + " ORDER BY DATE_ADMIN_TOOK ASC"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    contesti.add(getReplyContext(rs.getInt("ID")));
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return contesti;
+    }
+    
     private ReplyContext getReplyContext(int id_reply) throws SQLException
     {
         ReplyContext contesto = new ReplyContext();
@@ -613,6 +653,7 @@ public class DbManager implements Serializable
                     user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
                     user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
                     user.setType(rs.getInt("USERTYPE"));
+                    user.setVerified(rs.getBoolean("VERIFIED"));
                 }
             }
         }
@@ -651,6 +692,38 @@ public class DbManager implements Serializable
                 {
                     contesti.add(getPhotoContext(rs.getInt("ID")));
                     rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return contesti;
+    }
+    
+    /**
+     * Recupera tutti i contesti di foto segnalate che non sono ancora state 
+     * processate, e quindi presenti nel sistema.
+     * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
+     * di una richiesta da processare.
+     * @return Un ArrayList contenente tutte i contesti di foto segnalate.
+     * @throws SQLException 
+     */
+    public ArrayList<PhotoContext> getAllReportedPhotos() throws SQLException
+    {
+        ArrayList<PhotoContext> contesti = new ArrayList();
+        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_PHOTOS"
+                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    contesti.add(getPhotoContext(rs.getInt("ID")));
                 }
                 con.commit();
             }
@@ -818,7 +891,7 @@ public class DbManager implements Serializable
             {
                 while (rs.next())
                 {
-                    contesti.add(getAttemptContext(rs.getInt("ID"), rs.getInt("ID_RESTAURANT"),
+                    contesti.add(getAttemptContext(rs.getInt("ID_USER"), rs.getInt("ID_RESTAURANT"),
                             rs.getInt("CREATION_CLAIM_BOTH_FLAG"), rs.getString("USERTEXTCLAIM")));
                     rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
                 }
@@ -834,6 +907,39 @@ public class DbManager implements Serializable
         return contesti;
     }
 
+    /**
+     * Recupera tutti i contesti di richieste di ristorante che non sono ancora state 
+     * processate, e quindi presenti nel sistema.
+     * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
+     * di una richiesta da processare.
+     * @return UN ArrayList contenente tutte le richieste(i contesti) di ristoranti da processare.
+     * @throws SQLException 
+     */
+    public ArrayList<AttemptContext> getAllRestaurantsRequests() throws SQLException
+    {
+        ArrayList<AttemptContext> contesti = new ArrayList();
+        try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS_REQUESTS"
+                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    contesti.add(getAttemptContext(rs.getInt("ID_USER"), rs.getInt("ID_RESTAURANT"),
+                            rs.getInt("CREATION_CLAIM_BOTH_FLAG"), rs.getString("USERTEXTCLAIM")));
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return contesti;
+    }
+    
     /**
      * Per ricevere un numero pari a many di contesti (user+review) riguardanti
      * le review che hanno subito un report. Una volta che un contesto è stato
@@ -872,6 +978,38 @@ public class DbManager implements Serializable
         return contesti;
     }
 
+    /**
+     * Recupera tutti i contesti di review segnalate che non sono ancora state 
+     * processate, e quindi presenti nel sistema.
+     * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
+     * di una richiesta da processare.
+     * @return Un ArrayList contenente tutte i contesti di review segnalate.
+     * @throws SQLException 
+     */
+    public ArrayList<ReviewContext> getAllReportedReviews() throws SQLException
+    {
+        ArrayList<ReviewContext> contesti = new ArrayList();
+        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_REVIEWS "
+                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    contesti.add(getReviewContext(rs.getInt("ID")));
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return contesti;
+    }
+    
     private ReviewContext getReviewContext(int review_id) throws SQLException
     {
         ReviewContext contesto = new ReviewContext();
@@ -2595,9 +2733,8 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Restituisce (al massimo) 5 ristoranti, ordinati per numero di reviews, il
+     * Restituisce (al massimo) 5 ristoranti, ordinati per reviews_counter, il
      * primo ha quello più alto.
-     *
      * @return Un ArrayList contenente i ristoranti.
      * @throws SQLException
      */
@@ -2636,6 +2773,47 @@ public class DbManager implements Serializable
         return res;
     }
 
+    /**
+     * Restituisce (al massimo) 5 utenti, ordinati per reviews_positive, dal più
+     * alto al più basso, reviews positive sarebbe i like alle sue review.
+     * @return Un ArrayList contenente gli utenti.
+     * @throws SQLException
+     */
+    public ArrayList<User> getTop5UsersByReviewsPositive() throws SQLException
+    {
+        ArrayList<User> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS "
+                + "ORDER BY REVIEWS_POSITIVE DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    User user = new User();
+                    user.setId(rs.getInt("ID"));
+                    user.setName(rs.getString("NAME"));
+                    user.setSurname(rs.getString("SURNAME"));
+                    user.setNickname(rs.getString("NICKNAME"));
+                    user.setEmail(rs.getString("EMAIL"));
+                    user.setPassword("placeholder");
+                    user.setAvatar_path(rs.getString("AVATAR_PATH"));
+                    user.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
+                    user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
+                    user.setType(rs.getInt("USERTYPE"));
+                    user.setVerified(rs.getBoolean("VERIFIED"));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
     /**
      * Restituisce (al massimo) 5 review, le più recenti. La prima è la più
      * recente.

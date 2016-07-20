@@ -51,12 +51,13 @@ public class VerifyUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String email = request.getParameter("email");
+            String stringId= request.getParameter("id");
             String token = request.getParameter("token");
-            if (email != null && token != null) {
+            if (stringId != null && token != null) {
+                int id= Integer.parseInt(stringId);
                 //se la verifica è andata a buon fine passo il controllo a una jsp che conferma il successo
                 //altrimenti a una jsp che comunica il fallimento della verifica
-                if (manager.verifyUser(email, token)) {
+                if (manager.verifyUser(id, token)) {
                     request.getRequestDispatcher("/success.jsp").forward(request, response);
                 } else {
                     request.getRequestDispatcher("/failure.jsp").forward(request, response);

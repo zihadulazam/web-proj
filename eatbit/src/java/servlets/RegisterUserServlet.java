@@ -77,7 +77,7 @@ public class RegisterUserServlet extends HttpServlet {
                 res = manager.registerUser(user);
                 if (res == 0)//se la registrazione è andata a buon fine
                 {
-                    sendVerificationEmail(email);
+                    sendVerificationEmail(user.getId(),email);
                     out.println("0");
                 } else if (res == 1) {
                     ;//azione da fare se errore 1
@@ -109,9 +109,9 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(String email) throws ServletException {
+    private void sendVerificationEmail(int id, String email) throws ServletException {
         try {
-            String token = manager.getUserVerificationToken(email);
+            String token = manager.getUserVerificationToken(id);
             if (token != null) {
                 final String username = "eatbitnoreply@gmail.com";
                 final String password = "eatbitpassword";
@@ -140,7 +140,7 @@ public class RegisterUserServlet extends HttpServlet {
                         + "activate your account please visit this url:" + '\n'
                         + "http://localhost:8084/eatbit/verify?token="
                         + token
-                        + "&email=" + email);
+                        + "&id=" + Integer.toString(id));
                 msg.setSentDate(new Date());
                 Transport transport = session.getTransport("smtps");
                 transport.connect("smtp.gmail.com", 465, username, password);
