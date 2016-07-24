@@ -47,6 +47,7 @@ public class LocationAutoCompleteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String user_keys = request.getParameter("keys");
+        System.out.println("/n*******"+user_keys+"*******/n");
         ArrayList<String> luoghi = new ArrayList<>();
         try {
             luoghi = manager.autoCompleteLocation(user_keys);

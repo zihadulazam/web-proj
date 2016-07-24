@@ -40,7 +40,7 @@
                     <div class="input-thumbnail thumbnail">
                         <form role="form">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
-                                <input type="text" class="form-control" placeholder="Dove?">
+                                <input type="text" class="form-control" id="locationRisto" placeholder="Dove?">
                                 <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" placeholder="Nome del ristorante">
                             </div>
                             <div class="jumbo-button-container">
@@ -355,26 +355,6 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
-        
-        
-        <!-- scripts -->
     
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="js/jquery-1.12.4.min.js"></script>
-    
-        <!-- js (Bootstrap) -->
-        <script src="js/bootstrap.min.js"></script>
-        
-        <!-- js jquery ui -->
-        <script src="js/jquery-ui.min.js"></script>
-        
-         <!-- js myJs -->
-        <script src="js/myJs.js"></script>
-        
-        <!-- login modal js -->
-        <script src="js/login-register.js"></script>
-        
-        <!-- hosted by Microsoft Ajax CDN -->
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
     </body>
 </html>

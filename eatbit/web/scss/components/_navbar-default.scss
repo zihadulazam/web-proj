@@ -36,6 +36,9 @@
             
             }
         }
+        &:focus{
+            background-color: #3fb0ac !important;
+        }
     }
     
 }
@@ -51,7 +54,7 @@
     padding-left: 50px;
     padding-right: 50px;
     background-color: $eatbit_red;
-    min-width: 400px;
+    min-width: 310px;
     position: static;
     width: 100%;
     margin-bottom: 0px;

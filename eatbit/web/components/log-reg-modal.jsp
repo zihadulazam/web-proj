@@ -85,11 +85,11 @@
                                 <div class="line r"></div>
                         </div>
                         <span>Vuoi 
-                                <a href="javascript: showRegisterForm();">creare an account</a>
+                                <a href="javascript: showRegisterForm();">creare un account</a>
                         ?</span>
                     </div>
                     <div class="forgot register-footer" style="display:none">
-                            <span>Hai già un account?</span>
+                            <span>Hai gia' un account?</span>
                             <a href="javascript: showLoginForm();">Login</a>
                     </div>
                 </div>        
