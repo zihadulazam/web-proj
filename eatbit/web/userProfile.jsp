@@ -5,6 +5,7 @@
 --%>
 
 <%@page import="database.Notification"%>
+<%@page import="database.Review"%>
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -16,6 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,6 +29,8 @@
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
+        <link href="css/cssFooter.css" rel="stylesheet">
+        <link href="css/profile.css" rel="stylesheet">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -39,12 +43,12 @@
         <script src="js/bootstrap.min.js"></script>
         
     </head>
-    <body>
-        <jsp:useBean id="user" scope="session" class="database.User"/>
+    <body id="sfondo">
+        
         
         <!-- include navbar hear -->
         <!--BARRA-->
-       
+        <%@include file="components/navbar-second.jsp"%>
         
         <div class="container">
         
@@ -64,7 +68,7 @@
                       <p><b>Email:</b>
                           <br> <%= user.getEmail()%>  </p>
                       <p><b>Reviews:</b>
-                          <br><%= user.getReviews_counter() %> </p>
+                          <br><%= request.getAttribute("numberReview")%> </p>
                       
                       <p>
                           <div class="btn-group">
@@ -95,32 +99,62 @@
 
           <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
-             
-              
-              <h3>Notifications</h3>
-              
+    
               <div class="list-group">
-                  
-           
-              
-              
-                
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading">List group item heading</h4>
-                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                </a>
-                <a href="#" class="list-group-item">
-                  <h4 class="list-group-item-heading">List group item heading</h4>
-                  <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                </a>
+                  <br>
+                  <!-- Notifications -->
+                  <c:forEach items="${requestScope.listNotification}" var="notification">
+                      
+                      <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            <c:out value="${notification.getDescription()}"/>
+                            <br>
+                        </h4>
+                        <p class="list-group-item-text">
+                            id = <c:out value="${notification.getId()}"/>
+                        </p>
+                      </a>
+                      
+                      <br>
+                      
+                  </c:forEach>
+  
               </div>
-              
-              
+                      
             </div>
+              
             <div id="menu1" class="tab-pane fade">
-              <h3>Reviews</h3>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <!--Reviews-->
+                <br>
+                <c:forEach items="${listNotification}" var="review">
+
+                    <a href="#" class="list-group-item">
+                      Data: <c:out value="${review.getDate_creation()}"/>
+                      
+                      <div class="panel panel-info">
+                        <div class="panel-heading"> <c:out value="${review.getName()}"/></div>
+                        <div class="panel-body">
+                            <c:out value="${review.getDescription()}"/><br>
+                            <h5>
+                                Valutazioni:<br>
+                            </h5>
+                            <ul>
+                                <li>Globale - <c:out value="${review.getGlobal_value()}"/></li>
+                                <li>Cibo - <c:out value="${review.getFood()}"/></li>
+                                <li>Servizio - <c:out value="${review.getService()}"/></li>
+                                <li>Atmosfera - <c:out value="${review.getAtmosphere()}"/></li>
+                            </ul>
+                        </div>
+                      </div>
+                    </a>
+
+                    <br>
+
+                </c:forEach>
+              
             </div>
+              
+              
             <div id="menu2" class="tab-pane fade">
               <h3>Profile Informations</h3>
               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
@@ -129,6 +163,9 @@
         </div>
             
         </div>
+                
+       <!--footer-->
+       <%@include file="components/footer.html"%>
 
     </body>
 </html>

@@ -178,7 +178,7 @@
                                 </div>
                             </div>
                             <!-- top 5 & top review -->
-                            <div calss="row" >
+                            <div class="row" >
                                 <!-- top 5 restaurant -->
                                 <div id="second-update-row">
                                     <div class="col-md-6 update">
