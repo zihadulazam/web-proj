@@ -2433,10 +2433,17 @@ public class DbManager implements Serializable
     public ArrayList<String> autoCompleteName(String term) throws SQLException
     {
         ArrayList<String> res = new ArrayList();
+        if(term==null||term.length()==0)
+            return res;
         try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM RESTAURANTS WHERE"
-                + " upper(NAME) like upper('?%') FETCH FIRST 5 ROWS ONLY"))
+                + " upper(NAME) like upper(?) ESCAPE '!' FETCH FIRST 5 ROWS ONLY"))
         {
-            st.setString(1, term);
+            term = term
+            .replace("!", "!!")
+            .replace("%", "!%")
+            .replace("_", "!_")
+            .replace("[", "![");
+            st.setString(1,term + "%");
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -2468,10 +2475,17 @@ public class DbManager implements Serializable
     public ArrayList<String> autoCompleteLocation(String term) throws SQLException
     {
         ArrayList<String> res = new ArrayList();
+        if(term==null||term.length()==0)
+            return res;
         try (PreparedStatement st = con.prepareStatement("SELECT COMPLETE_LOCATION FROM COORDINATES WHERE"
-                + " upper(COMPLETE_LOCATION) like upper('%?%') FETCH FIRST 5 ROWS ONLY"))
+                + " upper(COMPLETE_LOCATION) like upper(?) FETCH FIRST 5 ROWS ONLY"))
         {
-            st.setString(1, term);
+            term = term
+            .replace("!", "!!")
+            .replace("%", "!%")
+            .replace("_", "!_")
+            .replace("[", "![");
+            st.setString(1, "%" + term + "%");
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())

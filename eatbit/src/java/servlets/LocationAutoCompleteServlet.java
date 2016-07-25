@@ -47,12 +47,11 @@ public class LocationAutoCompleteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String user_keys = request.getParameter("keys");
-        System.out.println("/n*******"+user_keys+"*******/n");
         ArrayList<String> luoghi = new ArrayList<>();
         try {
             luoghi = manager.autoCompleteLocation(user_keys);
         } catch (SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
         JSONArray jluoghi = new JSONArray();

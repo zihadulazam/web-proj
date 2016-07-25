@@ -50,7 +50,7 @@ public class NameAutocompleteServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String user_keys=request.getParameter("keys");
-        ArrayList <String> nomi=new ArrayList<String>();
+        ArrayList <String> nomi=new ArrayList<>();
         try {
             nomi = manager.autoCompleteName(user_keys);
         } catch (SQLException ex) {
@@ -58,11 +58,6 @@ public class NameAutocompleteServlet extends HttpServlet {
             throw new ServletException(ex);
         }
         
-        //*********************prova DA CANCELLARE********************
-         nomi.add("java");
-         nomi.add("javac");
-        //***********************************************************
-         
         JSONArray jnomi=new JSONArray();
         for(String elemento:nomi){
             jnomi.add(elemento);
