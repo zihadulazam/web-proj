@@ -58,6 +58,8 @@ public class NameAutocompleteServlet extends HttpServlet {
             throw new ServletException(ex);
         }
         
+        nomi.add("java");
+        
         JSONArray jnomi=new JSONArray();
         for(String elemento:nomi){
             jnomi.add(elemento);

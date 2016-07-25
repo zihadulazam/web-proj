@@ -33,7 +33,7 @@
                     
                     <!-- Nav search form -->
                     <div class="form-group has-feedback has-feedback-left">
-                        <input type="text" class="form-control" placeholder="Dove?" />
+                        <input type="text" class="form-control" id="locationRisto" placeholder="Dove?" />
                         <i class="form-control-feedback glyphicon glyphicon-map-marker"></i>
                     </div>
                     <div class="form-group has-feedback has-feedback-left">

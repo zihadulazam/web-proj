@@ -8,7 +8,7 @@
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
         
-        <!-- Bootstrap -->
+        <!-- jquery ui -->
         <link href="css/jquery-ui.css" rel="stylesheet">
         
         <!-- eatBit css -->
@@ -29,13 +29,18 @@
         <!-- Main Content -->
         <div class="container">
             <div class="row" id="header">
+                <div class="col-xs-12 col-md-12"  id="restaurant-name">
+                    <h1>Nome Ristorante</h1> 
+                    <hr/> 
+                </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <p id="restaurant-profile-pic-p"><img src="img/restaurant-default2.jpg" alt="immagine profilo" class="img-thumbnail" id="restaurant-profile-pic"/></p>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="informazioni">
-                        <h1 id="restaurant-name">Nome Ristorante</h1> 
-                        <hr/>
                         <div class="row rating-stars">
                                 <img src="img/star-full.png"/>
                                 <img src="img/star-full.png"/>
@@ -63,9 +68,8 @@
                     </div>
                 </div>
             </div>
-            
-        </div>
-          
+        </div> <!--End Container-->
+        
           
         <!-------------Slider Start--------------->
         <div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 1150px; height: 480px; overflow: hidden; visibility: hidden; background-color: #24262e;">
@@ -104,6 +108,105 @@
 
         <!-- #endregion Jssor Slider End -->
         <!-------------End Slider----------------->
+        
+        <div class="container" id="button-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="button-rec-foto">
+                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddRecensione" aria-expanded="false" aria-controls="collapseAddRecensione"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Scrivi una recensione</button>
+                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddFoto" aria-expanded="false" aria-controls="collapseAddFoto"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Aggiungi una foto</button>
+                    </p>
+                </div>
+            </div>
+            <div class="collapse" id="collapseAddRecensione">
+                <div class="well">
+                    <form>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Valutazione Globale: </label>
+                                </div>
+                                <div class="col-sm-12 col-md-9">
+                                    <div class="rating-bar" id="valutazioneGlobaleBar" type="text"></div>
+                                    <input type="text" id="valutazioneGlobaleValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span> Cibo: </label>
+                                </div>
+                                <div class="col-md-9">
+                                     <div class="rating-bar" id="ciboBar" type="text"></div>
+                                    <input type="text" id="ciboValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Servizio: </label>
+                                </div>
+                                <div class="col-md-9">
+                                     <div class="rating-bar" id="servizioBar" type="text"></div>
+                                    <input type="text" id="servizioValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-lamp" aria-hidden="true"></span> Atmosfera: </label>
+                                </div>
+                                <div class="col-md-9">
+                                     <div class="rating-bar" id="atmosferaBar" type="text"></div>
+                                    <input type="text" id="atmosferaValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Prezzo: </label>
+                                </div>
+                                <div class="col-md-9">
+                                     <div class="rating-bar" id="prezzoBar" type="text"></div>
+                                    <input type="text" id="prezzoValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <br/>
+                            <p>
+                                <label class="rating-lb" for="comment">Titolo:</label>
+                                <input id="recensione-title" type="text">
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label class="rating-lb" for="comment">Recensione:</label>
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                            <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="collapse" id="collapseAddFoto">
+                <div class="well">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="file">
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btn-upload" type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Carica</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
         
         <!-- end Main container -->
         

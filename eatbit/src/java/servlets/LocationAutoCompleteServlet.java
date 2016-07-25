@@ -54,6 +54,8 @@ public class LocationAutoCompleteServlet extends HttpServlet {
             Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
+        luoghi.add("java");
+        luoghi.add("javac");
         JSONArray jluoghi = new JSONArray();
         for (String elemento : luoghi) {
             jluoghi.add(elemento);

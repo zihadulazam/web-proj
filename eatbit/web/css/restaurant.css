@@ -1,67 +1,63 @@
 /* line 3, ../scss/restaurant.scss */
 #header {
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
-/* line 7, ../scss/restaurant.scss */
-#restaurant-name {
-  font-weight: bold;
-}
-
-/* line 11, ../scss/restaurant.scss */
-#restaurant-profile-pic {
-  width: 200px;
-  height: 200px;
-  margin-top: 50px;
-}
-
-/* line 16, ../scss/restaurant.scss */
-.informazioni {
+/* line 8, ../scss/restaurant.scss */
+#restaurant-name h1 {
   text-align: center;
-}
-/* line 18, ../scss/restaurant.scss */
-.informazioni #tipi-di-cucina {
-  font-size: 16px;
-}
-/* line 21, ../scss/restaurant.scss */
-.informazioni h1 {
+  font-weight: bold;
   margin-top: 0px;
   font-family: 'Nunito', sans-serif;
   font-size: 40px;
 }
-/* line 26, ../scss/restaurant.scss */
-.informazioni hr {
+/* line 15, ../scss/restaurant.scss */
+#restaurant-name hr {
   border-color: #5a5c51;
+}
+
+/* line 20, ../scss/restaurant.scss */
+#restaurant-profile-pic {
+  width: 200px;
+  height: 200px;
+}
+
+/* line 24, ../scss/restaurant.scss */
+.informazioni {
+  text-align: center;
+}
+/* line 26, ../scss/restaurant.scss */
+.informazioni #tipi-di-cucina {
+  font-size: 16px;
 }
 
 /* line 31, ../scss/restaurant.scss */
 .rating-stars {
   margin-left: 0px;
+  margin-right: 0px;
   margin-bottom: 10px;
   display: block !important;
 }
-/* line 35, ../scss/restaurant.scss */
+/* line 36, ../scss/restaurant.scss */
 .rating-stars img {
   height: 20px;
   width: auto;
 }
 
-/* line 41, ../scss/restaurant.scss */
+/* line 42, ../scss/restaurant.scss */
 #informazioni-orario {
   text-align: right;
   line-height: 10px;
-  padding-top: 20px;
 }
-/* line 42, ../scss/restaurant.scss */
+/* line 43, ../scss/restaurant.scss */
 #informazioni-orario #bold {
   font-weight: bold;
   color: #337ab7;
   margin-top: 70px;
 }
-/* line 47, ../scss/restaurant.scss */
+/* line 48, ../scss/restaurant.scss */
 #informazioni-orario #classifica {
-  margin-top: 45px;
   color: #d9534f;
   font-weight: bold;
 }
@@ -71,17 +67,17 @@
 }
 
 @media (max-width: 991px) {
-  /* line 60, ../scss/restaurant.scss */
+  /* line 59, ../scss/restaurant.scss */
   #informazioni-orario {
     text-align: center;
     padding-top: 0px;
   }
-  /* line 63, ../scss/restaurant.scss */
+  /* line 62, ../scss/restaurant.scss */
   #informazioni-orario #bold {
     margin-top: 0px;
   }
 
-  /* line 67, ../scss/restaurant.scss */
+  /* line 66, ../scss/restaurant.scss */
   #restaurant-profile-pic {
     display: block;
     margin-left: auto;
@@ -100,7 +96,7 @@
 .jssora05l.jssora05ldn      (mousedown)
 .jssora05r.jssora05rdn      (mousedown)
 */
-/* line 86, ../scss/restaurant.scss */
+/* line 85, ../scss/restaurant.scss */
 .jssora05l, .jssora05r {
   display: block;
   position: absolute;
@@ -112,32 +108,32 @@
   overflow: hidden;
 }
 
-/* line 96, ../scss/restaurant.scss */
+/* line 95, ../scss/restaurant.scss */
 .jssora05l {
   background-position: -10px -40px;
 }
 
-/* line 97, ../scss/restaurant.scss */
+/* line 96, ../scss/restaurant.scss */
 .jssora05r {
   background-position: -70px -40px;
 }
 
-/* line 98, ../scss/restaurant.scss */
+/* line 97, ../scss/restaurant.scss */
 .jssora05l:hover {
   background-position: -130px -40px;
 }
 
-/* line 99, ../scss/restaurant.scss */
+/* line 98, ../scss/restaurant.scss */
 .jssora05r:hover {
   background-position: -190px -40px;
 }
 
-/* line 100, ../scss/restaurant.scss */
+/* line 99, ../scss/restaurant.scss */
 .jssora05l.jssora05ldn {
   background-position: -250px -40px;
 }
 
-/* line 101, ../scss/restaurant.scss */
+/* line 100, ../scss/restaurant.scss */
 .jssora05r.jssora05rdn {
   background-position: -310px -40px;
 }
@@ -149,7 +145,7 @@
 .jssort01-99-66 .p.pav        (active)
 .jssort01-99-66 .p.pdn        (mousedown)
 */
-/* line 110, ../scss/restaurant.scss */
+/* line 109, ../scss/restaurant.scss */
 .jssort01-99-66 .p {
   position: absolute;
   top: 0;
@@ -158,7 +154,7 @@
   height: 66px;
 }
 
-/* line 118, ../scss/restaurant.scss */
+/* line 117, ../scss/restaurant.scss */
 .jssort01-99-66 .t {
   position: absolute;
   top: 0;
@@ -168,7 +164,7 @@
   border: none;
 }
 
-/* line 127, ../scss/restaurant.scss */
+/* line 126, ../scss/restaurant.scss */
 .jssort01-99-66 .w {
   position: absolute;
   top: 0px;
@@ -177,7 +173,7 @@
   height: 100%;
 }
 
-/* line 135, ../scss/restaurant.scss */
+/* line 134, ../scss/restaurant.scss */
 .jssort01-99-66 .c {
   position: absolute;
   top: 0px;
@@ -190,7 +186,7 @@
   _background: none;
 }
 
-/* line 147, ../scss/restaurant.scss */
+/* line 146, ../scss/restaurant.scss */
 .jssort01-99-66 .pav .c {
   top: 2px;
   _top: 0px;
@@ -203,7 +199,7 @@
   background-position: 50% 50%;
 }
 
-/* line 159, ../scss/restaurant.scss */
+/* line 158, ../scss/restaurant.scss */
 .jssort01-99-66 .p:hover .c {
   top: 0px;
   left: 0px;
@@ -213,7 +209,7 @@
   background-position: 50% 50%;
 }
 
-/* line 168, ../scss/restaurant.scss */
+/* line 167, ../scss/restaurant.scss */
 .jssort01-99-66 .p.pdn .c {
   background-position: 50% 50%;
   width: 95px;
@@ -221,7 +217,7 @@
   border: #000 2px solid;
 }
 
-/* line 175, ../scss/restaurant.scss */
+/* line 174, ../scss/restaurant.scss */
 * html .jssort01-99-66 .c, * html .jssort01-99-66 .pdn .c, * html .jssort01-99-66 .pav .c {
   /* ie quirks mode adjust */
   width: 99px;
@@ -230,3 +226,68 @@
 
 /*---------------------END Slider CSS ----------------------*/
 /*----------------------------------------------------------*/
+/* line 182, ../scss/restaurant.scss */
+#button-container {
+  margin-top: 15px;
+}
+
+/* line 185, ../scss/restaurant.scss */
+#button-rec-foto {
+  text-align: right;
+}
+/* line 187, ../scss/restaurant.scss */
+#button-rec-foto .btn-config {
+  margin-top: 10px;
+  width: 230px;
+}
+
+/* line 193, ../scss/restaurant.scss */
+#collapseAddRecensione #btn-pubblica {
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* line 199, ../scss/restaurant.scss */
+.rating-lb {
+  font-size: 16px;
+}
+
+/* line 202, ../scss/restaurant.scss */
+.rating-bar {
+  margin-left: 20px;
+  margin-top: 5px;
+  width: 300px;
+  float: left;
+}
+
+/* line 208, ../scss/restaurant.scss */
+.rating-value {
+  margin-left: 20px;
+  background-color: #F5F5F5;
+  float: left;
+  border: 0;
+  font-weight: bold;
+  display: block;
+}
+
+/* line 216, ../scss/restaurant.scss */
+#recensione-title {
+  width: 100%;
+}
+
+/* line 220, ../scss/restaurant.scss */
+#btn-upload {
+  text-align: right;
+}
+
+@media (max-width: 991px) {
+  /* line 224, ../scss/restaurant.scss */
+  #button-rec-foto {
+    text-align: center;
+  }
+
+  /* line 227, ../scss/restaurant.scss */
+  #btn-upload {
+    margin-top: 10px;
+  }
+}
