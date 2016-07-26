@@ -508,7 +508,7 @@ public class DbManager implements Serializable
     public ArrayList<Notification> getUserNotifications(int id_user) throws SQLException
     {
         ArrayList<Notification> notifications = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM NOTIFICATIONS WHERE ID=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM NOTIFICATIONS WHERE USER_ID=?"))
         {
             st.setInt(1, id_user);
             try (ResultSet rs = st.executeQuery())

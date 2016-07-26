@@ -44,8 +44,7 @@
         
     </head>
     <body id="sfondo">
-        
-        
+                
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
@@ -68,7 +67,7 @@
                       <p><b>Email:</b>
                           <br> <%= user.getEmail()%>  </p>
                       <p><b>Reviews:</b>
-                          <br><%= request.getAttribute("numberReview")%> </p>
+                          <br><c:out value="${requestScope.numberReview}"/> </p>
                       
                       <p>
                           <div class="btn-group">
@@ -92,8 +91,8 @@
         <div class="col-md-9">
           <h2>Private Resources</h2>
           <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="tab" href="#home">Notifications<span class="badge"><%= session.getAttribute("numberNotification")%></span></a></li>
-                <li><a data-toggle="tab" href="#menu1">My Reviews<span class="badge"><%= session.getAttribute("numberReview")%></span></a></li>
+                <li class="active"><a data-toggle="tab" href="#home">Notifications<span class="badge"> <c:out value="${requestcope.numberNotification}"/> </span></a></li>
+                <li><a data-toggle="tab" href="#menu1">My Reviews<span class="badge"><c:out value="${requestScope.numberReview}"/></span></a></li>
                 <li><a data-toggle="tab" href="#menu2">Profile Info</a></li>
           </ul>
 
@@ -103,7 +102,7 @@
               <div class="list-group">
                   <br>
                   <!-- Notifications -->
-                  <c:forEach items="${requestScope.listNotification}" var="notification">
+                  <c:forEach items="${listNotification}" var="notification">
                       
                       <a href="#" class="list-group-item">
                         <h4 class="list-group-item-heading">
@@ -126,7 +125,7 @@
             <div id="menu1" class="tab-pane fade">
                 <!--Reviews-->
                 <br>
-                <c:forEach items="${listNotification}" var="review">
+                <c:forEach items="${listReview}" var="review">
 
                     <a href="#" class="list-group-item">
                       Data: <c:out value="${review.getDate_creation()}"/>

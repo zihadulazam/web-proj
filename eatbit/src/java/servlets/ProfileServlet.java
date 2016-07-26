@@ -75,17 +75,17 @@ public class ProfileServlet extends HttpServlet {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        request.setAttribute("listNotification", listNotification);
-        request.setAttribute("numberNotification", listNotification.size());
-        request.setAttribute("listReview", listReview);
-        request.setAttribute("numberReview", listReview.size());
+        session.setAttribute("listNotification", listNotification);
+        session.setAttribute("numberNotification", listNotification.size());
+        session.setAttribute("listReview", listReview);
+        session.setAttribute("numberReview", listReview.size());
         
         session.setAttribute("user", user);
         
         if (user.getType()==10){
-            response.sendRedirect(request.getContextPath() + "/adminProfile.jsp");
+            request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
         }else{
-            response.sendRedirect(request.getContextPath() + "/userProfile.jsp"); 
+            request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
         }
         
     }
