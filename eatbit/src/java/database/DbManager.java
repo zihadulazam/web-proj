@@ -114,6 +114,70 @@ public class DbManager implements Serializable
     }
 
     /**
+     * Setta un utente come admin, cambiandone lo USERTYPE nel db, che diventa 2.
+     * @param id_user L'id dell'utente.
+     * @throws SQLException 
+     */
+    public void setUserToAdmin(int id_user) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET USERTYPE=2 WHERE ID=?"))
+        {
+            st.setInt(1, id_user);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
+     * Setta un utente come ristoratore, cambiandone lo USERTYPE nel db, che diventa 1.
+     * @param id_user L'id dell'utente.
+     * @throws SQLException 
+     */
+    public void setUserToRestaurantOwner(int id_user) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET USERTYPE=1 WHERE ID=?"))
+        {
+            st.setInt(1, id_user);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
+     * Setta un utente come utente normale (no ristoratore no admin),
+     * cambiandone lo USERTYPE nel db, che diventa 0.
+     * @param id_user L'id dell'utente.
+     * @throws SQLException 
+     */
+    public void setUserToDefaultUser(int id_user) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET USERTYPE=0 WHERE ID=?"))
+        {
+            st.setInt(1, id_user);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
      * Metodo per avere il token di verifica corrispondente ad una certa email,
      * e quindi ad un utente.
      *
@@ -304,7 +368,7 @@ public class DbManager implements Serializable
     {
 
         User user = null;
-        try (PreparedStatement st = con.prepareStatement("select * from USERS where EMAIL=? OR NICKNAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=? OR NICKNAME=?"))
         {
             st.setString(1, nickOrEmail);
             st.setString(2, nickOrEmail);
@@ -348,16 +412,16 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Attenzione! Non fa commit!
-     *
-     * @param email
-     * @return
+     * Cerca se esiste già un utente con quella email. Non fa commit perchè
+     *  è un metodo privato usato come parte di metodi più grandi.
+     * @param email L'email dell'utente.
+     * @return Vero se esiste già, falso altrimenti.
      * @throws SQLException
      */
     private boolean findUserByEmail(String email) throws SQLException
     {
         boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("select * from USERS where EMAIL=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=?"))
         {
             st.setString(1, email);
             try (ResultSet rs = st.executeQuery())
@@ -369,16 +433,16 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Attenzione! Non fa commit!
-     *
-     * @param nick
-     * @return
+     * Cerca se esiste già un utente con quel nickname. Non fa commit perchè
+     *  è un metodo privato usato come parte di metodi più grandi.
+     * @param nick Il nickname dell'utente.
+     * @return Vero se esiste già, falso altrimenti.
      * @throws SQLException
      */
     private boolean findUserByNickname(String nick) throws SQLException
     {
         boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("select * from USERS where NICKNAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE NICKNAME=?"))
         {
             st.setString(1, nick);
             try (ResultSet rs = st.executeQuery())
@@ -391,17 +455,16 @@ public class DbManager implements Serializable
 
     /**
      * Restituisce le review di un utente.
-     *
-     * @param user L'utente di cui cercare le reviews.
+     * @param id_user L'id dell''utente di cui cercare le reviews.
      * @return Un ArrayList di oggetti Review dell'utente.
      * @throws java.sql.SQLException
      */
-    public ArrayList<Review> getUserReviews(User user) throws SQLException
+    public ArrayList<Review> getUserReviews(int id_user) throws SQLException
     {
         ArrayList<Review> reviews = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REVIEWS where ID_CREATOR=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEWS WHERE ID_CREATOR=?"))
         {
-            st.setInt(1, user.getId());
+            st.setInt(1, id_user);
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -436,25 +499,25 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Le notificazioni di un utente (n.b. NON per admin).
-     *
-     * @param user L'utente di cui si vuole cercare le notifiche.
+     * Le notifiche di un utente normale o ristoratore, non le notifiche di task
+     * da svolgere per un admin.
+     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche.
      * @return Un ArrayList contenente oggetti di tipo Notification.
      * @throws SQLException
      */
-    public ArrayList<Notification> getUserNotifications(int id) throws SQLException
+    public ArrayList<Notification> getUserNotifications(int id_user) throws SQLException
     {
         ArrayList<Notification> notifications = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from NOTIFICATIONS where ID=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM NOTIFICATIONS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_user);
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
                 {
                     Notification notification = new Notification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setUser_id(rs.getInt("ID"));
+                    notification.setUser_id(rs.getInt("USER_ID"));
                     notification.setDescription(rs.getString("DESCRIPTION"));
                     notifications.add(notification);
                 }
@@ -474,11 +537,10 @@ public class DbManager implements Serializable
     /**
      * Restituisce un numero di contesti, una classe formata da una review, uno
      * user e una reply; lo user è chi ha fatto la reply, la review è ciò a cui
-     * la reply vuole rispondere. Da usare p.e. per mostrare ad un admin per
-     * confermare o no una reply. Il timestamp di un contesto "prelevato" viene
-     * refrehsato al timestamp attuale in modo che non sarà prelevabile da altri
+     * la reply vuole rispondere. Da usare p.e. per mostrare ad un admin il contesto
+     * di una reply per decidere se confermarla o no. Il timestamp di un contesto 
+     * "prelevato" viene refrehsato al timestamp attuale in modo che non sarà prelevabile da altri
      * admin per 1 ora.
-     *
      * @param many Quanti contesti (al max) da ricevere.
      * @return Un ArrayList di contesti.
      * @throws SQLException
@@ -486,8 +548,8 @@ public class DbManager implements Serializable
     public ArrayList<ReplyContext> getRepliesToBeConfirmed(int many) throws SQLException
     {
         ArrayList<ReplyContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPLIES_TO_BE_CONFIRMED"
-                + " where {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPLIES_TO_BE_CONFIRMED"
+                + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
         {
             Timestamp timestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
@@ -513,7 +575,7 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Recupera tutti i contesti di reply di un ristoratore che non sono ancora state 
+     * Recupera tutti i contesti di reply dei ristoratori che non sono ancora state 
      * processate, e quindi presenti nel sistema.
      * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
      * di una richiesta da processare.
@@ -523,7 +585,7 @@ public class DbManager implements Serializable
     public ArrayList<ReplyContext> getAllRepliesToBeConfirmed() throws SQLException
     {
         ArrayList<ReplyContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPLIES_TO_BE_CONFIRMED"
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPLIES_TO_BE_CONFIRMED"
                 + " ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
@@ -544,6 +606,13 @@ public class DbManager implements Serializable
         return contesti;
     }
     
+    /**
+     * Recupera il contesto di una reply, che comprende reply, la review
+     * relativa alla reply, e lo user che ha fatto la reply.
+     * @param id_reply Id della reply.
+     * @return Un oggetto ReplyContext.
+     * @throws SQLException 
+     */
     private ReplyContext getReplyContext(int id_reply) throws SQLException
     {
         ReplyContext contesto = new ReplyContext();
@@ -553,10 +622,16 @@ public class DbManager implements Serializable
         return contesto;
     }
 
+    /**
+     * Recupera una Reply a partire dal suo id.
+     * @param id_reply Id della reply.
+     * @return Un oggetto Reply, null se non esiste con quell'id.
+     * @throws SQLException 
+     */
     private Reply getReplyFromId(int id_reply) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("select * from REPLIES where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE id=?"))
         {
             st.setInt(1, id_reply);
             try (ResultSet rs = st.executeQuery())
@@ -585,12 +660,18 @@ public class DbManager implements Serializable
         return reply;
     }
 
-    private Review getReviewById(int id) throws SQLException
+    /**
+     * Recupera una review a partire dal suo id.
+     * @param id_review L'id della review da recuperare.
+     * @return Un oggetto Review, null se non esiste con quell'id.
+     * @throws SQLException 
+     */
+    private Review getReviewById(int id_review) throws SQLException
     {
         Review review = null;
-        try (PreparedStatement st = con.prepareStatement("select * from REVIEWS where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEWS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_review);
             try (ResultSet rs = st.executeQuery())
             {
                 con.commit();
@@ -624,18 +705,17 @@ public class DbManager implements Serializable
     }
 
     /**
-     *
-     * @param id
-     * @return Uno user con la password rimossa, null se non esiste o qualcosa
-     * va storto.
+     * Recupera un utente a partire dal suo id.
+     * @param id_user Id dell'utente da recuperare.
+     * @return Uno user con la password rimossa, null se non esiste con quell'id.
      * @throws SQLException
      */
-    private User getUserById(int id) throws SQLException
+    private User getUserById(int id_user) throws SQLException
     {
         User user = null;
-        try (PreparedStatement st = con.prepareStatement("select * from USERS where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_user);
             try (ResultSet rs = st.executeQuery())
             {
                 con.commit();
@@ -671,7 +751,6 @@ public class DbManager implements Serializable
      * solitamente usato per l'admin. Un contesto è la foto più lo user che lha
      * postata. Una volta che un contesto è prelevato (restituito) non sarà
      * possibile restituirlo ancora tramite questo metodo per un ora.
-     *
      * @param many Quanti contesti (al max) si vuole ricevere.
      * @return Un ArrayList di contesti.
      * @throws SQLException
@@ -679,8 +758,8 @@ public class DbManager implements Serializable
     public ArrayList<PhotoContext> getReportedPhotos(int many) throws SQLException
     {
         ArrayList<PhotoContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_PHOTOS"
-                + " where {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
+                + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
         {
             Timestamp timestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
@@ -716,7 +795,7 @@ public class DbManager implements Serializable
     public ArrayList<PhotoContext> getAllReportedPhotos() throws SQLException
     {
         ArrayList<PhotoContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_PHOTOS"
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
@@ -737,6 +816,13 @@ public class DbManager implements Serializable
         return contesti;
     }
 
+    /**
+     * Recupera il contesto di una foto a partire dal suo id.
+     * @param id_photo Id della foto.
+     * @return PhotoContext Il contesto di una foto, composto dalla foto e
+     * dall'utente che l'ha uploadata.
+     * @throws SQLException 
+     */
     private PhotoContext getPhotoContext(int id_photo) throws SQLException
     {
         PhotoContext contesto = new PhotoContext();
@@ -745,18 +831,24 @@ public class DbManager implements Serializable
         return contesto;
     }
 
-    private Photo getPhotoById(int id) throws SQLException
+    /**
+     * Recupera una foto a partire dall id.
+     * @param id_photo L'id della foto.
+     * @return Un oggetto Photo, null se non esiste con quell id.
+     * @throws SQLException 
+     */
+    private Photo getPhotoById(int id_photo) throws SQLException
     {
         Photo photo = null;
-        try (PreparedStatement st = con.prepareStatement("select * from PHOTOS where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTOS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_photo);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
                 {
                     photo = new Photo();
-                    photo.setId(id);
+                    photo.setId(id_photo);
                     photo.setName(rs.getString("NAME"));
                     photo.setDescription(rs.getString("DESCRIPTION"));
                     photo.setPath(rs.getString("PATH"));
@@ -774,32 +866,19 @@ public class DbManager implements Serializable
         return photo;
     }
 
-    private boolean existReportedPhotoById(int id) throws SQLException
+    /**
+     * Controlla se una foto con un dato id esiste già nella tabella delle foto
+     * segnalate.
+     * @param id_photo Id della foto da controllare se esiste già in REPORTED_PHOTOS.
+     * @return Vero se esiste già, falso altrimenti.
+     * @throws SQLException 
+     */
+    private boolean existReportedPhotoById(int id_photo) throws SQLException
     {
         boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_PHOTOS where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPORTED_PHOTOS WHERE ID=?"))
         {
-            st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery())
-            {
-                res = rs.next();
-            }
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            con.rollback();
-            throw ex;
-        }
-        return res;
-    }
-
-    private boolean existReportedReviewById(int id) throws SQLException
-    {
-        boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_REVIEWS where id=?"))
-        {
-            st.setInt(1, id);
+            st.setInt(1, id_photo);
             try (ResultSet rs = st.executeQuery())
             {
                 res = rs.next();
@@ -815,18 +894,44 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Non fa commit.
-     *
-     * @param id
-     * @return
+     * Controlla se una review con un dato id esiste già nella tabella delle review
+     * segnalate.
+     * @param id_review Id della review da controllare se esiste già in REPORTED_REVIEWS.
+     * @return Vero se esiste già, falso altrimenti.
+     * @throws SQLException 
+     */
+    private boolean existReportedReviewById(int id_review) throws SQLException
+    {
+        boolean res = true;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPORTED_REVIEWS WHERE ID=?"))
+        {
+            st.setInt(1, id_review);
+            try (ResultSet rs = st.executeQuery())
+            {
+                res = rs.next();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+
+    /**
+     * Recupera un ristorante a partire dall id. 
+     * @param id_rest Id del ristorante da recuperare.
+     * @return Un oggetto Restaurant, null se non esiste con quell'id.
      * @throws SQLException
      */
-    public Restaurant getRestaurantById(int id) throws SQLException
+    public Restaurant getRestaurantById(int id_rest) throws SQLException
     {
         Restaurant restaurant = null;
-        try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS where id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_rest);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
@@ -855,8 +960,22 @@ public class DbManager implements Serializable
         return restaurant;
     }
 
+    /**
+     * Recupera il contesto di un tentativo di claim o creazione di un ristorante 
+     * da parte di un utente.
+     * @param id_user Lo user che ha fatto la creazione o la richiesta di possesso.
+     * @param id_restaurant Id del ristorante in questione.
+     * @param creation_claim_both Il tipo di claim.
+     * @param userTextClaim Una descrizione o commento che l'utente può mettere
+     * al proprio claim.
+     * @return Un oggetto AttemptContext, fatto da User, Restaurant, dalla flag
+     * che dice che tipo di claim è, e dalla descrizione del claim.
+     * @throws SQLException 
+     */
     private AttemptContext getAttemptContext(int id_user, int id_restaurant, int creation_claim_both, String userTextClaim) throws SQLException
     {
+        if(userTextClaim==null)
+            userTextClaim= new String("");
         AttemptContext contesto = new AttemptContext();
         contesto.setUser(getUserById(id_user));
         contesto.setRestaurant(getRestaurantById(id_restaurant));
@@ -866,22 +985,19 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Funzione per prendere una serie di richieste di ristoranti e i loro
-     * contesti, solitamente usato per l'admin. Un contesto è l'utente che ha
-     * fatto la richiesta, il ristorante riguarda il ristorante in questione e
-     * una flag che indica il tipo di richiesta. Una volta che un contesto è
-     * restituito da questa funzione non sarà possibile restituirlo ancora
-     * tramite questo metodo per un ora.
-     *
+     * Recupera al max "many" contesti di una restaurant request, rappresentati da un
+     * oggetto AttemptContext, che è composto da User, Restaurant, una flag IsClaim
+     * che dice che tipo di claim è, e da UserTextClaim, una descrizione che l'utente
+     * può dare alla sua richiesta.
      * @param many Quanti contesti (al max) si vuole ricevere.
-     * @return Un ArrayList di contesti.
+     * @return Un ArrayList di AttemptContext.
      * @throws SQLException
      */
     public ArrayList<AttemptContext> getRestaurantsRequests(int many) throws SQLException
     {
         ArrayList<AttemptContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS_REQUESTS"
-                + " where {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS"
+                + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
         {
             Timestamp timestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
@@ -941,10 +1057,9 @@ public class DbManager implements Serializable
     }
     
     /**
-     * Per ricevere un numero pari a many di contesti (user+review) riguardanti
+     * Per ricevere al max "many" di contesti (user+review) riguardanti
      * le review che hanno subito un report. Una volta che un contesto è stato
-     * restituito da questo metodo non sarà restituit per un ora.
-     *
+     * restituito da questo metodo non sarà restituito per un ora.
      * @param many Quanti contesti (al max) si vuole ricevere.
      * @return Un ArrayList con i contesti.
      * @throws SQLException
@@ -952,8 +1067,8 @@ public class DbManager implements Serializable
     public ArrayList<ReviewContext> getReportedReviews(int many) throws SQLException
     {
         ArrayList<ReviewContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_REVIEWS"
-                + " where {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_REVIEWS"
+                + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
         {
             Timestamp timestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
@@ -980,7 +1095,7 @@ public class DbManager implements Serializable
 
     /**
      * Recupera tutti i contesti di review segnalate che non sono ancora state 
-     * processate, e quindi presenti nel sistema.
+     * processate, e quindi presenti nel sistema, ordinate per DATE_ADMIN_TOOK.
      * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
      * di una richiesta da processare.
      * @return Un ArrayList contenente tutte i contesti di review segnalate.
@@ -989,7 +1104,7 @@ public class DbManager implements Serializable
     public ArrayList<ReviewContext> getAllReportedReviews() throws SQLException
     {
         ArrayList<ReviewContext> contesti = new ArrayList();
-        try (PreparedStatement st = con.prepareStatement("select * from REPORTED_REVIEWS "
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_REVIEWS "
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
@@ -1144,7 +1259,7 @@ public class DbManager implements Serializable
      */
     public void addClaim(User user, Restaurant restaurant, String userTextClaim, int creationClaimBoth) throws SQLException
     {
-        try (PreparedStatement st1 = con.prepareStatement("select from RESTAURANTS_REQUESTS WHERRE ID_USER=? AND ID_RESTAURANT=?");
+        try (PreparedStatement st1 = con.prepareStatement("SELECT FROM RESTAURANTS_REQUESTS WHERRE ID_USER=? AND ID_RESTAURANT=?");
                 PreparedStatement st2 = con.prepareStatement("INSERT INTO RESTAURANT_REQUESTS VALUES(?,?,?,?,?)"))
         {
             st1.setInt(1, user.getId());
@@ -1183,7 +1298,7 @@ public class DbManager implements Serializable
     public boolean addReview(Review review, Photo photo) throws SQLException
     {
         boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("insert into REVIEWS(GLOBAL_VALUE,FOOD,"
+        try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEWS(GLOBAL_VALUE,FOOD,"
                 + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
                 + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
                 + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -1649,7 +1764,7 @@ public class DbManager implements Serializable
     private int findCuisine(String cuisine) throws SQLException
     {
         int res = -1;
-        try (PreparedStatement st = con.prepareStatement("select * from CUISINES where NAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE NAME=?"))
         {
             st.setString(1, cuisine);
             try (ResultSet rs = st.executeQuery())
@@ -2603,7 +2718,14 @@ public class DbManager implements Serializable
         return res;
     }
 
-    private ArrayList<Review> getUserReviews(int id) throws SQLException
+    /**
+     * Restituisce le review di un utente, ordinate per DATE_CREATION.
+     * @param id_user L'id dell''utente di cui cercare le reviews.
+     * @return Un ArrayList di oggetti Review dell'utente, ordinate per DATE_CREATION,
+     * la prima è la più recente.
+     * @throws java.sql.SQLException
+     */
+    public ArrayList<Review> getUserReviewsByDateCreation(int id) throws SQLException
     {
         ArrayList<Review> res = new ArrayList();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEWS WHERE ID_CREATOR=? "
