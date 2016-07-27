@@ -23,17 +23,27 @@ public class RestaurantContext implements Serializable
 {
     private Restaurant restaurant;
     private User owner;
-    private int globalPosition;
+    //private int globalPosition;
     private int cityPosition;
     private ArrayList<String> cuisines;
     private PriceRange priceRange;
     private ArrayList<HoursRange> hoursRanges;
     private ArrayList<Photo> photos;
-    private ArrayList<Review> reviewsByNewest;
+    private ArrayList<ReviewContext> reviewsContextsByNewest;
     private Coordinate coordinate;
 
     public RestaurantContext()
     {
+    }
+
+    public ArrayList<ReviewContext> getReviewsContextsByNewest()
+    {
+        return reviewsContextsByNewest;
+    }
+
+    public void setReviewsContextsByNewest(ArrayList<ReviewContext> reviewsContextsByNewest)
+    {
+        this.reviewsContextsByNewest = reviewsContextsByNewest;
     }
 
     public Restaurant getRestaurant()
@@ -56,7 +66,7 @@ public class RestaurantContext implements Serializable
         this.owner = owner;
     }
 
-    public int getGlobalPosition()
+    /*public int getGlobalPosition()
     {
         return globalPosition;
     }
@@ -64,7 +74,7 @@ public class RestaurantContext implements Serializable
     public void setGlobalPosition(int globalPosition)
     {
         this.globalPosition = globalPosition;
-    }
+    }*/
 
     public int getCityPosition()
     {
@@ -114,16 +124,6 @@ public class RestaurantContext implements Serializable
     public void setPhotos(ArrayList<Photo> photos)
     {
         this.photos = photos;
-    }
-
-    public ArrayList<Review> getReviewsByNewest()
-    {
-        return reviewsByNewest;
-    }
-
-    public void setReviewsByNewest(ArrayList<Review> reviewsByNewest)
-    {
-        this.reviewsByNewest = reviewsByNewest;
     }
 
     public Coordinate getCoordinate()

@@ -10,6 +10,7 @@ import database.contexts.OwnUserContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
+import database.contexts.RestaurantContext;
 import java.io.Serializable;
 import static java.lang.Integer.max;
 import static java.lang.Integer.min;
@@ -461,7 +462,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<Review> getUserReviews(int id_user) throws SQLException
     {
-        ArrayList<Review> reviews = new ArrayList();
+        ArrayList<Review> reviews = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEWS WHERE ID_CREATOR=?"))
         {
             st.setInt(1, id_user);
@@ -507,7 +508,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<Notification> getUserNotifications(int id_user) throws SQLException
     {
-        ArrayList<Notification> notifications = new ArrayList();
+        ArrayList<Notification> notifications = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM NOTIFICATIONS WHERE USER_ID=?"))
         {
             st.setInt(1, id_user);
@@ -541,13 +542,14 @@ public class DbManager implements Serializable
      * di una reply per decidere se confermarla o no. Il timestamp di un contesto 
      * "prelevato" viene refrehsato al timestamp attuale in modo che non sarà prelevabile da altri
      * admin per 1 ora.
-     * @param many Quanti contesti (al max) da ricevere.
+     * @param many Quanti contesti (al max) da ricevere, many 
+     * deve essere maggiore o uguale a 1 o causerà una eccezione.
      * @return Un ArrayList di contesti.
      * @throws SQLException
      */
     public ArrayList<ReplyContext> getRepliesToBeConfirmed(int many) throws SQLException
     {
-        ArrayList<ReplyContext> contesti = new ArrayList();
+        ArrayList<ReplyContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPLIES_TO_BE_CONFIRMED"
                 + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
@@ -584,7 +586,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<ReplyContext> getAllRepliesToBeConfirmed() throws SQLException
     {
-        ArrayList<ReplyContext> contesti = new ArrayList();
+        ArrayList<ReplyContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPLIES_TO_BE_CONFIRMED"
                 + " ORDER BY DATE_ADMIN_TOOK ASC"))
         {
@@ -616,7 +618,7 @@ public class DbManager implements Serializable
     private ReplyContext getReplyContext(int id_reply) throws SQLException
     {
         ReplyContext contesto = new ReplyContext();
-        contesto.setReply(getReplyFromId(id_reply));
+        contesto.setReply(getReplyById(id_reply));
         contesto.setReview(getReviewById(contesto.getReply().getId_review()));
         contesto.setUser(getUserById(contesto.getReply().getId_owner()));
         return contesto;
@@ -628,10 +630,10 @@ public class DbManager implements Serializable
      * @return Un oggetto Reply, null se non esiste con quell'id.
      * @throws SQLException 
      */
-    private Reply getReplyFromId(int id_reply) throws SQLException
+    private Reply getReplyById(int id_reply) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE id=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=?"))
         {
             st.setInt(1, id_reply);
             try (ResultSet rs = st.executeQuery())
@@ -660,6 +662,44 @@ public class DbManager implements Serializable
         return reply;
     }
 
+    /**
+     * Recupera una Reply a partire dall'id della review relative alla reply.
+     * @param id_review Id della review a cui la reply risponde.
+     * @return Un oggetto Reply, null se non esiste nulla relativo a quella review.
+     * @throws SQLException 
+     */
+    private Reply getReplyByIdReview(int id_review) throws SQLException
+    {
+        Reply reply = null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID_REVIEW=?"))
+        {
+            st.setInt(1, id_review);
+            try (ResultSet rs = st.executeQuery())
+            {
+                if (rs.next())
+                {
+                    reply = new Reply();
+                    reply.setId(rs.getInt("ID"));
+                    reply.setDescription(rs.getString("DESCRIPTION"));
+                    reply.setDate_creation(rs.getTimestamp("DATE_CREATION"));
+                    reply.setId_review(rs.getInt("ID_REVIEW"));
+                    reply.setId_owner(rs.getInt("ID_OWNER"));
+                    reply.setDate_validation(rs.getTimestamp("DATE_VALIDATION"));
+                    reply.setId_validator(rs.getInt("ID_VALIDATOR"));
+                    reply.setValidated(rs.getBoolean("VALIDATED"));
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return reply;
+    }
+    
     /**
      * Recupera una review a partire dal suo id.
      * @param id_review L'id della review da recuperare.
@@ -751,13 +791,14 @@ public class DbManager implements Serializable
      * solitamente usato per l'admin. Un contesto è la foto più lo user che lha
      * postata. Una volta che un contesto è prelevato (restituito) non sarà
      * possibile restituirlo ancora tramite questo metodo per un ora.
-     * @param many Quanti contesti (al max) si vuole ricevere.
+     * @param many Quanti contesti (al max) da ricevere, many 
+     * deve essere maggiore o uguale a 1 o causerà una eccezione.
      * @return Un ArrayList di contesti.
      * @throws SQLException
      */
     public ArrayList<PhotoContext> getReportedPhotos(int many) throws SQLException
     {
-        ArrayList<PhotoContext> contesti = new ArrayList();
+        ArrayList<PhotoContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
                 + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
@@ -794,7 +835,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<PhotoContext> getAllReportedPhotos() throws SQLException
     {
-        ArrayList<PhotoContext> contesti = new ArrayList();
+        ArrayList<PhotoContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
@@ -989,13 +1030,14 @@ public class DbManager implements Serializable
      * oggetto AttemptContext, che è composto da User, Restaurant, una flag IsClaim
      * che dice che tipo di claim è, e da UserTextClaim, una descrizione che l'utente
      * può dare alla sua richiesta.
-     * @param many Quanti contesti (al max) si vuole ricevere.
+     * @param many Quanti contesti (al max) da ricevere, many 
+     * deve essere maggiore o uguale a 1 o causerà una eccezione.
      * @return Un ArrayList di AttemptContext.
      * @throws SQLException
      */
     public ArrayList<AttemptContext> getRestaurantsRequests(int many) throws SQLException
     {
-        ArrayList<AttemptContext> contesti = new ArrayList();
+        ArrayList<AttemptContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS"
                 + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
@@ -1033,7 +1075,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<AttemptContext> getAllRestaurantsRequests() throws SQLException
     {
-        ArrayList<AttemptContext> contesti = new ArrayList();
+        ArrayList<AttemptContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS_REQUESTS"
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
@@ -1060,13 +1102,14 @@ public class DbManager implements Serializable
      * Per ricevere al max "many" di contesti (user+review) riguardanti
      * le review che hanno subito un report. Una volta che un contesto è stato
      * restituito da questo metodo non sarà restituito per un ora.
-     * @param many Quanti contesti (al max) si vuole ricevere.
+     * @param many Quanti contesti (al max) da ricevere, many 
+     * deve essere maggiore o uguale a 1 o causerà una eccezione.
      * @return Un ArrayList con i contesti.
      * @throws SQLException
      */
     public ArrayList<ReviewContext> getReportedReviews(int many) throws SQLException
     {
-        ArrayList<ReviewContext> contesti = new ArrayList();
+        ArrayList<ReviewContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_REVIEWS"
                 + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
@@ -1103,7 +1146,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<ReviewContext> getAllReportedReviews() throws SQLException
     {
-        ArrayList<ReviewContext> contesti = new ArrayList();
+        ArrayList<ReviewContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_REVIEWS "
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
@@ -1125,32 +1168,40 @@ public class DbManager implements Serializable
         return contesti;
     }
     
-    private ReviewContext getReviewContext(int review_id) throws SQLException
+    /**
+     * Recupera il contesto di una review a partire dall'id.
+     * @param id_review Id della review.
+     * @return Un oggetto ReviewContext (review, user e eventuale reply che
+     * può essere null se non c'è una reply per quella review).
+     * @throws SQLException 
+     */
+    public ReviewContext getReviewContext(int id_review) throws SQLException
     {
-        ReviewContext contesto = new ReviewContext();
-        contesto.setReview(getReviewById(review_id));
-        contesto.setUser(getUserById(contesto.getReview().getId_creator()));
-        return contesto;
+        ReviewContext context = new ReviewContext();
+        context.setReview(getReviewById(id_review));
+        context.setUser(getUserById(context.getReview().getId_creator()));
+        context.setReply(getReplyByIdReview(id_review));
+        return context;
     }
 
     /**
      * Metodo per inserire una foto nelle foto reportate, utilizzando il suo id.
      *
-     * @param photo_id
+     * @param id_photo
      * @throws SQLException
      */
-    public void reportPhoto(int photo_id) throws SQLException
+    public void reportPhoto(int id_photo) throws SQLException
     {
         try (PreparedStatement st2 = con.prepareStatement("INSERT INTO REPORTED_PHOTOS VALUES(?,?)");
                 PreparedStatement st1 = con.prepareStatement("SELECT FROM PHOTOS WHERE ID=?"))
         {
-            st1.setInt(1, photo_id);
+            st1.setInt(1, id_photo);
             try (ResultSet rs1 = st1.executeQuery())
             {
                 //se la foto esiste e non è già stata reportata inserisco il report
-                if (rs1.next() && !existReportedPhotoById(photo_id))
+                if (rs1.next() && !existReportedPhotoById(id_photo))
                 {
-                    st2.setInt(1, photo_id);
+                    st2.setInt(1, id_photo);
                     st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                     st2.executeUpdate();
                 }
@@ -1169,21 +1220,21 @@ public class DbManager implements Serializable
      * Metodo per inserire una review nelle review reportate, utilizzando il suo
      * id.
      *
-     * @param review_id
+     * @param id_review
      * @throws SQLException
      */
-    public void reportReview(int review_id) throws SQLException
+    public void reportReview(int id_review) throws SQLException
     {
         try (PreparedStatement st2 = con.prepareStatement("INSERT INTO REPORTED_REVIEWS VALUES(?,?)");
                 PreparedStatement st1 = con.prepareStatement("SELECT FROM REVIEWS WHERE ID=?"))
         {
-            st1.setInt(1, review_id);
+            st1.setInt(1, id_review);
             try (ResultSet rs1 = st1.executeQuery())
             {
                 //se la review esiste e non è già stata reportata inserisco il report
-                if (rs1.next() && !existReportedReviewById(review_id))
+                if (rs1.next() && !existReportedReviewById(id_review))
                 {
-                    st2.setInt(1, review_id);
+                    st2.setInt(1, id_review);
                     st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                     st2.executeUpdate();
                 }
@@ -1963,16 +2014,16 @@ public class DbManager implements Serializable
      * sue notifiche nella pagina profilo. Queste notifiche non riguardano le
      * notifiche di foto/review etc segnalate che arrivano agli admin.
      *
-     * @param idUser L'id dell'utente a cui fare arrivare la notifica.
+     * @param id_user L'id dell'utente a cui fare arrivare la notifica.
      * @param notifica La stringa che verrà vista dall'utente come notifica.
      * @throws SQLException
      */
-    public void notifyUser(int idUser, String notifica) throws SQLException
+    public void notifyUser(int id_user, String notifica) throws SQLException
     {
         try (PreparedStatement st = con.prepareStatement("INSERT INTO NOTIFICATIONS"
                 + "(USER_ID,DESCRIPTION) VALUES(?,?)"))
         {
-            st.setInt(1, idUser);
+            st.setInt(1, id_user);
             st.setString(2, notifica);
             st.executeUpdate();
         }
@@ -2547,7 +2598,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<String> autoCompleteName(String term) throws SQLException
     {
-        ArrayList<String> res = new ArrayList();
+        ArrayList<String> res = new ArrayList<>();
         if(term==null||term.length()==0)
             return res;
         try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM RESTAURANTS WHERE"
@@ -2589,11 +2640,11 @@ public class DbManager implements Serializable
      */
     public ArrayList<String> autoCompleteLocation(String term) throws SQLException
     {
-        ArrayList<String> res = new ArrayList();
+        ArrayList<String> res = new ArrayList<>();
         if(term==null||term.length()==0)
             return res;
         try (PreparedStatement st = con.prepareStatement("SELECT COMPLETE_LOCATION FROM COORDINATES WHERE"
-                + " upper(COMPLETE_LOCATION) like upper(?) FETCH FIRST 5 ROWS ONLY"))
+                + " upper(COMPLETE_LOCATION) like upper(?) ESCAPE '!' FETCH FIRST 5 ROWS ONLY"))
         {
             term = term
             .replace("!", "!!")
@@ -2629,7 +2680,7 @@ public class DbManager implements Serializable
      */
     private ArrayList<Integer> getRestIdsFromLocation(String location) throws SQLException
     {
-        ArrayList<Integer> res = new ArrayList();
+        ArrayList<Integer> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT RESTAURANTS.ID "
                 + "FROM "
                 + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
@@ -2690,7 +2741,7 @@ public class DbManager implements Serializable
 
     private ArrayList<Photo> getUserPhotos(int id) throws SQLException
     {
-        ArrayList<Photo> res = new ArrayList();
+        ArrayList<Photo> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTOS WHERE ID_OWNER=?"))
         {
             st.setInt(1, id);
@@ -2727,7 +2778,7 @@ public class DbManager implements Serializable
      */
     public ArrayList<Review> getUserReviewsByDateCreation(int id) throws SQLException
     {
-        ArrayList<Review> res = new ArrayList();
+        ArrayList<Review> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEWS WHERE ID_CREATOR=? "
                 + "ORDER BY DATE_CREATION DESC"))
         {
@@ -2766,7 +2817,7 @@ public class DbManager implements Serializable
 
     private ArrayList<Restaurant> getUserRestaurants(int id) throws SQLException
     {
-        ArrayList<Restaurant> res = new ArrayList();
+        ArrayList<Restaurant> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS WHERE ID_OWNER=? "
                 + "ORDER BY REVIEWS_COUNTER DESC"))
         {
@@ -2802,7 +2853,7 @@ public class DbManager implements Serializable
 
     private ArrayList<String> getRestaurantCuisines(int id) throws SQLException
     {
-        ArrayList<String> res = new ArrayList();
+        ArrayList<String> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT NAME "
                 + "FROM "
                 + "(SELECT ID_CUISINE FROM RESTAURANT_CUISINE WHERE ID_RESTAURANT=?) IDC, CUISINES "
@@ -3129,6 +3180,397 @@ public class DbManager implements Serializable
         return diffHours;
     }
 
+    
+    /**
+     * Recupera i ristoranti che hanno un determinato nome.
+     * @param name Nome dei ristoranti da recuperare.
+     * @return Un oggetto ArrayList<Restaurant>, vuoto se non esistono ristoranti 
+     * con quel nome.
+     * @throws SQLException
+     */
+    public ArrayList<Restaurant> getRestaurantsByName(String name) throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS WHERE NAME=?"))
+        {
+            st.setString(1, name);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce un ArrayList di ristoranti che hanno indirizzo,
+     * città, stato, o complete_location pari a location.
+     * @param location
+     * @return Un oggetto ArrayList<Restaurant>, vuoto se non ci sono ristoranti
+     * con quella location.
+     * @throws SQLException
+     */
+    public ArrayList<Restaurant> getRestaurantsFromLocation(String location) throws SQLException
+    {
+        ArrayList<Restaurant> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * "
+                + "FROM "
+                + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
+                + "FROM "
+                + "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=? OR COMPLETE_LOCATION=?) IDCord, RESTAURANT_COORDINATE "
+                + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
+                + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID "
+                + ""))
+        {
+            st.setString(1, location);
+            st.setString(2, location);
+            st.setString(3, location);
+            st.setString(4, location);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Recupera i ristoranti che hanno un determinato proprietario.
+     * @param id_owner Id del proprietario dei ristoranti.
+     * @return Un oggetto ArrayList<Restaurant>, vuoto se non esistono ristoranti 
+     * con quel proprietario.
+     * @throws SQLException
+     */
+    public ArrayList<Restaurant> getRestaurantsByIdOwner(int id_owner) throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS WHERE ID_OWNER=?"))
+        {
+            st.setInt(1, id_owner);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Recupera i ristoranti che hanno un determinato creatore.
+     * @param id_creator Id del creatore dei ristoranti.
+     * @return Un oggetto ArrayList<Restaurant>, vuoto se non esistono ristoranti 
+     * creati da quell'utente.
+     * @throws SQLException
+     */
+    public ArrayList<Restaurant> getRestaurantsByIdCreator(int id_creator) throws SQLException
+    {
+        ArrayList<Restaurant> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS WHERE ID_CREATOR=?"))
+        {
+            st.setInt(1, id_creator);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Restaurant restaurant= new Restaurant();
+                    restaurant.setId(rs.getInt("ID"));
+                    restaurant.setName(rs.getString("NAME"));
+                    restaurant.setDescription(rs.getString("DESCRIPTION"));
+                    restaurant.setWeb_site_url(rs.getString("WEB_SITE_URL"));
+                    restaurant.setGlobal_value(rs.getInt("GLOBAL_VALUE"));
+                    restaurant.setId_owner(rs.getInt("ID_OWNER"));
+                    restaurant.setId_creator(rs.getInt("ID_CREATOR"));
+                    restaurant.setId_price_range(rs.getInt("ID_PRICE_RANGE"));
+                    restaurant.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    restaurant.setVotes_counter(rs.getInt("VOTES_COUNTER"));
+                    restaurant.setValidated(rs.getBoolean("VALIDATED"));
+                    res.add(restaurant);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce il contesto di un ristorante a partire dall'id.
+     * Le review del ristorante sono ordinate a partire dalla più recente
+     * alla più vecchia.
+     * @param id_restaurant Id del ristorante.
+     * @return Un oggetto RestaurantContext.
+     * @throws SQLException 
+     */
+    public RestaurantContext getRestaurantContext(int id_restaurant) throws SQLException
+    {
+        RestaurantContext context= new RestaurantContext();
+        Coordinate coordinate= getRestaurantCoordinate(id_restaurant);
+        Restaurant restaurant= getRestaurantById(id_restaurant);
+        context.setRestaurant(restaurant);
+        if(restaurant.getId_owner()!=0)//se ha un owner
+            context.setOwner(getUserById(restaurant.getId_owner()));
+        else
+            context.setOwner(null);
+        context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(),
+                coordinate.getCity(),coordinate.getState()));
+        context.setCuisines(getRestaurantCuisines(restaurant.getId()));
+        context.setPriceRange(getRestaurantPriceRange(restaurant.getId_price_range()));
+        context.setHoursRanges(getRestaurantHoursRanges(id_restaurant));
+        context.setPhotos(getRestaurantPhotos(id_restaurant));
+        context.setReviewsContextsByNewest(getRestaurantReviewsContextsByNewest(id_restaurant));
+        context.setCoordinate(coordinate);
+        return context;
+    }
+    
+    /**
+     * Restituisce i contesti delle review di un ristorante a partire dall'id 
+     * del ristorante, ordinati dalla review più nuova a quella più vecchia.
+     * @param id_restaurant L'id del ristorante.
+     * @return Un ArrayList di ReviewContext.
+     * @throws SQLException 
+     */
+    private ArrayList<ReviewContext> getRestaurantReviewsContextsByNewest(int id_restaurant) throws SQLException
+    {
+        ArrayList<ReviewContext> reviews= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID"
+                 + " FROM REVIEWS WHERE ID_RESTAURANT=? ORDER BY DATE_CREATION DESC"))
+        {
+            st.setInt(1, id_restaurant);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    reviews.add(getReviewContext(rs.getInt("ID")));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return reviews;
+    }
+    
+    /**
+     * Per trovare le coordinate di un ristorante a partire dal suo id.
+     * @param id_restaurant L'id del ristorante.
+     * @return Un oggetto Coordinate relativo al ristorante.
+     * @throws SQLException 
+     */
+    private Coordinate getRestaurantCoordinate(int id_restaurant) throws SQLException
+    {
+        Coordinate coordinate= null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM COORDINATES, "
+                + "RESTAURANT_COORDINATE WHERE RESTAURANT_COORDINATE.ID_RESTAURANT=? "
+                + "AND RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID"))
+        {
+            st.setInt(1, id_restaurant);
+            try (ResultSet rs = st.executeQuery())
+            {
+                if(rs.next())
+                {
+                    coordinate= new Coordinate();
+                    coordinate.setLatitude(rs.getDouble("LATITUDE"));
+                    coordinate.setLongitude(rs.getDouble("LONGITUDE"));
+                    coordinate.setAddress(rs.getString("ADDRESS"));
+                    coordinate.setCity(rs.getString("CITY"));
+                    coordinate.setState(rs.getString("STATE"));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return coordinate;
+    }
+    
+    /**
+     * Restituisce le HoursRange di un ristorante partendo dall'id del ristorante.
+     * @param id_restaurant Id del ristorante.
+     * @return Un ArrayList contentente oggetti HoursRange.
+     * @throws SQLException 
+     */
+    private ArrayList<HoursRange> getRestaurantHoursRanges(int id_restaurant) throws SQLException
+    {
+        ArrayList<HoursRange> hours= new ArrayList<>();
+         try (PreparedStatement st = con.prepareStatement("SELECT "
+                 + "OPENING_HOURS_RANGES.DAY_OF_THE_WEEK, "
+                 + "OPENING_HOURS_RANGES.START_HOUR, "
+                 + "OPENING_HOURS_RANGES.END_HOUR FROM OPENING_HOURS_RANGES, "
+                 + "OPENING_HOURS_RANGE_RESTAURANT WHERE "
+                 + "OPENING_HOURS_RANGE_RESTAURANT.ID_RESTAURANT=? "
+                 + "AND OPENING_HOURS_RANGE_RESTAURANT.ID_OPENING_HOURS_RANGE="
+                 + "OPENING_HOURS_RANGES.ID"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    HoursRange hoursrange= new HoursRange();
+                    hoursrange.setDay(rs.getInt("DAY_OF_THE_WEEK"));
+                    hoursrange.setStart_hour(rs.getTime("START_HOUR"));
+                    hoursrange.setEnd_hour(rs.getTime("END_HOUR"));
+                    hours.add(hoursrange);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return hours;
+    }
+    /**
+     * Un metodo per avere la posizione di un ristorante in una città (nello stesso stato)
+     * rispetto al global_value.
+     * Se un ristorante avrà il global_value più alto rispetto agli altri ristoranti
+     * nella sua città allora il risultato sarà 1.
+     * @param global_value Il global_value del ristorante.
+     * @param city La città del ristorante.
+     * @param state Lo stato del ristorante.
+     * @return Un intero pari alla posizione del ristorante in quella città in 
+     * base al global_value.
+     * @throws SQLException 
+     */
+    public int getRestaurantCityPosition(int global_value, String city, String state) throws SQLException
+    {
+        int res=1;
+        try (PreparedStatement st = con.prepareStatement(
+                "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE FROM RESTAURANTS,"
+                        + "RESTAURANT_COORDINATE, COORDINATES WHERE "
+                        + "COORDINATES.CITY=? AND COORDINATES.\"STATE\"=? AND "
+                        + "RESTAURANTS.ID=RESTAURANT_COORDINATE.ID_RESTAURANT AND "
+                        + "RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID) GLOBAL_VALUES "
+                        + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ?"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                if (rs.next())
+                {
+                    res=rs.getInt("COUNT")+1;
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Recupera tutte le foto di un ristorante.
+     * @param id_restaurant L'id del ristorante.
+     * @return Un ArrayList contenente oggetti Photo.
+     * @throws SQLException 
+     */
+    private ArrayList<Photo> getRestaurantPhotos(int id_restaurant) throws SQLException
+    {
+        ArrayList<Photo> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTOS WHERE ID_RESTAURANT=?"))
+        {
+            st.setInt(1, id_restaurant);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Photo photo = new Photo();
+                    photo.setId(rs.getInt("ID"));
+                    photo.setName(rs.getString("NAME"));
+                    photo.setDescription(rs.getString("DESCRIPTION"));
+                    photo.setPath(rs.getString("PATH"));
+                    photo.setId_restaurant(rs.getInt("ID_RESTAURANT"));
+                    photo.setId_owner(rs.getInt("ID_OWNER"));
+                    res.add(photo);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+
+    
     /**
      * Chiude la connessione al database!
      */
