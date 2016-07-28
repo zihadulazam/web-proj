@@ -5,15 +5,19 @@
     margin-bottom: 0px;
 }
 #restaurant-name{
+    img{
+        height: 110px;
+        width: auto;
+        text-align: center;
+    }
     h1{
         text-align: center;
         font-weight: bold;
         margin-top: 0px;
-        font-family: 'Nunito', sans-serif;
+        margin-bottom: 20px;
+        font-family: 'Raleway', sans-serif;
+        color:#555;
         font-size: 40px;
-    }
-    hr{
-        border-color: $eatbit_grey;
     }
 }
 
@@ -46,7 +50,7 @@
         margin-top: 70px;
     }
     #classifica{
-        color:  #d9534f;
+        color: darken(#428bca, 6.5%);
         font-weight: bold;
     }
     #info-apertura{
@@ -82,6 +86,15 @@
         .jssora05l.jssora05ldn      (mousedown)
         .jssora05r.jssora05rdn      (mousedown)
         */
+
+        #jssor_1{
+            border: 10px solid #fff;
+            box-shadow: 0px 0px 5px 1px #999;
+            -webkit-box-shadow: 0px 0px 5px 1px #999;
+            -moz-box-shadow: 0px 0px 5px 1px #999;
+        }
+
+
         .jssora05l, .jssora05r {
             display: block;
             position: absolute;
@@ -228,6 +241,135 @@
         margin-top: 10px;
     }
 }
+
+.contenitori-blocco{
+    img{
+        height: 70px;
+        width: auto;
+        text-align: center;
+    }
+    h1{
+       font-family:'Source Sans Pro', sans-serif;
+        color:#666;
+        text-align: center;
+    }
+}
+
+#recensioni-container{
+    //datatable css
+    .dataTables_wrapper table thead{
+       display:none !important;
+    }
+    table{
+        border: 0px;
+    }
+    td{
+        background-color: #fff !important;
+        border: 0px;
+    }
+    .comment{
+        margin-top: 25px;
+        border: 5px solid #fff;
+        box-shadow: 0px 0px 5px 1px #999;
+        background-color: $eatbit-red;
+        color: white;
+        .container-fluid{
+            padding-right: 5px;
+            padding-left: 5px;
+            .row{
+                .comment-writer{
+                    //background-color: red;
+                    text-align: center;
+                    margin-top: 10px;
+                    img{
+                        border: 2px solid white;
+                        width: 80px;
+                        height: 80px;
+                        margin: 2px;
+                    }
+                    .comment-data{
+                        color: #fff;
+                    }
+                }
+                .comment-content{
+                    padding-bottom: 5px;
+                    .comment-nome-ristorante{
+                        text-align: right;
+                        a{
+                            color: #FFC300;
+                        }   
+                    }
+                    .comment-title{
+                        margin-top: 15px;
+                        margin-bottom: 5px;
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                    .comment-text{
+                        font-size: 13px;
+                    }
+                    .risposta-admin{
+                        border: 1px solid #fff;
+                        border-radius: 20px;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        .lb{
+                            text-align: right;
+                            @media (max-width: 991px){
+                                text-align: left;
+                            }
+                        }
+                        .risposta-text{
+                            font-size: 12px;
+                        }
+                        .risposta-autore,.risposta-date{
+                            text-align: right;
+                            font-size: 12px;   
+                        }
+                        .risposta-autore{
+                            font-weight: bold;
+                            margin-bottom: 0px;
+                        }
+                    }
+                    .rating-stars{
+                        margin-left: 0px;
+                        margin-bottom:10px;  
+                        display: block;
+                        img{
+                            height: 20px;
+                            width: auto;
+                        }
+                    }
+                    p{
+                        text-align: justify;
+                    }
+                    .btn-mi-piace{
+                        border: 1px solid #fff;
+                        .badge{
+                            background-color: $eatbit_red;
+                        }
+                    }
+                    .btn-non-mi-piace{
+                        background-color: $eatbit_red;
+                        border: 1px solid #fff;
+                        &:hover{
+                            background-color: #C70039  ;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//-------------------google MAP CSS ----------------------
+#map{
+    height: 400px;
+    width: 100%;
+    border: 10px solid #fff;
+    box-shadow: 0px 0px 5px 1px #999;
+}
+//-------------------END google MAP CSS ----------------------
 
 
 

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="it">
     <head>
         <title>eatBit | Ristorante</title>
@@ -11,6 +12,9 @@
         <!-- jquery ui -->
         <link href="css/jquery-ui.css" rel="stylesheet">
         
+        <!-- Datatable Css-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel='stylesheet' type='text/css'>
+        
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/restaurant.css" rel="stylesheet">
@@ -19,7 +23,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
         <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
-        <link href='https://fonts.googleapis.com/css?family=Nunito:700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
         
     </head>
     <body>
@@ -30,7 +34,7 @@
         <div class="container">
             <div class="row" id="header">
                 <div class="col-xs-12 col-md-12"  id="restaurant-name">
-                    <h1>Nome Ristorante</h1> 
+                    <h1><img src="img/restaurant/name.png"/> Nome Ristorante</h1> 
                     <hr/> 
                 </div>
             </div>
@@ -109,6 +113,8 @@
         <!-- #endregion Jssor Slider End -->
         <!-------------End Slider----------------->
         
+        
+        <!-------------Buttons Add Recensione, Upload Foto with collapse -------------------->
         <div class="container" id="button-container">
             <div class="row">
                 <div class="col-md-12">
@@ -206,8 +212,101 @@
                 </div>
             </div>
         </div>
-        
-        
+        <!------------------- Recensioni -------------------->
+        <div class="container contenitori-blocco" id="recensioni-container">
+            <h1><img src="img/restaurant/comments.png"/> Recensioni</h1>
+            <hr/>
+            <table id="tabella-recensioni" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <th></th>
+                </thead>
+                <tfoot></tfoot>
+                <tbody>
+                    <c:forEach var="i" begin="1" end="7">
+                        <tr>
+                            <td>
+                                <div class="comment">
+                                    <div class="container-fluid">
+                                        <div class="row container-fluid">
+                                            <div class="col-md-2 comment-writer">
+                                                <img src="img/avater/avater.png" class="img-circle"/>
+                                                <h5>Nickname</h5>
+                                                <p class="comment-data">
+                                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                    10 Nov 2015 10:30
+                                                </p>
+                                            </div>
+                                            <div class="col-md-10 comment-content">
+                                                <h3 class="comment-title">Titolo Commento <c:out value="${i}"/></h3>
+                                                <div class="row rating-stars">
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-empty.png"/>
+                                                    <img src="img/star-empty.png"/>
+                                                </div>
+                                                
+                                                <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
+                                                
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-10">
+                                                            <div class="container-fluid risposta-admin">
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <p class="lb"><label>Risposta:</label></p>
+                                                                    </div>
+                                                                    <div class="col-md-10">
+                                                                        <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
+                                                                        <p class="risposta-autore">Da: Admin</p>
+                                                                        <p class="risposta-date">15 Nov 2015 16:31</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
+                                                            <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <!-------------------END Recensioni ----------------->
+
+        <!------------------- Mappa Vicini -------------------->
+        <div class="container contenitori-blocco" id="map-container">
+            <h1><img src="img/restaurant/map.png"/> Vicino a NOME_RISTORANTE</h1>
+            <hr/>
+            <div id="map"></div>
+        </div>
+        <!-------------------END Mappa Vicini ----------------->
+
+        <!------------------- Dettagli -------------------->
+        <div class="container contenitori-blocco" id="dettagli-container">
+            <h1><img src="img/restaurant/info.png"/> Dettagli</h1>
+            <hr/>
+            
+        </div>
+        <!-------------------END Dettagli ----------------->
+
         <!-- end Main container -->
         
         <!-- included modal hear -->
@@ -219,5 +318,15 @@
         <!-- slider JS -->
         <script type="text/javascript" src="js/jssor.slider.mini.js"></script>
         <script type="text/javascript" src="js/slider-config-js.js"></script>
+        
+        <!-- Datatable js-->
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        
+        <!-- Google Map JS CDN-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5PvbD12gNax9Avkf-qes0_Y-_oB90b-o&callback=initMap"async defer></script>
+       
+        <!-- Restaurant JS-->
+        <script type="text/javascript" src="js/restaurant.js"></script>
+
     </body>
 </html>

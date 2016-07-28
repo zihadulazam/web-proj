@@ -115,164 +115,217 @@
 /* line 76, ../scss/index.scss */
 #last-update #updates .update .update-body .comment {
   margin-top: 25px;
-  box-shadow: 10px 10px 5px #dedede;
+  border: 5px solid #fff;
+  box-shadow: 0px 0px 5px 1px #999;
   background-color: #e62739;
   color: white;
 }
-/* line 81, ../scss/index.scss */
+/* line 82, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid {
   padding-right: 5px;
   padding-left: 5px;
 }
-/* line 85, ../scss/index.scss */
+/* line 86, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer {
   text-align: center;
   margin-top: 10px;
 }
-/* line 89, ../scss/index.scss */
+/* line 90, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer img {
   border: 2px solid white;
   width: 80px;
   height: 80px;
   margin: 2px;
 }
-/* line 95, ../scss/index.scss */
+/* line 96, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .comment-data {
   color: #fff;
 }
 /* line 100, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content {
+  padding-bottom: 5px;
+}
+/* line 102, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante {
   text-align: right;
 }
-/* line 102, ../scss/index.scss */
+/* line 104, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante a {
-  color: #62bcfa;
+  color: #FFC300;
 }
-/* line 106, ../scss/index.scss */
+/* line 108, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-title {
   margin-top: 15px;
   margin-bottom: 5px;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 112, ../scss/index.scss */
+/* line 114, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-text {
+  font-size: 13px;
+}
+/* line 117, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin {
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+/* line 122, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .lb {
+  text-align: right;
+}
+@media (max-width: 991px) {
+  /* line 122, ../scss/index.scss */
+  #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .lb {
+    text-align: left;
+  }
+}
+/* line 128, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-text {
   font-size: 12px;
 }
-/* line 115, ../scss/index.scss */
+/* line 131, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-autore, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-date {
+  text-align: right;
+  font-size: 12px;
+}
+/* line 135, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-autore {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+/* line 140, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 119, ../scss/index.scss */
+/* line 144, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars img {
   height: 20px;
   width: auto;
 }
-/* line 124, ../scss/index.scss */
+/* line 149, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content p {
   text-align: justify;
 }
-/* line 131, ../scss/index.scss */
+/* line 152, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace {
+  border: 1px solid #fff;
+}
+/* line 154, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace .badge {
+  background-color: #e62739;
+}
+/* line 158, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace {
+  background-color: #e62739;
+  border: 1px solid #fff;
+}
+/* line 161, ../scss/index.scss */
+#last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace:hover {
+  background-color: #C70039;
+}
+/* line 169, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant {
   margin-top: 15px;
   box-shadow: 10px 10px 5px #dedede;
   border: 1px solid #dedede;
 }
-/* line 136, ../scss/index.scss */
+/* line 174, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title {
   text-align: center;
   margin-top: 10px;
 }
-/* line 139, ../scss/index.scss */
+/* line 177, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .r-img {
   border: 2px solid white;
   width: 100px;
   height: 100px;
   margin: 2px;
 }
-/* line 145, ../scss/index.scss */
+/* line 183, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 149, ../scss/index.scss */
+/* line 187, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars img {
   height: 20px;
   width: auto;
 }
 
-/* line 163, ../scss/index.scss */
+/* line 201, ../scss/index.scss */
 .restaurant-body {
   margin-top: 10px;
 }
 
-/* line 167, ../scss/index.scss */
+/* line 205, ../scss/index.scss */
 .info-lable {
   font-weight: bold;
   font-size: 16px;
   color: #2196F3;
 }
 
-/* line 172, ../scss/index.scss */
+/* line 210, ../scss/index.scss */
 .info-text {
   font-size: 15px;
 }
 
-/* line 175, ../scss/index.scss */
+/* line 213, ../scss/index.scss */
 .btn-visita {
   text-align: right;
   margin-bottom: 10px;
 }
-/* line 178, ../scss/index.scss */
+/* line 216, ../scss/index.scss */
 .btn-visita button {
   background-color: #009688;
 }
-/* line 180, ../scss/index.scss */
+/* line 218, ../scss/index.scss */
 .btn-visita button:hover {
   background-color: #00796B;
 }
 
-/* line 186, ../scss/index.scss */
+/* line 224, ../scss/index.scss */
 #second-update-row {
   margin-top: 40px;
 }
 
-/* line 190, ../scss/index.scss */
+/* line 228, ../scss/index.scss */
 #update-left {
   padding-right: 20px;
 }
-/* line 192, ../scss/index.scss */
+/* line 230, ../scss/index.scss */
 #update-left .restaurant {
   border-color: #3f51b5 !important;
 }
-/* line 196, ../scss/index.scss */
+/* line 234, ../scss/index.scss */
 #update-left .btn-visita button {
   background-color: #3F51B5 !important;
 }
-/* line 198, ../scss/index.scss */
+/* line 236, ../scss/index.scss */
 #update-left .btn-visita button:hover {
   background-color: #303F9F !important;
 }
 
-/* line 204, ../scss/index.scss */
+/* line 242, ../scss/index.scss */
 #update-right {
   padding-left: 20px;
 }
-/* line 206, ../scss/index.scss */
+/* line 244, ../scss/index.scss */
 #update-right .restaurant {
   border-color: #00796B !important;
 }
 
 @media (max-width: 767px) {
-  /* line 212, ../scss/index.scss */
+  /* line 250, ../scss/index.scss */
   #update-left {
     padding-right: 0px;
   }
 
-  /* line 215, ../scss/index.scss */
+  /* line 253, ../scss/index.scss */
   #update-right {
     padding-left: 0px;
   }
@@ -309,7 +362,7 @@ h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
 h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
 h4{font-size:18px; font-weight: 400}
 */
-/* line 257, ../scss/index.scss */
+/* line 295, ../scss/index.scss */
 .hide-this {
   display: none;
 }

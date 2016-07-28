@@ -75,7 +75,8 @@
                 border: 0px;
                 .comment{
                     margin-top: 25px;
-                    box-shadow: 10px 10px 5px #dedede;
+                    border: 5px solid #fff;
+                    box-shadow: 0px 0px 5px 1px #999;
                     background-color: $eatbit-red;
                     color: white;
                     .container-fluid{
@@ -97,10 +98,11 @@
                                 }
                             }
                             .comment-content{
+                                padding-bottom: 5px;
                                 .comment-nome-ristorante{
                                     text-align: right;
                                     a{
-                                        color: #62bcfa;
+                                        color: #FFC300;
                                     }   
                                 }
                                 .comment-title{
@@ -110,7 +112,30 @@
                                     font-weight: bold;
                                 }
                                 .comment-text{
-                                    font-size: 12px;
+                                    font-size: 13px;
+                                }
+                                .risposta-admin{
+                                    border: 1px solid #fff;
+                                    border-radius: 20px;
+                                    padding: 10px;
+                                    margin-bottom: 10px;
+                                    .lb{
+                                        text-align: right;
+                                        @media (max-width: 991px){
+                                            text-align: left;
+                                        }
+                                    }
+                                    .risposta-text{
+                                        font-size: 12px;
+                                    }
+                                    .risposta-autore,.risposta-date{
+                                        text-align: right;
+                                        font-size: 12px;   
+                                    }
+                                    .risposta-autore{
+                                        font-weight: bold;
+                                        margin-bottom: 0px;
+                                    }
                                 }
                                 .rating-stars{
                                     margin-left: 0px;
@@ -123,6 +148,19 @@
                                 }
                                 p{
                                     text-align: justify;
+                                }
+                                .btn-mi-piace{
+                                    border: 1px solid #fff;
+                                    .badge{
+                                        background-color: $eatbit_red;
+                                    }
+                                }
+                                .btn-non-mi-piace{
+                                    background-color: $eatbit_red;
+                                    border: 1px solid #fff;
+                                    &:hover{
+                                        background-color: #C70039  ;
+                                    }
                                 }
                             }
                         }

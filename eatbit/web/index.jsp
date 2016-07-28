@@ -89,14 +89,37 @@
                                                             <img src="img/star-empty.png"/>
                                                             <img src="img/star-empty.png"/>
                                                         </div>
+                                                        
                                                         <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
+                                                        
                                                         <div class="container-fluid">
                                                             <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Utile</button>
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-10">
+                                                                    <div class="container-fluid risposta-admin">
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <p class="lb"><label>Risposta:</label></p>
+                                                                            </div>
+                                                                            <div class="col-md-10">
+                                                                                <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
+                                                                                <p class="risposta-autore">Da: Admin</p>
+                                                                                <p class="risposta-date">15 Nov 2015 16:31</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-8">
-                                                                     <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
+                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
                                                                 </div> 
                                                             </div>
                                                         </div>
@@ -124,14 +147,37 @@
                                                             <img src="img/star-empty.png"/>
                                                             <img src="img/star-empty.png"/>
                                                         </div>
+                                                        
                                                         <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
+                                                        
                                                         <div class="container-fluid">
                                                             <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Utile</button>
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-10">
+                                                                    <div class="container-fluid risposta-admin">
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <p class="lb"><label>Risposta:</label></p>
+                                                                            </div>
+                                                                            <div class="col-md-10">
+                                                                                <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
+                                                                                <p class="risposta-autore">Da: Admin</p>
+                                                                                <p class="risposta-date">15 Nov 2015 16:31</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-8">
-                                                                     <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
+                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
                                                                 </div> 
                                                             </div>
                                                         </div>
@@ -139,41 +185,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="comment">
-                                            <div class="container-fluid">
-                                                <div class="row container-fluid">
-                                                    <div class="col-md-2 comment-writer">
-                                                        <img src="img/avater/avater.png" class="img-circle"/>
-                                                        <h5>Nickname</h5>
-                                                        <p class="comment-data">
-                                                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            10 Nov 2015 10:30
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-md-10 comment-content">
-                                                        <h3 class="comment-title">Titolo Commento</h3>
-                                                        <div class="row rating-stars">
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-empty.png"/>
-                                                            <img src="img/star-empty.png"/>
-                                                        </div>
-                                                        <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Utile</button>
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                     <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
-                                                                </div> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
