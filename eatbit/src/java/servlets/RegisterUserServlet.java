@@ -9,11 +9,19 @@ import database.DbManager;
 import database.Restaurant;
 import database.Review;
 import database.User;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,19 +83,27 @@ public class RegisterUserServlet extends HttpServlet {
                 user.setPassword(password);
                 user.setAvatar_path(avatarPath);
                 res = manager.registerUser(user);
-                if (res == 0)//se la registrazione è andata a buon fine
+                switch (res)
                 {
-                    sendVerificationEmail(user.getId(),email);
-                    out.println("0");
-                } else if (res == 1) {
-                    ;//azione da fare se errore 1
-                    out.println("1");
-                } else if (res == 2) {
-                    ;//tipo 2
-                    out.println("2");
-                } else if (res == 3) {
-                    ;//tipo 3
-                    out.println("3");
+                //se la registrazione è andata a buon fine
+                    case 0:
+                        sendVerificationEmail(user.getId(),email);
+                        out.println("0");
+                        break;
+                    case 1:
+                        ;//azione da fare se errore 1
+                        out.println("1");
+                        break;
+                    case 2:
+                        ;//tipo 2
+                        out.println("2");
+                        break;
+                    case 3:
+                        ;//tipo 3
+                        out.println("3");
+                        break;
+                    default:
+                        break;
                 }
             } else {
                 out.println("-1");//missing parameters
@@ -109,7 +125,7 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(int id, String email) throws ServletException {
+    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException {
         try {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {
@@ -136,11 +152,24 @@ public class RegisterUserServlet extends HttpServlet {
                 msg.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(email, false));
                 msg.setSubject("eatbit verification");
-                msg.setText("This is a verification email sent from eatbit, to "
+                //mando la mail con ip settato a localhost, la verifica funzionerà
+                //solo dalla stessa macchina
+                /*msg.setText("This is a verification email sent from eatbit, to "
                         + "activate your account please visit this url:" + '\n'
                         + "http://localhost:8084/eatbit/verify?token="
                         + token
+                        + "&id=" + Integer.toString(id));*/
+                //setta l'ip di questo computer nella mail, la verifica
+                //funzionerà da pc diversi da questo, ma potrebbero esserci problemi
+                //in caso di nat o network complicati
+                msg.setText("This is a verification email sent from eatbit, to "
+                        + "activate your account please visit this url:" + '\n'
+                        + "http://"
+                        + getIp()
+                        +":8084/eatbit/verify?token="
+                        + token
                         + "&id=" + Integer.toString(id));
+                
                 msg.setSentDate(new Date());
                 Transport transport = session.getTransport("smtps");
                 transport.connect("smtp.gmail.com", 465, username, password);
@@ -152,4 +181,54 @@ public class RegisterUserServlet extends HttpServlet {
             throw new ServletException(ex.toString());
         }
     }
+   
+    private String getIp()
+    {
+        // This try will give the Public IP Address of the Host.
+        try
+        {
+            URL url = new URL("https://api.ipify.org");
+            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+            String ipAddress = new String();
+            ipAddress = (in.readLine()).trim();
+            /* IF not connected to internet, then
+             * the above code will return one empty
+             * String, we can check it's length and
+             * if length is not greater than zero, 
+             * then we can go for LAN IP or Local IP
+             * or PRIVATE IP
+             */
+            if (!(ipAddress.length() > 0))
+            {
+                try
+                {
+                    InetAddress ip = InetAddress.getLocalHost();
+                    System.out.println((ip.getHostAddress()).trim());
+                    return ((ip.getHostAddress()).trim());
+                }
+                catch(Exception ex)
+                {
+                    return "ERROR";
+                }
+            }
+            System.out.println("IP Address is : " + ipAddress);
+
+            return (ipAddress);
+        }
+        catch(Exception e)
+        {
+            // This try will give the Private IP of the Host.
+            try
+            {
+                InetAddress ip = InetAddress.getLocalHost();
+                System.out.println((ip.getHostAddress()).trim());
+                return ((ip.getHostAddress()).trim());
+            }
+            catch(Exception ex)
+            {
+                return "ERROR";
+            }
+        }
+    }
 }
+

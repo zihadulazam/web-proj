@@ -5,6 +5,7 @@
  */
 package database.contexts;
 
+import database.Reply;
 import database.Review;
 import database.User;
 import java.io.Serializable;
@@ -20,15 +21,20 @@ public class ReviewContext implements Serializable
 
     private User user;
     private Review review;
-
-    public ReviewContext(User user, Review review)
-    {
-        this.user = user;
-        this.review = review;
-    }
+    private Reply reply;
 
     public ReviewContext()
     {
+    }
+
+    public Reply getReply()
+    {
+        return reply;
+    }
+
+    public void setReply(Reply reply)
+    {
+        this.reply = reply;
     }
 
     public User getUser()
