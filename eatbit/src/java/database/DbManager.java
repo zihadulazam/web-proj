@@ -1070,13 +1070,13 @@ public class DbManager implements Serializable
      * processate, e quindi presenti nel sistema.
      * Non modifica il timestamp di date_admin_took, e quindi non funge da "prenotazione"
      * di una richiesta da processare.
-     * @return UN ArrayList contenente tutte le richieste(i contesti) di ristoranti da processare.
+     * @return Un ArrayList contenente tutte le richieste(i contesti) di ristoranti da processare.
      * @throws SQLException 
      */
     public ArrayList<AttemptContext> getAllRestaurantsRequests() throws SQLException
     {
         ArrayList<AttemptContext> contesti = new ArrayList<>();
-        try (PreparedStatement st = con.prepareStatement("select * from RESTAURANTS_REQUESTS"
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS"
                 + "ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
@@ -1186,27 +1186,22 @@ public class DbManager implements Serializable
 
     /**
      * Metodo per inserire una foto nelle foto reportate, utilizzando il suo id.
-     *
-     * @param id_photo
+     * L'ora della segnalazione è settata un ora prima rispetto a quella attuale, in
+     * modo che gli admin possano recuperare subito la segnalazione per controllarla.
+     * @param id_photo Id della foto da segnalare.
      * @throws SQLException
      */
     public void reportPhoto(int id_photo) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("INSERT INTO REPORTED_PHOTOS VALUES(?,?)");
-                PreparedStatement st1 = con.prepareStatement("SELECT FROM PHOTOS WHERE ID=?"))
+        try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPORTED_PHOTOS VALUES(?,?)"))
         {
-            st1.setInt(1, id_photo);
-            try (ResultSet rs1 = st1.executeQuery())
+            //se la foto non esiste fra quelle reportate allora la inserisco
+            if (!existReportedPhotoById(id_photo))
             {
-                //se la foto esiste e non è già stata reportata inserisco il report
-                if (rs1.next() && !existReportedPhotoById(id_photo))
-                {
-                    st2.setInt(1, id_photo);
-                    st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
-                    st2.executeUpdate();
-                }
+                st1.setInt(1, id_photo);
+                st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
+                st1.executeUpdate();
             }
-            con.commit();
         }
         catch (SQLException ex)
         {
@@ -1219,25 +1214,21 @@ public class DbManager implements Serializable
     /**
      * Metodo per inserire una review nelle review reportate, utilizzando il suo
      * id.
-     *
-     * @param id_review
+     * L'ora della segnalazione è settata un ora prima rispetto a quella attuale, in
+     * modo che gli admin possano recuperare subito la segnalazione per controllarla.
+     * @param id_review Id della review da segnalare.
      * @throws SQLException
      */
     public void reportReview(int id_review) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("INSERT INTO REPORTED_REVIEWS VALUES(?,?)");
-                PreparedStatement st1 = con.prepareStatement("SELECT FROM REVIEWS WHERE ID=?"))
+        try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPORTED_REVIEWS VALUES(?,?)"))
         {
-            st1.setInt(1, id_review);
-            try (ResultSet rs1 = st1.executeQuery())
+            //se non è già segnalata la inserisco
+            if (!existReportedReviewById(id_review))
             {
-                //se la review esiste e non è già stata reportata inserisco il report
-                if (rs1.next() && !existReportedReviewById(id_review))
-                {
-                    st2.setInt(1, id_review);
-                    st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
-                    st2.executeUpdate();
-                }
+                st1.setInt(1, id_review);
+                st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
+                st1.executeUpdate();
             }
             con.commit();
         }
@@ -1256,10 +1247,18 @@ public class DbManager implements Serializable
      * validatore e se è valida o no prima di passare la Reply al metodo.
      *
      * @param reply
+     * @return True se è andata a buon fine, falso se esisteva già o l'owner della
+     * reply non è il proprietario del ristorante che riguarda la review.
      * @throws SQLException
      */
-    public void addReply(Reply reply) throws SQLException
+    public boolean addReply(Reply reply) throws SQLException
     {
+        //se esiste già una reply da parte del ristoratore per questa review ritorna falso, altrimenti procedi
+        if(replyForReviewExist(reply.getId_review()))
+            return false;
+        //se il proprietario della reply è diverso da quello del ristorante ritorna falso, altrimenti procedi
+        if(getRestaurantById(getReviewById(reply.getId_review()).getId_restaurant()).getId_owner()!=reply.getId_owner())
+            return false;
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPLIES(DESCRIPTION,DATE_CREATION,ID_REVIEW,ID_OWNER"
                 + ",DATE_VALIDATION,ID_VALIDATOR,VALIDATED) VALUES (?,?,?.?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
                 PreparedStatement st2 = con.prepareStatement("INSERT INTO REPLIES_TO_BE_CONFIRMED VALUES (?,?)"))
@@ -1294,33 +1293,60 @@ public class DbManager implements Serializable
             con.rollback();
             throw ex;
         }
+        return true;
     }
 
+    /**
+     * Controlla se esiste già una reply destinata ad una review.
+     * @param id_review Id della review.
+     * @return Vero se esiste già, falso altrimenti.
+     * @throws SQLException 
+     */
+    private boolean replyForReviewExist(int id_review) throws SQLException
+    {
+        boolean res= true;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID_REVIEW=?"))
+        {
+            st.setInt(1, id_review);
+            try(ResultSet rs= st.executeQuery())
+            {
+                res= rs.next();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
     /**
      * Metodo per inserire nel db un claim di un ristorante, nelle classi User e
      * Restaurant passate basta che siano presenti gli id.
      *
-     * @param user L'utente che fa la creazione/claim del ristorante.
-     * @param restaurant Il ristorante in questione.
+     * @param id_user Id dell'utente che fa la creazione/claim del ristorante.
+     * @param id_restaurant Id del ristorante in questione.
      * @param userTextClaim Il testo che l'utente ha dato come giustificazione
      * del claim, se esiste.
      * @param creationClaimBoth Flag che dice se questa è una creazione, claim,
      * o entrambe di ristorante(0,1,2).
      * @throws SQLException
      */
-    public void addClaim(User user, Restaurant restaurant, String userTextClaim, int creationClaimBoth) throws SQLException
+    public void addClaim(int id_user, int id_restaurant, String userTextClaim, int creationClaimBoth) throws SQLException
     {
-        try (PreparedStatement st1 = con.prepareStatement("SELECT FROM RESTAURANTS_REQUESTS WHERRE ID_USER=? AND ID_RESTAURANT=?");
-                PreparedStatement st2 = con.prepareStatement("INSERT INTO RESTAURANT_REQUESTS VALUES(?,?,?,?,?)"))
+        try (PreparedStatement st1 = con.prepareStatement("SELECT FROM RESTAURANTS_REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
+                PreparedStatement st2 = con.prepareStatement("INSERT INTO RESTAURANTS_REQUESTS VALUES(?,?,?,?,?)"))
         {
-            st1.setInt(1, user.getId());
-            st1.setInt(2, restaurant.getId());
+            st1.setInt(1, id_user);
+            st1.setInt(2, id_restaurant);
             try (ResultSet st = st1.executeQuery())
             {//se questa request non esiste già
                 if (!st.next())
                 {
-                    st2.setInt(1, user.getId());
-                    st2.setInt(2, restaurant.getId());
+                    st2.setInt(1, id_user);
+                    st2.setInt(2, id_restaurant);
                     st2.setTimestamp(3, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                     st2.setInt(4, creationClaimBoth);
                     st2.setString(5, userTextClaim);
@@ -1341,14 +1367,19 @@ public class DbManager implements Serializable
      * Aggiunge una review, in base al suo voto globale ciò farà variare la
      * media globale del ristorante in questione. Nell'oggetto review non è
      * necessario settare la data di creazione o il numero di likes.
+     * Ritorna falso se l'utente ha già dato un voto o una recensione a questo
+     * ristorante nelle ultime 24 ore.
      *
-     * @param review
-     * @return false se non ci sono stati problemi, vero altrimenti
+     * @param review Review da inserire.
+     * @param photo Photo che accompagna la review.
+     * @return True se è andata a buon fine, falso altrimenti.
      * @throws SQLException
      */
     public boolean addReview(Review review, Photo photo) throws SQLException
     {
-        boolean res = true;
+        boolean res = addOrRefreshVote(review.getId_creator(), review.getId_restaurant());
+        if(!res)
+            return res;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEWS(GLOBAL_VALUE,FOOD,"
                 + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
                 + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
@@ -1359,7 +1390,7 @@ public class DbManager implements Serializable
 
         {
             Restaurant restaurant = null;
-            //il ristorante esiste vado avanti
+            //se il ristorante esiste vado avanti
             if ((restaurant = getRestaurantById(review.getId_restaurant())) != null)
             {
                 User user = getUserById(review.getId_creator());
@@ -1378,7 +1409,7 @@ public class DbManager implements Serializable
                 st.setTimestamp(8, new Timestamp(Calendar.getInstance().getTime().getTime()));
                 st.setInt(9, review.getId_restaurant());
                 st.setInt(10, review.getId_creator());
-                st.setInt(11, addPhotoForReview(review.getId_restaurant(), user, photo));
+                st.setInt(11, addPhotoForReview(review.getId_restaurant(), user.getId(), photo));
                 st.setInt(12, 0);
                 st.setInt(13, 0);
                 updateSt.setInt(1, newGlobal);
@@ -1389,10 +1420,9 @@ public class DbManager implements Serializable
                 st.executeUpdate();
                 updateSt.executeUpdate();
                 updateUs.executeUpdate();
-
-                res = false;
+                con.commit();
+                res = true;
             }
-            con.commit();
         }
         catch (SQLException ex)
         {
@@ -1406,22 +1436,19 @@ public class DbManager implements Serializable
     /**
      * Per settare la foto dello user. Non viene controllato prima se lo user
      * esiste perchè si assume che sia preso dalla sessione e quindi corretto.
-     *
      * @param userId Id dell'utente.
      * @param photoPath Una stringa che è il path della foto all'interno
      * dell'applicazione.
-     * @return false se non ci sono stati problemi ,vero altrimenti
      * @throws SQLException
      */
-    public boolean modifyUserPhoto(int userId, String photoPath) throws SQLException
+    public void modifyUserPhoto(int userId, String photoPath) throws SQLException
     {
-        boolean res = true;
+        boolean res = false;
         try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE ID=?"))
         {
             st.setString(1, photoPath);
             st.setInt(2, userId);
             con.commit();
-            res = false;
         }
         catch (SQLException ex)
         {
@@ -1429,35 +1456,31 @@ public class DbManager implements Serializable
             con.rollback();
             throw ex;
         }
-        return res;
     }
 
     /**
      * Per inserire una foto da parte di uno user che riguarda un ristorante non
      * suo.
      *
-     * @param restaurantId Id del ristorante di cui mettere la foto.
-     * @param user User che sta mettendo la foto.
+     * @param id_restaurant Id del ristorante di cui mettere la foto.
+     * @param id_user Id dell'user che sta mettendo la foto.
      * @param photo Photo caricata.
      * @return Falso se è andato tutto bene, vero altrimenti.
      * @throws SQLException
      */
-    public boolean addPhotoToRestaurantFromUser(int restaurantId, User user, Photo photo) throws SQLException
+    public boolean addPhotoToRestaurantFromUser(int id_restaurant, int id_user, Photo photo) throws SQLException
     {
         boolean res = true;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
                 + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)"))
         {
-            if (getRestaurantById(restaurantId) != null)
-            {
-                st.setString(1, photo.getName());
-                st.setString(2, photo.getDescription());
-                st.setString(3, photo.getPath());
-                st.setInt(4, restaurantId);
-                st.setInt(5, user.getId());
-                st.executeUpdate();
-                res = false;
-            }
+            st.setString(1, photo.getName());
+            st.setString(2, photo.getDescription());
+            st.setString(3, photo.getPath());
+            st.setInt(4, id_restaurant);
+            st.setInt(5, id_user);
+            st.executeUpdate();
+            res = false;
             con.commit();
         }
         catch (SQLException ex)
@@ -1469,19 +1492,19 @@ public class DbManager implements Serializable
         return res;
     }
 
-    private int addPhotoForReview(int restaurantId, User user, Photo photo) throws SQLException
+    private int addPhotoForReview(int id_restaurant, int id_user, Photo photo) throws SQLException
     {
         int res = -1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
                 + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS))
         {
-            if (getRestaurantById(restaurantId) != null)
+            if (getRestaurantById(id_restaurant) != null)
             {
                 st.setString(1, photo.getName());
                 st.setString(2, photo.getDescription());
                 st.setString(3, photo.getPath());
-                st.setInt(4, restaurantId);
-                st.setInt(5, user.getId());
+                st.setInt(4, id_restaurant);
+                st.setInt(5, id_user);
                 st.executeUpdate();
                 try (ResultSet rs = st.getGeneratedKeys())
                 {
@@ -1796,10 +1819,10 @@ public class DbManager implements Serializable
             User user = new User();
             user.setId(restaurant.getId_creator());
             //aggiungo foto
-            addPhotoToRestaurantFromUser(restId, user, photo);
+            addPhotoToRestaurantFromUser(restId, user.getId(), photo);
             //aggiungo il ristorante alla lista dei ristoranti da essere
             //confermati da un admin, con flag per dire se è anche un claim
-            addClaim(user, restaurant, userTextClaim, isClaim ? 2 : 0);
+            addClaim(user.getId(), restaurant.getId(), userTextClaim, isClaim ? 2 : 0);
             con.commit();
             res = false;
         }

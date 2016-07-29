@@ -97,7 +97,8 @@ public class AddReplyServlet extends HttpServlet {
             reply.setDate_validation(null);
             reply.setId_validator(0);
             reply.setValidated(false);
-            manager.addReply(reply);
+            PrintWriter out = response.getWriter();
+            out.println(manager.addReply(reply));
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
