@@ -48,7 +48,6 @@ public class NameAutocompleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         String user_keys=request.getParameter("keys");
         ArrayList <String> nomi=new ArrayList<>();
         try {
@@ -57,9 +56,6 @@ public class NameAutocompleteServlet extends HttpServlet {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServletException(ex);
         }
-        
-        nomi.add("java");
-        
         JSONArray jnomi=new JSONArray();
         for(String elemento:nomi){
             jnomi.add(elemento);

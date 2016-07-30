@@ -24,8 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet per permettere ad un utente di votare un ristorante (da 0 a 5) senza
+ * Servlet per permettere ad un utente di votare un ristorante (da 1 a 5) senza
  * fare una recensione.
+ * Ritorna un intero maggiore di 0 se il voto dell'utente ha avuto effetto, questo
+ * numero rappresenta il nuovo valore del voto; ritorna 0 se l'utente non poteva
+ * votare perchè ha votato lo stesso ristorante meno di 24h ore fa, ritorna -1
+ * se l'utente non ha fatto login (non c'è User in session).
  *
  * @author jacopo
  */
@@ -52,14 +56,19 @@ public class UserVoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int id_rest = Integer.parseInt(request.getParameter("id_restaurant"));
-            int voto = Integer.parseInt(request.getParameter("vote"));
-            voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 
-            voto = max(voto, 0);
+            response.setContentType("text/plain");
+            PrintWriter out = response.getWriter();
             User user = (User) request.getSession().getAttribute("user");
             if (user != null) {
-                manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest);
+                int id_rest = Integer.parseInt(request.getParameter("id_restaurant"));
+                int voto = Integer.parseInt(request.getParameter("vote"));
+                voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 
+                voto = max(voto, 1);
+                out.write(Integer.toString(manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest)));
             }
+            else
+                out.write("-1");
+            out.flush();
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
