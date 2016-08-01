@@ -31,7 +31,7 @@
 
         <!-- Main Content -->
             <div class="container">
-                <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div style="margin-top: 10px" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                     <section>            
                         <table id="example" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" cellspacing="0" width="100%" role="grid" aria-describedby="example_info" style="width: 100%;">
                             <thead>
