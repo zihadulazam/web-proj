@@ -1981,7 +1981,8 @@ public class DbManager implements Serializable
      * abs( (differenza fra max e max del price range) ).
      * @param min Un intero che indica il minimo della spesa.
      * @param max Un intero che indica il massimo della spesa.
-     * @return L'id del price range che ha min e max più simili possibili a min e max forniti.
+     * @return L'id del price range che ha min e max più simili possibili a min e max forniti,
+     * -1 se non trova nessun prezzo in PRICE_RANGES.
      * @throws SQLException 
      */
     private int findClosestPrice(double min, double max) throws SQLException
@@ -2020,11 +2021,11 @@ public class DbManager implements Serializable
      * @param id Id della foto.
      * @throws SQLException
      */
-    public void unreportPhoto(int id) throws SQLException
+    public void unreportPhoto(int id_photo) throws SQLException
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM REPORTED_PHOTOS WHERE ID=?"))
         {
-            st.setInt(1, id);
+            st.setInt(1, id_photo);
             st.executeUpdate();
             con.commit();
         }
@@ -2040,21 +2041,20 @@ public class DbManager implements Serializable
      * Metodo per permette all'admin di rimuovere una foto che era stata
      * reportata. Questo metodo non rimuove la foto dal filesystem, ma solo il
      * path dal db.
-     * @param idPhoto
-     * @param idUser
+     * @param id_photo Id della foto da rimuovere dal db.
      * @throws SQLException
      */
-    public void removePhoto(int idPhoto, int idUser) throws SQLException
+    public void removePhoto(int id_photo) throws SQLException
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
-            Photo photo = getPhotoById(idPhoto);
-            unreportPhoto(idPhoto);//rimuovo dalla lista reportati
-            st.setInt(1, idPhoto);
+            Photo photo = getPhotoById(id_photo);
+            unreportPhoto(id_photo);//rimuovo dalla lista reportati
+            st.setInt(1, id_photo);
             st.executeUpdate();
             if (photo != null)
             {
-                notifyUser(idUser, "La tua foto " + photo.getName() + " è stata rimossa perchè non rispettava il nostro regolamento");
+                notifyUser(photo.getId_owner(), "La tua foto " + photo.getName() + " è stata rimossa perchè non rispettava il nostro regolamento");
             }
             con.commit();
         }
@@ -2559,9 +2559,7 @@ public class DbManager implements Serializable
                 {
                     int cuisineId = findCuisine(cucine.get(i));
                     if (cuisineId != -1)
-                    {
                         addRestaurantXCuisine(restaurant.getId(), cuisineId);
-                    }
                 }
                 //pulisco e riaggiungo coordinate
                 removeRestaurantCoordinate(restaurant.getId());
@@ -2569,9 +2567,7 @@ public class DbManager implements Serializable
                 //pulisco e riaggiungo gli orari
                 removeRestaurantHourRange(restaurant.getId());
                 for (int i = 0; i < range.size(); i++)
-                {
                     addHourRange(restaurant.getId(), range.get(i));
-                }
                 con.commit();
                 res = true;
             }
@@ -2796,7 +2792,7 @@ public class DbManager implements Serializable
      * (User,photos,reviews,restaurants,notifactions).
      * @throws SQLException
      */
-    public OwnUserContext getOwnUserContext(int id_user) throws SQLException
+    public OwnUserContext getUserContext(int id_user) throws SQLException
     {
         OwnUserContext contesto = new OwnUserContext();
         try
@@ -3276,6 +3272,12 @@ public class DbManager implements Serializable
         return res;
     }
 
+    /**
+     * Per trovare la differenza fra 2 Timestamp.
+     * @param oldTime
+     * @param currentTime
+     * @return 
+     */
     private static long compareTwoTimestamps(Timestamp oldTime, Timestamp currentTime)
     {
         long milliseconds1 = oldTime.getTime();
@@ -3348,8 +3350,7 @@ public class DbManager implements Serializable
                 + "FROM "
                 + "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=? OR COMPLETE_LOCATION=?) IDCord, RESTAURANT_COORDINATE "
                 + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
-                + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID "
-                + ""))
+                + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID"))
         {
             st.setString(1, location);
             st.setString(2, location);
@@ -3514,9 +3515,7 @@ public class DbManager implements Serializable
             try (ResultSet rs = st.executeQuery())
             {
                 while(rs.next())
-                {
                     reviews.add(getReviewContext(rs.getInt("ID")));
-                }
             }
         }
         catch (SQLException ex)
@@ -3620,7 +3619,7 @@ public class DbManager implements Serializable
         try (PreparedStatement st = con.prepareStatement(
                 "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE FROM RESTAURANTS,"
                         + "RESTAURANT_COORDINATE, COORDINATES WHERE "
-                        + "COORDINATES.CITY=? AND COORDINATES.\"STATE\"=? AND "
+                        + "COORDINATES.CITY=? AND COORDINATES.STATE=? AND "
                         + "RESTAURANTS.ID=RESTAURANT_COORDINATE.ID_RESTAURANT AND "
                         + "RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID) GLOBAL_VALUES "
                         + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ?"))
@@ -3628,9 +3627,7 @@ public class DbManager implements Serializable
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
-                {
                     res=rs.getInt("COUNT")+1;
-                }
             }
         }
         catch (SQLException ex)
@@ -3680,7 +3677,8 @@ public class DbManager implements Serializable
 
     
     /**
-     * Chiude la connessione al database!
+     * Chiude la connessione al database.
+     * N.b. derby restituisce sempre un eccezzione (error code 45000) quando si chiude con successo.
      */
     public static void shutdown()
     {

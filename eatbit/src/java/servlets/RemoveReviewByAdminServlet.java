@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,13 +19,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per segnalare una review, non richiede login da parte dell'utente.
- * Manda come risposa 1 se è andata a buon fine, 0 altrimenti.
+ * Servlet per permettere all'admin di rimuovere una review che era stata segnalata.
+ * n.b. Al momento la foto della review NON viene dal db.
+ * TODO aggiungere rimozione foto review nel db.
+ * TODO aggiungere passaggio controllo a servlet o metodo che rimuove foto dal filesystem.
+ * Manderà come risposta 1 se la rimozione è andata a buon fine, 0 se l'utente
+ * non aveva effettuato il login o se non era un admin.
  * @author jacopo
  */
-@WebServlet(name = "ReportPhotoServlet", urlPatterns = {"/ReportPhotoServlet"})
-public class ReportPhotoServlet extends HttpServlet {
-
+@WebServlet(name = "RemoveReviewByAdminServlet", urlPatterns =
+{
+    "/RemoveReviewByAdminServlet"
+})
+public class RemoveReviewByAdminServlet extends HttpServlet
+{
     private DbManager manager;
 
     @Override
@@ -71,16 +79,21 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
         try {
-            int photo_id = Integer.parseInt(request.getParameter("id_photo"));
-            manager.reportPhoto(photo_id);
-            out.write("1");
-
+            response.setContentType("text/plain");
+            User user = (User) request.getSession().getAttribute("user");
+            PrintWriter out = response.getWriter();
+            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
+            if (user != null && user.getType()==2) {
+                manager.removeReview(Integer.parseInt(request.getParameter("id_photo")));
+                out.write("1");
+            }
+            else
+                out.write("0");
+            out.flush();
+                
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            out.write("0");
             throw new ServletException(ex);
         }
     }

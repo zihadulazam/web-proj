@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,13 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per segnalare una review, non richiede login da parte dell'utente.
- * Manda come risposa 1 se è andata a buon fine, 0 altrimenti.
+ *Servlet per permettere all'utente di segnalare al sistema che ha preso visione
+ * della notifica.
+ * Risponderà con 1 se è andato a buon fine, falso se l'utente non era loggato 
+ * o vi è stata una eccezione.
  * @author jacopo
  */
-@WebServlet(name = "ReportPhotoServlet", urlPatterns = {"/ReportPhotoServlet"})
-public class ReportPhotoServlet extends HttpServlet {
-
+@WebServlet(name = "AcceptNotificationFromUserServlet", urlPatterns =
+{
+    "/AcceptNotificationFromUserServlet"
+})
+public class AcceptNotificationFromUserServlet extends HttpServlet
+{
     private DbManager manager;
 
     @Override
@@ -71,16 +77,20 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
         try {
-            int photo_id = Integer.parseInt(request.getParameter("id_photo"));
-            manager.reportPhoto(photo_id);
-            out.write("1");
-
+            response.setContentType("text/plain");
+            User user = (User) request.getSession().getAttribute("user");
+            PrintWriter out = response.getWriter();
+            if (user != null) {
+                manager.acceptNotification(Integer.parseInt(request.getParameter("id_notification")),user.getId());
+                out.write("1");
+            }
+            else
+                out.write("0");
+            out.flush();
+                
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            out.write("0");
             throw new ServletException(ex);
         }
     }
