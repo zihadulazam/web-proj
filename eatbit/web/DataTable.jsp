@@ -14,9 +14,10 @@
         <!-- Bootstrap -->
         <link href="css/jquery-ui.css" rel="stylesheet">
         
+        
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
+        <link href="css/datatable.css" rel="stylesheet">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -30,21 +31,50 @@
         <%@include file="components/navbar-second.jsp"%>
 
         <!-- Main Content -->
-            <div class="container">
-                <div style="margin-top: 10px" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                    <section>            
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed" cellspacing="0" width="100%" role="grid" aria-describedby="example_info" style="width: 100%;">
-                            <thead>
-                               <tr>
-                                    <th>name</th>
-                                    <th>description</th>
-                                    <th>web_site_url</th>
-                                </tr>
-                            </thead>
-                        </table> 
-                    </section>
-                </div>
-          </div>
+        <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px">
+            <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%" >
+                <thead>
+                    <th></th>
+                </thead>
+                <tfoot></tfoot>
+                <tbody>
+                    <c:forEach var="i" begin="1" end="7">
+                        <tr>
+                            <td>
+                                <div class="container">
+                                    <div class="container-fluid">
+                                        <div class="row container-fluid">
+                                            <div class="col-md-4 container-writer">
+                                                <img src="img/restaurant-default.png" class="img-circle"/>
+                                            </div>
+                                            <div class="col-md-4 container-content">
+                                                <h3 class="container-title">Titolo Ristorante <c:out value="${i}"/></h3>
+                                                <div class="row rating-stars">
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-full.png"/>
+                                                    <img src="img/star-empty.png"/>
+                                                    <img src="img/star-empty.png"/>
+                                                </div>
+                                                <p>(299 recensioni)</p>
+                                                <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Via Mario 51, Ala (TN), Italia</p>
+                                                <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 3492106738</p>
+                                                <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="#" target="_blank"> Sito Web</a></p>                                         
+                                            </div>
+                                                <div class="col-md-15 container-content">
+                                                    <div class="btn-visita">
+                                                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button>
+                                                    </div>
+                                                </div>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
         <!-- end Main container -->  
         
                 <!-- include modal hear -->
@@ -54,13 +84,10 @@
         <%@include file="components/footer.html"%>
         
         <!-- Datatable -->
+        <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
         
-        <!-- Datatable Css-->
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel='stylesheet' type='text/css'>
-
-        <!-- Datatable js-->
-        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-        
+        <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js">
+	</script>
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js">
 	</script>
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js">
@@ -68,15 +95,30 @@
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js">
 	</script>
 	
+	<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
         
         <script type="text/javascript" language="javascript" class="init">
-            $(document).ready(function() {
-                    $('#example').DataTable( {
-                            "processing": true,
-                            "serverSide": true,
-                            "ajax":"http://localhost:8080/eatbit/PopulateTable" ,
-                            "columns":[{"data":"name"},{"data":"description"},{"data":"web_site_url"}]
-                    } );
+              $(document).ready(function() {
+                $('#tabella-ristoranti').DataTable( {
+                    "pagingType": "full_numbers",
+                    bFilter: false,
+                    bInfo: false,
+                    ordering:  false,
+                    "language": {
+                        "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
+                        "zeroRecords": "Non ci sono ristoranti",
+                        "info": "Sto visualizzando _PAGE_ of _PAGES_",
+                        "infoEmpty": "Non ci sono ristoranti",
+                        "infoFiltered": "(Filtrato da _MAX_ totale ristoranti)",
+                        "paginate": {
+                            "previous": "Precedente",
+                            "next": "Sucessivo",
+                            "first":"Primo",
+                            "last":"Ultimo"
+                        }
+                    },
+                    "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "TUTTI"]]
+                } );
             } );
 	</script>
     </body>
