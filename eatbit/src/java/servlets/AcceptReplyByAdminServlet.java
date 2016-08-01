@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,13 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per segnalare una review, non richiede login da parte dell'utente.
- * Manda come risposa 1 se è andata a buon fine, 0 altrimenti.
+ *Permette all'admin di accettare una reply ad una review da parte di un ristoratore, 
+ * rendendola visibile.
+ * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se l'utente (l'admin)
+ * non aveva effettuato il login o se non era un admin.
  * @author jacopo
  */
-@WebServlet(name = "ReportPhotoServlet", urlPatterns = {"/ReportPhotoServlet"})
-public class ReportPhotoServlet extends HttpServlet {
-
+@WebServlet(name = "AcceptReplyByAdminServlet", urlPatterns =
+{
+    "/AcceptReplyByAdminServlet"
+})
+public class AcceptReplyByAdminServlet extends HttpServlet
+{
     private DbManager manager;
 
     @Override
@@ -71,16 +77,21 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
         try {
-            int photo_id = Integer.parseInt(request.getParameter("id_photo"));
-            manager.reportPhoto(photo_id);
-            out.write("1");
-
+            response.setContentType("text/plain");
+            User user = (User) request.getSession().getAttribute("user");
+            PrintWriter out = response.getWriter();
+            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
+            if (user != null && user.getType()==2) {
+                manager.confirmReply(Integer.parseInt(request.getParameter("id_reply")), user.getId());
+                out.write("1");
+            }
+            else
+                out.write("0");
+            out.flush();
+                
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            out.write("0");
             throw new ServletException(ex);
         }
     }

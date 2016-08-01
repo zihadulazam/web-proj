@@ -18,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *Servlet per segnalare una review, non richiede login da parte dell'utente.
+ * Manda come risposa 1 se è andata a buon fine, 0 altrimenti.
  * @author jacopo
  */
 @WebServlet(name = "ReportReviewServlet", urlPatterns = {"/ReportReviewServlet"})
@@ -70,12 +71,16 @@ public class ReportReviewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            int review_id = Integer.parseInt(request.getParameter("review_id"));
+            int review_id = Integer.parseInt(request.getParameter("id_review"));
             manager.reportReview(review_id);
+            out.write("1");
 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            out.write("0");
             throw new ServletException(ex);
         }
     }
