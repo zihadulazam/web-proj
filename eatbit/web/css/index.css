@@ -68,13 +68,13 @@
 }
 /* line 37, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container .btn-block {
-  background-color: #e62739;
+  background-color: #C70039;
   color: #fff;
   border: 1px solid #fff;
 }
 /* line 41, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container .btn-block:hover {
-  background-color: #FF5722;
+  background-color: #e62739;
 }
 /* line 46, ../scss/index.scss */
 .jumbotron .input-thumbnail form {

@@ -57,8 +57,8 @@
                         <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 3492106738</p>
                         <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="#" target="_blank"> Sito Web</a></p>
                         <p id="tipi-di-cucina">
-                            <span class="label label-primary">Carne</span>
-                            <span class="label label-primary">Pesce</span>
+                            <span class="label label-danger">Carne</span>
+                            <span class="label label-danger">Pesce</span>
                         </p>
                     </div> 
                 </div>
@@ -303,7 +303,92 @@
         <div class="container contenitori-blocco" id="dettagli-container">
             <h1><img src="img/restaurant/info.png"/> Dettagli</h1>
             <hr/>
-            
+            <div class="row" id="punteggi-riassunto">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 class="dettagli-lable">Riassunto Punteggio:</h4>
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <p>Cibo</p>
+                    <p>Servizio</p>
+                    <p>Atmosfera</p>
+                    <p>Prezzo</p>
+                </div>
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                    <div class="row rating-stars" id="cibo-stars">
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-empty.png"/>
+                        <img src="img/star-empty.png"/>
+                    </div>
+                    <div class="row rating-stars" id="servizio-stars">
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-empty.png"/>
+                        <img src="img/star-empty.png"/>
+                    </div>
+                    <div class="row rating-stars" id="atmosfera-stars">
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-empty.png"/>
+                        <img src="img/star-empty.png"/>
+                    </div>
+                    <div class="row rating-stars" id="prezzo-stars">
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-full.png"/>
+                        <img src="img/star-empty.png"/>
+                        <img src="img/star-empty.png"/>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="row" id="cucina">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 class="dettagli-lable">Cucina:</h4>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <p class="tipi-di-cucina">
+                        <span class="label label-primary">Carne</span>
+                        <span class="label label-primary">Pesce</span>
+                    </p>
+                </div>
+            </div>
+            <hr/>
+            <div class="row" id="orario">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 class="dettagli-lable">Orario:</h4>
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" id="giorni">
+                    <p>Lunedì</p><hr/>
+                    <p>Martedì</p><hr/>
+                    <p>Mercoledì</p><hr/>
+                    <p>Giovedì</p><hr/>
+                    <p>Venerdì</p><hr/>
+                    <p>Sabato</p><hr/>
+                    <p>Domenica</p>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p><hr/>
+                    <p>11:00-15:00</p>
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <p>-----------</p><hr/>
+                    <p>18:00-00:00</p><hr/>
+                    <p>18:00-00:00</p><hr/>
+                    <p>18:00-00:00</p><hr/>
+                    <p>18:00-00:00</p><hr/>
+                    <p>18:00-00:00</p><hr/>
+                    <p>18:00-00:00</p>
+                </div>
+            </div>
         </div>
         <!-------------------END Dettagli ----------------->
 

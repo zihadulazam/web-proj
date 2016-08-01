@@ -1,23 +1,28 @@
 @import "components/colors.scss";
 
 #header{
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 #restaurant-name{
     img{
-        height: 110px;
+        height: 100px;
         width: auto;
         text-align: center;
+        padding-bottom: 20px; 
     }
     h1{
         text-align: center;
-        font-weight: bold;
+        font-weight: bold; 
         margin-top: 0px;
-        margin-bottom: 20px;
+        margin-bottom: 5px;
         font-family: 'Raleway', sans-serif;
         color:#555;
         font-size: 40px;
+    }
+    hr{
+        margin-top: 0px;
+        border-color: #DDD; 
     }
 }
 
@@ -243,6 +248,7 @@
 }
 
 .contenitori-blocco{
+    margin-top: 60px;
     img{
         height: 70px;
         width: auto;
@@ -252,6 +258,9 @@
        font-family:'Source Sans Pro', sans-serif;
         color:#666;
         text-align: center;
+    }
+    hr{
+        border-color: #DDD; 
     }
 }
 
@@ -371,5 +380,27 @@
 }
 //-------------------END google MAP CSS ----------------------
 
+#dettagli-container{
+    .dettagli-lable{
+        font-weight: bold;
+        margin-top: 0px;
+    }
+    #punteggi-riassunto{
+        .rating-stars{
+            margin-left: 0px;
+            margin-bottom:10px;  
+            display: block;
+            img{
+                height: 20px;
+                width: auto;
+            }
+        }
+    }
+    #cucina{
+        .tipi-di-cucina{
+            font-size: 18px;
+        }
+    }
 
+}
 

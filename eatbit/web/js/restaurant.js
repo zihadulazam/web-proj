@@ -86,6 +86,7 @@
 
 var map;
 var marker;
+var marker2;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 45.889214, lng: 10.84307},
@@ -97,13 +98,8 @@ function initMap() {
         }
     });
     var myLatLng = {lat: 45.889214, lng: 10.84307};
+    var myLatLng2 = {lat: 45.889620, lng: 10.84507};
     var image ='img/restaurant/map-pin.png';
-
-    var contentString = '<h1>Hello World</h1>';
-
-      var infowindow = new google.maps.InfoWindow({
-            content: contentString
-        });
 
     marker = new google.maps.Marker({
         position: myLatLng,
@@ -112,7 +108,17 @@ function initMap() {
         icon: image
     });
     marker.addListener('click', function() {
-        infowindow.open(map, marker);
+        toggleBounce();
+    });
+
+    marker2 = new google.maps.Marker({
+        position: myLatLng2,
+        map: map,
+        title: 'Restaurant Name',
+        icon: image
+    });
+    marker2.addListener('click', function() {
+        toggleBounce2();
     });
 }
 
@@ -121,5 +127,12 @@ function toggleBounce() {
     marker.setAnimation(null);
   } else {
     marker.setAnimation(google.maps.Animation.BOUNCE);
+  }
+}
+function toggleBounce2() {
+  if (marker2.getAnimation() !== null) {
+    marker2.setAnimation(null);
+  } else {
+    marker2.setAnimation(google.maps.Animation.BOUNCE);
   }
 }
