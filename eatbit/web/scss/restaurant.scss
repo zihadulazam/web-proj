@@ -13,7 +13,6 @@
     }
     h1{
         text-align: center;
-        font-weight: bold; 
         margin-top: 0px;
         margin-bottom: 5px;
         font-family: 'Raleway', sans-serif;
@@ -207,11 +206,9 @@
         width: 230px;
     }
 }
-#collapseAddRecensione{
-    #btn-pubblica{
-        margin-top: 10px;
-        text-align: right;
-    }
+#btn-pubblica{
+    margin-top: 10px;
+    text-align: right;
 }
 
 .rating-lb{
@@ -244,6 +241,25 @@
     }
     #btn-upload{
         margin-top: 10px;
+    }
+    #btn-pubblica{
+        text-align: center;
+    }
+}
+
+@media (max-width: 385px){
+    .rating-bar{
+        width: 250px;
+    }
+}
+@media (max-width: 345px){
+    .rating-bar{
+        width: 200px;
+    }
+}
+@media (max-width: 290px){
+    .rating-bar{
+        width: 100px;
     }
 }
 

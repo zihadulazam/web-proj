@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <html lang="it">
     <head>
         <title>eatBit | Home</title>
@@ -69,123 +72,66 @@
                                         <img src="img/index/comment.png"/>
                                     </div>
                                     <div class="update-body">
-                                        <div class="comment">
-                                            <div class="container-fluid">
-                                                <div class="row container-fluid">
-                                                    <div class="col-md-2 comment-writer">
-                                                        <img src="img/avater/avater.png" class="img-circle"/>
-                                                        <h5>Nickname</h5>
-                                                        <p class="comment-data">
-                                                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            10 Nov 2015 10:30
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-md-10 comment-content">
-                                                        <h3 class="comment-title">Titolo Commento</h3>
-                                                        <div class="row rating-stars">
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-empty.png"/>
-                                                            <img src="img/star-empty.png"/>
+                                        <c:forEach var="lastComments" items="${last5Reviews}">
+                                            <div class="comment">
+                                                <div class="container-fluid">
+                                                    <div class="row container-fluid">
+                                                        <div class="col-md-2 comment-writer">
+                                                            <img src="img/avater/avater.png" class="img-circle"/>
+                                                            <h5>NickName</h5>
+                                                            <p class="comment-data">
+                                                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                                10 Nov 2015 10:30
+                                                            </p>
                                                         </div>
-                                                        
-                                                        <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
-                                                        
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col-md-2"></div>
-                                                                <div class="col-md-10">
-                                                                    <div class="container-fluid risposta-admin">
-                                                                        <div class="row">
-                                                                            <div class="col-md-2">
-                                                                                <p class="lb"><label>Risposta:</label></p>
-                                                                            </div>
-                                                                            <div class="col-md-10">
-                                                                                <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
-                                                                                <p class="risposta-autore">Da: Admin</p>
-                                                                                <p class="risposta-date">15 Nov 2015 16:31</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="col-md-10 comment-content">
+                                                            <h3 class="comment-title"><c:out value="${lastComments.name}" /></h3>
+                                                            <div class="row rating-stars">
+                                                                <img src="img/star-full.png"/>
+                                                                <img src="img/star-full.png"/>
+                                                                <img src="img/star-full.png"/>
+                                                                <img src="img/star-empty.png"/>
+                                                                <img src="img/star-empty.png"/>
                                                             </div>
-                                                        </div>
-                                                        
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
-                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
-                                                                </div> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="container-fluid">
-                                                <div class="row container-fluid">
-                                                    <div class="col-md-2 comment-writer">
-                                                        <img src="img/avater/avater.png" class="img-circle"/>
-                                                        <h5>Nickname</h5>
-                                                        <p class="comment-data">
-                                                            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            10 Nov 2015 10:30
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-md-10 comment-content">
-                                                        <h3 class="comment-title">Titolo Commento</h3>
-                                                        <div class="row rating-stars">
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-full.png"/>
-                                                            <img src="img/star-empty.png"/>
-                                                            <img src="img/star-empty.png"/>
-                                                        </div>
-                                                        
-                                                        <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
-                                                        
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col-md-2"></div>
-                                                                <div class="col-md-10">
-                                                                    <div class="container-fluid risposta-admin">
-                                                                        <div class="row">
-                                                                            <div class="col-md-2">
-                                                                                <p class="lb"><label>Risposta:</label></p>
-                                                                            </div>
-                                                                            <div class="col-md-10">
-                                                                                <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
-                                                                                <p class="risposta-autore">Da: Admin</p>
-                                                                                <p class="risposta-date">15 Nov 2015 16:31</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
-                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
-                                                                </div> 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
 
+                                                            <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
+
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-2"></div>
+                                                                    <div class="col-md-10">
+                                                                        <div class="container-fluid risposta-admin">
+                                                                            <div class="row">
+                                                                                <div class="col-md-2">
+                                                                                    <p class="lb"><label>Risposta:</label></p>
+                                                                                </div>
+                                                                                <div class="col-md-10">
+                                                                                    <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
+                                                                                    <p class="risposta-autore">Da: Admin</p>
+                                                                                    <p class="risposta-date">15 Nov 2015 16:31</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <button type="button" class="btn btn-danger btn-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
+                                                                        <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>
@@ -200,76 +146,41 @@
                                             </div>
                                             <div class="top-by-rates update-body">
                                                 <!-- primo elemento -->
+                                                <c:forEach var="topRatedRisto" items="${top5RestByValue}">
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
                                                                 <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                                                <h4>Nome del Ristorante</h4>
+                                                                <h4><c:out value="${topRatedRisto.name}" /></h4>
                                                                 <div class="row rating-stars">
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-empty.png"/>
-                                                                        <img src="img/star-empty.png"/>
+                                                                    <c:forEach var="i" begin="1" end="5">
+                                                                        <c:choose>
+                                                                            <c:when test="${topRatedRisto.global_value>=i}">
+                                                                                <img src="img/star-full.png"/>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <img src="img/star-empty.png"/>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </c:forEach>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-8 restaurant-body">
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
+                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
+                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                                                    <span class="label label-danger">Carne</span>
+                                                                    <span class="label label-danger">Pesce</span>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
                                                             <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
                                                         </div>
-                                                    </div> <!-- fine primo elemento -->
-                                                    <div class="container-fluid restaurant">
-                                                        <div class="row container-fluid">
-                                                            <div class="col-md-4 restaurant-title">
-                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                                                <h4>Nome del Ristorante</h4>
-                                                                <div class="row rating-stars">
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-empty.png"/>
-                                                                        <img src="img/star-empty.png"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 restaurant-body">
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row container-fluid">
-                                                            <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                                                        </div>
-                                                    </div> 
-                                                    
-                                                    <div class="container-fluid restaurant">
-                                                        <div class="row container-fluid">
-                                                            <div class="col-md-4 restaurant-title">
-                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                                                <h4>Nome del Ristorante</h4>
-                                                                <div class="row rating-stars">
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-full.png"/>
-                                                                        <img src="img/star-empty.png"/>
-                                                                        <img src="img/star-empty.png"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-8 restaurant-body">
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row container-fluid">
-                                                            <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                                                        </div>
-                                                    </div> 
+                                                    </div>
+                                                </c:forEach>
                                             </div>
                                         </div>
                                     </div>

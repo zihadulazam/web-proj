@@ -119,9 +119,30 @@
             <div class="row">
                 <div class="col-md-12">
                     <p id="button-rec-foto">
+                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddRistoRate" aria-expanded="false" aria-controls="collapseAddRecensione"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Vota questo ristorante</button>
                         <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddRecensione" aria-expanded="false" aria-controls="collapseAddRecensione"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Scrivi una recensione</button>
                         <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddFoto" aria-expanded="false" aria-controls="collapseAddFoto"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Aggiungi una foto</button>
                     </p>
+                </div>
+            </div>
+            <div class="collapse" id="collapseAddRistoRate">
+                <div class="well">
+                    <form>
+                        <div class="from-group">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-3">
+                                    <label class="rating-lb"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Valutazione Globale: </label>
+                                </div>
+                                <div class="col-sm-12 col-md-9">
+                                    <div class="rating-bar" id="valutazioneGlobaleBar" type="text"></div>
+                                    <input type="text" id="valutazioneGlobaleValue" class="rating-value">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="collapse" id="collapseAddRecensione">

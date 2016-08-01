@@ -57,6 +57,7 @@ public class VerifyUserServlet extends HttpServlet {
                 int id= Integer.parseInt(stringId);
                 //se la verifica è andata a buon fine passo il controllo a una jsp che conferma il successo
                 //altrimenti a una jsp che comunica il fallimento della verifica
+                //n.b. i nomi success.jsp e failure.jsp sono semplicemente placeholder
                 if (manager.verifyUser(id, token)) {
                     request.getRequestDispatcher("/success.jsp").forward(request, response);
                 } else {

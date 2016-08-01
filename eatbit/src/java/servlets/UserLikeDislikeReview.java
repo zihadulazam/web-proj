@@ -23,6 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  * attraverso il metodo get vanno forniti l'id della review e il tipo di like.
  * Viene eseguito un controllo in sessione per vedere se esiste l'attributo
  * "user", perchè solo gli utenti registrati possono votare.
+ * Ritorna in plaintext 1 se il valore dei like/dislike è cambiato, 0 altrimenti, 
+ * in questo modo la pagina sà se deve cambiare valore del like/dislike (localmente);
+ * ritorna -1 se non c'è un utente in sessione, che indica che l'utente non ha fatto
+ * login.
  *
  * @author jacopo
  */
@@ -76,13 +80,20 @@ public class UserLikeDislikeReview extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
+            PrintWriter out = response.getWriter();
             if (user != null) {
                 int review_id = Integer.parseInt(request.getParameter("review_id"));
                 int like_type = Integer.parseInt(request.getParameter("like_type"));
-                manager.addLike(review_id, like_type, user.getId());
+                boolean res= manager.addLike(review_id, like_type, user.getId());
+                out.write(Integer.toString(res?1:0));
                 //like_type: 0 per dislike, 1 per like
             }
+            else
+                out.write("-1");
+            out.flush();
+                
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);

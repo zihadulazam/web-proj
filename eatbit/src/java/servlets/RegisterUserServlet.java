@@ -66,13 +66,14 @@ public class RegisterUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            response.setContentType("text/plain");
+            PrintWriter out = response.getWriter();
             String name = request.getParameter("name");
             String surname = request.getParameter("surname");
             String nickname = request.getParameter("nickname");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             String avatarPath = "/img/user_default.png";
-            PrintWriter out = response.getWriter();
             if (name != null && surname != null && nickname != null && email != null && password != null) {
                 int res;
                 User user = new User();
@@ -88,28 +89,28 @@ public class RegisterUserServlet extends HttpServlet {
                 //se la registrazione è andata a buon fine
                     case 0:
                         sendVerificationEmail(user.getId(),email);
-                        out.println("0");
+                        out.write("0");
                         break;
                     case 1:
                         ;//azione da fare se errore 1
-                        out.println("1");
+                        out.write("1");
                         break;
                     case 2:
                         ;//tipo 2
-                        out.println("2");
+                        out.write("2");
                         break;
                     case 3:
                         ;//tipo 3
-                        out.println("3");
+                        out.write("3");
                         break;
                     default:
                         break;
                 }
             } else {
-                out.println("-1");//missing parameters
+                out.write("-1");//missing parameters
             }
             out.flush();
-        } catch (Exception ex) {
+        } catch (IOException | SQLException | ServletException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }

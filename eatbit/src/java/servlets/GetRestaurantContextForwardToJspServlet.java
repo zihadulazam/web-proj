@@ -9,7 +9,6 @@ import database.DbManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -17,15 +16,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
 
 /**
- *
+ *Servlet che recupera un contesto di ristorante in base all'id passato come parametro,
+ * inserisce il contesto nella request e passa il controllo alla jsp del ristorante.
+ * Se il contesto è null significa che non esiste ristorante con quell'id.
+ * Può essere che lo User owner sia null, se nessuno ha ancora reclamato la prorietà
+ * del ristorante.
  * @author jacopo
  */
-@WebServlet(name = "LocationAutoCompleteServlet", urlPatterns = {"/LocationAutoCompleteServlet"})
-public class LocationAutoCompleteServlet extends HttpServlet {
-
+@WebServlet(name = "GetRestaurantContextForwardToJspServlet", urlPatterns =
+{
+    "/GetRestaurantContextForwardToJspServlet"
+})
+public class GetRestaurantContextForwardToJspServlet extends HttpServlet
+{
+    
     private DbManager manager;
 
     @Override
@@ -45,21 +51,14 @@ public class LocationAutoCompleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String user_keys = request.getParameter("keys");
-        ArrayList<String> luoghi = new ArrayList<>();
         try {
-            luoghi = manager.autoCompleteLocation(user_keys);
-        } catch (SQLException ex) {
-            Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            int id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
+            request.setAttribute("restaurant_context", manager.getRestaurantContext(id_restaurant));
+            request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
+        } catch (SQLException | NumberFormatException ex) {
+            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
-        JSONArray jluoghi = new JSONArray();
-        for (String elemento : luoghi) {
-            jluoghi.add(elemento);
-        }
-        response.setContentType("application/json");
-        response.getWriter().write(jluoghi.toString());
     }
 
     /**
@@ -71,4 +70,7 @@ public class LocationAutoCompleteServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }
+
+

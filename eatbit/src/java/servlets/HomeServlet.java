@@ -52,6 +52,15 @@ public class HomeServlet extends HttpServlet {
             ArrayList<Restaurant> top5RestByValue = manager.getTop5RestaurantsByValue();
             ArrayList<Restaurant> top5RestByReviews = manager.getTop5RestaurantsByReviewsCounter();
             ArrayList<Review> last5Reviews = manager.getLast5Reviews();
+            
+            //**********testing values **********
+            Review provaR=new Review();
+            provaR.setName("Prova 123");
+            last5Reviews.add(provaR);
+            Restaurant provaRisto=new Restaurant(0, "Sushoku", "dsdf", "url",4, 2, 3, 4, 5, 6, true);
+            top5RestByReviews.add(provaRisto);
+            top5RestByValue.add(provaRisto);
+            //::::::::::End Testing::::::::::::
             request.setAttribute("top5RestByValue", top5RestByValue);
             request.setAttribute("top5RestByReviews", top5RestByReviews);
             request.setAttribute("last5Reviews", last5Reviews);
