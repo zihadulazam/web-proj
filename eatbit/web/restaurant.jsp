@@ -292,7 +292,7 @@
                                                 <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <button type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
+                                                            <a type="button" class="btn btn-default btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></a>
                                                             <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
                                                         </div>
                                                         <div class="col-md-6">
