@@ -3,6 +3,7 @@ package servlets;
 
 import database.DbManager;
 import database.Notification;
+import database.Restaurant;
 import database.Review;
 import database.User;
 import java.io.IOException;
@@ -48,10 +49,7 @@ public class ProfileServlet extends HttpServlet {
         response.setContentType("text/plain");
         //prendo la sessione
         HttpSession session = request.getSession();
-        
-        ArrayList<Review> listReview = null;
-        ArrayList<Notification> listNotification = null;
-        
+                
         //prendo l'user della sessione
         User user = (User)session.getAttribute("user");
         //se non esiste una sessione aperta redirigo sulla pagina di login-->lo fa il filtro
@@ -67,24 +65,37 @@ public class ProfileServlet extends HttpServlet {
         //prendo la tipologia di utente - magari servirà più avanti
         int type = user.getType();
 
-        //provo a interrogare il DB per ottenere le info
-        try{
-            listNotification = manager.getUserNotifications(user.getId());
-            listReview = manager.getUserReviews(user.getId());
-        } catch (SQLException ex) {
-            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        session.setAttribute("listNotification", listNotification);
-        session.setAttribute("numberNotification", listNotification.size());
-        session.setAttribute("listReview", listReview);
-        session.setAttribute("numberReview", listReview.size());
-        
         session.setAttribute("user", user);
         
-        if (user.getType()==10){
+        if (type==10){
+            //raccolgo dati per l'admin
+            
+            
             request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
+            
         }else{
+            //raccolgo dati per utente
+            ArrayList<Review> listReview = null;
+            ArrayList<Notification> listNotification = null;
+            ArrayList<Restaurant> listRestaurants = null;
+            
+            //provo a interrogare il DB per ottenere le info
+            try{
+                listNotification = manager.getUserNotifications(user.getId());
+                listReview = manager.getUserReviews(user.getId());
+                listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                  
+            request.setAttribute("listNotification", listNotification);
+            request.setAttribute("numberNotification", listNotification.size());
+            request.setAttribute("listReview", listReview);
+            request.setAttribute("numberReview", listReview.size());
+            request.setAttribute("listRestaurants", listRestaurants);
+            request.setAttribute("numberRestaurants", listRestaurants.size());       
+
             request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
         }
         

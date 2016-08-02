@@ -4,8 +4,11 @@
     Author     : mario
 --%>
 
-<%@page import="database.Notification"%>
 <%@page import="database.Review"%>
+<%@page import="database.Notification"%>
+<%@page import="database.Restaurant"%>
+
+
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -30,7 +33,8 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
         <link href="css/cssFooter.css" rel="stylesheet">
-        <link href="css/profile.css" rel="stylesheet">
+        <link href="css/userProfile.css" rel="stylesheet">
+        <link href="css/jquery-ui.css" rel="stylesheet">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -48,6 +52,7 @@
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
+
         
         <div class="container">
         
@@ -67,7 +72,7 @@
                       <p><b>Email:</b>
                           <br> <%= user.getEmail()%>  </p>
                       <p><b>Reviews:</b>
-                          <br><c:out value="${requestScope.numberReview}"/> </p>
+                          <br><c:out value="${numberReview}"/> </p>
                       
                       <p>
                           <div class="btn-group">
@@ -89,72 +94,132 @@
         </div>
         
         <div class="col-md-9">
-          <h2>Private Resources</h2>
+          <h2>Risorse Personali</h2>
           <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="tab" href="#home">Notifications<span class="badge"> <c:out value="${requestcope.numberNotification}"/> </span></a></li>
-                <li><a data-toggle="tab" href="#menu1">My Reviews<span class="badge"><c:out value="${requestScope.numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu2">Profile Info</a></li>
+                <li class="active"><a data-toggle="tab" href="#menu1">Tuoi Commenti<span class="badge"><c:out value="${numberReview}"/></span></a></li>
+                <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
+                <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
+                <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
           </ul>
 
           <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
+              
+            <div id="menu1" class="tab-pane fade in active">
+                <!--Reviews-->
+                <br>
+                
+                <c:forEach items="${listReview}" var="review">
+                    <div class="comment">
+                        <!--primo commento -->                                                
+                        <div class="container-fluid">
+                            <div class="row container-fluid">
+                                <div class="col-md-2 comment-writer">
+                                    <img src="img/avater/avater.png" class="img-circle"/>
+                                    <h5>You</h5>
+                                    <p class="comment-data">
+                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                       <c:out value="${review.getDate_creation()}"/> 
+                                    </p>
+                                </div>
+                                <div class="col-md-10 comment-content">
+                                    <h3 class="comment-title"><c:out value="${review.getName()}"/></h3>
+                                    <div class="row rating-stars">
+                                        <img src="img/star-full.png"/>
+                                        <img src="img/star-full.png"/>
+                                        <img src="img/star-full.png"/>
+                                        <img src="img/star-empty.png"/>
+                                        <img src="img/star-empty.png"/>
+                                    </div>
+
+                                    <p class="comment-text"><c:out value="${review.getDescription()}"/> </p>
+
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-md-6"> 
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+                                    
+            </div>
+              
+            <div id="menu2" class="tab-pane fade">
+ 
+                    <c:forEach var="restaurant" items="${listRestaurants}">
+                        
+                        <div class="container-fluid restaurant">
+                            <div class="row container-fluid">
+                                <div class="col-md-4 restaurant-title">
+                                    <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                    <h4><c:out value="${restaurant.getName()}" /></h4>
+                                    <div class="row rating-stars">
+                                        <c:forEach var="i" begin="1" end="5">
+                                            <c:choose>
+                                                <c:when test="${restaurant.global_value>=i}">
+                                                    <img src="img/star-full.png"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="img/star-empty.png"/>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 restaurant-body">
+                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
+                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
+                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
+                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                        <span class="label label-danger">Carne</span>
+                                        <span class="label label-danger">Pesce</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row container-fluid">
+                                <!-- va qua url del ristorante -->
+                                <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
+                            </div>
+                        </div>
+                        
+                    </c:forEach>
+  
+              
+                      
+            </div>
+              
+            <div id="menu3" class="tab-pane fade">
     
               <div class="list-group">
                   <br>
                   <!-- Notifications -->
                   <c:forEach items="${listNotification}" var="notification">
                       
-                      <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            <c:out value="${notification.getDescription()}"/>
-                            <br>
-                        </h4>
-                        <p class="list-group-item-text">
-                            id = <c:out value="${notification.getId()}"/>
-                        </p>
+                      <a href="#">
+                        <div class="alert alert-info notice" role="alert">notifica
+                            
+                        </div>
+                        
                       </a>
-                      
-                      <br>
                       
                   </c:forEach>
   
-              </div>
-                      
-            </div>
+              </div>                      
+            </div>          
               
-            <div id="menu1" class="tab-pane fade">
-                <!--Reviews-->
-                <br>
-                <c:forEach items="${listReview}" var="review">
-
-                    <a href="#" class="list-group-item">
-                      Data: <c:out value="${review.getDate_creation()}"/>
-                      
-                      <div class="panel panel-info">
-                        <div class="panel-heading"> <c:out value="${review.getName()}"/></div>
-                        <div class="panel-body">
-                            <c:out value="${review.getDescription()}"/><br>
-                            <h5>
-                                Valutazioni:<br>
-                            </h5>
-                            <ul>
-                                <li>Globale - <c:out value="${review.getGlobal_value()}"/></li>
-                                <li>Cibo - <c:out value="${review.getFood()}"/></li>
-                                <li>Servizio - <c:out value="${review.getService()}"/></li>
-                                <li>Atmosfera - <c:out value="${review.getAtmosphere()}"/></li>
-                            </ul>
-                        </div>
-                      </div>
-                    </a>
-
-                    <br>
-
-                </c:forEach>
-              
-            </div>
-              
-              
-            <div id="menu2" class="tab-pane fade">
+            <div id="menu4" class="tab-pane fade">
               <h3>Profile Informations</h3>
               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
