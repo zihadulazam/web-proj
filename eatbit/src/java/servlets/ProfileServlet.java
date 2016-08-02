@@ -51,6 +51,7 @@ public class ProfileServlet extends HttpServlet {
         
         ArrayList<Review> listReview = null;
         ArrayList<Notification> listNotification = null;
+        ArrayList<Notification> listRistoranti = null;
         
         //prendo l'user della sessione
         User user = (User)session.getAttribute("user");
@@ -71,14 +72,15 @@ public class ProfileServlet extends HttpServlet {
         try{
             listNotification = manager.getUserNotifications(user.getId());
             listReview = manager.getUserReviews(user.getId());
+            //listRistoranti = manager.
         } catch (SQLException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        session.setAttribute("listNotification", listNotification);
-        session.setAttribute("numberNotification", listNotification.size());
-        session.setAttribute("listReview", listReview);
-        session.setAttribute("numberReview", listReview.size());
+        request.setAttribute("listNotification", listNotification);
+        request.setAttribute("numberNotification", listNotification.size());
+        request.setAttribute("listReview", listReview);
+        request.setAttribute("numberReview", listReview.size());
         
         session.setAttribute("user", user);
         
