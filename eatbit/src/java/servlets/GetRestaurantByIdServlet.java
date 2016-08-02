@@ -51,7 +51,7 @@ public class GetRestaurantByIdServlet extends HttpServlet {
             response.setContentType("application/json");
             response.getWriter().write(manager.getRestaurantById(id_restaurant).toJSONObject().toJSONString());
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(GetRestaurantByIdServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -111,7 +113,7 @@ public class RegisterUserServlet extends HttpServlet {
             }
             out.flush();
         } catch (IOException | SQLException | ServletException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }
@@ -126,7 +128,7 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException {
+    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException {
         try {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {
@@ -153,6 +155,7 @@ public class RegisterUserServlet extends HttpServlet {
                 msg.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(email, false));
                 msg.setSubject("eatbit verification");
+                //3 modi di avere ip: localhost, pubblico, ip locale
                 //mando la mail con ip settato a localhost, la verifica funzionerà
                 //solo dalla stessa macchina
                 /*msg.setText("This is a verification email sent from eatbit, to "
@@ -160,17 +163,25 @@ public class RegisterUserServlet extends HttpServlet {
                         + "http://localhost:8084/eatbit/verify?token="
                         + token
                         + "&id=" + Integer.toString(id));*/
+                
                 //setta l'ip di questo computer nella mail, la verifica
                 //funzionerà da pc diversi da questo, ma potrebbero esserci problemi
                 //in caso di nat o network complicati
-                msg.setText("This is a verification email sent from eatbit, to "
+                /*msg.setText("This is a verification email sent from eatbit, to "
                         + "activate your account please visit this url:" + '\n'
                         + "http://"
                         + getIp()
                         +":8084/eatbit/verify?token="
                         + token
+                        + "&id=" + Integer.toString(id));*/
+                //setta come ip da contattare l'ip locale della macchina
+                msg.setText("This is a verification email sent from eatbit, to "
+                        + "activate your account please visit this url:" + '\n'
+                        + "http://"
+                        + getLocalIp()
+                        +":8084/eatbit/verify?token="
+                        + token
                         + "&id=" + Integer.toString(id));
-                
                 msg.setSentDate(new Date());
                 Transport transport = session.getTransport("smtps");
                 transport.connect("smtp.gmail.com", 465, username, password);
@@ -190,7 +201,7 @@ public class RegisterUserServlet extends HttpServlet {
         {
             URL url = new URL("https://api.ipify.org");
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            String ipAddress = new String();
+            String ipAddress;
             ipAddress = (in.readLine()).trim();
             /* IF not connected to internet, then
              * the above code will return one empty
@@ -204,7 +215,6 @@ public class RegisterUserServlet extends HttpServlet {
                 try
                 {
                     InetAddress ip = InetAddress.getLocalHost();
-                    System.out.println((ip.getHostAddress()).trim());
                     return ((ip.getHostAddress()).trim());
                 }
                 catch(Exception ex)
@@ -212,8 +222,6 @@ public class RegisterUserServlet extends HttpServlet {
                     return "ERROR";
                 }
             }
-            System.out.println("IP Address is : " + ipAddress);
-
             return (ipAddress);
         }
         catch(Exception e)
@@ -222,7 +230,6 @@ public class RegisterUserServlet extends HttpServlet {
             try
             {
                 InetAddress ip = InetAddress.getLocalHost();
-                System.out.println((ip.getHostAddress()).trim());
                 return ((ip.getHostAddress()).trim());
             }
             catch(Exception ex)
@@ -231,5 +238,14 @@ public class RegisterUserServlet extends HttpServlet {
             }
         }
     }
+    
+    public static String getLocalIp() throws SocketException {
+
+    return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
+            .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
+            .filter(ip -> ip instanceof Inet4Address && ip.isSiteLocalAddress())
+            .findFirst().orElseThrow(RuntimeException::new)
+            .getHostAddress();
+}
 }
 

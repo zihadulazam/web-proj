@@ -879,7 +879,7 @@ public class DbManager implements Serializable
      * @return Un oggetto Photo, null se non esiste con quell id.
      * @throws SQLException 
      */
-    private Photo getPhotoById(int id_photo) throws SQLException
+    public Photo getPhotoById(int id_photo) throws SQLException
     {
         Photo photo = null;
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTOS WHERE ID=?"))
@@ -1182,6 +1182,8 @@ public class DbManager implements Serializable
         context.setReview(getReviewById(id_review));
         context.setUser(getUserById(context.getReview().getId_creator()));
         context.setReply(getReplyByIdReview(id_review));
+        context.setPhoto((getPhotoById(context.getReview().getId_photo())));
+        context.setRestaurantName(getRestaurantById(context.getReview().getId_restaurant()).getName());
         return context;
     }
 
@@ -2123,12 +2125,16 @@ public class DbManager implements Serializable
      * quelle segnalate (se lo è). La review verrà rimossa da quelle segnalate.
      * Verranno aggiornati i like nella tabella user_review_likes. Viene
      * cancellata la reply del ristoratore a questa review.
+     * Viene restituito il path della foto in modo che si possa cancellare dal
+     * filesystem.
      *
      * @param id_review Id della review da rimuovere.
+     * @return String Il path della foto che riguardava la review.
      * @throws SQLException
      */
-    public void removeReview(int id_review) throws SQLException
+    public String removeReview(int id_review) throws SQLException
     {
+        String res=null;
         try (PreparedStatement st = con.prepareStatement("DELETE FROM REVIEWS WHERE ID=?"))
         {
             Review review = getReviewById(id_review);
@@ -2166,8 +2172,10 @@ public class DbManager implements Serializable
                     rm3.executeUpdate();
                     rm4.executeUpdate();
                     rm5.executeUpdate();
-                    //rimuovo foto dalla tabella delle foto reportate, se è presente
-                    unreportPhoto(review.getId_photo());
+                    //setto res e rimuovo foto della review
+                    Photo photo= getPhotoById(review.getId_photo());
+                    res= photo.getPath();
+                    removePhoto(review.getId_photo());
                 }
             }
             con.commit();
@@ -2178,6 +2186,7 @@ public class DbManager implements Serializable
             con.rollback();
             throw ex;
         }
+        return res;
     }
 
     /**
@@ -3675,6 +3684,96 @@ public class DbManager implements Serializable
         return res;
     }
 
+    /**
+     * Restituisce (al massimo) 5 contesti di ristoranti, ordinati per global value, il
+     * primo ha quello più alto.
+     *
+     * @return Un ArrayList contenente i contesti.
+     * @throws SQLException
+     */
+    public ArrayList<RestaurantContext> getTop5RestaurantContextsByValue() throws SQLException
+    {
+        ArrayList<RestaurantContext> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM RESTAURANTS "
+                + "ORDER BY GLOBAL_VALUE DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    RestaurantContext restaurantContext = getRestaurantContext(rs.getInt("ID"));
+                    res.add(restaurantContext);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce (al massimo) 5 contesti di ristoranti, ordinati per reviews_counter, il
+     * primo ha quello più alto.
+     * @return Un ArrayList contenente i contesti.
+     * @throws SQLException
+     */
+    public ArrayList<RestaurantContext> getTop5RestaurantContextsByReviewsCounter() throws SQLException
+    {
+        ArrayList<RestaurantContext> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM RESTAURANTS "
+                + "ORDER BY REVIEWS_COUNTER DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    RestaurantContext restaurantContext = getRestaurantContext(rs.getInt("ID"));
+                    res.add(restaurantContext);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+     /**
+     * Restituisce (al massimo) 5 contesti delle 5 review più recenti, discendente.
+     *
+     * @return Un ArrayList contenente i contesti.
+     * @throws SQLException
+     */
+    public ArrayList<ReviewContext> getLast5ReviewContexts() throws SQLException
+    {
+        ArrayList<ReviewContext> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REVIEWS "
+                + "ORDER BY DATE_CREATION DESC FETCH FIRST 5 ROWS ONLY"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    ReviewContext reviewContext = getReviewContext(rs.getInt("ID"));
+                    res.add(reviewContext);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
     
     /**
      * Chiude la connessione al database.

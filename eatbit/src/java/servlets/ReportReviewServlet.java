@@ -79,7 +79,7 @@ public class ReportReviewServlet extends HttpServlet {
             out.write("1");
 
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(ReportReviewServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
             throw new ServletException(ex);
         }

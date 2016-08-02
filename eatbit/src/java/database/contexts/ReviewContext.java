@@ -5,6 +5,7 @@
  */
 package database.contexts;
 
+import database.Photo;
 import database.Reply;
 import database.Review;
 import database.User;
@@ -22,6 +23,28 @@ public class ReviewContext implements Serializable
     private User user;
     private Review review;
     private Reply reply;
+    private Photo photo;
+    private String restaurantName;
+
+    public String getRestaurantName()
+    {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName)
+    {
+        this.restaurantName = restaurantName;
+    }
+
+    public Photo getPhoto()
+    {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo)
+    {
+        this.photo = photo;
+    }
 
     public ReviewContext()
     {

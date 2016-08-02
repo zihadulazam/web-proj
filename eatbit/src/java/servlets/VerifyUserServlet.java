@@ -65,7 +65,7 @@ public class VerifyUserServlet extends HttpServlet {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException("sql exception");
         }
     }

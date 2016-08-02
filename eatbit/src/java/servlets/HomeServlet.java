@@ -8,6 +8,8 @@ package servlets;
 import database.DbManager;
 import database.Restaurant;
 import database.Review;
+import database.contexts.RestaurantContext;
+import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -49,24 +51,24 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            ArrayList<Restaurant> top5RestByValue = manager.getTop5RestaurantsByValue();
-            ArrayList<Restaurant> top5RestByReviews = manager.getTop5RestaurantsByReviewsCounter();
-            ArrayList<Review> last5Reviews = manager.getLast5Reviews();
+            ArrayList<RestaurantContext> top5RestContextsByValue = manager.getTop5RestaurantContextsByValue();
+            ArrayList<RestaurantContext> top5RestContextsByReviews = manager.getTop5RestaurantContextsByReviewsCounter();
+            ArrayList<ReviewContext> last5ReviewsContexts = manager.getLast5ReviewContexts();
             
             //**********testing values **********
-            Review provaR=new Review();
+            /*Review provaR=new Review();
             provaR.setName("Prova 123");
             last5Reviews.add(provaR);
             Restaurant provaRisto=new Restaurant(0, "Sushoku", "dsdf", "url",4, 2, 3, 4, 5, 6, true);
             top5RestByReviews.add(provaRisto);
-            top5RestByValue.add(provaRisto);
+            top5RestByValue.add(provaRisto);*/
             //::::::::::End Testing::::::::::::
-            request.setAttribute("top5RestByValue", top5RestByValue);
-            request.setAttribute("top5RestByReviews", top5RestByReviews);
-            request.setAttribute("last5Reviews", last5Reviews);
+            request.setAttribute("top5RestByValue", top5RestContextsByValue);
+            request.setAttribute("top5RestByReviews", top5RestContextsByReviews);
+            request.setAttribute("last5Reviews", last5ReviewsContexts);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

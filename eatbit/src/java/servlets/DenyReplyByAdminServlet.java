@@ -91,7 +91,7 @@ public class DenyReplyByAdminServlet extends HttpServlet
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(DenyReplyByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

@@ -70,7 +70,7 @@ public class UserVoteServlet extends HttpServlet {
                 out.write("-1");
             out.flush();
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(UserVoteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

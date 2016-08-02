@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jacopo
  */
-@WebServlet(name = "UserLikeDislikeReview", urlPatterns = {"/UserLikeDislikeReview"})
-public class UserLikeDislikeReview extends HttpServlet {
+@WebServlet(name = "UserLikeDislikeReviewServlet", urlPatterns = {"/UserLikeDislikeReviewServlet"})
+public class UserLikeDislikeReviewServlet extends HttpServlet {
 
     private DbManager manager;
 
@@ -95,7 +95,7 @@ public class UserLikeDislikeReview extends HttpServlet {
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(UserLikeDislikeReviewServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

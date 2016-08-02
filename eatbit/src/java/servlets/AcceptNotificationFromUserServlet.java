@@ -90,7 +90,7 @@ public class AcceptNotificationFromUserServlet extends HttpServlet
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(AcceptNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }

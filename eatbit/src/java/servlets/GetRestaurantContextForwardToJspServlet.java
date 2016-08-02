@@ -56,7 +56,7 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
             request.setAttribute("restaurant_context", manager.getRestaurantContext(id_restaurant));
             request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
         } catch (SQLException | NumberFormatException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            Logger.getLogger(GetRestaurantContextForwardToJspServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex);
         }
     }
