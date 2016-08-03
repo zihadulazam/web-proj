@@ -6,6 +6,7 @@ import database.Notification;
 import database.Restaurant;
 import database.Review;
 import database.User;
+import database.contexts.OwnUserContext;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,9 +79,12 @@ public class ProfileServlet extends HttpServlet {
             ArrayList<Review> listReview = null;
             ArrayList<Notification> listNotification = null;
             ArrayList<Restaurant> listRestaurants = null;
+            OwnUserContext userContext = null;
             
             //provo a interrogare il DB per ottenere le info
             try{
+                //userContext = manager.getUserContext(user.getId());
+                
                 listNotification = manager.getUserNotifications(user.getId());
                 listReview = manager.getUserReviews(user.getId());
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
