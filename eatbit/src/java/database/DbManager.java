@@ -892,6 +892,7 @@ public class DbManager implements Serializable
 
     /**
      * Recupera il contesto di una foto a partire dal suo id.
+     * Se la foto è null allora anche l'utente sarà null.
      * @param id_photo Id della foto.
      * @return PhotoContext Il contesto di una foto, composto dalla foto e
      * dall'utente che l'ha uploadata.
@@ -901,7 +902,10 @@ public class DbManager implements Serializable
     {
         PhotoContext contesto = new PhotoContext();
         contesto.setPhoto(getPhotoById(id_photo));
-        contesto.setUser(getUserById(contesto.getPhoto().getId_owner()));
+        if(contesto.getPhoto()!=null)
+            contesto.setUser(getUserById(contesto.getPhoto().getId_owner()));
+        else
+            contesto.setUser(null);
         return contesto;
     }
 
@@ -1037,6 +1041,8 @@ public class DbManager implements Serializable
     /**
      * Recupera il contesto di un tentativo di claim o creazione di un ristorante 
      * da parte di un utente.
+     * User e restaurant nel contesto saranno null se non vengono trovati a partire
+     * dagli id forniti.
      * @param id_user Lo user che ha fatto la creazione o la richiesta di possesso.
      * @param id_restaurant Id del ristorante in questione.
      * @param creation_claim_both Il tipo di claim.
