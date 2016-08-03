@@ -644,6 +644,9 @@ public class DbManager implements Serializable
     /**
      * Recupera il contesto di una reply, che comprende reply, la review
      * relativa alla reply, e lo user che ha fatto la reply.
+     * Se la reply non esiste allora Review e User del contesto saranno null, 
+     * ma possono essere anche se la reply esiste ma non è possibile trovare
+     * uno User e una Review a partire dagli id contenuti nella reply.
      * @param id_reply Id della reply.
      * @return Un oggetto ReplyContext.
      * @throws SQLException 
@@ -652,8 +655,16 @@ public class DbManager implements Serializable
     {
         ReplyContext contesto = new ReplyContext();
         contesto.setReply(getReplyById(id_reply));
-        contesto.setReview(getReviewById(contesto.getReply().getId_review()));
-        contesto.setUser(getUserById(contesto.getReply().getId_owner()));
+        if(contesto.getReply()!=null)
+        {
+            contesto.setReview(getReviewById(contesto.getReply().getId_review()));
+            contesto.setUser(getUserById(contesto.getReply().getId_owner()));
+        }
+        else
+        {
+            contesto.setReview(null);
+            contesto.setUser(null);
+        }
         return contesto;
     }
 
@@ -1209,6 +1220,8 @@ public class DbManager implements Serializable
     
     /**
      * Recupera il contesto di una review a partire dall'id.
+     * Se la review non viene trovata (=null) o non è possibile trovare gli altri campi
+     * del context a partire dalla review allora quei campi saranno null.
      * @param id_review Id della review.
      * @return Un oggetto ReviewContext (review, user e eventuale reply che
      * può essere null se non c'è una reply per quella review).
@@ -1218,10 +1231,19 @@ public class DbManager implements Serializable
     {
         ReviewContext context = new ReviewContext();
         context.setReview(getReviewById(id_review));
-        context.setUser(getUserById(context.getReview().getId_creator()));
         context.setReply(getReplyByIdReview(id_review));
-        context.setPhoto((getPhotoById(context.getReview().getId_photo())));
-        context.setRestaurantName(getRestaurantById(context.getReview().getId_restaurant()).getName());
+        if(context.getReview()!=null)
+        {
+            context.setUser(getUserById(context.getReview().getId_creator()));
+            context.setPhoto((getPhotoById(context.getReview().getId_photo())));
+            context.setRestaurantName(getRestaurantById(context.getReview().getId_restaurant()).getName());
+        }
+        else
+        {
+            context.setUser(null);
+            context.setPhoto(null);
+            context.setRestaurantName(null);
+        }
         return context;
     }
 
@@ -3553,6 +3575,10 @@ public class DbManager implements Serializable
      * Restituisce il contesto di un ristorante a partire dall'id.
      * Le review del ristorante sono ordinate a partire dalla più recente
      * alla più vecchia.
+     * I campi all'interno del contesto potrebbero essere null se non vengono
+     * trovati o se non è possibile trovarli perchè qualcosa di necessario per 
+     * trovarli è null. CityPosition sarà uguale a -1 se restaurant o coordinate
+     * saranno null.
      * @param id_restaurant Id del ristorante.
      * @return Un oggetto RestaurantContext.
      * @throws SQLException 
@@ -3563,18 +3589,33 @@ public class DbManager implements Serializable
         Coordinate coordinate= getRestaurantCoordinate(id_restaurant);
         Restaurant restaurant= getRestaurantById(id_restaurant);
         context.setRestaurant(restaurant);
-        if(restaurant.getId_owner()!=0)//se ha un owner
-            context.setOwner(getUserById(restaurant.getId_owner()));
-        else
-            context.setOwner(null);
-        context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(),
-                coordinate.getCity(),coordinate.getState()));
-        context.setCuisines(getRestaurantCuisines(restaurant.getId()));
-        context.setPriceRange(getRestaurantPriceRange(restaurant.getId_price_range()));
         context.setHoursRanges(getRestaurantHoursRanges(id_restaurant));
         context.setPhotos(getRestaurantPhotos(id_restaurant));
         context.setReviewsContextsByNewest(getRestaurantReviewsContextsByNewest(id_restaurant));
         context.setCoordinate(coordinate);
+        if(restaurant!=null)
+        {
+            //roba che ha bisogno di restaurant != null
+            if(restaurant.getId_owner()!=0)//se ha un owner
+                context.setOwner(getUserById(restaurant.getId_owner()));
+            else
+                context.setOwner(null);
+            context.setCuisines(getRestaurantCuisines(restaurant.getId()));
+            context.setPriceRange(getRestaurantPriceRange(restaurant.getId_price_range()));
+            //roba che ha bisogno coordinate != null
+            if(coordinate!=null)
+                context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(),
+                    coordinate.getCity(),coordinate.getState()));
+            else
+                context.setCityPosition(-1);
+        }
+        else
+        {
+            context.setOwner(null);
+            context.setCuisines(new ArrayList<>());
+            context.setPriceRange(null);
+            context.setCityPosition(-1);
+        }
         return context;
     }
     
