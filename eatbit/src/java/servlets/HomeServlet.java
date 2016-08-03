@@ -51,6 +51,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            System.out.println("ayy");
             ArrayList<RestaurantContext> top5RestContextsByValue = manager.getTop5RestaurantContextsByValue();
             ArrayList<RestaurantContext> top5RestContextsByReviews = manager.getTop5RestaurantContextsByReviewsCounter();
             ArrayList<ReviewContext> last5ReviewsContexts = manager.getLast5ReviewContexts();

@@ -37,6 +37,7 @@ public class DbManager implements Serializable
 
     private transient Connection con;
     private static int MAX_NOTIFICATION_LENGTH = 1000;//massima lunghezza di una notifica, rispecchia il valore nel db
+    private static int MAX_HASHED_PASSWORD_LENGTH= 255;//massima lunghezza della password dopo essere stata hashata, rispecchia valore nel db
     
     public DbManager(String url) throws ClassNotFoundException, SQLException
     {
@@ -79,6 +80,7 @@ public class DbManager implements Serializable
                 st.setString(2, user.getSurname());
                 st.setString(3, user.getNickname());
                 st.setString(4, user.getEmail());
+                //cappo la lunghezza della psw hashata per non superare la lunghezza massima impostata nel db
                 st.setString(5, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
                 st.setString(6, user.getAvatar_path());
                 st.setInt(7, 0);
@@ -95,12 +97,11 @@ public class DbManager implements Serializable
                     else
                         throw new SQLException("no generated key from user registration");
                 }
-                try (PreparedStatement st2 = con.prepareStatement("insert into USERS_TO_VERIFY(ID,TOKEN)"
+                try (PreparedStatement st2 = con.prepareStatement("INSERT INTO USERS_TO_VERIFY(ID,TOKEN)"
                         + " VALUES(?,?)"))
                 {
-                    String uuid = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
                     st2.setInt(1, user.getId());
-                    st2.setString(2, uuid);
+                    st2.setString(2, BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt()));
                     st2.executeUpdate();
                     con.commit();
                 }
@@ -183,7 +184,7 @@ public class DbManager implements Serializable
      * Metodo per avere il token di verifica corrispondente ad una certa email,
      * e quindi ad un utente.
      *
-     * @param email L'email di cui si cerca il token.
+     * @param id Dell'utente di cui si cerca il token
      * @return Un token alfanumerico, null se non si ha trovato nulla.
      * @throws SQLException
      */
@@ -214,7 +215,7 @@ public class DbManager implements Serializable
      * Verifica un utente, togliendolo dalla tabella USERS_TO_VERIFY e settando
      * la voce VERIFIED a true nella tabella USERS.
      *
-     * @param email La email da verificare.
+     * @param id Id dell'utente da verificare.
      * @param token Il token alfanumerico fornito dall'utente.
      * @return True se la verifica è andata a buon fine, falso altrimenti.
      * @throws SQLException
@@ -268,7 +269,7 @@ public class DbManager implements Serializable
     {
         String uuid = BCrypt.hashpw(UUID.randomUUID().toString(), BCrypt.gensalt());
         try (PreparedStatement del = con.prepareStatement("DELETE FROM USERS_TO_CHANGE_PSW WHERE ID=?");
-                PreparedStatement st = con.prepareStatement("insert into USERS_TO_CHANGE_PSW(ID,TOKEN)"
+                PreparedStatement st = con.prepareStatement("INSERT INTO USERS_TO_CHANGE_PSW(ID,TOKEN)"
                         + " VALUES(?,?)"))
         {
             del.setInt(1, id_user);
@@ -500,6 +501,37 @@ public class DbManager implements Serializable
         return reviews;
     }
 
+        /**
+     * Restituisce i contesti delle review di un utente.
+     * @param id_user L'id dell''utente di cui cercare le reviews.
+     * @return Un ArrayList di oggetti ReviewContext dell'utente.
+     * @throws java.sql.SQLException
+     */
+    public ArrayList<ReviewContext> getUserReviewContext(int id_user) throws SQLException
+    {
+        ArrayList<ReviewContext> reviews = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REVIEWS WHERE ID_CREATOR=?"))
+        {
+            st.setInt(1, id_user);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    ReviewContext reviewContext = getReviewContext(rs.getInt("ID"));
+                    reviews.add(reviewContext);
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return reviews;
+    }
+    
     /**
      * Le notifiche di un utente normale o ristoratore, non le notifiche di task
      * da svolgere per un admin.
@@ -535,7 +567,7 @@ public class DbManager implements Serializable
         }
         return notifications;
     }
-
+    
     /**
      * Restituisce un numero di contesti, una classe formata da una review, uno
      * user e una reply; lo user è chi ha fatto la reply, la review è ciò a cui
@@ -634,7 +666,7 @@ public class DbManager implements Serializable
     private Reply getReplyById(int id_reply) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=? AND VALIDATED=TRUE"))
         {
             st.setInt(1, id_reply);
             try (ResultSet rs = st.executeQuery())
@@ -672,7 +704,7 @@ public class DbManager implements Serializable
     private Reply getReplyByIdReview(int id_review) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID_REVIEW=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID_REVIEW=? AND VALIDATED=TRUE"))
         {
             st.setInt(1, id_review);
             try (ResultSet rs = st.executeQuery())
@@ -2806,9 +2838,10 @@ public class DbManager implements Serializable
         OwnUserContext contesto = new OwnUserContext();
         try
         {
+            
             contesto.setUser(getUserById(id_user));
             contesto.setPhotos(getUserPhotos(id_user));
-            contesto.setReviews(getUserReviews(id_user));
+            contesto.setReviewContext(getUserReviewContextsByDateCreation(id_user));
             contesto.setRestaurant(getUserRestaurants(id_user));
             contesto.setNotification(getUserNotifications(id_user));
             con.commit();
@@ -2904,6 +2937,38 @@ public class DbManager implements Serializable
         return res;
     }
 
+    /**
+     * Restituisce i contesti delle review di un utente, ordinate per DATE_CREATION.
+     * @param id_user L'id dell''utente di cui cercare le reviews.
+     * @return Un ArrayList di oggetti ReviewContext dell'utente, ordinate per DATE_CREATION,
+     * la prima è la più recente.
+     * @throws SQLException
+     */
+    public ArrayList<ReviewContext> getUserReviewContextsByDateCreation(int id_user) throws SQLException
+    {
+        ArrayList<ReviewContext> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REVIEWS WHERE ID_CREATOR=? "
+                + "ORDER BY DATE_CREATION DESC"))
+        {
+            st.setInt(1, id_user);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    ReviewContext reviewContext = getReviewContext(rs.getInt("ID"));
+                    res.add(reviewContext);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
     /**
      * Restituisce i ristoranti di un utente, a partire dal suo id, ordinati per
      * REVIEWS_COUNTER (descending).
