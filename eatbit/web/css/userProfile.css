@@ -10,6 +10,11 @@ and open the template in the editor.
 
 /*ristoranti*/
 
+.modifica-risto {
+    background: url('') no-repeat
+        
+}
+
 .restaurant {
   margin-top: 15px;
   box-shadow: 10px 10px 5px #dedede;
@@ -165,4 +170,26 @@ and open the template in the editor.
 .notice {
 		background:#e3f7fc no-repeat 10px 100%;
 		border:1px solid #8ed9f6;
+}
+
+/*inf_profilo*/
+
+.modifica {
+        margin-top: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 20px;
+        display: block;
+        text-align: left;
+        font-size: 14px;
+}
+
+.right {
+        
+        text-align: right;
+        font-size: 14px;
+}
+.left {
+        text-align: left;
+        
 }

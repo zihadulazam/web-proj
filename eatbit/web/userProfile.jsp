@@ -29,6 +29,8 @@
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
@@ -47,187 +49,253 @@
         <script src="js/bootstrap.min.js"></script>
         
     </head>
-    <body id="sfondo">
+    <body>
                 
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
-
         
         <div class="container">
         
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-sm-12">
-                  <div class="thumbnail">
-                      <img src="img/user_default.png" alt="normal user">
-                    <div class="caption">
-                      <hr>
-                      
-                      <h3><%= user.getNickname() %></h3>
-                      <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
-                      <hr>
-                      <p><b>Tuo Nome:</b>
-                          <br> <%= user.getName()%> <%= user.getSurname()%>  </p>
-                      <p><b>Email:</b>
-                          <br> <%= user.getEmail()%>  </p>
-                      <p><b>Reviews:</b>
-                          <br><c:out value="${numberReview}"/> </p>
-                      
-                      <p>
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
-                              Altro <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#">Vedi tuoi Ristoranti</a></li>
-                              <li><a href="#">Modifica dati Profilo</a></li>
-                              
-                              <li class="divider"></li>
-                              <li><a href="#">Log Out</a></li>
-                            </ul>
-                          </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="thumbnail">
+                            <img src="img/user_default.png" alt="normal user">
+                            <div class="caption">
+                              <hr>
+
+                              <h3><%= user.getNickname() %></h3>
+                              <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
+                              <hr>
+                              <p><b>Tuo Nome:</b>
+                                  <br> <%= user.getName()%> <%= user.getSurname()%>  </p>
+                              <p><b>Email:</b>
+                                  <br> <%= user.getEmail()%>  </p>
+                              <p><b>Reviews:</b>
+                                  <br><c:out value="${numberReview}"/> </p>
+
+                              <p>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
+                                            Altro <span class="caret"></span>
+                                        </button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Vedi tuoi Ristoranti</a></li>
+                                            <li><a href="#">Modifica dati Profilo</a></li>
+
+                                            <li class="divider"></li>
+                                            <li><a href="#">Log Out</a></li>
+                                        </ul>
+                                    </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div>    
+            </div>
+
+            <div class="col-md-9">
+                <h2>Risorse Personali</h2>
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="tab" href="#menu1">Tuoi Commenti<span class="badge"><c:out value="${numberReview}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
+                    <li><a data-toggle="tab" href="#menu4">Modifica Profilo</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    
+                    <!--MENU 1-->
+                    <div id="menu1" class="tab-pane fade in active">
+                        <!--Reviews-->
+                        <br>
+
+                        <c:forEach var="reviewContext" items="${listReview}">
+                            <div class="comment">
+                                <!--primo commento -->                                                
+                                <div class="container-fluid">
+                                    <div class="row container-fluid">
+                                        <div class="col-md-2 comment-writer">
+                                            <img src="img/avater/avater.png" class="img-circle"/>
+                                            <h5>You</h5>
+                                            <p class="comment-data">
+                                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                <c:out value="${reviewContext.getReview().getDate_creation()}"></c:out>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-10 comment-content">
+                                            <h3 class="comment-title"><c:out value="${reviewContext.getReview().getName()}"></c:out></h3>
+                                            <div class="row rating-stars">
+                                                <img src="img/star-full.png"/>
+                                                <img src="img/star-full.png"/>
+                                                <img src="img/star-full.png"/>
+                                                <img src="img/star-empty.png"/>
+                                                <img src="img/star-empty.png"/>
+                                            </div>
+
+                                            <p class="comment-text"><c:out value="${reviewContext.getReview().getDescription()}"></c:out> </p>
+
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-md-2"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-md-6"> 
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#"><c:out value="${reviewContext.getRestaurantName()}"></c:out></a></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                                    
+                        </c:forEach>
+                    </div>
+
+                    <!--MENU 2-->
+                    <div id="menu2" class="tab-pane fade">
+                        <c:forEach var="restaurant" items="${listRestaurants}">
+
+                            <div class="container-fluid restaurant">
+                                <div class="row container-fluid">
+                                    <div class="col-md-4 restaurant-title">
+                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                        <h4><c:out value="${restaurant.getName()}" /></h4>
+                                        <div class="row rating-stars">
+                                            <c:forEach var="i" begin="1" end="5">
+                                                <c:choose>
+                                                    <c:when test="${restaurant.global_value>=i}">
+                                                        <img src="img/star-full.png"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="img/star-empty.png"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 restaurant-body">
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                            <span class="label label-danger">Carne</span>
+                                            <span class="label label-danger">Pesce</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row container-fluid">
+                                    <!-- va qua url del ristorante -->
+                                    <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
+                                    <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-pencil" aria-hidden="true"></span> Modifica</button></div>
+                                </div>
+                            </div>
+
+                        </c:forEach>
+                    </div>
+
+                    <!--MENU 3-->
+                    <div id="menu3" class="tab-pane fade">
+                        <br>
+                        <!-- Notifications -->
+                        <c:forEach items="${listNotification}" var="notification">
+                                <div class="alert alert-info notice restaurant" role="alert">
+                                    <div class ="row">
+                                        <a href="#">
+                                           &nbsp; <c:out value="${notification.getDescription()}"/>
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class ="col-md-10">
+                                        </div>
+                                        <div class ="col-md-2">
+                                            <button type="button" class="btn btn-primary">
+                                                OK
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                        </c:forEach>                      
+                    </div>          
+                    
+                    <!--MENU 4-->
+                    <div id="menu4" class="tab-pane fade">
+                        
+                        <div class="row">                                 
+                            <ul class="list-group modifica restaurant">
+                                <form>
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Nome
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" placeholder="${user.getName()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Cognome
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" placeholder="${user.getSurname()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Email
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" disabled placeholder="${user.getEmail()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Password
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Cambia Avatar
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-default">
+                                                    Cerca File&hellip; <input type="file" style="display: none;" multiple>
+                                                </span>
+                                            </label>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </li>
+                                </form>
+                            </ul>   
+                        </div>
+                                    
+                        <br>
+                        
+                        <div class="row">
+                            <div class="right">
+                                <p><a href="#" class="btn btn-primary" type="submit" role="button">Salva Modifiche</a></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>    
+            </div>           
         </div>
         
-        <div class="col-md-9">
-          <h2>Risorse Personali</h2>
-          <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="tab" href="#menu1">Tuoi Commenti<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
-                <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
-          </ul>
-
-          <div class="tab-content">
-              
-            <div id="menu1" class="tab-pane fade in active">
-                <!--Reviews-->
-                <br>
-                
-                <c:forEach items="${listReview}" var="reviewContext">
-                    <div class="comment">
-                        <!--primo commento -->                                                
-                        <div class="container-fluid">
-                            <div class="row container-fluid">
-                                <div class="col-md-2 comment-writer">
-                                    <img src="img/avater/avater.png" class="img-circle"/>
-                                    <h5>You</h5>
-                                    <p class="comment-data">
-                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                       ${reviewContext.getReview().getDate_creation()}
-                                    </p>
-                                </div>
-                                <div class="col-md-10 comment-content">
-                                    <h3 class="comment-title">"${reviewContext.getReview().getName()}</h3>
-                                    <div class="row rating-stars">
-                                        <img src="img/star-full.png"/>
-                                        <img src="img/star-full.png"/>
-                                        <img src="img/star-full.png"/>
-                                        <img src="img/star-empty.png"/>
-                                        <img src="img/star-empty.png"/>
-                                    </div>
-
-                                    <p class="comment-text">${reviewContext.getReview().getDescription()} </p>
-
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-md-2"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-md-6"> 
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">${reviewContext.getRestaurantName()}</a></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-                                    
-            </div>
-              
-            <div id="menu2" class="tab-pane fade">
- 
-                    <c:forEach var="restaurant" items="${listRestaurants}">
-                        
-                        <div class="container-fluid restaurant">
-                            <div class="row container-fluid">
-                                <div class="col-md-4 restaurant-title">
-                                    <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                    <h4><c:out value="${restaurant.getName()}" /></h4>
-                                    <div class="row rating-stars">
-                                        <c:forEach var="i" begin="1" end="5">
-                                            <c:choose>
-                                                <c:when test="${restaurant.global_value>=i}">
-                                                    <img src="img/star-full.png"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="img/star-empty.png"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                                <div class="col-md-8 restaurant-body">
-                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
-                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
-                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
-                                    <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
-                                        <span class="label label-danger">Carne</span>
-                                        <span class="label label-danger">Pesce</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row container-fluid">
-                                <!-- va qua url del ristorante -->
-                                <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                            </div>
-                        </div>
-                        
-                    </c:forEach>
-  
-              
-                      
-            </div>
-              
-            <div id="menu3" class="tab-pane fade">
-    
-              <div class="list-group">
-                  <br>
-                  <!-- Notifications -->
-                  <c:forEach items="${listNotification}" var="notification">
-                      
-                      <a href="#">
-                        <div class="alert alert-info notice" role="alert">
-                            ${notification.getDescription}
-                        </div>
-                        
-                      </a>
-                      
-                  </c:forEach>
-  
-              </div>                      
-            </div>          
-              
-            <div id="menu4" class="tab-pane fade">
-              <h3>Profile Informations</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
-          </div>
-        </div>
-            
-        </div>
-                
        <!--footer-->
        <%@include file="components/footer.html"%>
 

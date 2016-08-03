@@ -4,8 +4,7 @@
     Author     : mario
 --%>
 
-<%@page import="database.Notification"%>
-<%@page import="database.Review"%>
+
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
@@ -54,68 +53,69 @@
         <div class="col-md-3">
             <div class="row">
                 <div class="col-sm-12">
-                  <div class="thumbnail">
-                      <img src="img/administrator.png" alt="administrator user">
-                    <div class="caption">
-                      <hr>
-                      
-                      <h3><%= user.getNickname() %></h3>
-                      <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
-                      <hr>
-                      <p><b>Tuo Nome:</b>
-                          <br> <%= user.getName()%> <%= user.getSurname()%>  </p>
-                      <p><b>Email:</b>
-                          <br> <%= user.getEmail()%>  </p>
-                      <p><b>Nuove Notifiche:</b>
-                          <br><c:out value="${numberReview}"/> </p>
-                      
-                      <p>
-                          <div class="btn-group">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
-                              Altro <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#">Vedi tuoi Ristoranti</a></li>
-                              <li><a href="#">Modifica dati Profilo</a></li>
-                              
-                              <li class="divider"></li>
-                              <li><a href="#">Log Out</a></li>
-                            </ul>
-                          </div>
+                    <div class="thumbnail">
+                        <img src="img/administrator.png" alt="administrator user">
+                        <div class="caption">
+                            <hr>
+                            <h3><%= user.getNickname() %></h3>
+                            <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
+                            <hr>
+                            <p><b>Tuo Nome:</b>
+                            <br>
+                            <%= user.getName()%> <%= user.getSurname()%>  </p>
+                            <p><b>Email:</b>
+                            <br> <%= user.getEmail()%>  </p>
+                            <p><b>Nuove Notifiche:</b>
+                            <br><c:out value="${numberReview}"/> </p>
+
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
+                                Altro <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Vedi tuoi Ristoranti</a></li>
+                                    <li><a href="#">Modifica dati Profilo</a></li>
+
+                                    <li class="divider"></li>
+                                    <li><a href="#">Log Out</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
             </div>    
         </div>
                           
         <div class="col-md-9">
-          <h2>Profilo Privato</h2>
-          <ul class="nav nav-pills">
+            <h2>Profilo Privato</h2>
+            <ul class="nav nav-pills">
                 <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu1">Risposte da Confermare<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#home">Segnalati<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
-                <li><a data-toggle="tab" href="#menu2">Informazioni Profilo</a></li>
-          </ul>
+                <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${numberReview}"/></span></a></li>
+                <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
+                <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
+            </ul>
 
-          <div class="tab-content">
-              
+        <div class="tab-content">            
             <div id="menu1" class="tab-pane fade in active">
                 <!--Reviews-->
                 <br>
                 <c:forEach items="${listReview}" var="review">
-
+                    
                     <a href="#" class="list-group-item">
                       Data: <c:out value="${review.getDate_creation()}"/>
                       
-                      <div class="panel panel-info">
-                        <div class="panel-heading"> <c:out value="${review.getName()}"/></div>
-                        <div class="panel-body">
-                            <c:out value="${review.getDescription()}"/><br>
-                            <h5>
-                                Valutazioni:<br>
-                                Globale - <c:out value="${review.getGlobal_value()}"/> Cibo - <c:out value="${review.getFood()}"/> Servizio - <c:out value="${review.getService()}"/> Atmosfera - <c:out value="${review.getAtmosphere()}"/>
-                            </h5>
-                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading"> 
+                                <c:out value="${review.getName()}"/>
+                            </div>
+                            <div class="panel-body">
+                                <c:out value="${review.getDescription()}"/><br>
+                                <h5>
+                                    Valutazioni:<br>
+                                    Globale - <c:out value="${review.getGlobal_value()}"/> Cibo - <c:out value="${review.getFood()}"/> Servizio - <c:out value="${review.getService()}"/> Atmosfera - <c:out value="${review.getAtmosphere()}"/>
+                                </h5>
+                            </div>
                       </div>
                     </a>
 
@@ -148,5 +148,8 @@
   
               </div>
             </div>
+          </div>
+        </div>
+       </div>
     </body>
 </html>

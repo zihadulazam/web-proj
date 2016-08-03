@@ -6,7 +6,10 @@ import database.Notification;
 import database.Restaurant;
 import database.Review;
 import database.User;
+import database.contexts.AttemptContext;
 import database.contexts.OwnUserContext;
+import database.contexts.PhotoContext;
+import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -71,7 +74,26 @@ public class ProfileServlet extends HttpServlet {
         
         if (type==10){
             //raccolgo dati per l'admin
+            ArrayList<AttemptContext> ristorantiAttesa = null;
+            ArrayList<ReplyContext> risposteConfermare = null;
+            ArrayList<PhotoContext> fotoSegnalate = null;
+            ArrayList<ReviewContext> reviewSegnalate = null;
             
+            //provo a interrogare il DB per ottenere le info
+            try{                
+                ristorantiAttesa = manager.getRestaurantsRequests(5);
+                risposteConfermare = manager.getRepliesToBeConfirmed(5);
+                fotoSegnalate = manager.getReportedPhotos(5);
+                reviewSegnalate = manager.getReportedReviews(5);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            request.setAttribute("ristorantiAttesa", ristorantiAttesa);
+            request.setAttribute("risposteConfermare", risposteConfermare);
+            request.setAttribute("fotoSegnalate", fotoSegnalate);
+            request.setAttribute("reviewSegnalate", reviewSegnalate);
             
             request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
             
