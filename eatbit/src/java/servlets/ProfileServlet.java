@@ -79,12 +79,9 @@ public class ProfileServlet extends HttpServlet {
             ArrayList<Review> listReview = null;
             ArrayList<Notification> listNotification = null;
             ArrayList<Restaurant> listRestaurants = null;
-            OwnUserContext userContext = null;
             
             //provo a interrogare il DB per ottenere le info
-            try{
-                //userContext = manager.getUserContext(user.getId());
-                
+            try{                
                 listNotification = manager.getUserNotifications(user.getId());
                 listReview = manager.getUserReviews(user.getId());
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
