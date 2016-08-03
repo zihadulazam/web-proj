@@ -47,7 +47,7 @@ import java.security.SecureRandom;
 public class BCrypt
 {
     // BCrypt parameters
-
+    private static final int MAX_HASHPW_LENGTH = 255; //massima lunghezza della passowrd hashata per rifletterere la max lunghezza nel db
     private static final int GENSALT_DEFAULT_LOG2_ROUNDS = 10;
     private static final int BCRYPT_SALT_LEN = 16;
 
@@ -775,7 +775,8 @@ public class BCrypt
         rs.append(encode_base64(saltb, saltb.length));
         rs.append(encode_base64(hashed,
                 bf_crypt_ciphertext.length * 4 - 1));
-        return rs.toString();
+        String res= rs.toString();
+        return res.substring(0, Math.min(res.length(),MAX_HASHPW_LENGTH));
     }
 
     /**

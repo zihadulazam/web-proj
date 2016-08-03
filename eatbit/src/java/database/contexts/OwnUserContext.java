@@ -21,7 +21,7 @@ public class OwnUserContext implements Serializable
 {
     private User user;
     private ArrayList<Photo> photos;
-    private ArrayList<Review> reviews;
+    private ArrayList<ReviewContext> reviewContext;
     private ArrayList<Restaurant> restaurant;
     private ArrayList<Notification> notification;
 
@@ -50,15 +50,17 @@ public class OwnUserContext implements Serializable
         this.photos = photos;
     }
 
-    public ArrayList<Review> getReviews()
+    public ArrayList<ReviewContext> getReviewContext()
     {
-        return reviews;
+        return reviewContext;
     }
 
-    public void setReviews(ArrayList<Review> reviews)
+    public void setReviewContext(ArrayList<ReviewContext> reviewContext)
     {
-        this.reviews = reviews;
+        this.reviewContext = reviewContext;
     }
+
+    
 
     public ArrayList<Restaurant> getRestaurant()
     {
