@@ -230,7 +230,7 @@
                         
                         <div class="row">                                 
                             <ul class="list-group modifica restaurant">
-                                <form>
+                                
                                 <li class="list-group-item">
                                     <div class='left'>
                                         Nome
@@ -280,7 +280,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                </form>
+                                
                             </ul>   
                         </div>
                                     
@@ -288,7 +288,7 @@
                         
                         <div class="row">
                             <div class="right">
-                                <p><a href="#" class="btn btn-primary" type="submit" role="button">Salva Modifiche</a></p>
+                                <p><button class="btn btn-primary" type="submit" role="button">Salva Modifiche</button></p>
                             </div>
                         </div>
                     </div>
