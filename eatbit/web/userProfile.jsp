@@ -4,7 +4,7 @@
     Author     : mario
 --%>
 
-<%@page import="database.Review"%>
+<%@page import="database.contexts.ReviewContext"%>
 <%@page import="database.Notification"%>
 <%@page import="database.Restaurant"%>
 
@@ -108,7 +108,7 @@
                 <!--Reviews-->
                 <br>
                 
-                <c:forEach items="${listReview}" var="review">
+                <c:forEach items="${listReview}" var="reviewContext">
                     <div class="comment">
                         <!--primo commento -->                                                
                         <div class="container-fluid">
@@ -118,11 +118,11 @@
                                     <h5>You</h5>
                                     <p class="comment-data">
                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                       <c:out value="${review.getDate_creation()}"/> 
+                                       ${reviewContext.getReview().getDate_creation()}
                                     </p>
                                 </div>
                                 <div class="col-md-10 comment-content">
-                                    <h3 class="comment-title"><c:out value="${review.getName()}"/></h3>
+                                    <h3 class="comment-title">"${reviewContext.getReview().getName()}</h3>
                                     <div class="row rating-stars">
                                         <img src="img/star-full.png"/>
                                         <img src="img/star-full.png"/>
@@ -131,7 +131,7 @@
                                         <img src="img/star-empty.png"/>
                                     </div>
 
-                                    <p class="comment-text"><c:out value="${review.getDescription()}"/> </p>
+                                    <p class="comment-text">${reviewContext.getReview().getDescription()} </p>
 
                                     <div class="container-fluid">
                                         <div class="row">
@@ -144,7 +144,7 @@
                                             <div class="col-md-6"> 
                                             </div>
                                             <div class="col-md-6">
-                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
+                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">${reviewContext.getRestaurantName()}</a></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -208,8 +208,8 @@
                   <c:forEach items="${listNotification}" var="notification">
                       
                       <a href="#">
-                        <div class="alert alert-info notice" role="alert">notifica
-                            
+                        <div class="alert alert-info notice" role="alert">
+                            ${notification.getDescription}
                         </div>
                         
                       </a>

@@ -7,6 +7,7 @@ import database.Restaurant;
 import database.Review;
 import database.User;
 import database.contexts.OwnUserContext;
+import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -76,14 +77,17 @@ public class ProfileServlet extends HttpServlet {
             
         }else{
             //raccolgo dati per utente
-            ArrayList<Review> listReview = null;
+            ArrayList<ReviewContext> listReview = null;
             ArrayList<Notification> listNotification = null;
             ArrayList<Restaurant> listRestaurants = null;
             
+            OwnUserContext userContext = null;
+            
             //provo a interrogare il DB per ottenere le info
             try{                
-                listNotification = manager.getUserNotifications(user.getId());
-                listReview = manager.getUserReviews(user.getId());
+                userContext = manager.getUserContext(user.getId());
+                listNotification = userContext.getNotification();
+                listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
 
             } catch (SQLException ex) {
