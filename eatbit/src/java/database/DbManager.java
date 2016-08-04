@@ -595,7 +595,7 @@ public class DbManager implements Serializable
                 while (rs.next())
                 {
                     contesti.add(getReplyContext(rs.getInt("ID")));
-                    rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
+                    updateRepliesToBeConfirmedDate(rs.getInt("ID"), timestamp);
                 }
                 con.commit();
             }
@@ -843,7 +843,7 @@ public class DbManager implements Serializable
     public ArrayList<PhotoContext> getReportedPhotos(int many) throws SQLException
     {
         ArrayList<PhotoContext> contesti = new ArrayList<>();
-        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPORTED_PHOTOS"
                 + " WHERE {fn TIMESTAMPDIFF( SQL_TSI_HOUR, DATE_ADMIN_TOOK,?)} >= 1 "
                 + "FETCH FIRST ? ROWS ONLY"))
         {
@@ -855,7 +855,7 @@ public class DbManager implements Serializable
                 while (rs.next())
                 {
                     contesti.add(getPhotoContext(rs.getInt("ID")));
-                    rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
+                    updateReportedPhotoDate(rs.getInt("ID"),timestamp);
                 }
                 con.commit();
             }
@@ -867,6 +867,79 @@ public class DbManager implements Serializable
             throw ex;
         }
         return contesti;
+    }
+    
+    private void updateReportedPhotoDate(int id_photo,Timestamp timestamp) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE REPORTED_PHOTOS "
+                + "SET DATE_ADMIN_TOOK=? WHERE ID=?"))
+        {
+            st.setTimestamp(1, timestamp);
+            st.setInt(2, id_photo);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    private void updateReportedReviewDate(int id_review,Timestamp timestamp) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE REPORTED_REVIEWS "
+                + "SET DATE_ADMIN_TOOK=? WHERE ID=?"))
+        {
+            st.setTimestamp(1, timestamp);
+            st.setInt(2, id_review);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    private void updateRepliesToBeConfirmedDate(int id_reply,Timestamp timestamp) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE REPLIES_TO_BE_CONFIRMED "
+                + "SET DATE_ADMIN_TOOK=? WHERE ID=?"))
+        {
+            st.setTimestamp(1, timestamp);
+            st.setInt(2, id_reply);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    private void updateRestaurantRequestDate(int id_user, int id_restaurant,Timestamp timestamp) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE RESTAURANTS_REQUESTS "
+                + "SET DATE_ADMIN_TOOK=? WHERE ID_USER=? AND ID_RESTAURANT=?"))
+        {
+            st.setTimestamp(1, timestamp);
+            st.setInt(2, id_user);
+            st.setInt(3, id_restaurant);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
     }
     
     /**
@@ -881,7 +954,7 @@ public class DbManager implements Serializable
     {
         ArrayList<PhotoContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_PHOTOS"
-                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+                + " ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
             {
@@ -1101,7 +1174,7 @@ public class DbManager implements Serializable
                 {
                     contesti.add(getAttemptContext(rs.getInt("ID_USER"), rs.getInt("ID_RESTAURANT"),
                             rs.getInt("CREATION_CLAIM_BOTH_FLAG"), rs.getString("USERTEXTCLAIM")));
-                    rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
+                    this.updateRestaurantRequestDate(rs.getInt("ID_USER"), rs.getInt("ID_RESTAURANT"), timestamp);
                 }
                 con.commit();
             }
@@ -1127,7 +1200,7 @@ public class DbManager implements Serializable
     {
         ArrayList<AttemptContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS"
-                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+                + " ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
             {
@@ -1172,7 +1245,7 @@ public class DbManager implements Serializable
                 while (rs.next())
                 {
                     contesti.add(getReviewContext(rs.getInt("ID")));
-                    rs.updateTimestamp("DATE_ADMIN_TOOK", timestamp);
+                    updateReportedReviewDate(rs.getInt("ID"), timestamp);
                 }
                 con.commit();
             }
@@ -1198,7 +1271,7 @@ public class DbManager implements Serializable
     {
         ArrayList<ReviewContext> contesti = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT ID FROM REPORTED_REVIEWS "
-                + "ORDER BY DATE_ADMIN_TOOK ASC"))
+                + " ORDER BY DATE_ADMIN_TOOK ASC"))
         {
             try (ResultSet rs = st.executeQuery())
             {
@@ -1264,6 +1337,7 @@ public class DbManager implements Serializable
                 st1.setInt(1, id_photo);
                 st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                 st1.executeUpdate();
+                con.commit();
             }
         }
         catch (SQLException ex)
@@ -1292,8 +1366,9 @@ public class DbManager implements Serializable
                 st1.setInt(1, id_review);
                 st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                 st1.executeUpdate();
+                con.commit();
             }
-            con.commit();
+            
         }
         catch (SQLException ex)
         {
@@ -3748,6 +3823,7 @@ public class DbManager implements Serializable
         {
             st.setString(1, city);
             st.setString(2, state);
+            st.setInt(3, global_value);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())

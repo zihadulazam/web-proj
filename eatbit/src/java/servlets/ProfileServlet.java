@@ -85,7 +85,7 @@ public class ProfileServlet extends HttpServlet {
                 risposteConfermare = manager.getRepliesToBeConfirmed(5);
                 fotoSegnalate = manager.getReportedPhotos(5);
                 reviewSegnalate = manager.getReportedReviews(5);
-
+                System.out.println("foto: "+fotoSegnalate.size());
             } catch (SQLException ex) {
                 Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
