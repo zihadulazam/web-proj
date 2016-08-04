@@ -3702,6 +3702,7 @@ public class DbManager implements Serializable
                  + "AND OPENING_HOURS_RANGE_RESTAURANT.ID_OPENING_HOURS_RANGE="
                  + "OPENING_HOURS_RANGES.ID"))
         {
+            st.setInt(1, id_restaurant);
             try (ResultSet rs = st.executeQuery())
             {
                 while(rs.next())
@@ -3745,6 +3746,8 @@ public class DbManager implements Serializable
                         + "RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID) GLOBAL_VALUES "
                         + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ?"))
         {
+            st.setString(1, city);
+            st.setString(2, state);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
