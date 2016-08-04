@@ -1,5 +1,16 @@
 //rate slider config
   jQuery(document).ready(function ($) {
+    $("#valutazioneGlobaleRistoBar").slider({
+        min:1,
+        max:5,
+        animate:"slow",
+        value:1,
+        slide: function( event, ui ) {
+                  $("#valutazioneGlobaleRistoValue").val(ui.value);
+        }
+    });
+    $("#valutazioneGlobaleRistoValue").val($("#valutazioneGlobaleRistoBar").slider("value"));
+
     $("#valutazioneGlobaleBar").slider({
         min:1,
         max:5,
@@ -136,3 +147,36 @@ function toggleBounce2() {
     marker2.setAnimation(google.maps.Animation.BOUNCE);
   }
 }
+
+
+//segnala IMG
+$(document).ready(function() {
+    $(".btn-segnala").click(function(event) {
+        var imgId=event.target.id;
+        $.ajax(
+        {
+            url : "../eatbit/ReportPhotoServlet",
+            type: "POST",
+            data : {imgId:imgId,utente:'Io'},
+            success:function(data, textStatus, jqXHR) 
+            {
+                //data: return data from server
+                if(data == "1"){
+                    //window.location.replace("/home");
+                    // inserisci data nel nav bar
+                   alert("Segnalato!!!");
+                   location.reload();
+                } 
+                else{
+                    alert("Errore!!!");
+                    location.reload();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi"+textStatus);
+                    shakeModal();      
+            }
+        });
+    });
+});

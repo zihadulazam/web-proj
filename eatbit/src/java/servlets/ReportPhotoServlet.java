@@ -44,19 +44,19 @@ public class ReportPhotoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        String imgId=request.getParameter("imgId");
+        String utenteId=request.getParameter("utente");
+        
+        System.out.println("\n");
+        System.out.println(imgId);
+        System.out.println("\n");
+        System.out.println(utenteId);
+        
+        response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
+        response.setCharacterEncoding("UTF-8"); 
+        String msg="1";
+        response.getWriter().write(msg);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
