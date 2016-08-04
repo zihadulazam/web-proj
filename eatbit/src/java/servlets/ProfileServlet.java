@@ -63,7 +63,7 @@ public class ProfileServlet extends HttpServlet {
             // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
             request.setAttribute("message", "Not LOGGED IN !");
             //redirigo alla landingPage
-            RequestDispatcher rd = request.getRequestDispatcher("/index.html");           
+            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");           
             rd.forward(request, response);
         }       
 
@@ -72,7 +72,7 @@ public class ProfileServlet extends HttpServlet {
 
         session.setAttribute("user", user);
         
-        if (type==10){
+        if (type==2){
             //raccolgo dati per l'admin
             ArrayList<AttemptContext> ristorantiAttesa = null;
             ArrayList<ReplyContext> risposteConfermare = null;
