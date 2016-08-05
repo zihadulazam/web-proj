@@ -221,16 +221,19 @@
                     }
                     .comment-data{
                         color: #fff;
+                        font-size: 12px;
+                    }
+                    .comment-nome-ristorante{
+                        text-align: center;
+                        margin-top: 20px;
+                        a{
+                            color: #FFC300;
+                            font-weight: bold;
+                        }   
                     }
                 }
                 .comment-content{
                     padding-bottom: 5px;
-                    .comment-nome-ristorante{
-                        text-align: right;
-                        a{
-                            color: #FFC300;
-                        }   
-                    }
                     .comment-title{
                         margin-top: 15px;
                         margin-bottom: 5px;
@@ -241,14 +244,20 @@
                         font-size: 13px;
                     }
                     .thumbnail{
-                        width: 120px;
-                        height: 120px;
+                        width: 80px;
+                        height: 80px;
                         margin-left: auto;
                         margin-right: auto;
+                        margin-top: 5px;
+                        margin-bottom: 5px;
                         img{
-                            width:110px;
-                            height: 110px;
+                            width:70px;
+                            height: 70px;
                         }
+                    }
+                    .btn-segnala-photo-recensione{
+                        margin-bottom: 5px;
+                        border: 1px solid #fff;
                     }
                     .risposta-admin{
                         border: 1px solid #fff;
@@ -296,6 +305,9 @@
                                 background-color: #C70039  ;
                             }
                         }
+                    }
+                    .btn-segnala-review{
+                        border: 1px solid #fff;
                     }
                 }
             }

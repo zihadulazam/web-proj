@@ -22,6 +22,9 @@
         <!-- slider pro css -->
         <link href="css/slider-pro.css" rel="stylesheet">
 
+        <!-- single img Viewer css-->
+        <link rel="stylesheet" href="css/lightbox.min.css">
+
         <!-- google font link -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
@@ -270,6 +273,7 @@
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                                     10 Nov 2015 10:30
                                                 </p>
+                                                <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="#"> Nome del Ristorante</a></p>
                                             </div>
                                             <div class="col-md-10 comment-content">
                                                 <h3 class="comment-title">Titolo Commento <c:out value="${i}"/></h3>
@@ -286,9 +290,12 @@
                                                 <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <a href="#" class="thumbnail">
-                                                                <img src="img/02.jpg" alt="...">
+                                                            <a class="thumbnail" href="img/02.jpg" data-lightbox="example-<c:out value="${i}"/>">
+                                                                <img src="img/02.jpg">
                                                             </a>
+                                                            <div class="text-center">
+                                                                <button type="button" class="btn btn-danger btn-xs btn-segnala-photo-recensione popov" data-trigger="Seganal"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala Photo</button>
+                                                            </div>
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div class="container-fluid risposta-admin">
@@ -312,13 +319,8 @@
                                                         <div class="col-md-12">
                                                             <button type="button" class="btn btn-danger btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
                                                             <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
-                                                            <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala</button>
+                                                            <button type="button" class="btn btn-danger btn-segnala-review"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala Recensione</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#">Nome del Ristorante</a></h4>
-                                                        </div> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -455,5 +457,7 @@
         <!-- Restaurant JS-->
         <script type="text/javascript" src="js/restaurant.js"></script>
 
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
     </body>
 </html>
