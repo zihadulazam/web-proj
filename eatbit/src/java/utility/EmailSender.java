@@ -37,11 +37,12 @@ public class EmailSender
      * la casella di posta di eatbit.
      * @param email L'indirizzo email a cui mandare l'email.
      * @param text Il testo della email damandare.
+     * @param subject Oggetto della email.
      * @throws ServletException
      * @throws SocketException
      * @throws UnknownHostException 
      */
-    final public static void sendVerificationEmail(String email, String text) throws ServletException, SocketException, UnknownHostException {
+    final public static void sendEmail(String email, String text, String subject) throws ServletException, SocketException, UnknownHostException {
         try {
                 final String username = "eatbitnoreply@gmail.com";
                 final String password = "eatbitpassword";
@@ -65,7 +66,7 @@ public class EmailSender
                 msg.setFrom(new InternetAddress(username + ""));
                 msg.setRecipients(Message.RecipientType.TO,
                         InternetAddress.parse(email, false));
-                msg.setSubject("eatbit verification");
+                msg.setSubject(subject);
                 msg.setText(text);
                 msg.setSentDate(new Date());
                 Transport transport = session.getTransport("smtps");

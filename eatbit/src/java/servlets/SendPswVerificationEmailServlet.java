@@ -57,7 +57,6 @@ public class SendPswVerificationEmailServlet extends HttpServlet
             response.setContentType("text/plain");
             PrintWriter out = response.getWriter();
             User user = (User) request.getSession().getAttribute("user");
-            System.out.println(stringId);
             if (stringId!=null && user!=null) {
                 int id= Integer.parseInt(stringId);
                 if (id==user.getId()) {
@@ -117,7 +116,7 @@ public class SendPswVerificationEmailServlet extends HttpServlet
                         + "?token="
                         + token
                         + "&id=" + Integer.toString(id);
-                EmailSender.sendVerificationEmail(email, begin+t3);
+                EmailSender.sendEmail(email, begin+t3, "password change verification");
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);

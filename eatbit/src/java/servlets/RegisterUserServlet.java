@@ -158,7 +158,7 @@ public class RegisterUserServlet extends HttpServlet {
                         +":8084/eatbit/verify?token="
                         + token
                         + "&id=" + Integer.toString(id);
-                EmailSender.sendVerificationEmail(email, begin+t3);
+                EmailSender.sendEmail(email, begin+t3, "user verification");
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
