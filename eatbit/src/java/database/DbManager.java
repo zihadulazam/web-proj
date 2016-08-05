@@ -36,8 +36,7 @@ public class DbManager implements Serializable
 {
 
     private transient Connection con;
-    private static int MAX_NOTIFICATION_LENGTH = 1000;//massima lunghezza di una notifica, rispecchia il valore nel db
-    private static int MAX_HASHED_PASSWORD_LENGTH= 255;//massima lunghezza della password dopo essere stata hashata, rispecchia valore nel db
+    private final static int MAX_NOTIFICATION_LENGTH = 1000;//massima lunghezza di una notifica, rispecchia il valore nel db
     
     public DbManager(String url) throws ClassNotFoundException, SQLException
     {
@@ -3775,7 +3774,7 @@ public class DbManager implements Serializable
                  + "OPENING_HOURS_RANGE_RESTAURANT WHERE "
                  + "OPENING_HOURS_RANGE_RESTAURANT.ID_RESTAURANT=? "
                  + "AND OPENING_HOURS_RANGE_RESTAURANT.ID_OPENING_HOURS_RANGE="
-                 + "OPENING_HOURS_RANGES.ID"))
+                 + "OPENING_HOURS_RANGES.ID ORDER BY DAY_OF_THE_WEEK ASC"))
         {
             st.setInt(1, id_restaurant);
             try (ResultSet rs = st.executeQuery())
