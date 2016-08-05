@@ -6,12 +6,12 @@
 package servlets;
 
 import database.DbManager;
-import database.Restaurant;
-import database.Review;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,20 +19,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.EmailSender;
+import utility.IpFinder;
 
 /**
- * Servlet per la verifica della email di un utente attraverso il metodo get, ci
- * si aspetta i parametri token e email nella request, in base al successo o al
- * fallimento il controllo verrà passato a 2 jsp diverse, al momento success.jsp
- * e failure.jsp.
- *
+ *Usato per il form "contact" nel footer, che permette all'utente di mandare una
+ *email all'amministrazione del sito.
+ * L'account a cui arrivano le email è:
+ * eatbitsupp@gmail.com, con password:
+ * peatbitpassword.
+ * I parametri richiesti da questa servlet sono "email" e "text", cioè
+ * la email dell'utente e il testo che l'utente ha dato come input.
  * @author jacopo
  */
-@WebServlet(name = "VerifyUserServlet", urlPatterns = {"/verify"})
-public class VerifyUserServlet extends HttpServlet 
+@WebServlet(name = "ContactServlet", urlPatterns =
+{
+    "/ContactServlet"
+})
+public class ContactServlet extends HttpServlet
 {
 
     private DbManager manager;
+    final private static String sendTo= "eatbitsupp@gmail.com";
 
     @Override
     public void init() throws ServletException {
@@ -51,26 +59,24 @@ public class VerifyUserServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String stringId= request.getParameter("id");
-            String token = request.getParameter("token");
-            if (stringId != null && token != null) {
-                int id= Integer.parseInt(stringId);
-                //se la verifica è andata a buon fine passo il controllo a una jsp che conferma il successo
-                //altrimenti a una jsp che comunica il fallimento della verifica
-                //n.b. i nomi success.jsp e failure.jsp sono semplicemente placeholder
-                if (manager.verifyUser(id, token)) {
-                    request.getRequestDispatcher("/success.jsp").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/failure.jsp").forward(request, response);
-                }
+            String email= request.getParameter("email");
+            String text= request.getParameter("text");
+            response.setContentType("text/plain");
+            PrintWriter out = response.getWriter();
+            if (email!=null && text!=null) 
+            {
+                {
+                    text= "This text has been sent from a user wich wishes to contact the"
+                            + " eatbit administration, its contact information is: "
+                            + email +".\n"
+                            + "The text is:\n"
+                            + text;
+                    EmailSender.sendEmail(ContactServlet.sendTo, text, "contact");
+                    out.write("1");
+                } 
             }
             else
-                request.getRequestDispatcher("/failure.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException("sql exception");
-        }
+                out.write("0");
     }
 
     /**
@@ -82,5 +88,5 @@ public class VerifyUserServlet extends HttpServlet
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

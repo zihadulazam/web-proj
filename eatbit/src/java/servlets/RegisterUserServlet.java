@@ -40,6 +40,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.EmailSender;
+import utility.IpFinder;
+import static utility.IpFinder.getLocalIp;
 
 /**
  *
@@ -132,120 +135,35 @@ public class RegisterUserServlet extends HttpServlet {
         try {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {
-                final String username = "eatbitnoreply@gmail.com";
-                final String password = "eatbitpassword";
-                Properties props = System.getProperties();
-                props.setProperty("mail.smtp.host", "smtp.gmail.com");
-                props.setProperty("mail.smtp.port", "465");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.starttls.enable", "true");
-                props.put("mail.debug", "true");
-                //crea sessione autenticata
-                Session session = Session.getDefaultInstance(props, new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication
-                            getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-                //Create a new message
-                Message msg = new MimeMessage(session);
-                //Set the FROM and TO fields –
-                msg.setFrom(new InternetAddress(username + ""));
-                msg.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(email, false));
-                msg.setSubject("eatbit verification");
-                //3 modi di avere ip: localhost, pubblico, ip locale
-                //mando la mail con ip settato a localhost, la verifica funzionerà
-                //solo dalla stessa macchina
-                /*msg.setText("This is a verification email sent from eatbit, to "
-                        + "activate your account please visit this url:" + '\n'
-                        + "http://localhost:8084/eatbit/verify?token="
+                /*3 modi di avere ip: localhost, pubblico, ip locale
+                mando la mail con ip settato a localhost, la verifica funzionerà
+                solo dalla stessa macchina*/
+                String begin= "This is a verification email sent from eatbit, to "
+                        + "activate your account please visit this url:" + '\n';
+                String t1= "http://localhost:8084/eatbit/verify?token="
                         + token
-                        + "&id=" + Integer.toString(id));*/
+                        + "&id=" + Integer.toString(id);
                 
-                //setta l'ip di questo computer nella mail, la verifica
-                //funzionerà da pc diversi da questo, ma potrebbero esserci problemi
-                //in caso di nat o network complicati
-                /*msg.setText("This is a verification email sent from eatbit, to "
-                        + "activate your account please visit this url:" + '\n'
-                        + "http://"
-                        + getIp()
+                /*setta l'ip di questo computer nella mail, la verifica
+                funzionerà da pc diversi da questo, ma potrebbero esserci problemi
+                in caso di nat o network complicati*/
+                String t2= "http://"
+                        + IpFinder.getPublicIp()
                         +":8084/eatbit/verify?token="
                         + token
-                        + "&id=" + Integer.toString(id));*/
+                        + "&id=" + Integer.toString(id);
                 //setta come ip da contattare l'ip locale della macchina
-                msg.setText("This is a verification email sent from eatbit, to "
-                        + "activate your account please visit this url:" + '\n'
-                        + "http://"
-                        + getLocalIp()
+                String t3= "http://"
+                        + IpFinder.getLocalIp()
                         +":8084/eatbit/verify?token="
                         + token
-                        + "&id=" + Integer.toString(id));
-                msg.setSentDate(new Date());
-                Transport transport = session.getTransport("smtps");
-                transport.connect("smtp.gmail.com", 465, username, password);
-                transport.sendMessage(msg, msg.getAllRecipients());
-                transport.close();
+                        + "&id=" + Integer.toString(id);
+                EmailSender.sendEmail(email, begin+t3, "user verification");
             }
-        } catch (SQLException | MessagingException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex.toString());
         }
     }
-   
-    private String getIp()
-    {
-        // This try will give the Public IP Address of the Host.
-        try
-        {
-            URL url = new URL("https://api.ipify.org");
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-            String ipAddress;
-            ipAddress = (in.readLine()).trim();
-            /* IF not connected to internet, then
-             * the above code will return one empty
-             * String, we can check it's length and
-             * if length is not greater than zero, 
-             * then we can go for LAN IP or Local IP
-             * or PRIVATE IP
-             */
-            if (!(ipAddress.length() > 0))
-            {
-                try
-                {
-                    InetAddress ip = InetAddress.getLocalHost();
-                    return ((ip.getHostAddress()).trim());
-                }
-                catch(Exception ex)
-                {
-                    return "ERROR";
-                }
-            }
-            return (ipAddress);
-        }
-        catch(Exception e)
-        {
-            // This try will give the Private IP of the Host.
-            try
-            {
-                InetAddress ip = InetAddress.getLocalHost();
-                return ((ip.getHostAddress()).trim());
-            }
-            catch(Exception ex)
-            {
-                return "ERROR";
-            }
-        }
-    }
-    
-    public static String getLocalIp() throws SocketException {
-
-    return Collections.list(NetworkInterface.getNetworkInterfaces()).stream()
-            .flatMap(i -> Collections.list(i.getInetAddresses()).stream())
-            .filter(ip -> ip instanceof Inet4Address && ip.isSiteLocalAddress())
-            .findFirst().orElseThrow(RuntimeException::new)
-            .getHostAddress();
-}
 }
 
