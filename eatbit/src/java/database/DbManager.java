@@ -794,7 +794,7 @@ public class DbManager implements Serializable
      * @return Uno user con la password rimossa, null se non esiste con quell'id.
      * @throws SQLException
      */
-    private User getUserById(int id_user) throws SQLException
+    public User getUserById(int id_user) throws SQLException
     {
         User user = null;
         try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE ID=?"))
