@@ -26,7 +26,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 /**
  *Servlet che recupera un contesto di ristorante in base all'id passato come parametro,
  * inserisce il contesto nella request e passa il controllo alla jsp del ristorante.
- * Viene inoltre aggiunta una stringa nella request che rappresenta il qr code del 
+ * Viene inoltre aggiunta una stringa nella request (qr_url) che rappresenta il qr code del 
  * ristorante, generato a partire dal nome, indirizzo e orari del ristorante.
  * Se il contesto è null significa che non esiste ristorante con quell'id.
  * Può essere che lo User owner sia null, se nessuno ha ancora reclamato la prorietà
