@@ -1559,6 +1559,8 @@ public class DbManager implements Serializable
                 updateUs.executeUpdate();
                 con.commit();
                 res = true;
+                notifyUser(restaurant.getId_owner(), "Il tuo ristorante "
+                +restaurant.getName()+" ha ricevuto una nuova review.");
             }
         }
         catch (SQLException ex)
@@ -2190,7 +2192,9 @@ public class DbManager implements Serializable
             st.executeUpdate();
             if (photo != null)
             {
-                notifyUser(photo.getId_owner(), "La tua foto " + photo.getName() + " è stata rimossa perchè non rispettava il nostro regolamento");
+                Restaurant restaurant= getRestaurantById(photo.getId_restaurant());
+                notifyUser(photo.getId_owner(), "La tua foto " + photo.getName()
+                        +" per il ristorante "+restaurant.getName()+ " è stata rimossa perchè non rispettava il nostro regolamento");
             }
             con.commit();
         }
@@ -2275,10 +2279,12 @@ public class DbManager implements Serializable
             if (review != null)
             {
                 unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate
+                Restaurant restaurant= getRestaurantById(review.getId_restaurant());
                 st.setInt(1, id_review);
                 st.executeUpdate();
-                notifyUser(review.getId_creator(), "La tua review " + review.getName() +
-                        " è stata rimossa perchè non rispettava il nostro regolamento");
+                notifyUser(review.getId_creator(), "La tua review " + review.getName()
+                        +" del ristorante "+restaurant.getName()
+                        +" è stata rimossa perchè non rispettava il nostro regolamento");
                 try (PreparedStatement rm1 = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
                         + "*(REVIEWS_COUNTER+VOTES_COUNTER))-?)/(REVIEWS_COUNTER+VOTES_COUNTER-1),REVIEWS_COUNTER="
                         + "REVIEWS_COUNTER-1 WHERE ID=?");
@@ -2341,7 +2347,9 @@ public class DbManager implements Serializable
             rm2.executeUpdate();
             if (context.getReply() != null && context.getReview() != null && context.getUser() != null)
             {
+                Restaurant restaurant= getRestaurantById(context.getReview().getId_restaurant());
                 notifyUser(context.getUser().getId(), "La tua reply alla review " + context.getReview().getName()
+                        + " del ristorante " +restaurant.getName() 
                         + " è stata rimossa perchè non rispettava il nostro regolamento.");
             }
             con.commit();
@@ -2377,8 +2385,12 @@ public class DbManager implements Serializable
             up1.executeUpdate();
             if (context.getReply() != null && context.getReview() != null && context.getUser() != null)
             {
-                notifyUser(context.getUser().getId(), "La tua reply alla review " + context.getReview().getName()
-                        + " è stata accettata.");
+                Restaurant restaurant= getRestaurantById(context.getReview().getId_restaurant());
+                notifyUser(context.getUser().getId(), "La tua reply alla review " 
+                        + context.getReview().getName() + " del ristorante "
+                        + restaurant.getName() + " è stata accettata.");
+                notifyUser(context.getReview().getId_creator(), "La tua review " +context.getReview().getName()
+                        +" per il ristorante "+restaurant.getName()+ " ha ricevuto una risposta dal proprietario del ristorante.");
             }
             con.commit();
         }

@@ -13,6 +13,18 @@ import java.io.Serializable;
  */
 public class Notification implements Serializable
 {
+    /*public final static int REPLY_ACCEPTED= 0;
+    public final static int REPLY_DENIED= 1;
+    public final static int CREATION_REQ_ACCEPTED= 2;
+    public final static int CLAIM_REQ_ACCEPTED= 3;
+    public final static int CREATION_CLAIM_REQ_ACCEPTED= 4;
+    public final static int CREATION_REQ_DENIED= 5;
+    public final static int CLAIM_REQ_DENIED= 6;
+    public final static int CREATION_CLAIM_REQ_DENIED= 7;
+    public final static int REPLY_TO_USER_REVIEW= 8;
+    public final static int REVIEW_TO__USER_RESTAURANT= 9;
+    public final static int REMOVED_USER_PHOTO= 10;
+    public final static int REMOVED_USER_REVIEW= 11;*/
     private int id;
     private int user_id;
     private String description;
