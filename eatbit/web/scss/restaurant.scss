@@ -18,6 +18,9 @@
         font-family: 'Raleway', sans-serif;
         color:#555;
         font-size: 40px;
+        @media (max-width: 500px){
+            font-size: 32px;
+        }
     }
     hr{
         margin-top: 0px;
@@ -213,8 +216,7 @@
                     //background-color: red;
                     text-align: center;
                     margin-top: 10px;
-                    .img-circle img{
-                        border: 2px solid white;
+                    .img-circle{
                         width: 80px;
                         height: 80px;
                         margin: 2px;
@@ -223,17 +225,54 @@
                         color: #fff;
                         font-size: 12px;
                     }
-                    .comment-nome-ristorante{
-                        text-align: center;
+                    .thumbnail{
+                        
+                        max-width: 100px;
+                        max-height: 100px;
+                        width: auto;
+                        height: auto;
+                        margin-left: auto;
+                        margin-right: auto;
                         margin-top: 20px;
-                        a{
-                            color: #FFC300;
-                            font-weight: bold;
-                        }   
+                        margin-bottom: 5px;
+                        padding: 2px;
+                        img{
+                            width:auto;
+                            height: auto;
+                        }
+                    }
+                    .btn-segnala-photo-recensione{
+                        margin-top: 2px;
+                        margin-bottom: 5px;
+                        background-color: $eatbit_red;
+                        border: 1px solid #fff;
+                        padding: 6px 8px 8px 8px;
+                        font-size: 14px;
+                        line-height: 1.42;
+                        border-radius: 5px;
+                        //&:hover{
+                            //  background-color: #C70039  ;
+                        //}
+                        &:enabled{
+                            &:hover{
+                                background-color: #C70039  ;
+                            }
+                        }
                     }
                 }
                 .comment-content{
                     padding-bottom: 5px;
+                    .btn-segnala-review{
+                        border: 1px solid #fff;
+                        float: right;
+                        margin-top: 10px;
+                        background-color: $eatbit_red;
+                        &:enabled{
+                            &:hover{
+                                background-color: #C70039  ;
+                            }
+                        }
+                    }
                     .comment-title{
                         margin-top: 15px;
                         margin-bottom: 5px;
@@ -242,22 +281,6 @@
                     }
                     .comment-text{
                         font-size: 13px;
-                    }
-                    .thumbnail{
-                        width: 80px;
-                        height: 80px;
-                        margin-left: auto;
-                        margin-right: auto;
-                        margin-top: 5px;
-                        margin-bottom: 5px;
-                        img{
-                            width:70px;
-                            height: 70px;
-                        }
-                    }
-                    .btn-segnala-photo-recensione{
-                        margin-bottom: 5px;
-                        border: 1px solid #fff;
                     }
                     .risposta-admin{
                         border: 1px solid #fff;
@@ -305,9 +328,21 @@
                                 background-color: #C70039  ;
                             }
                         }
+                        @media (max-width: 387px){
+                            font-size: 12px;
+                        }
+
                     }
                     .btn-segnala-review{
                         border: 1px solid #fff;
+                    }
+                    .comment-nome-ristorante{
+                        float: right;
+                        margin-top: 5px;
+                        a{
+                            color: #FFC300;
+                            font-weight: bold;
+                        }   
                     }
                 }
             }
@@ -343,6 +378,13 @@
     #cucina{
         .tipi-di-cucina{
             font-size: 18px;
+        }
+    }
+    #qr-code{
+        #qr-code-img{
+            height: 150px;
+            width: 150px;
+
         }
     }
 
