@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per segnalare una review, non richiede login da parte dell'utente.
- * Manda come risposa 1 se è andata a buon fine, 0 altrimenti.
+ *Servlet per segnalare una foto, non richiede login da parte dell'utente.
+ * Manda come risposa 1 se è andata a buon fine, -1 se mancano dei parametri, 0
+ * altrimenti (p.e. eccezioni a causa parametro malformato o eccezioni sql).
  * @author jacopo
  */
 @WebServlet(name = "ReportPhotoServlet", urlPatterns = {"/ReportPhotoServlet"})
 public class ReportPhotoServlet extends HttpServlet {
-
     private DbManager manager;
 
     @Override
@@ -33,33 +33,6 @@ public class ReportPhotoServlet extends HttpServlet {
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String imgId=request.getParameter("imgId");
-        String utenteId=request.getParameter("utente");
-        
-        System.out.println("\n");
-        System.out.println(imgId);
-        System.out.println("\n");
-        System.out.println(utenteId);
-        
-        response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); 
-        String msg="1";
-        response.getWriter().write(msg);
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -74,14 +47,24 @@ public class ReportPhotoServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            int photo_id = Integer.parseInt(request.getParameter("id_photo"));
-            manager.reportPhoto(photo_id);
-            out.write("1");
+            String photo= request.getParameter("id_photo");
+            if(photo!=null)
+            {
+                int id_photo = Integer.parseInt(photo);
+                manager.reportPhoto(id_photo);
+                out.write("1");
+            }
+            else
+                out.write("-1");
 
-        } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        } catch (NumberFormatException ex) {
+            //non loggo le eccezioni dovute a parametri get mal formati
             out.write("0");
-            throw new ServletException(ex);
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.write("0");
         }
     }
 
@@ -96,7 +79,8 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        out.write(0);
     }
 
     /**

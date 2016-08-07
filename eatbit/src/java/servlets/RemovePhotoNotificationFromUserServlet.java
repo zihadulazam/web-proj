@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,14 +19,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per segnalare una review, non richiede login da parte dell'utente.
- * Manda come risposa 1 se è andata a buon fine, -1 se mancano dei parametri, 0
- * altrimenti (p.e. eccezioni a causa parametro malformato o eccezioni sql).
+ *Servlet per permettere all'utente di segnalare al sistema che ha preso visione
+ * della notifica e che desidera eliminarla.
+ * Risponderà con 1 se è andata a buon fine, -1 se l'utente non è loggato,
+ * 0 se non è andata a buon fine per altri motivi(p.e. eccezione a causa di 
+ * parametro malformato).
+ * I parametri necessari sono:
+ * id_notification, id della notifica da eliminare
  * @author jacopo
  */
-@WebServlet(name = "ReportReviewServlet", urlPatterns = {"/ReportReviewServlet"})
-public class ReportReviewServlet extends HttpServlet {
-
+@WebServlet(name = "RemovePhotoNotificationFromUserServlet", urlPatterns =
+{
+    "/RemovePhotoNotificationFromUserServlet"
+})
+public class RemovePhotoNotificationFromUserServlet extends HttpServlet
+{
     private DbManager manager;
 
     @Override
@@ -75,23 +83,15 @@ public class ReportReviewServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            String review= request.getParameter("id_review");
-            if(review!=null)
-            {
-                int id_review = Integer.parseInt(review);
-                manager.reportReview(id_review);
-                out.write("1");
-            }
+            User user = (User) request.getSession().getAttribute("user");
+            if (user != null) 
+                manager.removePhotoNotification(user.getId(),Integer.parseInt(request.getParameter("id_notification")));
             else
                 out.write("-1");
-
-        } catch (NumberFormatException ex) {
-            //non loggo le eccezioni dovute a parametri get mal formati
-            out.write("0");
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.flush();
+                
+        } catch (NumberFormatException | SQLException ex) {
+            Logger.getLogger(RemovePhotoNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
         }
     }

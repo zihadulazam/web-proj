@@ -7,8 +7,9 @@ package database.contexts;
 
 import database.Notification;
 import database.Photo;
+import database.PhotoNotification;
 import database.Restaurant;
-import database.Review;
+import database.ReviewNotification;
 import database.User;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,10 +24,31 @@ public class OwnUserContext implements Serializable
     private ArrayList<Photo> photos;
     private ArrayList<ReviewContext> reviewContext;
     private ArrayList<Restaurant> restaurant;
-    private ArrayList<Notification> notification;
+    private ArrayList<PhotoNotification> photo_notifications;
+    private ArrayList<ReviewNotification> review_notifications;
 
     public OwnUserContext()
     {
+    }
+
+    public ArrayList<PhotoNotification> getPhoto_notifications()
+    {
+        return photo_notifications;
+    }
+
+    public void setPhoto_notifications(ArrayList<PhotoNotification> photo_notifications)
+    {
+        this.photo_notifications = photo_notifications;
+    }
+
+    public ArrayList<ReviewNotification> getReview_notifications()
+    {
+        return review_notifications;
+    }
+
+    public void setReview_notifications(ArrayList<ReviewNotification> review_notifications)
+    {
+        this.review_notifications = review_notifications;
     }
 
     
@@ -71,17 +93,4 @@ public class OwnUserContext implements Serializable
     {
         this.restaurant = restaurant;
     }
-
-    public ArrayList<Notification> getNotification()
-    {
-        return notification;
-    }
-
-    public void setNotification(ArrayList<Notification> notification)
-    {
-        this.notification = notification;
-    }
-    
-    
-    
 }

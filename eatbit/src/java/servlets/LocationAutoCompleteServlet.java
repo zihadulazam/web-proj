@@ -52,7 +52,6 @@ public class LocationAutoCompleteServlet extends HttpServlet {
             luoghi = manager.autoCompleteLocation(user_keys);
         } catch (SQLException ex) {
             Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
         }
         JSONArray jluoghi = new JSONArray();
         for (String elemento : luoghi) {

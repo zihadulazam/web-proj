@@ -12,9 +12,6 @@ import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
 import database.contexts.RestaurantContext;
 import java.io.Serializable;
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
-import static java.lang.Math.abs;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,8 +32,8 @@ import java.util.UUID;
 public class DbManager implements Serializable
 {
 
+    private final static int USER_NOTIFICATIONS_TO_GET=5;
     private transient Connection con;
-    private final static int MAX_NOTIFICATION_LENGTH = 1000;//massima lunghezza di una notifica, rispecchia il valore nel db
     
     public DbManager(String url) throws ClassNotFoundException, SQLException
     {
@@ -52,16 +49,15 @@ public class DbManager implements Serializable
      * L'id dell'oggetto user passato sarà settato come l'id generato dal db
      * per l inserimento del record, in caso di successo.
      * @param user Oggetto User con i dati all'iterno
-     * @return 0 se è andata a buon fine, 1 se nn ha registrato xk esiste un
-     * utente con quella email (o sia email e nick uguali), 2 se esiste un utente con quel nick, 3 se non è
-     * andata a buon fine per altri motivi
+     * @return 0 se è andata a buon fine, -1 se nn ha registrato xk esiste un
+     * utente con quella email (o sia email e nick uguali), -2 se esiste un utente con quel nick
      * @throws java.sql.SQLException
      *
      */
     public int registerUser(User user) throws SQLException
     {
         int res = 3;
-        try (PreparedStatement st = con.prepareStatement("insert into USERS(NAME,SURNAME,"
+        try (PreparedStatement st = con.prepareStatement("INSERT INTO USERS(NAME,SURNAME,"
                 + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,"
                 + "REVIEWS_NEGATIVE,USERTYPE,VERIFIED) values(?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS))
         {
@@ -532,31 +528,150 @@ public class DbManager implements Serializable
     }
     
     /**
-     * Le notifiche di un utente normale o ristoratore, non le notifiche di task
+     * Le notifiche di foto di un utente ristoratore, non le notifiche di task
      * da svolgere per un admin.
-     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche.
-     * @return Un ArrayList contenente oggetti di tipo Notification.
+     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche di foto.
+     * @param many Quante notifiche al max recuperare.
+     * @return Un ArrayList contenente al max many oggetti di tipo PhotoNotification.
      * @throws SQLException
      */
-    public ArrayList<Notification> getUserNotifications(int id_user) throws SQLException
+    public ArrayList<PhotoNotification> getUserPhotoNotifications(int id_user,int many) throws SQLException
     {
-        ArrayList<Notification> notifications = new ArrayList<>();
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM NOTIFICATIONS WHERE USER_ID=?"))
+        ArrayList<PhotoNotification> notifications = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTO_NOTIFICATIONS WHERE ID_USER=? ORDER BY CREATION DESC FETCH FIRST ? ROWS ONLY"))
+        {
+            st.setInt(1, id_user);
+            st.setInt(2, many);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Photo photo= getPhotoById(rs.getInt("ID_PHOTO"));
+                    PhotoNotification notification = new PhotoNotification();
+                    notification.setId(rs.getInt("ID"));
+                    notification.setId_user(rs.getInt("USER_ID"));
+                    notification.setPhoto(photo);
+                    notification.setRestaurant_name(getRestaurantById(photo.getId_restaurant()).getName());
+                    notification.setCreation(rs.getTimestamp("CREATION"));
+                    notifications.add(notification);
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return notifications;
+    }
+    /**
+     * Recupera tutte le notifiche di foto di un utente ristoratore, non le notifiche di task
+     * da svolgere per un admin.
+     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche di foto.
+     * @return Un ArrayList contenente oggetti di tipo PhotoNotification.
+     * @throws SQLException
+     */
+    public ArrayList<PhotoNotification> getAllUserPhotoNotifications(int id_user) throws SQLException
+    {
+        ArrayList<PhotoNotification> notifications = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM PHOTO_NOTIFICATIONS WHERE ID_USER=? ORDER BY CREATION DESC"))
         {
             st.setInt(1, id_user);
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
                 {
-                    Notification notification = new Notification();
+                    Photo photo= getPhotoById(rs.getInt("ID_PHOTO"));
+                    PhotoNotification notification = new PhotoNotification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setUser_id(rs.getInt("USER_ID"));
-                    notification.setDescription(rs.getString("DESCRIPTION"));
+                    notification.setId_user(rs.getInt("USER_ID"));
+                    notification.setPhoto(photo);
+                    notification.setRestaurant_name(getRestaurantById(photo.getId_restaurant()).getName());
+                    notification.setCreation(rs.getTimestamp("CREATION"));
                     notifications.add(notification);
                 }
                 con.commit();
             }
-
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return notifications;
+    }
+    
+    /**
+     * Le notifiche di review di un utente ristoratore, non le notifiche di task
+     * da svolgere per un admin.
+     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche di review.
+     * @param many Quante notifiche al max recuperare.
+     * @return Un ArrayList contenente al max many oggetti di tipo ReviewNotification.
+     * @throws SQLException
+     */
+    public ArrayList<ReviewNotification> getUserReviewNotifications(int id_user,int many) throws SQLException
+    {
+        ArrayList<ReviewNotification> notifications = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEW_NOTIFICATIONS WHERE ID_USER=? ORDER BY CREATION DESC FETCH FIRST ? ROWS ONLY"))
+        {
+            st.setInt(1, id_user);
+            st.setInt(2, many);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Review review= getReviewById(rs.getInt("ID_REVIEW"));
+                    ReviewNotification notification = new ReviewNotification();
+                    notification.setId(rs.getInt("ID"));
+                    notification.setId_user(rs.getInt("USER_ID"));
+                    notification.setReview(review);
+                    notification.setRestaurant_name(getRestaurantById(review.getId_restaurant()).getName());
+                    notification.setCreation(rs.getTimestamp("CREATION"));
+                    notifications.add(notification);
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return notifications;
+    }
+    
+    /**
+     * Recupera tutte le notifiche di review di un utente ristoratore, non le notifiche di task
+     * da svolgere per un admin.
+     * @param id_user L'id dell'utente di cui si vuole cercare le notifiche di review.
+     * @return Un ArrayList contenente oggetti di tipo ReviewNotification.
+     * @throws SQLException
+     */
+    public ArrayList<ReviewNotification> getAllUserReviewNotifications(int id_user) throws SQLException
+    {
+        ArrayList<ReviewNotification> notifications = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REVIEW_NOTIFICATIONS WHERE ID_USER=? ORDER BY CREATION DESC"))
+        {
+            st.setInt(1, id_user);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Review review= getReviewById(rs.getInt("ID_REVIEW"));
+                    ReviewNotification notification = new ReviewNotification();
+                    notification.setId(rs.getInt("ID"));
+                    notification.setId_user(rs.getInt("USER_ID"));
+                    notification.setReview(review);
+                    notification.setRestaurant_name(getRestaurantById(review.getId_restaurant()).getName());
+                    notification.setCreation(rs.getTimestamp("CREATION"));
+                    notifications.add(notification);
+                }
+                con.commit();
+            }
         }
         catch (SQLException ex)
         {
@@ -1330,8 +1445,9 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPORTED_PHOTOS VALUES(?,?)"))
         {
-            //se la foto non esiste fra quelle reportate allora la inserisco
-            if (!existReportedPhotoById(id_photo))
+            //se la foto esiste e non esiste fra quelle reportate allora la inserisco
+            Photo photo= getPhotoById(id_photo);
+            if (photo!=null &&!existReportedPhotoById(id_photo))
             {
                 st1.setInt(1, id_photo);
                 st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
@@ -1359,8 +1475,9 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPORTED_REVIEWS VALUES(?,?)"))
         {
+            Review review= getReviewById(id_review);
             //se non è già segnalata la inserisco
-            if (!existReportedReviewById(id_review))
+            if (review!=null && !existReportedReviewById(id_review))
             {
                 st1.setInt(1, id_review);
                 st1.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
@@ -1501,32 +1618,36 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Aggiunge una review, in base al suo voto globale ciò farà variare la
+     * Aggiunge una review, in base al suo voto globale, ciò farà variare la
      * media globale del ristorante in questione. Nell'oggetto review non è
      * necessario settare la data di creazione o il numero di likes.
+     * (n.b. una recensione comprende anche una foto, ricordarsi di caricare
+     * una foto a livello servlet e settare l'id_photo in review)
      * Ritorna falso se l'utente ha già dato un voto o una recensione a questo
      * ristorante nelle ultime 24 ore.
      *
      * @param review Review da inserire.
-     * @param photo Photo che accompagna la review.
-     * @return True se è andata a buon fine, falso altrimenti.
+     * @return Un numero positivo se il metodo è andato a buon fine, questo numero
+     * rappresenta l'id della recensione, -2 se l'utente aveva già votato o 
+     * recensito il ristorante nelle ultime 24h, -1 se non è andata a buon
+     * fine per altri motivi.
      * @throws SQLException
      */
-    public boolean addReview(Review review, Photo photo) throws SQLException
+    public int addReview(Review review) throws SQLException
     {
-        boolean res = addOrRefreshVote(review.getId_creator(), review.getId_restaurant());
-        if(!res)
-            return res;
+        int res=-1;
+        if(!addOrRefreshVote(review.getId_creator(), review.getId_restaurant()))
+            return -2;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEWS(GLOBAL_VALUE,FOOD,"
                 + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
                 + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
                 PreparedStatement updateSt = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, "
                         + "REVIEWS_COUNTER=? WHERE ID=?");
                 PreparedStatement updateUs = con.prepareStatement("UPDATE USERS SET REVIEWS_COUNTER=? WHERE ID=?"))
 
         {
-            Restaurant restaurant = null;
+            Restaurant restaurant;
             //se il ristorante esiste vado avanti
             if ((restaurant = getRestaurantById(review.getId_restaurant())) != null)
             {
@@ -1546,7 +1667,7 @@ public class DbManager implements Serializable
                 st.setTimestamp(8, new Timestamp(Calendar.getInstance().getTime().getTime()));
                 st.setInt(9, review.getId_restaurant());
                 st.setInt(10, review.getId_creator());
-                st.setInt(11, addPhotoForReview(review.getId_restaurant(), user.getId(), photo));
+                st.setInt(11, review.getId_photo());
                 st.setInt(12, 0);
                 st.setInt(13, 0);
                 updateSt.setInt(1, newGlobal);
@@ -1557,10 +1678,17 @@ public class DbManager implements Serializable
                 st.executeUpdate();
                 updateSt.executeUpdate();
                 updateUs.executeUpdate();
+                try (ResultSet rs = st.getGeneratedKeys())
+                {
+                    if (rs.next())
+                        res= rs.getInt(1);
+                    else
+                    {
+                        con.rollback();
+                        return res;
+                    }
+                }
                 con.commit();
-                res = true;
-                notifyUser(restaurant.getId_owner(), "Il tuo ristorante "
-                +restaurant.getName()+" ha ricevuto una nuova review.");
             }
         }
         catch (SQLException ex)
@@ -1598,40 +1726,14 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Per inserire una foto da parte di uno user che riguarda un ristorante non
-     * suo.
-     *
-     * @param id_restaurant Id del ristorante di cui mettere la foto.
-     * @param id_user Id dell'user che sta mettendo la foto.
-     * @param photo Photo caricata.
-     * @return Falso se è andato tutto bene, vero altrimenti.
-     * @throws SQLException
+     * Aggiunge una foto ad un ristorante.
+     * @param id_restaurant Il ristorante relativo alla foto.
+     * @param id_user Il proprietario della foto.
+     * @param photo L'oggetto foto da inserire.
+     * @return Id del record creato nel db(id della foto).
+     * @throws SQLException 
      */
-    public boolean addPhotoToRestaurantFromUser(int id_restaurant, int id_user, Photo photo) throws SQLException
-    {
-        boolean res = true;
-        try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
-                + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)"))
-        {
-            st.setString(1, photo.getName());
-            st.setString(2, photo.getDescription());
-            st.setString(3, photo.getPath());
-            st.setInt(4, id_restaurant);
-            st.setInt(5, id_user);
-            st.executeUpdate();
-            res = false;
-            con.commit();
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            con.rollback();
-            throw ex;
-        }
-        return res;
-    }
-
-    private int addPhotoForReview(int id_restaurant, int id_user, Photo photo) throws SQLException
+    private int addPhoto(int id_restaurant, int id_user, Photo photo) throws SQLException
     {
         int res = -1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
@@ -1896,7 +1998,8 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Per inserire un ristorante.
+     * Per inserire un ristorante.(la prima foto del ristorante va aggiunta
+     * a parte, a livello servlet, dopo aver ottenuto l'id
      *
      * @param restaurant Il ristorante da inserire.
      * @param cucine Il tipo di cucine che ha, una lista di stringhe. (devono
@@ -1906,16 +2009,16 @@ public class DbManager implements Serializable
      * @param userTextClaim Una stringa di descrizione che l'utente può mettere
      * nella creazione o nel claim, che verrà vista letta dall'admin quando
      * decide se confermare o no.
-     * @param photo Prima foto del ristorante, non è necessario l'id del
-     * ristorante.
      * @param min La spesa minima in questo ristorante.
      * @param max La spesa max in questo ristorante.
      * @param isClaim Booleano per dire se è anche un claim oltre che una
      * creazione(true), o solo creazione(false).
+     * @return Id del ristorante creato, -1 se la creazione è fallita.
      * @throws SQLException
      */
-    public void addRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, String userTextClaim, Photo photo, double min, double max, boolean isClaim) throws SQLException
+    public int addRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, String userTextClaim, double min, double max, boolean isClaim) throws SQLException
     {
+        int restId=-1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
                 + "WEB_SITE_URL,GLOBAL_VALUE,ID_OWNER,ID_CREATOR,ID_PRICE_RANGE,REVIEWS_COUNTER,VOTES_COUNTER,VALIDATED)"
                 + " VALUES(?,?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS))
@@ -1931,7 +2034,6 @@ public class DbManager implements Serializable
             st.setInt(9, 0);
             st.setBoolean(10, false);
             st.executeUpdate();
-            int restId = -1;
             try (ResultSet rs = st.getGeneratedKeys())
             {
                 if (rs.next())
@@ -1954,14 +2056,14 @@ public class DbManager implements Serializable
                         addHourRange(restId, range.get(i));
                     }
                     restaurant.setId(restId);
+                    //aggiungo il ristorante alla lista dei ristoranti da essere
+                    //confermati da un admin, con flag per dire se è anche un claim
+                    addClaim(restaurant.getId_creator(), restaurant.getId(), userTextClaim, isClaim ? 2 : 0);
+                    con.commit();
                 }
+                else
+                   con.rollback(); 
             }
-            //aggiungo foto
-            addPhotoToRestaurantFromUser(restId, restaurant.getId_creator(), photo);
-            //aggiungo il ristorante alla lista dei ristoranti da essere
-            //confermati da un admin, con flag per dire se è anche un claim
-            addClaim(restaurant.getId_creator(), restaurant.getId(), userTextClaim, isClaim ? 2 : 0);
-            con.commit();
         }
         catch (SQLException ex)
         {
@@ -1969,6 +2071,7 @@ public class DbManager implements Serializable
             con.rollback();
             throw ex;
         }
+        return restId;
     }
 
     /**
@@ -2186,16 +2289,9 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
-            Photo photo = getPhotoById(id_photo);
             unreportPhoto(id_photo);//rimuovo dalla lista reportati
             st.setInt(1, id_photo);
             st.executeUpdate();
-            if (photo != null)
-            {
-                Restaurant restaurant= getRestaurantById(photo.getId_restaurant());
-                notifyUser(photo.getId_owner(), "La tua foto " + photo.getName()
-                        +" per il ristorante "+restaurant.getName()+ " è stata rimossa perchè non rispettava il nostro regolamento");
-            }
             con.commit();
         }
         catch (SQLException ex)
@@ -2207,22 +2303,49 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Aggiunge la stringa alle notifiche dell'utente, che appariranno poi nelle
-     * sue notifiche nella pagina profilo. Queste notifiche non riguardano le
+     * Aggiunge una notifica di foto ad un utente ristoratore, usate poi per 
+     * informare questi utenti dell'avvenuto upload di una foto che riguarda il 
+     * loro ristorante. Queste notifiche non riguardano le
      * notifiche di foto/review etc segnalate che arrivano agli admin.
      *
      * @param id_user L'id dell'utente a cui fare arrivare la notifica.
-     * @param notifica La stringa che verrà vista dall'utente come notifica.
+     * @param id_photo Id della foto di cui l'utente va avvisato della creazione.
      * @throws SQLException
      */
-    public void notifyUser(int id_user, String notifica) throws SQLException
+    public void notifyPhoto(int id_user, int id_photo) throws SQLException
     {
-        try (PreparedStatement st = con.prepareStatement("INSERT INTO NOTIFICATIONS"
-                + "(USER_ID,DESCRIPTION) VALUES(?,?)"))
+        try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTO_NOTIFICATIONS"
+                + "(ID_USER,ID_PHOTO) VALUES(?,?)"))
         {
-            notifica= notifica.substring(0, Math.min(MAX_NOTIFICATION_LENGTH,notifica.length()));
             st.setInt(1, id_user);
-            st.setString(2, notifica);
+            st.setInt(2, id_photo);
+            st.executeUpdate();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+
+    /**
+     * Aggiunge una notifica di review ad un utente ristoratore, usate poi per 
+     * informare questi utenti dell'avvenuta recensione del loro ristorante.
+     * Queste notifiche non riguardano le
+     * notifiche di foto/review etc segnalate che arrivano agli admin.
+     *
+     * @param id_user L'id dell'utente a cui fare arrivare la notifica.
+     * @param id_review Id della review di cui l'utente va avvisato della creazione.
+     * @throws SQLException
+     */
+    public void notifyReview(int id_user, int id_review) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEW_NOTIFICATIONS"
+                + "(ID_USER,ID_REVIEW) VALUES(?,?)"))
+        {
+            st.setInt(1, id_user);
+            st.setInt(2, id_review);
             st.executeUpdate();
         }
         catch (SQLException ex)
@@ -2279,12 +2402,8 @@ public class DbManager implements Serializable
             if (review != null)
             {
                 unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate
-                Restaurant restaurant= getRestaurantById(review.getId_restaurant());
                 st.setInt(1, id_review);
                 st.executeUpdate();
-                notifyUser(review.getId_creator(), "La tua review " + review.getName()
-                        +" del ristorante "+restaurant.getName()
-                        +" è stata rimossa perchè non rispettava il nostro regolamento");
                 try (PreparedStatement rm1 = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
                         + "*(REVIEWS_COUNTER+VOTES_COUNTER))-?)/(REVIEWS_COUNTER+VOTES_COUNTER-1),REVIEWS_COUNTER="
                         + "REVIEWS_COUNTER-1 WHERE ID=?");
@@ -2345,13 +2464,6 @@ public class DbManager implements Serializable
             rm2.setInt(1, id_reply);
             rm1.executeUpdate();
             rm2.executeUpdate();
-            if (context.getReply() != null && context.getReview() != null && context.getUser() != null)
-            {
-                Restaurant restaurant= getRestaurantById(context.getReview().getId_restaurant());
-                notifyUser(context.getUser().getId(), "La tua reply alla review " + context.getReview().getName()
-                        + " del ristorante " +restaurant.getName() 
-                        + " è stata rimossa perchè non rispettava il nostro regolamento.");
-            }
             con.commit();
         }
         catch (SQLException ex)
@@ -2383,15 +2495,6 @@ public class DbManager implements Serializable
             up1.setInt(3, id_reply);
             rm1.executeUpdate();
             up1.executeUpdate();
-            if (context.getReply() != null && context.getReview() != null && context.getUser() != null)
-            {
-                Restaurant restaurant= getRestaurantById(context.getReview().getId_restaurant());
-                notifyUser(context.getUser().getId(), "La tua reply alla review " 
-                        + context.getReview().getName() + " del ristorante "
-                        + restaurant.getName() + " è stata accettata.");
-                notifyUser(context.getReview().getId_creator(), "La tua review " +context.getReview().getName()
-                        +" per il ristorante "+restaurant.getName()+ " ha ricevuto una risposta dal proprietario del ristorante.");
-            }
             con.commit();
         }
         catch (SQLException ex)
@@ -2403,18 +2506,39 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Per fare in modo che un utente segni una notifica come vista, e venga
+     * Per fare in modo che un utente segni una notifica di foto come vista, e venga
      * quindi eliminata in modo che non venga riconsegnata.
-     *
+     * @param id_user Id dell'utente proprietario della notifica.
      * @param id_notification L'id della notifica.
-     * @param id_user Serve l'id dello user preso dalla sessione in modo che uno user non
-     * possa "forgiare" l'http request e mettersi a eliminare notifiche degli
-     * altri.
      * @throws SQLException
      */
-    public void acceptNotification(int id_notification, int id_user) throws SQLException
+    public void removePhotoNotification(int id_user, int id_notification) throws SQLException
     {
-        try (PreparedStatement st = con.prepareStatement("DELETE FROM NOTIFICATIONS WHERE ID=? AND USER_ID=?"))
+        try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTO_NOTIFICATIONS WHERE ID=? AND ID_USER=?"))
+        {
+            st.setInt(1, id_notification);
+            st.setInt(2, id_user);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
+     * Per fare in modo che un utente segni una notifica di review come vista, e venga
+     * quindi eliminata in modo che non venga riconsegnata.
+     * @param id_user Id dell'utente proprietario della notifica.
+     * @param id_notification L'id della notifica.
+     * @throws SQLException
+     */
+    public void removeReviewNotification(int id_user, int id_notification) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("DELETE FROM REVIEW_NOTIFICATIONS WHERE ID=? AND ID_USER=?"))
         {
             st.setInt(1, id_notification);
             st.setInt(2, id_user);
@@ -2463,25 +2587,8 @@ public class DbManager implements Serializable
                 updateUser.setInt(1, id_user);
                 st.executeUpdate();
                 valid.executeUpdate();
-                //updateUser.executeUpdate() va fatto solo in caso all'utente viene data la proprietà 
-                String tmp;
-                switch (type)
-                {
-                    case 0:
-                        tmp = "creazione";
-                        break;
-                    case 1:
-                        tmp = "proprietà";
-                        updateUser.executeUpdate();
-                        break;
-                    default:
-                        tmp = "creazione e proprietà";
-                        updateUser.executeUpdate();
-                        break;
-                }
-                notifyUser(id_user, "La tua richiesta di " + tmp + " del ristorante " + restaurant.getName()
-                        + " è stata accettata.");
-
+                if(type>0)
+                    updateUser.executeUpdate();
             }
             con.commit();
         }
@@ -2511,23 +2618,8 @@ public class DbManager implements Serializable
                 st.setInt(1, id_user);
                 st.setInt(2, id_restaurant);
                 st.executeUpdate();
-                String tmp;
-                switch (type)
-                {
-                    case 0:
-                        tmp = "creazione";
-                        removeRestaurant(id_restaurant);
-                        break;
-                    case 1:
-                        tmp = "proprietà";
-                        break;
-                    default:
-                        tmp = "creazione e prorietà";
-                        removeRestaurant(id_restaurant);
-                        break;
-                }
-                notifyUser(id_user, "La tua richiesta di " + tmp + " del ristorante " + restaurant.getName()
-                        + " non è stata accettata.");
+                if(type==0 || type== 2)
+                    removeRestaurant(id_restaurant);
             }
             con.commit();
         }
@@ -2957,7 +3049,8 @@ public class DbManager implements Serializable
             contesto.setPhotos(getUserPhotos(id_user));
             contesto.setReviewContext(getUserReviewContextsByDateCreation(id_user));
             contesto.setRestaurant(getUserRestaurants(id_user));
-            contesto.setNotification(getUserNotifications(id_user));
+            contesto.setPhoto_notifications(getUserPhotoNotifications(id_user, USER_NOTIFICATIONS_TO_GET));
+            contesto.setReview_notifications(getUserReviewNotifications(id_user,USER_NOTIFICATIONS_TO_GET));
             con.commit();
         }
         catch (SQLException ex)

@@ -108,7 +108,7 @@ public class ProfileServlet extends HttpServlet {
             //provo a interrogare il DB per ottenere le info
             try{                
                 userContext = manager.getUserContext(user.getId());
-                listNotification = userContext.getNotification();
+                //listNotification = userContext.getNotification();
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
 

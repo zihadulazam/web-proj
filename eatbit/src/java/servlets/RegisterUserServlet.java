@@ -45,7 +45,15 @@ import utility.IpFinder;
 import static utility.IpFinder.getLocalIp;
 
 /**
- *
+ *Servlet per registrazione utente, si occupa di mandare una mail di verifica, i
+ * parametri necessari sono:
+ * name
+ * surname
+ * nickname
+ * password
+ * ritorna: 1 in caso di successo,0 se non è andato a buon fine a causa di eccezioni
+ * o altri motivi,-1 se esiste un utente con quella email, -2 con
+ * quel nick, -3 se manca un parametro
  * @author jacopo
  */
 @WebServlet(name = "RegisterUserServlet", urlPatterns = {"/RegisterUserServlet"})
@@ -70,9 +78,9 @@ public class RegisterUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
             String name = request.getParameter("name");
             String surname = request.getParameter("surname");
             String nickname = request.getParameter("nickname");
@@ -94,30 +102,27 @@ public class RegisterUserServlet extends HttpServlet {
                 //se la registrazione è andata a buon fine
                     case 0:
                         sendVerificationEmail(user.getId(),email);
-                        out.write("0");
-                        break;
-                    case 1:
-                        ;//azione da fare se errore 1
                         out.write("1");
                         break;
-                    case 2:
-                        ;//tipo 2
-                        out.write("2");
+                    case -1:
+                        ;//azione da fare se errore 1
+                        out.write("-1");
                         break;
-                    case 3:
-                        ;//tipo 3
-                        out.write("3");
+                    case -2:
+                        ;//tipo 2
+                        out.write("-2");
                         break;
                     default:
+                        out.write("0");
                         break;
                 }
             } else {
-                out.write("-1");//missing parameters
+                out.write("-3");//missing parameters
             }
             out.flush();
         } catch (IOException | SQLException | ServletException ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

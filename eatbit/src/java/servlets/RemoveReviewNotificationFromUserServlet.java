@@ -20,16 +20,19 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *Servlet per permettere all'utente di segnalare al sistema che ha preso visione
- * della notifica.
- * Risponderà con 1 se è andato a buon fine, falso se l'utente non era loggato 
- * o vi è stata una eccezione.
+ * della notifica e che desidera eliminarla.
+ * Risponderà con 1 se è andata a buon fine, -1 se l'utente non è loggato,
+ * 0 se non è andata a buon fine per altri motivi(p.e. eccezione a causa di 
+ * parametro malformato).
+ * I parametri necessari sono:
+ * id_notification, id della notifica da eliminare
  * @author jacopo
  */
-@WebServlet(name = "AcceptNotificationFromUserServlet", urlPatterns =
+@WebServlet(name = "RemoveReviewNotificationFromUserServlet", urlPatterns =
 {
-    "/AcceptNotificationFromUserServlet"
+    "/RemoveReviewNotificationFromUserServlet"
 })
-public class AcceptNotificationFromUserServlet extends HttpServlet
+public class RemoveReviewNotificationFromUserServlet extends HttpServlet
 {
     private DbManager manager;
 
@@ -77,21 +80,21 @@ public class AcceptNotificationFromUserServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
-            PrintWriter out = response.getWriter();
-            if (user != null) {
-                manager.acceptNotification(Integer.parseInt(request.getParameter("id_notification")),user.getId());
-                out.write("1");
+            if (user != null) 
+            {
+                manager.removeReviewNotification(user.getId(),Integer.parseInt(request.getParameter("id_notification")));
             }
             else
-                out.write("0");
+                out.write("-1");
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(AcceptNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            Logger.getLogger(RemovePhotoNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            out.write("0");
         }
     }
 
