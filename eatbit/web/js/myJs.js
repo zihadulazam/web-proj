@@ -49,4 +49,44 @@ $(function() {
   });
   
   
+//segnala Review
+function segnalaReview(reviewId){
+    $.ajax(
+        {
+            url : "../eatbit/ReportReviewServlet",
+            type: "GET",
+            data : {id_review:reviewId},
+            success:function(data, textStatus, jqXHR) 
+            {
+                if(data == "1")
+                    alert("Grazie per la segnalazione :)");
+                    
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                alert("Mi dispiace, segnalazione non è disponibile");
+            }
+        });
+}
+
+function segnalaPhoto(photoId){
+    $.ajax(
+    {
+        url : "../eatbit/ReportPhotoServlet",
+        type: "GET",
+        data : {id_photo:photoId},
+        success:function(data, textStatus, jqXHR) 
+        {
+            if(data == "1")
+                alert("Grazie per la segnalazione :)");
+                
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            alert("Mi dispiace, segnalazione non è disponibile");
+        }
+    });
+}
+  
+  
   

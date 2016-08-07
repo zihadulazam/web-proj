@@ -51,19 +51,9 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            System.out.println("ayy");
             ArrayList<RestaurantContext> top5RestContextsByValue = manager.getTop5RestaurantContextsByValue();
             ArrayList<RestaurantContext> top5RestContextsByReviews = manager.getTop5RestaurantContextsByReviewsCounter();
             ArrayList<ReviewContext> last5ReviewsContexts = manager.getLast5ReviewContexts();
-            
-            //**********testing values **********
-            /*Review provaR=new Review();
-            provaR.setName("Prova 123");
-            last5Reviews.add(provaR);
-            Restaurant provaRisto=new Restaurant(0, "Sushoku", "dsdf", "url",4, 2, 3, 4, 5, 6, true);
-            top5RestByReviews.add(provaRisto);
-            top5RestByValue.add(provaRisto);*/
-            //::::::::::End Testing::::::::::::
             request.setAttribute("top5RestByValue", top5RestContextsByValue);
             request.setAttribute("top5RestByReviews", top5RestContextsByReviews);
             request.setAttribute("last5Reviews", last5ReviewsContexts);

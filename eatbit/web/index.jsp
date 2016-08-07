@@ -17,6 +17,9 @@
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
+
+         <!-- single img Viewer css-->
+        <link rel="stylesheet" href="css/lightbox.min.css">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -41,10 +44,10 @@
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">
-                        <form role="form" method="post">
+                        <form role="form" method="get" action="/eatbit/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
-                                <input type="text" class="form-control" id="locationRisto" placeholder="Dove?">
-                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" placeholder="Nome del ristorante">
+                                <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?">
+                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del ristorante">
                             </div>
                             <div class="jumbo-button-container">
                                 <button class="btn btn-default btn-lg btn-block" type="submit" aria-label="Left Align">
@@ -83,9 +86,20 @@
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                                                 <c:out value="${lastComment.getReview().getDate_creation()}" />
                                                             </p>
+                                                            <c:if test="${lastComment.getPhoto()!=null}">
+                                                                <a class="thumbnail" href="<c:out value="${lastComment.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${lastComment.getPhoto().getPath()}" />">
+                                                                    <img src="<c:out value="${lastComment.getPhoto().getPath()}" />">
+                                                                </a>
+                                                                <div class="text-center">
+                                                                    <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${lastComment.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                                </div>
+                                                            </c:if>
                                                         </div>
                                                         <div class="col-md-10 comment-content">
-                                                            <h3 class="comment-title"><c:out value="${lastComment.getReview().getName()}" /></h3>
+                                                            <p>
+                                                                <button type="button" class="btn btn-danger btn-segnala-review" id="<c:out value="${lastComment.getReview().getId()}" />" title="Segnala Recensione" onclick="segnalaReview(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                                <h3 class="comment-title"><c:out value="${lastComment.getReview().getName()}" /></h3>
+                                                            </p>
                                                             <div class="row rating-stars">
                                                                 <c:forEach var="i" begin="1" end="5">
                                                                     <c:choose>
@@ -124,13 +138,11 @@
                                                             </c:if>
                                                             <div class="container-fluid">
                                                                 <div class="row">
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-12">
                                                                         <button type="button" class="btn btn-danger btn-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getLikes()}" /></span></button>
                                                                         <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getDislikes()}" /></span></span></button>
+                                                                        <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#<c:out value="${lastComment.getReview().getId_restaurant()}" />"><c:out value="${lastComment.getRestaurantName()}" /></a></h4>
-                                                                    </div> 
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -174,17 +186,17 @@
                                                             <div class="col-md-8 restaurant-body">
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text"><c:out value="${topRatedRisto.getCoordinate().getAddress()}" />, <c:out value="${topRatedRisto.getCoordinate().getCity()}" />, <c:out value="${topRatedRisto.getCoordinate().getState()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${topRatedRisto.getRestaurant().getReviews_counter()}" /></span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topRatedRisto.getPriceRange().getMin()}" />-<c:out value="${topRatedRisto.getPriceRange().getMax()}" /></span></p>
+                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topRatedRisto.getPriceRange().getMin()}"/>€ - <c:out value="${topRatedRisto.getPriceRange().getMax()}" />€</span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
                                                                     <c:forEach var="tipocucine" items="${topRatedRisto.getCuisines()}">
-                                                                        <span class="label label-danger"><c:out value="${tipocucine}"/></span>
+                                                                        <span class="label label-danger tipo-cucine"><c:out value="${tipocucine}"/></span>
                                                                     </c:forEach>
                                                                 </p>
                                                             </div>
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><a type="button" class="btn btn-success" href="#<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
+                                                            <div class="btn-visita"><a type="button" class="btn btn-primary" href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
                                                         </div>
                                                     </div>
                                                 </c:forEach>
@@ -222,17 +234,17 @@
                                                             <div class="col-md-8 restaurant-body">
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text"><c:out value="${topReviewRisto.getCoordinate().getAddress()}" />, <c:out value="${topReviewRisto.getCoordinate().getCity()}" />, <c:out value="${topReviewRisto.getCoordinate().getState()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${topReviewRisto.getRestaurant().getReviews_counter()}" /></span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topReviewRisto.getPriceRange().getMin()}" />-<c:out value="${topReviewRisto.getPriceRange().getMax()}" /></span></p>
+                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topReviewRisto.getPriceRange().getMin()}" />€ - <c:out value="${topReviewRisto.getPriceRange().getMax()}"/>€</span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
                                                                     <c:forEach var="tipocucine" items="${topReviewRisto.getCuisines()}">
-                                                                        <span class="label label-danger"><c:out value="${tipocucine}"/></span>
+                                                                        <span class="label label-danger tipo-cucine"><c:out value="${tipocucine}"/></span>
                                                                     </c:forEach>
                                                                 </p>
                                                             </div>
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><a type="button" class="btn btn-success" href="#<c:out value="${topReviewRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
+                                                            <div class="btn-visita"><a type="button" class="btn btn-success" href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topReviewRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
                                                         </div>
                                                     </div> <!-- fine primo elemento -->
                                                 </c:forEach>
@@ -251,6 +263,8 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
-    
+        
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
     </body>
 </html>

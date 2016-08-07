@@ -87,23 +87,62 @@
                                 //background-color: red;
                                 text-align: center;
                                 margin-top: 10px;
-                                img{
-                                    border: 2px solid white;
+                                .img-circle{
                                     width: 80px;
                                     height: 80px;
                                     margin: 2px;
                                 }
                                 .comment-data{
                                     color: #fff;
+                                    font-size: 12px;
+                                }
+                                .thumbnail{
+                                    
+                                    max-width: 100px;
+                                    max-height: 100px;
+                                    width: auto;
+                                    height: auto;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    margin-top: 20px;
+                                    margin-bottom: 5px;
+                                    padding: 2px;
+                                    img{
+                                        width:auto;
+                                        height: auto;
+                                    }
+                                }
+                                .btn-segnala-photo-recensione{
+                                    margin-top: 2px;
+                                    margin-bottom: 5px;
+                                    background-color: $eatbit_red;
+                                    border: 1px solid #fff;
+                                    padding: 6px 8px 8px 8px;
+                                    font-size: 14px;
+                                    line-height: 1.42;
+                                    border-radius: 5px;
+                                    //&:hover{
+                                        //  background-color: #C70039  ;
+                                    //}
+                                    &:enabled{
+                                        &:hover{
+                                            background-color: #C70039  ;
+                                        }
+                                    }
                                 }
                             }
                             .comment-content{
                                 padding-bottom: 5px;
-                                .comment-nome-ristorante{
-                                    text-align: right;
-                                    a{
-                                        color: #FFC300;
-                                    }   
+                                .btn-segnala-review{
+                                    border: 1px solid #fff;
+                                    float: right;
+                                    margin-top: 10px;
+                                    background-color: $eatbit_red;
+                                    &:enabled{
+                                        &:hover{
+                                            background-color: #C70039  ;
+                                        }
+                                    }
                                 }
                                 .comment-title{
                                     margin-top: 15px;
@@ -153,13 +192,28 @@
                                     background-color: $eatbit_red;
                                     border: 1px solid #fff;
                                     //&:hover{
-                                      //  background-color: #C70039  ;
+                                        //  background-color: #C70039  ;
                                     //}
                                     &:enabled{
                                         &:hover{
                                             background-color: #C70039  ;
                                         }
                                     }
+                                    @media (max-width: 387px){
+                                        font-size: 12px;
+                                    }
+
+                                }
+                                .btn-segnala-review{
+                                    border: 1px solid #fff;
+                                }
+                                .comment-nome-ristorante{
+                                    float: right;
+                                    margin-top: 5px;
+                                    a{
+                                        color: #FFC300;
+                                        font-weight: bold;
+                                    }   
                                 }
                             }
                         }
@@ -209,6 +263,9 @@
 .info-text{
     font-size: 15px;
 }
+.tipo-cucine{
+    font-size:16px;
+}
 .btn-visita{
     text-align: right;
     margin-bottom: 10px;
@@ -222,6 +279,9 @@
 
 #second-update-row{
     margin-top: 40px;
+    .lable{
+        font-size: 18px;
+    }
 }
 
 #update-left{

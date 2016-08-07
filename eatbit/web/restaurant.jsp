@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="it">
     <head>
-        <title>eatBit | Ristorante</title>
+        <title>eatBit | <c:out value="${restaurant_context.getRestaurant().getName()}"/></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -40,37 +40,43 @@
         <div class="container">
             <div class="row" id="header">
                 <div class="col-xs-12 col-md-12"  id="restaurant-name">
-                    <h1><img src="img/restaurant/name.png"/> Nome Ristorante</h1> 
+                    <h1><img src="img/restaurant/name.png"/> <c:out value="${restaurant_context.getRestaurant().getName()}"/></h1> 
                     <hr/> 
                 </div>
             </div>
             
             <div class="row">
                 <div class="col-xs-12 col-md-4">
-                    <p id="restaurant-profile-pic-p"><img src="img/restaurant-default2.jpg" alt="immagine profilo" class="img-thumbnail" id="restaurant-profile-pic"/></p>
+                    <p id="restaurant-profile-pic-p"><img src="img/restaurant-default.png" alt="immagine profilo" class="img-thumbnail" id="restaurant-profile-pic"/></p>
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="informazioni">
                         <div class="row rating-stars">
-                                <img src="img/star-full.png"/>
-                                <img src="img/star-full.png"/>
-                                <img src="img/star-full.png"/>
-                                <img src="img/star-empty.png"/>
-                                <img src="img/star-empty.png"/>
+                                <c:forEach var="i" begin="1" end="5">
+                                    <c:choose>
+                                        <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                            <img src="img/star-full.png"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="img/star-empty.png"/>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
                         </div>
-                        <p>(299 recensioni)</p>
-                        <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Via Mario 51, Ala (TN), Italia</p>
-                        <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 3492106738</p>
-                        <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="#" target="_blank"> Sito Web</a></p>
+                        <p>(<c:out value="${restaurant_context.getRestaurant().getReviews_counter()}"/> recensioni)</p>
+                        <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <c:out value="${restaurant_context.getCoordinate().getAddress()}"/>, <c:out value="${restaurant_context.getCoordinate().getCity()}"/>, <c:out value="${restaurant_context.getCoordinate().getState()}"/></p>
+                        <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <c:out value="${restaurant_context.getRestaurant().getWeb_site_url()}"/></p>
+                        <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${restaurant_context.getRestaurant().getWeb_site_url()}"/>" target="_blank"> Sito Web</a></p>
                         <p id="tipi-di-cucina">
-                            <span class="label label-danger">Carne</span>
-                            <span class="label label-danger">Pesce</span>
+                            <c:forEach var="tipocucine" items="${restaurant_context.getCuisines()}">
+                                <span class="label label-danger"><c:out value="${tipocucine}"/></span>
+                            </c:forEach>
                         </p>
                     </div> 
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
-                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): 21</p>
+                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): <c:out value="${restaurant_context.getCityPosition()}"/></p>
                         <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi</p>
                         <p>11:00-15:00</p>
                         <p>18:00-00:00</p>
@@ -84,41 +90,29 @@
         <!-------------Slider Start--------------->
         <div id="example3" class="slider-pro">
             <div class="sp-slides">
-                <div class="sp-slide">
-                    <img class="sp-image" src="css/images/blank.gif" 
-                        data-src="img/01.jpg" />
+                <c:forEach var="photos" items="${restaurant_context.getPhotos()}">
+                    <div class="sp-slide">
+                        <img class="sp-image" src="css/images/blank.gif" 
+                            data-src="<c:out value="${photos.getPath()}"/>" />
 
-                    <p class="sp-layer sp-white sp-padding"
-                        data-horizontal="50" data-vertical="50"
-                        data-show-transition="left" data-show-delay="400">
-                        <button  class="btn btn-large btn-block btn-danger btn-segnala" id="imgID"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala!</button>
-                    </p>
-                    <p class="sp-layer sp-black sp-padding"
-					    data-horizontal="50" data-vertical="350"
-					    data-show-transition="left" data-show-delay="600">
-					    Info Img 1
-				    </p>
-                </div>
-                <div class="sp-slide">
-                    <img class="sp-image" src="css/images/blank.gif" 
-                        data-src="img/02.jpg"/>
-
-                    <p class="sp-layer sp-white sp-padding"
-                        data-horizontal="50" data-vertical="50"
-                        data-show-transition="left" data-show-delay="400">
-                        <button type="button" class="btn btn-large btn-block btn-danger btn-segnala" id="imgID2"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala!</button>
-                    </p>
-                    <p class="sp-layer sp-black sp-padding"
-					    data-horizontal="50" data-vertical="350"
-					    data-show-transition="left" data-show-delay="600">
-					    Info Img 2
-				    </p>
-                </div>
+                        <p class="sp-layer sp-white sp-padding"
+                            data-horizontal="50" data-vertical="50"
+                            data-show-transition="left" data-show-delay="400">
+                            <button  class="btn btn-large btn-block btn-danger btn-segnala" id="<c:out value="${photos.getId()}"/>" title="Segnala" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                        </p>
+                        <p class="sp-layer sp-black sp-padding"
+                                data-horizontal="50" data-vertical="350"
+                                data-show-transition="left" data-show-delay="600">
+                                <c:out value="${photos.getName()}"/>: <c:out value="${photos.getDescription()}"/>
+                        </p>
+                    </div>
+                </c:forEach>
             </div>
 
             <div class="sp-thumbnails">
-                <img class="sp-thumbnail" src="img/01.jpg"/>
-                <img class="sp-thumbnail" src="img/02.jpg"/>
+                <c:forEach var="photos" items="${restaurant_context.getPhotos()}">
+                    <img class="sp-thumbnail" src="<c:out value="${photos.getPath()}"/>"/>
+                </c:forEach>
             </div>
         </div>
         <!-- #endregion Jssor Slider End -->
@@ -273,10 +267,18 @@
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                                     10 Nov 2015 10:30
                                                 </p>
-                                                <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="#"> Nome del Ristorante</a></p>
+                                                <a class="thumbnail" href="img/02.jpg" data-lightbox="example-<c:out value="${i}"/>">
+                                                    <img src="img/02.jpg">
+                                                </a>
+                                                <div class="text-center">
+                                                    <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" title="Segnala Photo"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                </div>
                                             </div>
                                             <div class="col-md-10 comment-content">
-                                                <h3 class="comment-title">Titolo Commento <c:out value="${i}"/></h3>
+                                                <p>
+                                                    <button type="button" class="btn btn-danger btn-segnala-review" title="Segnala Recensione"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                    <h3 class="comment-title">Titolo Commento <c:out value="${i}"/></h3>
+                                                </p>
                                                 <div class="row rating-stars">
                                                     <img src="img/star-full.png"/>
                                                     <img src="img/star-full.png"/>
@@ -290,12 +292,6 @@
                                                 <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <a class="thumbnail" href="img/02.jpg" data-lightbox="example-<c:out value="${i}"/>">
-                                                                <img src="img/02.jpg">
-                                                            </a>
-                                                            <div class="text-center">
-                                                                <button type="button" class="btn btn-danger btn-xs btn-segnala-photo-recensione popov" data-trigger="Seganal"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala Photo</button>
-                                                            </div>
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div class="container-fluid risposta-admin">
@@ -319,7 +315,7 @@
                                                         <div class="col-md-12">
                                                             <button type="button" class="btn btn-danger btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
                                                             <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
-                                                            <button type="button" class="btn btn-danger btn-segnala-review"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Segnala Recensione</button>
+                                                            <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="#"> Nome del Ristorante</a></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -432,6 +428,15 @@
                     <p>18:00-00:00</p><hr/>
                     <p>18:00-00:00</p>
                 </div>-->
+            </div>
+            <hr/>
+            <div class="row" id="qr-code">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 class="dettagli-lable">QR Code:</h4>
+                </div>
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                    <img id="qr-code-img" src="<c:out value="${qr_url}"/>">
+                </div>
             </div>
         </div>
         <!-------------------END Dettagli ----------------->
