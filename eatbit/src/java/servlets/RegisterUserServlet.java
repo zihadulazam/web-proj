@@ -120,7 +120,7 @@ public class RegisterUserServlet extends HttpServlet {
                 out.write("-3");//missing parameters
             }
             out.flush();
-        } catch (IOException | SQLException | ServletException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
         }

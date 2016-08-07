@@ -56,18 +56,18 @@ public class DbManager implements Serializable
      */
     public int registerUser(User user) throws SQLException
     {
-        int res = 3;
+        int res = -3;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO USERS(NAME,SURNAME,"
                 + "NICKNAME,EMAIL,PASSWORD,AVATAR_PATH,REVIEWS_COUNTER,REVIEWS_POSITIVE,"
                 + "REVIEWS_NEGATIVE,USERTYPE,VERIFIED) values(?,?,?,?,?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS))
         {
             if (findUserByEmail(user.getEmail()))
             {
-                res = 1;
+                res = -1;
             }
             else if (findUserByNickname(user.getNickname()))
             {
-                res = 2;
+                res = -2;
             }
             else
             {
