@@ -42,7 +42,7 @@ public class EmailSender
      * @throws SocketException
      * @throws UnknownHostException 
      */
-    final public static void sendEmail(String email, String text, String subject) throws ServletException, SocketException, UnknownHostException {
+    final public static void sendEmail(String email, String text, String subject) throws SocketException, UnknownHostException, MessagingException {
         try {
                 final String username = "eatbitnoreply@gmail.com";
                 final String password = "eatbitpassword";
@@ -75,7 +75,7 @@ public class EmailSender
                 transport.close();
         } catch (MessagingException ex) {
             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex.toString());
+            throw ex;
         }
     }
     

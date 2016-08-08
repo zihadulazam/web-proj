@@ -21,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *
+ *Servlet per il login, ritorna 1 se il login ha avuto successo, -1 se manca un 
+ * parametro, 0 se il login nn è riuscito. (per utente non esistente, passowrd 
+ * sbagliata, eccezione).
  * @author User
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
@@ -47,43 +49,34 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("emailorNickname");
+        String email = request.getParameter("emailOrNickname");
         String password = request.getParameter("password");
+        response.setContentType("text/plain"); 
+        PrintWriter out= response.getWriter();
         
-        // controllo nel DB se esiste un utente con lo stesso username + password
-        User user = null;
-      
-        String msg = " ";
-        response.setContentType("text/plain");  // content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); 
-        
-        
-        try {
-            user =manager.loginUserByEmailOrNickname(email, password);
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException(ex);
+        if(email!=null && password !=null)
+        {
+            //verifico utente
+            User user;
+            try 
+            {
+                user =manager.loginUserByEmailOrNickname(email, password);
+                if(user==null)//il login nn ha funzinato (xk nn esiste o la psw è sbagliata)
+                    out.write("0");
+                else//login ha funzionato, metto user in session
+                {
+                    request.getSession(true).setAttribute("user", user);
+                    out.write("1");
+                }
+            } 
+            catch (SQLException ex) 
+            {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+                out.write("0");
+            }
         }
-
-        // se non esiste, ridirigo verso pagina di login con messaggio di errore
-        if (user == null) {
-            // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            msg="errore";
-
-        } else {
-            // imposto l'utente connesso come attributo di sessione
-            // per adesso e' solo un oggetto String con il nome dell'utente, ma posso metterci anche un oggetto User
-            // con, ad esempio, il timestamp di login
-            HttpSession session = request.getSession(true);
-            session.setAttribute("user", user);
-            /*
-            session.setAttribute("user_name", user.getName());
-            session.setAttribute("user_surname",user.getSurname());
-            session.setAttribute("user_nickname",user.getNickname());
-            session.setAttribute("user_avatar",user.getAvatar_path());*/
-            msg="loggato";
-        }
-        response.getWriter().write(msg); // Write response body.
+        else
+            out.write("-1");
     }
 
     /**

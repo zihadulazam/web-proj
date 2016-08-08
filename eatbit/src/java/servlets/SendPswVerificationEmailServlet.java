@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -118,7 +119,7 @@ public class SendPswVerificationEmailServlet extends HttpServlet
                         + "&id=" + Integer.toString(id);
                 EmailSender.sendEmail(email, begin+t3, "password change verification");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | MessagingException ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             throw new ServletException(ex.toString());
         }

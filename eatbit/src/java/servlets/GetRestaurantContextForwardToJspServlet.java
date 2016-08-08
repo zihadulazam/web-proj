@@ -62,8 +62,11 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
         try {
             int id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
             RestaurantContext context= manager.getRestaurantContext(id_restaurant);
-            //genero testo per il qr code
+           
+            //GENERAZIONE QR
             String qrContent="";
+            String qrUrl;//il risultato finale
+            //genero il contenuto del qr
             if(context.getRestaurant()!=null)
                 qrContent+= context.getRestaurant().getName()+"\n";
             if(context.getCoordinate()!=null)
@@ -76,13 +79,15 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
             //genero il byte[] per il qr code a partire dal contenuto, e lo trasformo in un url leggibile dalla jsp
             byte[] bytes= QRCode.from(qrContent).to(ImageType.PNG).withSize(250, 250).stream().toByteArray();
             //codifico l'immagine in un url
-            String qrUrl ="data:image/png;base64," + Base64.encodeBase64String(bytes);
+            qrUrl ="data:image/png;base64," + Base64.encodeBase64String(bytes);
+            //fine generazione QR
+            
             request.setAttribute("restaurant_context", manager.getRestaurantContext(id_restaurant));
             request.setAttribute("qr_url", qrUrl);
             request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(GetRestaurantContextForwardToJspServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

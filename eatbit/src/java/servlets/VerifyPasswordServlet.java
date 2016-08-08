@@ -88,9 +88,9 @@ public class VerifyPasswordServlet extends HttpServlet
             }
             else
                 request.getRequestDispatcher("/failure.jsp").forward(request, response);
-        } catch (SQLException ex) {
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException("sql exception");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

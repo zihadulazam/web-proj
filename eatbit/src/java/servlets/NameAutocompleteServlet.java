@@ -24,7 +24,9 @@ import org.json.simple.JSONArray;
 
 
 /**
- *
+ *Servlet per l'autocomplete del nome, se manca un parametro manda -1, se ha avuto
+ * un eccezione manda 0, altrimenti un array json contenente le stringhe
+ * da rappresentare.
  * @author zihadul
  */
 @WebServlet(name = "NameAutocompleteServlet", urlPatterns = {"/NameAutocompleteServlet"})
@@ -49,19 +51,27 @@ public class NameAutocompleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String user_keys=request.getParameter("keys");
-        ArrayList <String> nomi=new ArrayList<>();
-        try {
-            nomi = manager.autoCompleteName(user_keys);
-        } catch (SQLException ex) {
-            Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ServletException(ex);
+        if(user_keys!=null)
+        {
+            try 
+            {
+                ArrayList<String> nomi = manager.autoCompleteName(user_keys);
+                JSONArray jnomi=new JSONArray();
+                for(String elemento:nomi)
+                    jnomi.add(elemento);
+                response.setContentType("application/json");
+                response.getWriter().write(jnomi.toString());
+            } 
+            catch (SQLException ex) 
+            {
+             Logger.getLogger(NameAutocompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+             response.getWriter().write("0");
+            }
         }
-        JSONArray jnomi=new JSONArray();
-        for(String elemento:nomi){
-            jnomi.add(elemento);
+        else
+        {
+            response.getWriter().write("-1");
         }
-        response.setContentType("application/json");
-        response.getWriter().write(jnomi.toString());
     }
 
     /**

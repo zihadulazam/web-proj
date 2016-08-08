@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 
 /**
- *
+ *Servlet per l'autocompletamento di luoghi, ritorna -1 se manca il parametro,
+ * 0 se ci sono state eccezioni, altrimenti un array json contenente le stringhe
+ * dei luoghi.
  * @author jacopo
  */
 @WebServlet(name = "LocationAutoCompleteServlet", urlPatterns = {"/LocationAutoCompleteServlet"})
@@ -47,18 +49,27 @@ public class LocationAutoCompleteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String user_keys = request.getParameter("keys");
-        ArrayList<String> luoghi = new ArrayList<>();
-        try {
-            luoghi = manager.autoCompleteLocation(user_keys);
-        } catch (SQLException ex) {
-            Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        if(user_keys!=null)
+        {
+            try 
+            {
+                ArrayList<String> luoghi = manager.autoCompleteLocation(user_keys);
+                JSONArray jluoghi=new JSONArray();
+                for(String elemento:luoghi)
+                    jluoghi.add(elemento);
+                response.setContentType("application/json");
+                response.getWriter().write(jluoghi.toString());
+            } 
+            catch (SQLException ex) 
+            {
+             Logger.getLogger(LocationAutoCompleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+             response.getWriter().write("0");
+            }
         }
-        JSONArray jluoghi = new JSONArray();
-        for (String elemento : luoghi) {
-            jluoghi.add(elemento);
+        else
+        {
+            response.getWriter().write("-1");
         }
-        response.setContentType("application/json");
-        response.getWriter().write(jluoghi.toString());
     }
 
     /**

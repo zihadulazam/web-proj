@@ -49,7 +49,7 @@ public class DbManager implements Serializable
      * L'id dell'oggetto user passato sarà settato come l'id generato dal db
      * per l inserimento del record, in caso di successo.
      * @param user Oggetto User con i dati all'iterno
-     * @return 0 se è andata a buon fine, -1 se nn ha registrato xk esiste un
+     * @return un numero positivo che rappresenta l'id dell'utente se è andata a buon fine, -1 se nn ha registrato xk esiste un
      * utente con quella email (o sia email e nick uguali), -2 se esiste un utente con quel nick
      * @throws java.sql.SQLException
      *
@@ -84,11 +84,13 @@ public class DbManager implements Serializable
                 st.setInt(10, 0);
                 st.setBoolean(11, false);
                 st.executeUpdate();
-                res = 0;
                 try (ResultSet rs = st.getGeneratedKeys())
                 {
                     if (rs.next())
+                    {
                         user.setId(rs.getInt(1));
+                        res=user.getId();
+                    }
                     else
                         throw new SQLException("no generated key from user registration");
                 }
@@ -111,6 +113,32 @@ public class DbManager implements Serializable
         return res;
     }
 
+    /**
+     * Metodo per rimuovere l'utente dalla tabella utente e da quella degli utenti 
+     * in attesa di verifica.
+     * (usato nella servlet registrazione utenti in caso non vadi a buon
+     * fine la spedizione della email)
+     * @param id_user Id dell'utente.
+     * @throws SQLException 
+     */
+    public void unregisterUser(int id_user) throws SQLException
+    {
+        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM USERS WHERE ID=?");
+             PreparedStatement st1 = con.prepareStatement("DELETE FROM USERS_TO_VERIFY WHERE ID=?"))
+        {
+            st1.setInt(1, id_user);
+            st2.setInt(1, id_user);
+            st1.executeUpdate();
+            st2.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
     /**
      * Setta un utente come admin, cambiandone lo USERTYPE nel db, che diventa 2.
      * @param id_user L'id dell'utente.

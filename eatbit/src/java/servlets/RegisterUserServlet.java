@@ -52,8 +52,8 @@ import static utility.IpFinder.getLocalIp;
  * nickname
  * password
  * ritorna: 1 in caso di successo,0 se non è andato a buon fine a causa di eccezioni
- * o altri motivi,-1 se esiste un utente con quella email, -2 con
- * quel nick, -3 se manca un parametro
+ * o se la spedizione della email non è andata a buon fine,-1 se manca un 
+ * parametro, -2 se esiste un utente con quella email, -3 con quel nick
  * @author jacopo
  */
 @WebServlet(name = "RegisterUserServlet", urlPatterns = {"/RegisterUserServlet"})
@@ -100,24 +100,32 @@ public class RegisterUserServlet extends HttpServlet {
                 switch (res)
                 {
                 //se la registrazione è andata a buon fine
-                    case 0:
-                        sendVerificationEmail(user.getId(),email);
-                        out.write("1");
-                        break;
                     case -1:
-                        ;//azione da fare se errore 1
-                        out.write("-1");
-                        break;
-                    case -2:
-                        ;//tipo 2
+                        ;//esiste già email
                         out.write("-2");
                         break;
-                    default:
+                    case -2:
+                        ;//esiste già nick
+                        out.write("-3");
+                        break;
+                    case -3://eccezione o altri motivi a livello db
                         out.write("0");
                         break;
+                    default://se è >=0 è un id utente, è andato a buon fine
+                        try
+                        {
+                            sendVerificationEmail(user.getId(),email);
+                            out.write("1");//successo
+                        }
+                        catch(Exception ex)
+                        {
+                            Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                            manager.unregisterUser(res);
+                            out.write("0");//insuccesso causa email non spedita
+                        }
                 }
             } else {
-                out.write("-3");//missing parameters
+                out.write("-1");//missing parameters
             }
             out.flush();
         } catch (Exception ex) {
@@ -136,7 +144,7 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException {
+    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException {
         try {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {

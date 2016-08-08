@@ -60,7 +60,7 @@ public class HomeServlet extends HttpServlet {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

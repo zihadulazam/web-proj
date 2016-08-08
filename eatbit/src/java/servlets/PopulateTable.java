@@ -64,7 +64,8 @@ public class PopulateTable extends HttpServlet {
             request.setAttribute("list", List);
             request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }  
     }
 
