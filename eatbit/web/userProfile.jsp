@@ -5,7 +5,8 @@
 --%>
 
 <%@page import="database.contexts.ReviewContext"%>
-<%@page import="database.Notification"%>
+<%@page import="database.ReviewNotification"%>
+<%@page import="database.PhotoNotification" %>
 <%@page import="database.Restaurant"%>
 
 
@@ -47,6 +48,67 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $(".resolveNotify").click(function(event) {
+                    var notifyId = $(this).val();
+                    var element = $(this);
+                    $.ajax(
+                    {
+                        url : "../eatbit/RemovePhotoNotificationFromUserServlet",
+                        type: "POST",
+                        data : {notifyId:notifyId},
+                        success:function(data)  
+                        {
+                            //data: return data from server
+                            if(data == "OK"){
+                                //window.location.replace("/home");
+                                element.remove();
+                            }
+                            else{
+                                alert("Chiamata fallita!!!");            
+                            }
+                        },
+                       error: function() 
+                        {
+                            alert("Errore Server!!!");     
+                        }
+                             });
+                });
+             });
+        </script>
+        
+                <script>
+            $(document).ready(function() {
+                $(".resolveNotify2").click(function(event) {
+                    var notifyId = $(this).val();
+                    var element = $(this);
+                    $.ajax(
+                    {
+                        url : "../eatbit/RemoveReviewNotificationFromUserServlet",
+                        type: "POST",
+                        data : {notifyId:notifyId},
+                        success:function(data)  
+                        {
+                            //data: return data from server
+                            if(data == "OK"){
+                                //window.location.replace("/home");
+                                element.remove();
+                            }
+                            else{
+                                alert("Chiamata fallita!!!");            
+                            }
+                        },
+                       error: function() 
+                        {
+                            alert("Errore Server!!!");     
+                        }
+                             });
+                });
+             });
+        </script>
+
         
     </head>
     <body>
@@ -55,40 +117,28 @@
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
         
+        <input type="hidden" name="viewid" value="test.jsp">
         <div class="container">
         
             <div class="col-md-3">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="thumbnail">
-                            <img src="img/user_default.png" alt="normal user">
+                        <div class="thumbnail restaurant">
+                            <img src="${user.avatar_path}" alt="normal user">
                             <div class="caption">
                               <hr>
 
                               <h3><%= user.getNickname() %></h3>
                               <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
                               <hr>
-                              <p><b>Tuo Nome:</b>
+                              <p><b>Nome:</b>
                                   <br> <%= user.getName()%> <%= user.getSurname()%>  </p>
                               <p><b>Email:</b>
                                   <br> <%= user.getEmail()%>  </p>
                               <p><b>Reviews:</b>
                                   <br><c:out value="${numberReview}"/> </p>
-
-                              <p>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
-                                            Altro <span class="caret"></span>
-                                        </button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Vedi tuoi Ristoranti</a></li>
-                                            <li><a href="#">Modifica dati Profilo</a></li>
-
-                                            <li class="divider"></li>
-                                            <li><a href="#">Log Out</a></li>
-                                        </ul>
-                                    </div>
+                              <hr>
+                              <p><button class="btn btn-primary" type="submit" role="button">Cambia Password</button></p>
                             </div>
                         </div>
                     </div>
@@ -97,10 +147,10 @@
 
             <div class="col-md-9">
                 <h2>Risorse Personali</h2>
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills restaurant">
                     <li class="active"><a data-toggle="tab" href="#menu1">Tuoi Commenti<span class="badge"><c:out value="${numberReview}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
+                    <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberListPhotoNotification}"/> </span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Modifica Profilo</a></li>
                 </ul>
 
@@ -127,11 +177,16 @@
                                         <div class="col-md-10 comment-content">
                                             <h3 class="comment-title"><c:out value="${reviewContext.getReview().getName()}"></c:out></h3>
                                             <div class="row rating-stars">
-                                                <img src="img/star-full.png"/>
-                                                <img src="img/star-full.png"/>
-                                                <img src="img/star-full.png"/>
-                                                <img src="img/star-empty.png"/>
-                                                <img src="img/star-empty.png"/>
+                                                <c:forEach var="i" begin="1" end="5">
+                                                    <c:choose>
+                                                        <c:when test="${reviewContext.getReview().getGlobal_value()>=i}">
+                                                            <img src="img/star-full.png"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="img/star-empty.png"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
                                             </div>
 
                                             <p class="comment-text"><c:out value="${reviewContext.getReview().getDescription()}"></c:out> </p>
@@ -171,7 +226,7 @@
                                         <div class="row rating-stars">
                                             <c:forEach var="i" begin="1" end="5">
                                                 <c:choose>
-                                                    <c:when test="${restaurant.global_value>=i}">
+                                                    <c:when test="${restaurant.getGlobal_value()>=i}">
                                                         <img src="img/star-full.png"/>
                                                     </c:when>
                                                     <c:otherwise>
@@ -182,8 +237,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 restaurant-body">
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text">Via pasina-51, Riva del Garda, 38066, Trento</span></p>
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text">256</span></p>
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Descrizione: </span><span class="info-text"><c:out value="${restaurant.getDescription()}" /></span></p>
+                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getReviews_counter()}" /></span></p>
                                         <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
                                         <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
                                             <span class="label label-danger">Carne</span>
@@ -204,31 +259,66 @@
                     <!--MENU 3-->
                     <div id="menu3" class="tab-pane fade">
                         <br>
-                        <!-- Notifications -->
-                        <c:forEach items="${listNotification}" var="notification">
-                                <div class="alert alert-info notice restaurant" role="alert">
-                                    <div class ="row">
-                                        <a href="#">
-                                           &nbsp; <c:out value="${notification.getDescription()}"/>
-                                        </a>
-                                    </div>
-                                    <div class="row">
-                                        <div class ="col-md-10">
+                                                
+                        <!-- PhotoNotifications -->
+                        <h3>Nuove foto caricate sui tuoi ristoranti</h3>
+                        
+                        <div class="row container-fluid">
+                            <div class="box">
+                                <div class="box-inner">
+                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
+                                        <div class="alert alert-info notice restaurant" role="alert">
+                                            <div class ="row">
+                                                <a href="#">
+                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class="btn btn-primary resolveNotify" value="${photoNotification.getId()}">Non vedere più!</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class ="col-md-2">
-                                            <button type="button" class="btn btn-primary">
-                                                OK
-                                            </button>
-                                        </div>
-                                    </div>
+                                    </c:forEach>      
                                 </div>
-                        </c:forEach>                      
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        <!-- ReviewNotifications -->
+                        <h3>Nuove recensioni sui tuoi ristoranti</h3>
+                        <div class="row container-fluid">
+                            <div class="box">
+                                <div class="box-inner">
+                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
+                                        <div class="alert alert-info notice restaurant" role="alert">
+                                            <div class ="row">
+                                                <a href="#">
+                                                   &nbsp; Hanno caricato una nuova recensione sul tuo ristorante!
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class="btn btn-primary resolveNotify" value="${photoNotification.getId()}">Non vedere più!</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>      
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>          
                     
                     <!--MENU 4-->
                     <div id="menu4" class="tab-pane fade">
                         
-                        <div class="row">                                 
+                        <div class="row">       
+                            <FORM enctype='multipart/form-data' method='POST' action='ModifyProfileServlet'>
                             <ul class="list-group modifica restaurant">
                                 
                                 <li class="list-group-item">
@@ -236,7 +326,7 @@
                                         Nome
                                     </div>
                                     <div class='right'>
-                                        <input type="text" class="form-control" placeholder="${user.getName()}" aria-describedby="basic-addon1">
+                                        <input name="name" type="text" class="form-control" placeholder="${user.getName()}" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 
@@ -245,7 +335,7 @@
                                         Cognome
                                     </div>
                                     <div class='right'>
-                                        <input type="text" class="form-control" placeholder="${user.getSurname()}" aria-describedby="basic-addon1">
+                                        <input name="surname" type="text" class="form-control" placeholder="${user.getSurname()}" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 
@@ -263,7 +353,7 @@
                                         Password
                                     </div>
                                     <div class='right'>
-                                        <input type="text" class="form-control" placeholder="*******" aria-describedby="basic-addon1">
+                                        <input type="text" class="form-control" disabled placeholder="*******" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 
@@ -273,7 +363,7 @@
                                         <div class="input-group">
                                             <label class="input-group-btn">
                                                 <span class="btn btn-default">
-                                                    Cerca File&hellip; <input type="file" style="display: none;" multiple>
+                                                    Cerca File&hellip; <input name="avatar" type="file" style="display: none;" multiple>
                                                 </span>
                                             </label>
                                             <input type="text" class="form-control" readonly>
@@ -281,16 +371,16 @@
                                     </div>
                                 </li>
                                 
-                            </ul>   
-                        </div>
-                                    
-                        <br>
-                        
-                        <div class="row">
-                            <div class="right">
+                                <li class="list-group-item">
+                                    <div class="right">
                                 <p><button class="btn btn-primary" type="submit" role="button">Salva Modifiche</button></p>
                             </div>
+                                </li>
+                            </ul>   
+                           </form>
                         </div>
+                                    
+                        
                     </div>
                 </div>
             </div>           
@@ -300,4 +390,6 @@
        <%@include file="components/footer.html"%>
 
     </body>
+    
+
 </html>

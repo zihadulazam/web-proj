@@ -2,9 +2,9 @@
 package servlets;
 
 import database.DbManager;
-import database.Notification;
+import database.PhotoNotification;
 import database.Restaurant;
-import database.Review;
+import database.ReviewNotification;
 import database.User;
 import database.contexts.AttemptContext;
 import database.contexts.OwnUserContext;
@@ -51,79 +51,71 @@ public class ProfileServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/plain");
-        //prendo la sessione
-        HttpSession session = request.getSession();
-                
-        //prendo l'user della sessione
-        User user = (User)session.getAttribute("user");
-        //se non esiste una sessione aperta redirigo sulla pagina di login-->lo fa il filtro
-        //faccio cmq un controllo
-        if (user == null) {
-            // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            request.setAttribute("message", "Not LOGGED IN !");
-            //redirigo alla landingPage
-            RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");           
-            rd.forward(request, response);
-        }       
-
-        //prendo la tipologia di utente - magari servirà più avanti
-        int type = user.getType();
-
-        session.setAttribute("user", user);
-        
-        if (type==2){
-            //raccolgo dati per l'admin
-            ArrayList<AttemptContext> ristorantiAttesa = null;
-            ArrayList<ReplyContext> risposteConfermare = null;
-            ArrayList<PhotoContext> fotoSegnalate = null;
-            ArrayList<ReviewContext> reviewSegnalate = null;
+        try {
+            HttpSession session = request.getSession();
+            //User user = (User)session.getAttribute("user");
+            User user = null;
             
-            //provo a interrogare il DB per ottenere le info
-            try{                
+            user = manager.getUserById(1);
+            
+            if (user == null) {
+                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
+                request.setAttribute("message", "Not LOGGED IN !");
+                //redirigo alla landingPage
+                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);
+            }
+            int type = user.getType();
+            session.setAttribute("user", user);
+            if (type==2){
+                //raccolgo dati per l'admin
+                ArrayList<AttemptContext> ristorantiAttesa = null;
+                ArrayList<ReplyContext> risposteConfermare = null;
+                ArrayList<PhotoContext> fotoSegnalate = null;
+                ArrayList<ReviewContext> reviewSegnalate = null;
+                
+                //provo a interrogare il DB per ottenere le info                
                 ristorantiAttesa = manager.getRestaurantsRequests(5);
                 risposteConfermare = manager.getRepliesToBeConfirmed(5);
                 fotoSegnalate = manager.getReportedPhotos(5);
                 reviewSegnalate = manager.getReportedReviews(5);
-                System.out.println("foto: "+fotoSegnalate.size());
-            } catch (SQLException ex) {
-                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            request.setAttribute("ristorantiAttesa", ristorantiAttesa);
-            request.setAttribute("risposteConfermare", risposteConfermare);
-            request.setAttribute("fotoSegnalate", fotoSegnalate);
-            request.setAttribute("reviewSegnalate", reviewSegnalate);
-            
-            request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
-            
-        }else{
-            //raccolgo dati per utente
-            ArrayList<ReviewContext> listReview = null;
-            ArrayList<Notification> listNotification = null;
-            ArrayList<Restaurant> listRestaurants = null;
-            
-            OwnUserContext userContext = null;
-            
-            //provo a interrogare il DB per ottenere le info
-            try{                
+
+                response.setContentType("text/plain");
+                request.setAttribute("ristorantiAttesa", ristorantiAttesa);
+                request.setAttribute("risposteConfermare", risposteConfermare);
+                request.setAttribute("fotoSegnalate", fotoSegnalate);
+                request.setAttribute("reviewSegnalate", reviewSegnalate);
+
+                request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
+
+                
+            }else{
+                //raccolgo dati per utente
+                ArrayList<ReviewContext> listReview = null;
+                ArrayList<PhotoNotification> listPhotoNotification = null;
+                //ArrayList<ReviewNotification> listReviewNotification = null;
+                ArrayList<Restaurant> listRestaurants = null;
+                
+                OwnUserContext userContext = null;
+                
+                //provo a interrogare il DB per ottenere le info
                 userContext = manager.getUserContext(user.getId());
-                //listNotification = userContext.getNotification();
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
+                //listPhotoNotification = manager.getAllUserPhotoNotifications(type);
 
-            } catch (SQLException ex) {
-                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+                response.setContentType("text/plain");
+                request.setAttribute("listPhotoNotification", listPhotoNotification);
+                request.setAttribute("listReview", listReview);
+                request.setAttribute("numberReview", listReview.size());
+                request.setAttribute("listRestaurants", listRestaurants);
+                request.setAttribute("numberRestaurants", listRestaurants.size());                    
+                
+                request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
             }
-                  
-            request.setAttribute("listNotification", listNotification);
-            request.setAttribute("numberNotification", listNotification.size());
-            request.setAttribute("listReview", listReview);
-            request.setAttribute("numberReview", listReview.size());
-            request.setAttribute("listRestaurants", listRestaurants);
-            request.setAttribute("numberRestaurants", listRestaurants.size());       
-
-            request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
         
     }

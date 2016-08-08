@@ -190,6 +190,27 @@ and open the template in the editor.
         font-size: 14px;
 }
 .left {
-        text-align: left;
-        
+        text-align: left;       
+}
+
+.resolveNotify{
+    
+}
+
+.resolveNotify2{
+    
+}
+
+.box{
+    width:auto; height:auto;
+    background:url(boxbk.png) no-repeat top left;
+    padding:1px 0;
+    font-size:10px
+}
+
+.box-inner{
+    height: 740px;
+    overflow:auto;
+    margin:25px 24px 0; 
+    padding-right:2px
 }
