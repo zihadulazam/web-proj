@@ -1804,8 +1804,9 @@ public class DbManager implements Serializable
      * @param id_review Id della review target del like.
      * @param type Il tipo di like, deve essere 0(dislike) o 1(like).
      * @param id_user L'utente che ha fatto il like.
-     * @return True se il valore di like della review è cambiato, falso altrimenti.
-     * (potrebbe essere falso se un utente fa like ad una review a cui ha già fatto like)
+     * @return True se il valore di like della review è cambiato, falso se l'utente
+     * ha già fatto like a questa review, se la review non esiste o se l'utente
+     * sta tentando di fare like alla sua review.
      * @throws SQLException
      */
     public boolean addLike(int id_review, int type, int id_user) throws SQLException
@@ -1815,10 +1816,10 @@ public class DbManager implements Serializable
                 + "AND ID_REVIEW=? AND ID_CREATOR=?"))
         {
             Review review = getReviewById(id_review);
-            User creator = null;
-            //controllo se utente creatore e review esistono
-            if (review != null && (creator= getUserById(review.getId_creator()))!=null)
+            //controllo se review esiste e se l'utente che fa like nn è chi ha fatto la review
+            if (review != null && review.getId_creator()!=id_user)
             {
+                User creator= getUserById(review.getId_creator());
                 checkLikeExist.setInt(1, id_user);
                 checkLikeExist.setInt(2, id_review);
                 checkLikeExist.setInt(3, review.getId_creator());
@@ -1833,7 +1834,7 @@ public class DbManager implements Serializable
                         {
                             makeLike.setInt(1, id_user);
                             makeLike.setInt(2, id_review);
-                            makeLike.setInt(3, creator.getId());
+                            makeLike.setInt(3, review.getId_creator());
                             makeLike.setInt(4, type);
                             makeLike.setTimestamp(5, new Timestamp(Calendar.getInstance().getTime().getTime()));
                             makeLike.executeUpdate();
@@ -3521,11 +3522,12 @@ public class DbManager implements Serializable
                 else
                 {
                     try (PreparedStatement createSt = con.prepareStatement("INSERT "
-                            + "INTO USER_VOTES_ON_RESTAURANTS VALUES(?,?.?)"))
+                            + "INTO USER_VOTES_ON_RESTAURANTS VALUES(?,?,?)"))
                     {
                         createSt.setInt(1, id_user);
                         createSt.setInt(2, id_restaurant);
                         createSt.setTimestamp(3, now);
+                        createSt.executeUpdate();
                     }
                     res = true;
                 }
@@ -3549,25 +3551,30 @@ public class DbManager implements Serializable
      * @param id_restaurant Id del ristorante a cui è destinato il voto.
      * @return Un intero, che se è positivo rappresenta il nuovo voto del ristorante,
      * (che potrebbe comunque essere uguale a prima), se è 0 indica che il voto dell'utente
-     * non ha avuto alcun effetto perchè aveva votato prima di 24h ore fa.
+     * non ha avuto alcun effetto perchè aveva votato prima di 24h ore fa o perchè
+     * non esiste un ristorante con quell'id o perchè l'utente è il prorietario.
      * @throws SQLException 
      */
     public int addUserVoteOnRestaurant(int vote, int id_user, int id_restaurant) throws SQLException
     {
         int res=0;
+        Restaurant restaurant = getRestaurantById(id_restaurant);
+        if(restaurant==null || restaurant.getId_owner()==id_user)
+            return res;
         boolean canVote = addOrRefreshVote(id_user, id_restaurant);
         if (canVote)//se può votare xk nn ha mai votato o è più vecchio di 24h
         {
             try (PreparedStatement updateSt = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=?, "
                     + "VOTES_COUNTER=? WHERE ID=?"))
             {
-                Restaurant restaurant = getRestaurantById(id_restaurant);
+                restaurant = getRestaurantById(id_restaurant);
                 int newGlobal = ((restaurant.getReviews_counter() + restaurant.getVotes_counter()) * restaurant.getGlobal_value()
                         + vote) / (restaurant.getReviews_counter() + restaurant.getVotes_counter() + 1);
                 // (( (#rec+#voti)*media ) + valore_voto) /(#rec+#voti+1)
                 updateSt.setInt(1, newGlobal);
                 updateSt.setInt(2, restaurant.getVotes_counter() + 1);
                 updateSt.setInt(3, id_restaurant);
+                updateSt.executeUpdate();
                 res = newGlobal;
                 con.commit();
             }

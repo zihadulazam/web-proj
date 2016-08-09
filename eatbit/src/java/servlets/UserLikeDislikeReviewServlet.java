@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  * attraverso il metodo get vanno forniti l'id della review e il tipo di like.
  * Viene eseguito un controllo in sessione per vedere se esiste l'attributo
  * "user", perchè solo gli utenti registrati possono votare.
- * Ritorna in plaintext 1 se il valore dei like/dislike è cambiato, 0 altrimenti, 
- * in questo modo la pagina sà se deve cambiare valore del like/dislike (localmente);
- * ritorna -1 se non c'è un utente in sessione, che indica che l'utente non ha fatto
- * login.
+ * Ritorna in plaintext 1 se il valore dei like/dislike è cambiato, 0 se ci sono
+ * state eccezioni, -1 se manca un parametro o l'utente non ha fatto login, -2
+ * se l'utente ha già fatto like a questa review, se la review non esiste o se
+ * l'utente sta tentando di fare like ad una sua review.
  *
  * @author jacopo
  */
@@ -79,24 +79,30 @@ public class UserLikeDislikeReviewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             response.setContentType("text/plain");
-            User user = (User) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
-            if (user != null) {
-                int review_id = Integer.parseInt(request.getParameter("review_id"));
-                int like_type = Integer.parseInt(request.getParameter("like_type"));
+        try {
+            User user = (User) request.getSession().getAttribute("user");
+            String revString= request.getParameter("id_review");
+            String likeString= request.getParameter("like_type");
+            
+            if (user != null && revString!=null && likeString!=null)
+            {
+                int review_id = Integer.parseInt(revString);
+                int like_type = Integer.parseInt(likeString);
+                //se il like non è 0 o 1 lo setto come like
+                if(!(like_type==0 || like_type==1))
+                    like_type=1;
                 boolean res= manager.addLike(review_id, like_type, user.getId());
-                out.write(Integer.toString(res?1:0));
+                out.write(Integer.toString(res?1:-2));
                 //like_type: 0 per dislike, 1 per like
             }
             else
                 out.write("-1");
-            out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(UserLikeDislikeReviewServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

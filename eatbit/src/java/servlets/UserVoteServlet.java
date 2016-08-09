@@ -26,10 +26,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet per permettere ad un utente di votare un ristorante (da 1 a 5) senza
  * fare una recensione.
- * Ritorna un intero maggiore di 0 se il voto dell'utente ha avuto effetto, questo
- * numero rappresenta il nuovo valore del voto; ritorna 0 se l'utente non poteva
- * votare perchè ha votato lo stesso ristorante meno di 24h ore fa, ritorna -1
- * se l'utente non ha fatto login (non c'è User in session).
+ * Ritorna 1 se il voto dell'utente ha avuto effetto ritorna 0 se c'è stata una eccezione o
+ * non esiste un ristorante con quell'id, ritorna -1 se l'utente non ha fatto login 
+ * (non c'è User in session) o se manca un parametro, -2 se l'utente non poteva
+ * votare xk ha già votato o fatto una recensione meno di 24h fa o se il ristorante
+ * con quell'id non esiste o se è il proprietario del ristorante.
+ * parametri:
+ * vote 
+ * id_restaurant
  *
  * @author jacopo
  */
@@ -55,23 +59,25 @@ public class UserVoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
             User user = (User) request.getSession().getAttribute("user");
-            if (user != null) {
-                int id_rest = Integer.parseInt(request.getParameter("id_restaurant"));
-                int voto = Integer.parseInt(request.getParameter("vote"));
+            String voteString= request.getParameter("vote");
+            String restString= request.getParameter("id_restaurant");
+            if (user != null && voteString!=null && restString!=null) {
+                int id_rest = Integer.parseInt(restString);
+                int voto = Integer.parseInt(voteString);
                 voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 
                 voto = max(voto, 1);
-                out.write(Integer.toString(manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest)));
+                out.write(manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest)>0?"1":"-2");
             }
             else
                 out.write("-1");
             out.flush();
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(UserVoteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 
