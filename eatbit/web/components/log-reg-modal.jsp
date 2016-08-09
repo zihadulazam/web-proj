@@ -18,7 +18,7 @@
                                     <!-- da verifivare id emailor Nickname -->
                                     <div class="form-group">
                                         <label for="emailorNickname">Email o Nickname:</label>
-                                        <input id="emailorNickname" class="form-control" type="text" placeholder="Email o Nickname" name="emailorNickname">
+                                        <input id="emailorNickname" class="form-control" type="text" placeholder="Email o Nickname" name="emailOrNickname">
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Password:</label>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password:</label> 
-                                    <input id="regPassword" class="form-control" type="password" placeholder="Password" name="regPassword">
+                                    <input id="regPassword" class="form-control" type="password" placeholder="Password" name="password">
                                 </div>
                                 <div class="form-group">
                                     <label for="password_confirmation">Ripeti Password:</label> 

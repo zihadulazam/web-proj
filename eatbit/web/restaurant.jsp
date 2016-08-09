@@ -39,15 +39,15 @@
         <!-- Main Content -->
         <div class="container">
             <div class="row" id="header">
-                <div class="col-xs-12 col-md-12"  id="restaurant-name">
-                    <h1><img src="img/restaurant/name.png"/> <c:out value="${restaurant_context.getRestaurant().getName()}"/></h1> 
+                <div class="col-xs-12 col-md-12"  >
+                    
                     <hr/> 
                 </div>
             </div>
             
             <div class="row">
-                <div class="col-xs-12 col-md-4">
-                    <p id="restaurant-profile-pic-p"><img src="img/restaurant-default.png" alt="immagine profilo" class="img-thumbnail" id="restaurant-profile-pic"/></p>
+                <div class="col-xs-12 col-md-4" id="restaurant-name">
+                    <h1><img src="img/restaurant/name.png"/> <c:out value="${restaurant_context.getRestaurant().getName()}"/></h1> 
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div class="informazioni">
@@ -65,7 +65,7 @@
                         </div>
                         <p>(<c:out value="${restaurant_context.getRestaurant().getReviews_counter()}"/> recensioni)</p>
                         <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <c:out value="${restaurant_context.getCoordinate().getAddress()}"/>, <c:out value="${restaurant_context.getCoordinate().getCity()}"/>, <c:out value="${restaurant_context.getCoordinate().getState()}"/></p>
-                        <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <c:out value="${restaurant_context.getRestaurant().getWeb_site_url()}"/></p>
+                        <!--<p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> <c:out value="${restaurant_context.getRestaurant().getWeb_site_url()}"/></p>-->
                         <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${restaurant_context.getRestaurant().getWeb_site_url()}"/>" target="_blank"> Sito Web</a></p>
                         <p id="tipi-di-cucina">
                             <c:forEach var="tipocucine" items="${restaurant_context.getCuisines()}">
@@ -222,8 +222,15 @@
                         </div>
                         <div class="form-group">
                             <br/>
-                            <label class="rating-lb" for="comment">Foto:</label>
-                            <input type="file" accept="image/*">
+                            <label class="rating-lb" for="comment">Photo:</label>
+                            <div class="input-group">
+                                <label class="input-group-btn">
+                                    <span class="btn btn-default">
+                                        Cerca Photo&hellip; <input name="photo" id="AddRecensione-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
+                                    </span>
+                                </label>
+                                <input type="text" id="AddRecensione-cerca-photo-name" class="form-control" readonly>
+                            </div>
                             <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
                         </div>
                     </form>
@@ -233,11 +240,18 @@
                 <div class="well">
                     <form>
                         <div class="row">
-                            <div class="col-md-10">
-                                <input type="file">
+                            <div class="col-md-10" id="AddFoto-FileInput">
+                                <div class="input-group">
+                                    <label class="input-group-btn">
+                                        <span class="btn btn-default">
+                                            Cerca Photo&hellip; <input name="photo" id="AddFoto-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
+                                        </span>
+                                    </label>
+                                    <input type="text" id="AddFoto-cerca-photo-name" class="form-control" readonly>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <button id="btn-upload" type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Carica</button>
+                            <div class="col-md-2" id="btn-upload">
+                                <button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Carica</button>
                             </div>
                         </div>
                     </form>
@@ -315,7 +329,6 @@
                                                         <div class="col-md-12">
                                                             <button type="button" class="btn btn-danger btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
                                                             <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
-                                                            <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="#"> Nome del Ristorante</a></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -355,32 +368,52 @@
                 </div>
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <div class="row rating-stars" id="cibo-stars">
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-empty.png"/>
-                        <img src="img/star-empty.png"/>
+                        <c:forEach var="i" begin="1" end="5">
+                            <c:choose>
+                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                    <img src="img/star-full.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="img/star-empty.png"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </div>
                     <div class="row rating-stars" id="servizio-stars">
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-empty.png"/>
-                        <img src="img/star-empty.png"/>
+                        <c:forEach var="i" begin="1" end="5">
+                            <c:choose>
+                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                    <img src="img/star-full.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="img/star-empty.png"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </div>
                     <div class="row rating-stars" id="atmosfera-stars">
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-empty.png"/>
-                        <img src="img/star-empty.png"/>
+                        <c:forEach var="i" begin="1" end="5">
+                            <c:choose>
+                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                    <img src="img/star-full.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="img/star-empty.png"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </div>
                     <div class="row rating-stars" id="prezzo-stars">
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-full.png"/>
-                        <img src="img/star-empty.png"/>
-                        <img src="img/star-empty.png"/>
+                        <c:forEach var="i" begin="1" end="5">
+                            <c:choose>
+                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                    <img src="img/star-full.png"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="img/star-empty.png"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -391,8 +424,9 @@
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <p class="tipi-di-cucina">
-                        <span class="label label-primary">Carne</span>
-                        <span class="label label-primary">Pesce</span>
+                        <c:forEach var="tipocucine" items="${restaurant_context.getCuisines()}">
+                            <span class="label label-primary"><c:out value="${tipocucine}"/></span>
+                        </c:forEach>
                     </p>
                 </div>
             </div>
@@ -411,23 +445,10 @@
                     <p>Domenica</p>
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p><hr/>
-                    <p>11:00-15:00</p>
+                    <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
+                        <p><c:out value="${ore.getStart_hour()}"/> - <c:out value="${ore.getEnd_hour()}"/></p><hr/>
+                    </c:forEach>
                 </div>
-                <!--<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <p>-----------</p><hr/>
-                    <p>18:00-00:00</p><hr/>
-                    <p>18:00-00:00</p><hr/>
-                    <p>18:00-00:00</p><hr/>
-                    <p>18:00-00:00</p><hr/>
-                    <p>18:00-00:00</p><hr/>
-                    <p>18:00-00:00</p>
-                </div>-->
             </div>
             <hr/>
             <div class="row" id="qr-code">

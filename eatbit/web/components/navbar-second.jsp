@@ -58,8 +58,8 @@
                 </c:when>
                 <c:otherwise>
                     <!-- scheda profilo-->
-                    <div class="nav navbar-nav navbar-right" id="logged">
-                        <div class="dropdown">
+                    <ul class="nav navbar-nav navbar-right" id="logged">
+                        <li class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span>
                                 <%= user.getNickname() %>
@@ -79,8 +79,29 @@
                                 <li role="separator" class="divider"></li>
                                 <li><a href="" onclick="logoutAjax();"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
                             </ul>
-                        </div>
-                    </div> 
+                        </li>
+                        <li class="dropdown" id="notification">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                <span class="caret"></span>
+                            </button>
+                            <span class="badge badge-notify">3</span>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <li>
+                                    <span class="glyphicon glyphicon-remove-sign text-danger" aria-hidden="true"></span>
+                                    Una foto e' stato segnalato.
+                                    <div class="data"><span >-11/05/2009 10:33</span></div>
+                                </li>
+                                <li>
+                                    <span class="glyphicon glyphicon-ok-sign text-success" aria-hidden="true"></span>
+                                    La tua foto e' stata aggiunta
+                                    <div class="data"><span >-11/05/2009 10:33</span></div>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="" onclick="" id="mostra-notifiche"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Mostra tutte...</a></li>
+                            </ul>
+                        </li>
+                    </ul> 
                 </c:otherwise>
             </c:choose>
             <!-- End login & profile button -->

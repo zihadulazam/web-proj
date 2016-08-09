@@ -5,6 +5,7 @@
     margin-bottom: 0px;
 }
 #restaurant-name{
+    margin-top: 10px; 
     img{
         height: 100px;
         width: auto;
@@ -141,7 +142,9 @@
 #recensione-title{
     width: 100%;
 }
-
+#AddFoto-FileInput{
+    margin-top: 5px; 
+}
 #btn-upload{
     text-align: right;
 }
@@ -151,6 +154,7 @@
     }
     #btn-upload{
         margin-top: 10px;
+        text-align: center;
     }
     #btn-pubblica{
         text-align: center;

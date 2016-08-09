@@ -103,36 +103,131 @@
   width: 80px;
   height: 80px;
 }
+/* line 101, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification {
+  margin-left: 5px;
+}
+/* line 103, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification button {
+  border-radius: 20px;
+}
+/* line 106, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification .badge-notify {
+  background: #3f51b5;
+  position: relative;
+  top: -12px;
+  left: -25px;
+}
+/* line 112, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification .dropdown-menu {
+  width: 400px;
+}
+/* line 114, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification .dropdown-menu li {
+  padding-left: 5px;
+  padding-top: 5px;
+}
+/* line 117, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification .dropdown-menu li .data {
+  text-align: right;
+  padding-right: 5px;
+  color: #999;
+}
+/* line 123, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification .dropdown-menu #mostra-notifiche {
+  text-align: center;
+}
 
 @media (max-width: 767px) {
-  /* line 106, ../scss/components/_navbar-default.scss */
+  /* line 133, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #fff;
+    color: #333;
   }
 
-  /* line 111, ../scss/components/_navbar-default.scss */
+  /* line 136, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-nav .open .dropdown-menu > li {
+    color: #333;
+  }
+  /* line 138, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-nav .open .dropdown-menu > li .data {
+    color: #bbb;
+  }
+
+  /* line 144, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .navbar-form {
     border-top: 0px;
   }
-  /* line 114, ../scss/components/_navbar-default.scss */
+  /* line 147, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .btn {
     width: 100%;
   }
-  /* line 118, ../scss/components/_navbar-default.scss */
+  /* line 151, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .btn {
     margin: 8px 0px;
   }
-  /* line 121, ../scss/components/_navbar-default.scss */
+  /* line 154, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .navbar-link {
     text-align: center;
   }
-  /* line 126, ../scss/components/_navbar-default.scss */
+  /* line 159, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #logged #notification {
+    color: #333;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 5px;
+  }
+  /* line 165, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #logged #notification button {
+    border-radius: 5px;
+  }
+  /* line 168, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #logged #notification .dropdown-menu {
+    width: auto;
+  }
+  /* line 171, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #logged #notification .badge-notify {
+    background: #3f51b5;
+    position: relative;
+    top: -25px;
+    left: 10px;
+  }
+  /* line 179, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse .dropdown-menu {
+    background-color: #fff;
+  }
+  /* line 181, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .dropdown-menu li {
     text-align: center;
+    color: #333 !important;
+  }
+}
+@media (max-width: 1020px) {
+  /* line 190, ../scss/components/_navbar-default.scss */
+  #locationRisto {
+    width: 100px;
+  }
+}
+@media (max-width: 895px) {
+  /* line 195, ../scss/components/_navbar-default.scss */
+  #nomeRisto {
+    width: 150px;
+  }
+}
+@media (max-width: 817px) {
+  /* line 200, ../scss/components/_navbar-default.scss */
+  #nomeRisto {
+    width: 100px;
+  }
+}
+@media (max-width: 767px) {
+  /* line 205, ../scss/components/_navbar-default.scss */
+  #locationRisto, #nomeRisto {
+    width: 100%;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 135, ../scss/components/_navbar-default.scss */
+  /* line 210, ../scss/components/_navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;

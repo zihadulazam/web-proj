@@ -67,6 +67,15 @@
     $("#prezzoValue").val($("#prezzoBar").slider("value"));
   });
   
+  //upload inputs
+  $(document).ready(function(){
+    $('#AddRecensione-cerca-photo').change(function(){
+        $('#AddRecensione-cerca-photo-name').val($(this).val());
+    });
+    $('#AddFoto-cerca-photo').change(function(){
+        $('#AddFoto-cerca-photo-name').val($(this).val());
+    });
+  });
   
   // Data Table JS
   $(document).ready(function() {

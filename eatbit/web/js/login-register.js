@@ -56,7 +56,7 @@ function loginAjax(){
         success:function(data, textStatus, jqXHR) 
         {
             //data: return data from server
-            if(data == "loggato"){
+            if(data == "1"){
                 //window.location.replace("/home");
                 // inserisci data nel nav bar
                 $('#loginModal').modal('hide');
@@ -83,24 +83,24 @@ function regAjax(){
     rformdata=$('#register-form').serializeArray();
     $.ajax(
     {
-        url : "../eatbit/RegisterServlet",
+        url : "../eatbit/RegisterUserServlet",
         type: "POST",
         data : rformdata,
         success:function(data, textStatus, jqXHR) 
         {
             //data: return data from server
-            if(data == "registrato"){
+            if(data == "1"){
                 //se reg andato a buon fine
                 showLoginForm();
-                $('.error').addClass('alert alert-success').html("<strong>Congratulazioni !!</strong> adesso sei un nostro utente, adesso <strong>Accedi</strong> per entrare nel tuo profilo.");     
+                $('.error').addClass('alert alert-success').html("<strong>Congratulazioni !!</strong> adesso sei un nostro utente. Conferma l'e-mail ed <strong>Accedi</strong> per entrare nel tuo profilo.");     
             } 
             else{
-                if(data=="errore-email")
+                if(data=="-2")
                 {
                     $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo indirizzo e-mail");     
                 }
                 else{
-                    if(data=="errore-nickname")
+                    if(data=="-3")
                     {
                         $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo nickname");    
                     }

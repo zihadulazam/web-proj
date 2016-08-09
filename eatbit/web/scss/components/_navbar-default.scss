@@ -98,13 +98,46 @@
                 }
             }
         }
+        #notification{
+            margin-left: 5px;
+            button{
+                border-radius: 20px;
+            }
+            .badge-notify{
+                background:$eatbit_blue;
+                position:relative;
+                top: -12px;
+                left: -25px;
+           }
+            .dropdown-menu{
+                width: 400px;
+                li{
+                    padding-left: 5px;
+                    padding-top: 5px;
+                    .data{
+                        text-align: right;
+                        padding-right: 5px;
+                        color: #999;
+                    }
+                }
+                #mostra-notifiche{
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 
 
 @media (max-width: 767px){
     .navbar-default .navbar-nav .open .dropdown-menu>li>a {
-        color: #fff;
+        color: #333;
+     }
+     .navbar-default .navbar-nav .open .dropdown-menu>li{
+         color: #333;
+         .data{
+             color:#bbb;
+         }
      }
      .navbar-default{
          .navbar-collapse{
@@ -122,15 +155,57 @@
                     text-align: center;
                 }
             }
+            #logged{
+                #notification{
+                    color: #333;
+                    margin-left: auto;
+                    margin-right: auto;
+                    width: 100%;
+                    margin-top: 5px;
+                    button{
+                        border-radius: 5px;
+                    }
+                    .dropdown-menu{
+                        width: auto;
+                    }
+                    .badge-notify{
+                        background:$eatbit_blue;
+                        position:relative;
+                        top:-25px;
+                        left: 10px;
+                   }
+                }
+            }
             .dropdown-menu{
+                background-color: #fff;
                 li{
                     text-align: center;
+                    color: #333 !important;
                 }
             }
          }
      }
 }
-
+@media (max-width: 1020px){
+   #locationRisto{
+       width: 100px;
+   }
+}
+@media (max-width: 895px){
+   #nomeRisto{
+       width: 150px;
+   }
+}
+@media (max-width: 817px){
+   #nomeRisto{
+       width: 100px;
+   }
+}
+@media (max-width: 767px){
+   #locationRisto, #nomeRisto{
+       width: 100%;
+   }
+}
 @media only screen and (max-width: 1200px) {
     .navbar {
         padding-left: 40px;
