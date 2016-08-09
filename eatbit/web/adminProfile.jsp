@@ -29,7 +29,7 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
         <link href="css/cssFooter.css" rel="stylesheet">
-        <link href="css/profile.css" rel="stylesheet">
+        <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
         
         <!-- google font link -->

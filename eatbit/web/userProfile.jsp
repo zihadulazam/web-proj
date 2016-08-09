@@ -148,9 +148,9 @@
             <div class="col-md-9">
                 <h2>Risorse Personali</h2>
                 <ul class="nav nav-pills restaurant">
-                    <li class="active"><a data-toggle="tab" href="#menu1">Tuoi Commenti<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
+                    <li class="active"><a data-toggle="tab" href="#menu1">Recensioni<span class="badge"><c:out value="${numberReview}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberListPhotoNotification}"/> </span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Modifica Profilo</a></li>
                 </ul>
 
@@ -216,44 +216,67 @@
 
                     <!--MENU 2-->
                     <div id="menu2" class="tab-pane fade">
-                        <c:forEach var="restaurant" items="${listRestaurants}">
-
-                            <div class="container-fluid restaurant">
-                                <div class="row container-fluid">
-                                    <div class="col-md-4 restaurant-title">
-                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                        <h4><c:out value="${restaurant.getName()}" /></h4>
-                                        <div class="row rating-stars">
-                                            <c:forEach var="i" begin="1" end="5">
-                                                <c:choose>
-                                                    <c:when test="${restaurant.getGlobal_value()>=i}">
-                                                        <img src="img/star-full.png"/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="img/star-empty.png"/>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
+                        
+                        <c:choose>                            
+                            <c:when test="${user.getType() == 1}">
+                                <div class="alert alert-info notice restaurant" role="alert">
+                                            <div class ="row">
+                                                <a href="#">
+                                                   &nbsp; Non sei ancora un utente Ristoratore! 
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class="btn btn-primary diventaRis">Carica un Ristorante!</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </c:when>
+                                
+                            <c:otherwise>                                
+                                <c:forEach var="restaurant" items="${listRestaurants}">
+                                    <div class="container-fluid restaurant">
+                                        <div class="row container-fluid">
+                                            <div class="col-md-4 restaurant-title">
+                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                <h4><c:out value="${restaurant.getName()}" /></h4>
+                                                <div class="row rating-stars">
+                                                    <c:forEach var="i" begin="1" end="5">
+                                                        <c:choose>
+                                                            <c:when test="${restaurant.getGlobal_value()>=i}">
+                                                                <img src="img/star-full.png"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="img/star-empty.png"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 restaurant-body">
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Descrizione: </span><span class="info-text"><c:out value="${restaurant.getDescription()}" /></span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getReviews_counter()}" /></span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                                    <span class="label label-danger">Carne</span>
+                                                    <span class="label label-danger">Pesce</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row container-fluid">
+                                            <!-- va qua url del ristorante -->
+                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
+                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-pencil" aria-hidden="true"></span> Modifica</button></div>
                                         </div>
                                     </div>
-                                    <div class="col-md-8 restaurant-body">
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Descrizione: </span><span class="info-text"><c:out value="${restaurant.getDescription()}" /></span></p>
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getReviews_counter()}" /></span></p>
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
-                                        <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
-                                            <span class="label label-danger">Carne</span>
-                                            <span class="label label-danger">Pesce</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row container-fluid">
-                                    <!-- va qua url del ristorante -->
-                                    <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                                    <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-pencil" aria-hidden="true"></span> Modifica</button></div>
-                                </div>
-                            </div>
 
-                        </c:forEach>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                        
+                        
                     </div>
 
                     <!--MENU 3-->
@@ -263,7 +286,7 @@
                         <!-- PhotoNotifications -->
                         <h3>Nuove foto caricate sui tuoi ristoranti</h3>
                         
-                        <div class="row container-fluid">
+                        <div class="row">
                             <div class="box">
                                 <div class="box-inner">
                                     <c:forEach items="${listPhotoNotification}" var="photoNotification">
@@ -289,29 +312,7 @@
                         <hr>
                         <!-- ReviewNotifications -->
                         <h3>Nuove recensioni sui tuoi ristoranti</h3>
-                        <div class="row container-fluid">
-                            <div class="box">
-                                <div class="box-inner">
-                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                        <div class="alert alert-info notice restaurant" role="alert">
-                                            <div class ="row">
-                                                <a href="#">
-                                                   &nbsp; Hanno caricato una nuova recensione sul tuo ristorante!
-                                                </a>
-                                            </div>
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">
-                                                    <button  class="btn btn-primary resolveNotify" value="${photoNotification.getId()}">Non vedere più!</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>      
-                                </div>
-                            </div>
-                        </div>
-                        
+
                     </div>          
                     
                     <!--MENU 4-->

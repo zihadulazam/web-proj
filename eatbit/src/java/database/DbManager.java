@@ -81,7 +81,7 @@ public class DbManager implements Serializable
                 st.setInt(7, 0);
                 st.setInt(8, 0);
                 st.setInt(9, 0);
-                st.setInt(10, 0);
+                st.setInt(10, 2);
                 st.setBoolean(11, false);
                 st.executeUpdate();
                 try (ResultSet rs = st.getGeneratedKeys())

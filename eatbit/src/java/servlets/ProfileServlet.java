@@ -53,10 +53,7 @@ public class ProfileServlet extends HttpServlet {
 
         try {
             HttpSession session = request.getSession();
-            //User user = (User)session.getAttribute("user");
-            User user = null;
-            
-            user = manager.getUserById(1);
+            User user = (User)session.getAttribute("user");           
             
             if (user == null) {
                 // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
@@ -102,10 +99,11 @@ public class ProfileServlet extends HttpServlet {
                 userContext = manager.getUserContext(user.getId());
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
-                //listPhotoNotification = manager.getAllUserPhotoNotifications(type);
+                listPhotoNotification = manager.getAllUserPhotoNotifications(type);
 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
+                request.setAttribute("numberListPhotoNotification", listPhotoNotification.size());
                 request.setAttribute("listReview", listReview);
                 request.setAttribute("numberReview", listReview.size());
                 request.setAttribute("listRestaurants", listRestaurants);
