@@ -54,7 +54,7 @@ public class ProfileServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");           
-            
+            manager.setUserToAdmin(user.getId());
             if (user == null) {
                 // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
                 request.setAttribute("message", "Not LOGGED IN !");
