@@ -8,6 +8,7 @@ package servlets;
 import database.DbManager;
 import database.HoursRange;
 import database.contexts.RestaurantContext;
+import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -59,10 +60,26 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+            int VotoTotaleCibo=0;
+            int VotoTotaleServizio=0;
+            int VotoTotaleAtmosfera=0;
+            int VotoTolatePrezzo=0;
         try {
             int id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
             RestaurantContext context= manager.getRestaurantContext(id_restaurant);
-           
+            
+            //Calcola Media Voto (cibo, servizio ..)
+            for(ReviewContext review: context.getReviewsContextsByNewest()){
+                VotoTotaleCibo+=review.getReview().getFood();
+                VotoTotaleServizio+=review.getReview().getService();
+                VotoTotaleAtmosfera+=review.getReview().getAtmosphere();
+                VotoTolatePrezzo+=review.getReview().getValue_for_money();
+            }
+            request.setAttribute("voto_per_cibo", (int)(VotoTotaleCibo/context.getReviewsContextsByNewest().size()));
+            request.setAttribute("voto_per_servizio", (int)(VotoTotaleServizio/context.getReviewsContextsByNewest().size()));
+            request.setAttribute("voto_per_atmosfera", (int)(VotoTotaleAtmosfera/context.getReviewsContextsByNewest().size()));
+            request.setAttribute("voto_per_prezzo", (int)(VotoTolatePrezzo/context.getReviewsContextsByNewest().size()));
+            
             //GENERAZIONE QR
             String qrContent="";
             String qrUrl;//il risultato finale
