@@ -1,5 +1,33 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.io.*,java.util.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%
+   Date dNow = new Date( );
+   SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");
+   SimpleDateFormat fd = new SimpleDateFormat ("E");
+   SimpleDateFormat ft = new SimpleDateFormat ("HH:mm");
+   int numDay=0;
+   switch(fd.format(dNow)){
+    case "lun": numDay=1;
+    break;
+    case "mar": numDay=2;
+    break;
+    case "mer": numDay=3;
+    break;
+    case "gio": numDay=4;
+    break;
+    case "ven": numDay=5;
+    break;
+    case "sab": numDay=6;
+    break;
+    case "dom": numDay=7;
+   }
+   pageContext.setAttribute("Today", fdate.format(dNow));
+   pageContext.setAttribute("NowDay", numDay);
+   pageContext.setAttribute("NowTime", ft.format(dNow));
+%>
 <html lang="it">
     <head>
         <title>eatBit | <c:out value="${restaurant_context.getRestaurant().getName()}"/></title>
@@ -37,14 +65,7 @@
         <%@include file="components/navbar-second.jsp"%>
         
         <!-- Main Content -->
-        <div class="container">
-            <div class="row" id="header">
-                <div class="col-xs-12 col-md-12"  >
-                    
-                    <hr/> 
-                </div>
-            </div>
-            
+        <div class="container" id="header">
             <div class="row">
                 <div class="col-xs-12 col-md-4" id="restaurant-name">
                     <h1><img src="img/restaurant/name.png"/> <c:out value="${restaurant_context.getRestaurant().getName()}"/></h1> 
@@ -77,10 +98,20 @@
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
                         <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): <c:out value="${restaurant_context.getCityPosition()}"/></p>
-                        <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi</p>
-                        <p>11:00-15:00</p>
-                        <p>18:00-00:00</p>
-                        <p id="info-apertura"><span class="label label-success">Ora Aperto</span></p>
+                        <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi:</p>
+                        <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
+                            <c:if test="${NowDay==ore.getDay()}">
+                                  <p><c:out value="${ore.getStart_hour()}"/> - <c:out value="${ore.getEnd_hour()}"/></p>
+                                  <c:choose>
+                                      <c:when test="${ore.getStart_hour()<=NowTime && ore.getEnd_hour()>=NowTime}">
+                                          <p id="info-apertura"><span class="label label-success">Ora Aperto</span></p>
+                                      </c:when>
+                                      <c:otherwise>
+                                          <p id="info-apertura"><span class="label label-danger">Chiuso</span></p>
+                                      </c:otherwise>
+                                  </c:choose>
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -268,7 +299,7 @@
                 </thead>
                 <tfoot></tfoot>
                 <tbody>
-                    <c:forEach var="i" begin="1" end="7">
+                    <c:forEach var="allComments" items="${restaurant_context.getReviewsContextsByNewest()}">
                         <tr>
                             <td>
                                 <div class="comment">
@@ -276,53 +307,61 @@
                                         <div class="row container-fluid">
                                             <div class="col-md-2 comment-writer">
                                                 <img src="img/avater/avater.png" class="img-circle"/>
-                                                <h5>Nickname</h5>
+                                                <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                 <p class="comment-data">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    10 Nov 2015 10:30
+                                                    <c:out value="${allComments.getReview().getDate_creation()}" />
                                                 </p>
-                                                <a class="thumbnail" href="img/02.jpg" data-lightbox="example-<c:out value="${i}"/>">
-                                                    <img src="img/02.jpg">
-                                                </a>
-                                                <div class="text-center">
-                                                    <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" title="Segnala Photo"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
-                                                </div>
+                                                <c:if test="${allComments.getPhoto()!=null}">
+                                                    <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
+                                                        <img src="<c:out value="${allComments.getPhoto().getPath()}" />">
+                                                    </a>
+                                                    <div class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${allComments.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                    </div>
+                                                </c:if>
                                             </div>
                                             <div class="col-md-10 comment-content">
                                                 <p>
-                                                    <button type="button" class="btn btn-danger btn-segnala-review" title="Segnala Recensione"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
-                                                    <h3 class="comment-title">Titolo Commento <c:out value="${i}"/></h3>
+                                                    <button type="button" class="btn btn-danger btn-segnala-review" id="<c:out value="${allComments.getReview().getId()}" />" title="Segnala Recensione" onclick="segnalaReview(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                    <h3 class="comment-title"><c:out value="${allComments.getReview().getName()}" /></h3>
                                                 </p>
                                                 <div class="row rating-stars">
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-empty.png"/>
-                                                    <img src="img/star-empty.png"/>
+                                                    <c:forEach var="i" begin="1" end="5">
+                                                        <c:choose>
+                                                            <c:when test="${allComments.getReview().getGlobal_value()>=i}">
+                                                                <img src="img/star-full.png"/>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="img/star-empty.png"/>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
                                                 </div>
                                                 
-                                                <p class="comment-text">Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. </p>
+                                                <p class="comment-text"><c:out value="${allComments.getReview().getDescription()}" /> </p>
                                                 
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-md-2">
-                                                        </div>
-                                                        <div class="col-md-10">
-                                                            <div class="container-fluid risposta-admin">
-                                                                <div class="row">
-                                                                    <div class="col-md-2">
-                                                                        <p class="lb"><label>Risposta:</label></p>
-                                                                    </div>
-                                                                    <div class="col-md-10">
-                                                                        <p class="risposta-text">"Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione."</p>
-                                                                        <p class="risposta-autore">Da: Admin</p>
-                                                                        <p class="risposta-date">15 Nov 2015 16:31</p>
+                                                <c:if test="${allComments.getReply()!=null}">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-10">
+                                                                <div class="container-fluid risposta-admin">
+                                                                    <div class="row">
+                                                                        <div class="col-md-2">
+                                                                            <p class="lb"><label>Risposta:</label></p>
+                                                                        </div>
+                                                                        <div class="col-md-10">
+                                                                            <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
+                                                                            <p class="risposta-autore">Da: Admin</p>
+                                                                            <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </c:if>
                                                 
                                                 <div class="container-fluid">
                                                     <div class="row">
@@ -370,7 +409,7 @@
                     <div class="row rating-stars" id="cibo-stars">
                         <c:forEach var="i" begin="1" end="5">
                             <c:choose>
-                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                <c:when test="${voto_per_cibo>=i}">
                                     <img src="img/star-full.png"/>
                                 </c:when>
                                 <c:otherwise>
@@ -382,7 +421,7 @@
                     <div class="row rating-stars" id="servizio-stars">
                         <c:forEach var="i" begin="1" end="5">
                             <c:choose>
-                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                <c:when test="${voto_per_servizio>=i}">
                                     <img src="img/star-full.png"/>
                                 </c:when>
                                 <c:otherwise>
@@ -394,7 +433,7 @@
                     <div class="row rating-stars" id="atmosfera-stars">
                         <c:forEach var="i" begin="1" end="5">
                             <c:choose>
-                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                <c:when test="${voto_per_atmosfera>=i}">
                                     <img src="img/star-full.png"/>
                                 </c:when>
                                 <c:otherwise>
@@ -406,7 +445,7 @@
                     <div class="row rating-stars" id="prezzo-stars">
                         <c:forEach var="i" begin="1" end="5">
                             <c:choose>
-                                <c:when test="${restaurant_context.getRestaurant().getGlobal_value()>=i}">
+                                <c:when test="${voto_per_prezzo>=i}">
                                     <img src="img/star-full.png"/>
                                 </c:when>
                                 <c:otherwise>

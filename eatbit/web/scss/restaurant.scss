@@ -1,8 +1,8 @@
 @import "components/colors.scss";
 
 #header{
-    margin-top: 10px;
-    margin-bottom: 0px;
+    margin-top: 40px;
+    margin-bottom: 30px;
 }
 #restaurant-name{
     margin-top: 10px; 
@@ -17,6 +17,7 @@
         margin-top: 0px;
         margin-bottom: 5px;
         font-family: 'Raleway', sans-serif;
+        font-size: 50px;
         color:#555;
         font-size: 40px;
         @media (max-width: 500px){
@@ -55,7 +56,7 @@
     #bold{
         font-weight: bold;
         color: darken(#428bca, 6.5%);
-        margin-top: 70px;
+        margin-top: 30px;
     }
     #classifica{
         color: darken(#428bca, 6.5%);
@@ -64,8 +65,11 @@
     #info-apertura{
         font-size: 16px;
     }
+    p{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
     text-align: right;
-    line-height: 10px;
 }
 @media (max-width: 991px){
     #informazioni-orario{
