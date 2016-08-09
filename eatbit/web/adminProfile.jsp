@@ -65,9 +65,7 @@
                             <%= user.getName()%> <%= user.getSurname()%>  </p>
                             <p><b>Email:</b>
                             <br> <%= user.getEmail()%>  </p>
-                            <p><b>Nuove Notifiche:</b>
-                            <br><c:out value="${numberReview}"/> </p>
-
+                            
 
                             <div class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
@@ -90,42 +88,47 @@
         <div class="col-md-9">
             <h2>Profilo Privato</h2>
             <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${numberNotification}"/> </span></a></li>
+                <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${nRA}"/></span></a></li>
+                <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${nRC}"/></span></a></li>
+                <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${nFS+nRS}"/> </span></a></li>
                 <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
             </ul>
 
         <div class="tab-content">            
             <div id="menu1" class="tab-pane fade in active">
-                <!--Reviews-->
+                <!--RistorantiAttesa-->
                 <br>
-                <c:forEach items="${listReview}" var="review">
-                    
-                    <a href="#" class="list-group-item">
-                      Data: <c:out value="${review.getDate_creation()}"/>
-                      
-                        <div class="panel panel-info">
-                            <div class="panel-heading"> 
-                                <c:out value="${review.getName()}"/>
-                            </div>
-                            <div class="panel-body">
-                                <c:out value="${review.getDescription()}"/><br>
-                                <h5>
-                                    Valutazioni:<br>
-                                    Globale - <c:out value="${review.getGlobal_value()}"/> Cibo - <c:out value="${review.getFood()}"/> Servizio - <c:out value="${review.getService()}"/> Atmosfera - <c:out value="${review.getAtmosphere()}"/>
-                                </h5>
-                            </div>
-                      </div>
-                    </a>
 
-                    <br>
+                <div class="row">
+                    <c:forEach items="${ristorantiAttesa}" var="rA">
+                        <div class="alert alert-info notice restaurant" role="alert">
+                            <div class ="row">
+                                <a href="#">
+                                    Nuovo Ristorante In attesa di essere confermato!
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class ="col-md-7">
+                                </div>
+                                <div class ="col-md-2">
+                                    <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Accept</button>
+                                </div>
+                                <div class="col-md-1">
 
-                </c:forEach>
+                                </div>
+                                <div class ="col-md-2">
+                                    <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Decline</button>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>      
+                </div>
+                            
+                </div>
               
-            </div>
+
               
-            <div id="home" class="tab-pane fade">
+            <div id="menu2" class="tab-pane fade">
     
               <div class="list-group">
                   <br>
