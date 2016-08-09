@@ -53,6 +53,16 @@ public class HoursRange implements Serializable
         this.end_hour = end_hour;
     }
     
+    public String getFormattedStart_hour()
+    {
+        return Integer.toString(start_hour.getHours())+":"+start_hour.getMinutes();
+    }
+    
+    public String getFormattedEnd_hour()
+    {
+        return Integer.toString(end_hour.getHours())+":"+end_hour.getMinutes();
+    }
+    
     public String getFormattedWeeklyHour()
     {
         String res;
