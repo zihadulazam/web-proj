@@ -25,7 +25,9 @@ import utility.IpFinder;
 
 /**
  *Servlet per mandare via email un token di cambio psw all'utente, risponderà
- * 1 se id e user corrispondono e se user è loggato in, 0 altrimenti.
+ * 1 in caso di successo,0 se non è stato possibile svolgere l'operazione a 
+ * causa di eccezioni,-1 se manca il parametro necessario (id_user) o non è loggato
+ * , -2 se id fornito non corrisponde all'id di User nella sessione.
  * @author jacopo
  */
 @WebServlet(name = "SendPswVerificationEmailServlet", urlPatterns =
@@ -58,18 +60,27 @@ public class SendPswVerificationEmailServlet extends HttpServlet
             response.setContentType("text/plain");
             PrintWriter out = response.getWriter();
             User user = (User) request.getSession().getAttribute("user");
-            if (stringId!=null && user!=null) {
+            if (stringId!=null && user!=null) 
+            {
                 int id= Integer.parseInt(stringId);
-                if (id==user.getId()) {
-                    sendPasswordVerificationEmail(id,user.getEmail());
-                    out.write("1");
-                } else {
-                    out.write("0");
+                if (id==user.getId()) 
+                {
+                    try
+                    {
+                        sendPasswordVerificationEmail(id,user.getEmail());
+                        out.write("1");
+                    }
+                    catch(ServletException | SocketException | UnknownHostException | MessagingException | SQLException ex)
+                    {
+                        Logger.getLogger(SendPswVerificationEmailServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                        out.write("0");
+                    }
                 }
-            
+                else 
+                    out.write("-2");
             }
             else
-                out.write("0");
+                out.write("-1");
     }
 
     /**
@@ -82,46 +93,49 @@ public class SendPswVerificationEmailServlet extends HttpServlet
         return "Short description";
     }// </editor-fold>
     
-    private void sendPasswordVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException
+    /**
+     * Manda una email ad un utente con un certo id.
+     * @param id Id dell'utente.
+     * @param email Email dell'utente.
+     * @throws ServletException
+     * @throws SocketException
+     * @throws UnknownHostException
+     * @throws MessagingException
+     * @throws SQLException 
+     */
+    private void sendPasswordVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException
     {
-        try {
             String token = manager.addToUsersToChangePassword(id);
             String jsp= "changePassword.jsp";
-            if (token != null) {
-                /*3 modi di avere ip: localhost, pubblico, ip locale
-                mando la mail con ip settato a localhost, la verifica funzionerà
-                solo dalla stessa macchina*/
-                String begin= "This is a password verification email sent from eatbit, to "
-                        + "change your account please visit this url:" + '\n';
-                String t1= "http://localhost:8084/eatbit/"
-                        + jsp
-                        +"?token="
-                        + token
-                        + "&id=" + Integer.toString(id);
-                
-                /*setta l'ip di questo computer nella mail, la verifica
-                funzionerà da pc diversi da questo, ma potrebbero esserci problemi
-                in caso di nat o network complicati*/
-                String t2= "http://"
-                        + IpFinder.getPublicIp()
-                        +":8084/eatbit/"
-                        + jsp
-                        + "?token="
-                        + token
-                        + "&id=" + Integer.toString(id);
-                //setta come ip da contattare l'ip locale della macchina
-                String t3= "http://"
-                        + IpFinder.getLocalIp()
-                        +":8084/eatbit/"
-                        + jsp
-                        + "?token="
-                        + token
-                        + "&id=" + Integer.toString(id);
-                EmailSender.sendEmail(email, begin+t3, "password change verification");
-            }
-        } catch (SQLException | MessagingException ex) {
-            Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex.toString());
-        }
+            /*3 modi di avere ip: localhost, pubblico, ip locale
+            mando la mail con ip settato a localhost, la verifica funzionerà
+            solo dalla stessa macchina*/
+            String begin= "This is a password verification email sent from eatbit, to "
+                    + "change your account please visit this url:" + '\n';
+            String t1= "http://localhost:8084/eatbit/"
+                    + jsp
+                    +"?token="
+                    + token
+                    + "&id=" + Integer.toString(id);
+
+            /*setta l'ip di questo computer nella mail, la verifica
+            funzionerà da pc diversi da questo, ma potrebbero esserci problemi
+            in caso di nat o network complicati*/
+            String t2= "http://"
+                    + IpFinder.getPublicIp()
+                    +":8084/eatbit/"
+                    + jsp
+                    + "?token="
+                    + token
+                    + "&id=" + Integer.toString(id);
+            //setta come ip da contattare l'ip locale della macchina
+            String t3= "http://"
+                    + IpFinder.getLocalIp()
+                    +":8084/eatbit/"
+                    + jsp
+                    + "?token="
+                    + token
+                    + "&id=" + Integer.toString(id);
+            EmailSender.sendEmail(email, begin+t3, "password change verification");
     }
 }

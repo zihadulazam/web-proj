@@ -52,7 +52,7 @@ public class GetRestaurantByIdServlet extends HttpServlet {
             response.getWriter().write(manager.getRestaurantById(id_restaurant).toJSONObject().toJSONString());
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(GetRestaurantByIdServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 
