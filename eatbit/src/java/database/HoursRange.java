@@ -7,6 +7,7 @@ package database;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Calendar;
 
 /**
  *
@@ -85,6 +86,5 @@ public class HoursRange implements Serializable
         return res+" "+ start_hour.getHours()+":"+start_hour.getMinutes()+" - "
                 +end_hour.getHours()+":"+end_hour.getMinutes();
     }
-    
 }
 
