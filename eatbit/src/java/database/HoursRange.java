@@ -55,12 +55,20 @@ public class HoursRange implements Serializable
     
     public String getFormattedStart_hour()
     {
-        return Integer.toString(start_hour.getHours())+":"+start_hour.getMinutes();
+        int resH=start_hour.getHours();
+        int resM=start_hour.getMinutes();
+        String stringH=(resH<10?("0"+resH):(""+resH));
+        String stringM=(resM<10?("0"+resM):(""+resM));
+        return stringH+":"+stringM;
     }
     
     public String getFormattedEnd_hour()
     {
-        return Integer.toString(end_hour.getHours())+":"+end_hour.getMinutes();
+        int resH=end_hour.getHours();
+        int resM=end_hour.getMinutes();
+        String stringH=(resH<10?("0"+resH):(""+resH));
+        String stringM=(resM<10?("0"+resM):(""+resM));
+        return stringH+":"+stringM;
     }
     
     public String getFormattedWeeklyHour()
@@ -93,8 +101,7 @@ public class HoursRange implements Serializable
                 res="UnknownDay";
                 break;
         }
-        return res+" "+ start_hour.getHours()+":"+start_hour.getMinutes()+" - "
-                +end_hour.getHours()+":"+end_hour.getMinutes();
+        return res+" "+ getFormattedStart_hour() + " - " + getFormattedEnd_hour();
     }
 }
 
