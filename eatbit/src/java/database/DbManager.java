@@ -146,10 +146,9 @@ public class DbManager implements Serializable
      */
     public void setUserToAdmin(int id_user) throws SQLException
     {
-        try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET USERTYPE=? WHERE ID=?"))
+        try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET USERTYPE=2 WHERE ID=?"))
         {
-            st.setInt(1, 2);
-            st.setInt(2, id_user);
+            st.setInt(1, id_user);
             st.executeUpdate();
             con.commit();
         }
@@ -2909,6 +2908,7 @@ public class DbManager implements Serializable
             st.setString(1, newName);
             st.setString(2, newSurname);
             st.setInt(3, id_user);
+            st.executeUpdate();
             con.commit();
         }
         catch (SQLException ex)
@@ -2932,6 +2932,7 @@ public class DbManager implements Serializable
         {
             st.setString(1, BCrypt.hashpw(password, BCrypt.gensalt()));
             st.setInt(2, id_user);
+            st.executeUpdate();
             con.commit();
         }
         catch (SQLException ex)

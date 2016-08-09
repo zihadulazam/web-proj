@@ -239,7 +239,6 @@ public class ModifyProfileServlet extends HttpServlet {
             super(msg);
         }
     }    
-}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
