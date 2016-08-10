@@ -7,7 +7,11 @@
 
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="database.contexts.AttemptContext"%>
+<%@page import="database.contexts.ReplyContext"%>
+<%@page import="database.contexts.PhotoContext"%>
+<%@page import="database.contexts.ReviewContext"%>
+<%@page import="database.Restaurant"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -44,6 +48,36 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
         
+        <script>
+            $(document).ready(function() {
+                $(".acceptRA").click(function(event) {
+                    var ID = $(this).val();
+                    var element = $(this);
+                    $.ajax(
+                    {
+                        url : "../eatbit/AcceptRestaurantRequestByAdminServlet",
+                        type: "POST",
+                        data : {ID:ID},
+                        success:function(data)  
+                        {
+                            //data: return data from server
+                            if(data == "1"){
+                                //window.location.replace("/home");
+                               (".RA").remove();
+                            }
+                            else{
+                                alert("Chiamata fallita!!!");            
+                            }
+                        },
+                       error: function() 
+                        {
+                            alert("Errore Server!!!");     
+                        }
+                             });
+                });
+             });
+        </script>
+        
     </head>
     <body>
         <!-- include navbar hear -->
@@ -55,7 +89,7 @@
             <div class="col-md-3">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="thumbnail">
+                        <div class="thumbnail restaurant">
                             <img src="img/administrator.png" alt="administrator user">
                             <div class="caption">
                                 <hr>
@@ -90,10 +124,10 @@
             <div class="col-md-9">
                 
                 <h2>Profilo Privato</h2>
-                <ul class="nav nav-pills">
-                    <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="10"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="10"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="10"/> </span></a></li>
+                <ul class="nav nav-pills restaurant">
+                    <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${nRA}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${nRC}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${nFS+nRS}"/> </span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
                 </ul>
 
@@ -103,32 +137,35 @@
 
                         <!--RistorantiAttesa-->
                         <br>
-                       
-                            <c:forEach items="${ristorantiAttesa}" var="rA">
-                                
-                                
-                                <div class="alert alert-info notice restaurant" role="alert">
-                                    <div class ="row">
-                                        <a href="#">
-                                            Nuovo Ristorante In attesa di essere confermato!
-                                        </a>
-                                    </div>
-                                    <div class="row">
-                                        <div class ="col-md-7">
-                                        </div>
-                                        <div class ="col-md-2">
-                                            <button  class="btn btn-primary " value="${rA.getId()}">Accept</button>
-                                        </div>
-                                        <div class="col-md-1">
+                        <c:forEach items="${ristorantiAttesa}" var="rA">
+                                                                
+                            <div class="alert alert-info notice restaurant" role="alert">
+                                <div class ="row">
+                                    <a href="#">
+                                        &nbsp; Nuovo Ristorante In attesa di essere confermato!
+                                    </a>
+                                    <br>
+                                    <hr>
 
-                                        </div>
-                                        <div class ="col-md-2">
-                                            <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Decline</button>
-                                        </div>
+                                    &nbsp; Descrizione Richiesta: <c:out value="${rA.getUsertextclaim()}"/>
+                                </div>
+                                <div class="row">
+                                    <div class ="col-md-7">
+                                    </div>
+                                    <div class ="col-md-2">
+                                        <button  class="btn btn-primary acceptRA RA" value="${rA.getRestaurant().getId()}">Accept</button>
+                                    </div>
+                                    <div class="col-md-1">
+
+                                    </div>
+                                    <div class ="col-md-2">
+                                        <button  class="btn btn-primary declineRA RA" value="${rA.getRestaurant().getId()}">Decline</button>
                                     </div>
                                 </div>
+                            </div>
                                 
-                            </c:forEach>      
+                        </c:forEach>
+                               
                         
 
                     </div>
@@ -152,7 +189,71 @@
                     <div id="menu4" class="tab-pane fade">
                         <div class="list-group">
                             <br>
-                            Menu4
+                            <div class="row">       
+                            <FORM enctype='multipart/form-data' method='POST' action='ModifyProfileServlet'>
+                            <ul class="list-group modifica restaurant">
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Nome
+                                    </div>
+                                    <div class='right'>
+                                        <input name="name" type="text" class="form-control" placeholder="${user.getName()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Cognome
+                                    </div>
+                                    <div class='right'>
+                                        <input name="surname" type="text" class="form-control" placeholder="${user.getSurname()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Email
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" disabled placeholder="${user.getEmail()}" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Password
+                                    </div>
+                                    <div class='right'>
+                                        <input type="text" class="form-control" disabled placeholder="*******" aria-describedby="basic-addon1">
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class='left'>
+                                        Cambia Avatar
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-default">
+                                                    Cerca File&hellip; <input name="avatar" type="file" style="display: none;" multiple>
+                                                </span>
+                                            </label>
+                                            <input type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <div class="right">
+                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Salva Modifiche</button></p>
+                                    </div>
+                                    <div class="right">
+                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Cambia Password</button></p>
+                                    </div>
+                                </li>
+                            </ul>   
+                           </form>
+                        </div>
                         </div>
                     </div>
 
