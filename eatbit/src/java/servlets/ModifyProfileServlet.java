@@ -43,7 +43,7 @@ public class ModifyProfileServlet extends HttpServlet {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName = getServletContext().getRealPath(config.getInitParameter("uploadDir")).replace("build/", "");
+        dirName = getServletContext().getRealPath(config.getInitParameter("uploadDir")).replace("build/", "").replace("build\\", "");
         if (dirName == null) 
           throw new ServletException("missing uploadDir parameter in web.xml for servlet ModifyProfileServlet");
     }
@@ -126,25 +126,26 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                 File f = multi.getFile(name); //file caricato
                 //cambio il nome del file per non avere collisioni
-                String photoPath = dirName+"/"+UUID.randomUUID().toString()+"."+getExtension(f.toString());
+                String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
+                String photoPath = dirName+"\\"+r;
                 File f2 = new File(photoPath);
                 f.renameTo(f2);
                 
                 try {
                     //CAMBIO FOTO UTENTE
-                    manager.modifyUserPhoto(user.getId(), photoPath);
+                    manager.modifyUserPhoto(user.getId(), "/img/avater/"+r);
                 } catch (SQLException ex) {
                     Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //stampo qualche parametro 
-                out.println("name: " + photoPath+" "+ ("img\\avater\\"+photoPath).replace("\\", "/"));
+                out.println("dirName: " + dirName);
                 out.println("originalFilename: " + originalFilename);                
                 out.println();
             }
             
             
             //forward della richiesta
-            response.sendRedirect(request.getHeader("referer"));    
+            //response.sendRedirect(request.getHeader("referer"));    
             
         }
     

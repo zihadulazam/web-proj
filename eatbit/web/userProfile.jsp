@@ -124,7 +124,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="thumbnail restaurant">
-                            <img src="img/avater/avater.png" alt="normal user">
+                            <img src="${user.getAvatar_path()}" alt="normal user">
                             <div class="caption">
                               <hr>
 
