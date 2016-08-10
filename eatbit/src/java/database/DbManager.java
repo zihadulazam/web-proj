@@ -1743,6 +1743,7 @@ public class DbManager implements Serializable
         {
             st.setString(1, photoPath);
             st.setInt(2, userId);
+            st.executeUpdate();
             con.commit();
         }
         catch (SQLException ex)

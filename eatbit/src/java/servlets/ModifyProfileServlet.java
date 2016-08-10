@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.regex.Pattern;
+import javax.servlet.ServletConfig;
 //import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -33,14 +34,18 @@ import java.util.regex.Pattern;
  */
 @WebServlet(name = "ModifyProfileServlet", urlPatterns = {"/ModifyProfileServlet"})
 public class ModifyProfileServlet extends HttpServlet {
-    
-    public String dirName;
+    private String dirName;
     private DbManager manager;
 
     @Override
-    public void init() throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
+        //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
+        dirName = getServletContext().getRealPath(config.getInitParameter("uploadDir")).replace("build/", "");
+        if (dirName == null) 
+          throw new ServletException("missing uploadDir parameter in web.xml for servlet ModifyProfileServlet");
     }
     
     
@@ -80,15 +85,15 @@ public class ModifyProfileServlet extends HttpServlet {
         
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avater";
         out.println(request.getSession().getServletContext());        
-        
         //String _path = getRelativePath("", strRealPath, strRealPath);
         out.println("str " + strRealPath);
-        dirName = strRealPath;
          // Use an advanced form of the constructor that specifies a character
             // encoding of the request (not of the file contents) and a file
             // rename policy.
-            MultipartRequest multi = new MultipartRequest(request, dirName, 10*1024*1024, "ISO-8859-1", new DefaultFileRenamePolicy());
-            out.println("PARAMS:");
+            MultipartRequest multi = new MultipartRequest(request,
+                    dirName, 
+                    10*1024*1024, "ISO-8859-1", 
+                    new DefaultFileRenamePolicy());
             //prendo i parametri passati dagli input.text
             Enumeration params = multi.getParameterNames();            
             //stampo parametri in caso di mancato forward
@@ -121,21 +126,18 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                 File f = multi.getFile(name); //file caricato
                 //cambio il nome del file per non avere collisioni
-                String fileName = UUID.randomUUID().toString()+"."+getExtension(filename);
-                String photoPath = f.getParent()+"\\"+filename;
+                String photoPath = dirName+"/"+UUID.randomUUID().toString()+"."+getExtension(f.toString());
                 File f2 = new File(photoPath);
-                f.renameTo(f2);     
+                f.renameTo(f2);
                 
                 try {
                     //CAMBIO FOTO UTENTE
-                    String tmp = ("img\\avater\\"+fileName).replace("\\", "/");
-                    manager.modifyUserPhoto(user.getId(), tmp);
-                    out.println("FOTO CAMBIATA");
+                    manager.modifyUserPhoto(user.getId(), photoPath);
                 } catch (SQLException ex) {
                     Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //stampo qualche parametro 
-                out.println("name: " + fileName+" "+ ("img\\avater\\"+fileName).replace("\\", "/"));
+                out.println("name: " + photoPath+" "+ ("img\\avater\\"+photoPath).replace("\\", "/"));
                 out.println("originalFilename: " + originalFilename);                
                 out.println();
             }
@@ -275,6 +277,5 @@ public class ModifyProfileServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }
