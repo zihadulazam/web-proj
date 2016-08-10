@@ -25,6 +25,8 @@
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
@@ -50,109 +52,116 @@
         
         <div class="container">
         
-        <div class="col-md-3">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="thumbnail">
-                        <img src="img/administrator.png" alt="administrator user">
-                        <div class="caption">
-                            <hr>
-                            <h3><%= user.getNickname() %></h3>
-                            <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
-                            <hr>
-                            <p><b>Tuo Nome:</b>
-                            <br>
-                            <%= user.getName()%> <%= user.getSurname()%>  </p>
-                            <p><b>Email:</b>
-                            <br> <%= user.getEmail()%>  </p>
-                            
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="thumbnail">
+                            <img src="img/administrator.png" alt="administrator user">
+                            <div class="caption">
+                                <hr>
+                                <h3><%= user.getNickname() %></h3>
+                                <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>
+                                <hr>
+                                <p><b>Tuo Nome:</b>
+                                <br>
+                                <%= user.getName()%> <%= user.getSurname()%>  </p>
+                                <p><b>Email:</b>
+                                <br> <%= user.getEmail()%>  </p>
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
-                                Altro <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Vedi tuoi Ristoranti</a></li>
-                                    <li><a href="#">Modifica dati Profilo</a></li>
 
-                                    <li class="divider"></li>
-                                    <li><a href="#">Log Out</a></li>
-                                </ul>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" >
+                                    Altro <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Vedi tuoi Ristoranti</a></li>
+                                        <li><a href="#">Modifica dati Profilo</a></li>
+
+                                        <li class="divider"></li>
+                                        <li><a href="#">Log Out</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>    
-        </div>
-                          
-        <div class="col-md-9">
-            <h2>Profilo Privato</h2>
-            <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${nRA}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${nRC}"/></span></a></li>
-                <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${nFS+nRS}"/> </span></a></li>
-                <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
-            </ul>
-
-        <div class="tab-content">            
-            <div id="menu1" class="tab-pane fade in active">
-                <!--RistorantiAttesa-->
-                <br>
-
-                <div class="row">
-                    <c:forEach items="${ristorantiAttesa}" var="rA">
-                        <div class="alert alert-info notice restaurant" role="alert">
-                            <div class ="row">
-                                <a href="#">
-                                    Nuovo Ristorante In attesa di essere confermato!
-                                </a>
-                            </div>
-                            <div class="row">
-                                <div class ="col-md-7">
-                                </div>
-                                <div class ="col-md-2">
-                                    <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Accept</button>
-                                </div>
-                                <div class="col-md-1">
-
-                                </div>
-                                <div class ="col-md-2">
-                                    <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Decline</button>
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>      
-                </div>
-                            
-                </div>
-              
-
-              
-            <div id="menu2" class="tab-pane fade">
-    
-              <div class="list-group">
-                  <br>
-                  <!-- Notifications -->
-                  <c:forEach items="${listNotification}" var="notification">
-                      
-                      <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            <c:out value="${notification.getDescription()}"/>
-                            <br>
-                        </h4>
-                        <p class="list-group-item-text">
-                            id = <c:out value="${notification.getId()}"/>
-                        </p>
-                      </a>
-                      
-                      <br>
-                      
-                  </c:forEach>
-  
-              </div>
+                </div>    
             </div>
-          </div>
+
+            <div class="col-md-9">
+                
+                <h2>Profilo Privato</h2>
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="10"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="10"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="10"/> </span></a></li>
+                    <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
+                </ul>
+
+                <div class="tab-content">     
+
+                    <div id="menu1" class="tab-pane fade in active">
+
+                        <!--RistorantiAttesa-->
+                        <br>
+                       
+                            <c:forEach items="${ristorantiAttesa}" var="rA">
+                                
+                                
+                                <div class="alert alert-info notice restaurant" role="alert">
+                                    <div class ="row">
+                                        <a href="#">
+                                            Nuovo Ristorante In attesa di essere confermato!
+                                        </a>
+                                    </div>
+                                    <div class="row">
+                                        <div class ="col-md-7">
+                                        </div>
+                                        <div class ="col-md-2">
+                                            <button  class="btn btn-primary " value="${rA.getId()}">Accept</button>
+                                        </div>
+                                        <div class="col-md-1">
+
+                                        </div>
+                                        <div class ="col-md-2">
+                                            <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Decline</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </c:forEach>      
+                        
+
+                    </div>
+
+
+
+                    <div id="menu2" class="tab-pane fade">
+                        <div class="list-group">
+                            <br>
+                            Menu2
+                        </div>
+                    </div>
+                    
+                    <div id="menu3" class="tab-pane fade">
+                        <div class="list-group">
+                            <br>
+                            Menu3
+                        </div>
+                    </div>
+                    
+                    <div id="menu4" class="tab-pane fade">
+                        <div class="list-group">
+                            <br>
+                            Menu4
+                        </div>
+                    </div>
+
+                </div>        
+            </div>
         </div>
-       </div>
+       
+                
+        <!--footer-->
+        <%@include file="components/footer.html"%>
     </body>
 </html>

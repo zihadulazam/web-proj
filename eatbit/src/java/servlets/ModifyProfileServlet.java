@@ -77,9 +77,12 @@ public class ModifyProfileServlet extends HttpServlet {
         session.setAttribute("user", user);
         PrintWriter out = response.getWriter();
         //creo il realpath della directory di salvataggio avatar
+        
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avater";
         out.println(strRealPath);        
         
+        //String _path = getRelativePath("", strRealPath, strRealPath);
+        out.println("str " + strRealPath);
         dirName = strRealPath;
          // Use an advanced form of the constructor that specifies a character
             // encoding of the request (not of the file contents) and a file
@@ -101,12 +104,12 @@ public class ModifyProfileServlet extends HttpServlet {
             try {
                 //CAMBIO NOME COGNOME UTENTE e NICKNAME
                 manager.modifyUserNameSurname(user.getId(), _name, _surname);
-                out.println("superata modifica ");
+                out.println("superata modifica nome cognome ");
             } catch (SQLException ex) {
                 Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             }
             out.println();
-            out.println("avatar_path: " + user.getAvatar_path());
+            
             //stampo parametri del file caricato in caso di mancato forward
             out.println("FILE:");
             Enumeration files = multi.getFileNames();
@@ -118,28 +121,22 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                 File f = multi.getFile(name); //file caricato
                 //cambio il nome del file per non avere collisioni
-                String photoPath = f.getParent()+"\\"+UUID.randomUUID().toString()+"."+getExtension(filename);
+                String fileName = UUID.randomUUID().toString()+"."+getExtension(filename);
+                String photoPath = f.getParent()+"\\"+filename;
                 File f2 = new File(photoPath);
                 f.renameTo(f2);     
+                
                 try {
                     //CAMBIO FOTO UTENTE
-                    manager.modifyUserPhoto(user.getId(), photoPath);
-                    out.println("name: " + name);
+                    String tmp = ("img\\avater\\"+fileName).replace("\\", "/");
+                    manager.modifyUserPhoto(user.getId(), tmp);
+                    out.println("FOTO CAMBIATA");
                 } catch (SQLException ex) {
                     Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 //stampo qualche parametro 
-                out.println("name: " + name);
-                out.println("filename: " + filename);
-                out.println("originalFilename: " + originalFilename);
-                out.println("type: " + type);
-
-                if (f != null) {
-                    out.println("f.toString(): " + f.toString());
-                    out.println("f.getName(): " + f.getName());
-                    out.println("f.exists(): " + f.exists());
-                    out.println("f.length(): " + f.length());
-                }
+                out.println("name: " + fileName+" "+ ("img\\avater\\"+fileName).replace("\\", "/"));
+                out.println("originalFilename: " + originalFilename);                
                 out.println();
             }
             

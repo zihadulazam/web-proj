@@ -124,7 +124,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="thumbnail restaurant">
-                            <img src="${user.avatar_path}" alt="normal user">
+                            <img src="img/avater/avater.png" alt="normal user">
                             <div class="caption">
                               <hr>
 
@@ -138,7 +138,6 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${numberReview}"/> </p>
                               <hr>
-                              <p><button class="btn btn-primary" type="submit" role="button">Cambia Password</button></p>
                             </div>
                         </div>
                     </div>
@@ -149,7 +148,11 @@
                 <h2>Risorse Personali</h2>
                 <ul class="nav nav-pills restaurant">
                     <li class="active"><a data-toggle="tab" href="#menu1">Recensioni<span class="badge"><c:out value="${numberReview}"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberListPhotoNotification}"/> </span></a></li>
+                    <c:choose>                            
+                        <c:when test="${user.getType() == 1}">
+                            <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberListPhotoNotification}"/> </span></a></li>
+                        </c:when>
+                    </c:choose>
                     <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Modifica Profilo</a></li>
                 </ul>
@@ -160,65 +163,84 @@
                     <div id="menu1" class="tab-pane fade in active">
                         <!--Reviews-->
                         <br>
-
-                        <c:forEach var="reviewContext" items="${listReview}">
-                            <div class="comment">
-                                <!--primo commento -->                                                
-                                <div class="container-fluid">
-                                    <div class="row container-fluid">
-                                        <div class="col-md-2 comment-writer">
-                                            <img src="img/avater/avater.png" class="img-circle"/>
-                                            <h5>You</h5>
-                                            <p class="comment-data">
-                                                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                <c:out value="${reviewContext.getReview().getDate_creation()}"></c:out>
-                                            </p>
+                        <c:choose>                            
+                            <c:when test="${numberReview == 0}">
+                                <div class="alert alert-info notice mmm" role="alert">
+                                        <div class ="row">
+                                            <a href="#">
+                                               
+                                               &nbsp; Non hai ancora nessuna recensione!
+                                               <br>
+                                               <br>
+                                                &nbsp; Naviga e valuta i ristoranti di eatbit!
+                                                <br>                          
+                                            </a>
                                         </div>
-                                        <div class="col-md-10 comment-content">
-                                            <h3 class="comment-title"><c:out value="${reviewContext.getReview().getName()}"></c:out></h3>
-                                            <div class="row rating-stars">
-                                                <c:forEach var="i" begin="1" end="5">
-                                                    <c:choose>
-                                                        <c:when test="${reviewContext.getReview().getGlobal_value()>=i}">
-                                                            <img src="img/star-full.png"/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img src="img/star-empty.png"/>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                            </div>
-
-                                            <p class="comment-text"><c:out value="${reviewContext.getReview().getDescription()}"></c:out> </p>
-
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <div class="col-md-2"></div>
+                                    </div>
+                            </c:when>
+                            
+                            <c:otherwise>
+                                <c:forEach var="reviewContext" items="${listReview}">
+                                    <div class="comment">
+                                        <!--primo commento -->                                                
+                                        <div class="container-fluid">
+                                            <div class="row container-fluid">
+                                                <div class="col-md-2 comment-writer">
+                                                    <img src="img/avater/avater.png" class="img-circle"/>
+                                                    <h5>You</h5>
+                                                    <p class="comment-data">
+                                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                        <c:out value="${reviewContext.getReview().getDate_creation()}"></c:out>
+                                                    </p>
                                                 </div>
-                                            </div>
-
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <div class="col-md-6"> 
+                                                <div class="col-md-10 comment-content">
+                                                    <h3 class="comment-title"><c:out value="${reviewContext.getReview().getName()}"></c:out></h3>
+                                                    <div class="row rating-stars">
+                                                        <c:forEach var="i" begin="1" end="5">
+                                                            <c:choose>
+                                                                <c:when test="${reviewContext.getReview().getGlobal_value()>=i}">
+                                                                    <img src="img/star-full.png"/>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <img src="img/star-empty.png"/>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#"><c:out value="${reviewContext.getRestaurantName()}"></c:out></a></h4>
+
+                                                    <p class="comment-text"><c:out value="${reviewContext.getReview().getDescription()}"></c:out> </p>
+
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-2"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-6"> 
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#"><c:out value="${reviewContext.getRestaurantName()}"></c:out></a></h4>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                                                    
-                        </c:forEach>
+
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                     <!--MENU 2-->
                     <div id="menu2" class="tab-pane fade">
                         
                         <c:choose>                            
-                            <c:when test="${user.getType() == 1}">
+                            <c:when test="${user.getType() == 0}">
+                                
                                 <div class="alert alert-info notice restaurant" role="alert">
                                             <div class ="row">
                                                 <a href="#">
@@ -280,38 +302,59 @@
                     </div>
 
                     <!--MENU 3-->
-                    <div id="menu3" class="tab-pane fade">
-                        <br>
-                                                
-                        <!-- PhotoNotifications -->
-                        <h3>Nuove foto caricate sui tuoi ristoranti</h3>
-                        
-                        <div class="row">
-                            <div class="box">
-                                <div class="box-inner">
-                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                        <div class="alert alert-info notice restaurant" role="alert">
-                                            <div class ="row">
-                                                <a href="#">
-                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
-                                                </a>
+                    <div id="menu3" class="tab-pane fade">                                                                    
+
+                                
+                            <div class="col-md-6">
+                                <br>
+                                <!-- PhotoNotifications -->
+                                <h4>Nuove foto caricate sui tuoi ristoranti</h4>                           
+
+                                <c:forEach items="${listPhotoNotification}" var="photoNotification">
+                                    <div class="alert alert-info notice  not" role="alert">
+                                        <div class ="row">
+                                            <a href="#">
+                                               &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                            </a>
+                                        </div>
+                                        <div class="row">
+                                            <div class ="col-md-10">
                                             </div>
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">
-                                                    <button  class="btn btn-primary resolveNotify" value="${photoNotification.getId()}">Non vedere più!</button>
-                                                </div>
+                                            <div class ="col-md-2">
+                                                <button  class="btn btn-primary diventaRis" value="${photoNotification.getId()}">Non vedere più!</button>
                                             </div>
                                         </div>
-                                    </c:forEach>      
-                                </div>
+                                    </div>
+                                </c:forEach>      
+
+                            </div>                   
+
+                            <div class="col-md-6">
+                                <br>
+                                <!-- ReviewNotifications -->
+                                <h4>Nuove recensioni sui tuoi ristoranti</h4>                          
+
+                                <c:forEach items="${listPhotoNotification}" var="photoNotification">
+                                    <div class="alert alert-info notice restaurant not" role="alert">
+                                        <div class ="row">
+                                            <a href="#">
+                                               &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                            </a>
+                                        </div>
+                                        <div class="row">
+                                            <div class ="col-md-10">
+                                            </div>
+                                            <div class ="col-md-2">
+                                                <button  class="btn btn-primary diventaRis" value="${photoNotification.getId()}">Non vedere più!</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:forEach>  
                             </div>
-                        </div>
+                                
                         
-                        <hr>
-                        <!-- ReviewNotifications -->
-                        <h3>Nuove recensioni sui tuoi ristoranti</h3>
+
+                            
 
                     </div>          
                     
@@ -374,8 +417,11 @@
                                 
                                 <li class="list-group-item">
                                     <div class="right">
-                                <p><button class="btn btn-primary" type="submit" role="button">Salva Modifiche</button></p>
-                            </div>
+                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Salva Modifiche</button></p>
+                                    </div>
+                                    <div class="right">
+                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Cambia Password</button></p>
+                                    </div>
                                 </li>
                             </ul>   
                            </form>
@@ -391,6 +437,4 @@
        <%@include file="components/footer.html"%>
 
     </body>
-    
-
 </html>
