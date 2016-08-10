@@ -420,7 +420,7 @@
                                         <p><button class="btn btn-primary fixx" type="submit" role="button">Salva Modifiche</button></p>
                                     </div>
                                     <div class="right">
-                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Cambia Password</button></p>
+                                        <p><button class="btn btn-primary fixx" type="submit" role="button" onclick="">Cambia Password</button></p>
                                     </div>
                                 </li>
                             </ul>   

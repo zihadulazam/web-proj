@@ -79,9 +79,9 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
+            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
 
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
@@ -94,7 +94,7 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
                 out.flush();
             }
 
-        } catch (NumberFormatException ex) {
+        } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AcceptRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
         }
