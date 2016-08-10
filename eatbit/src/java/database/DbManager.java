@@ -1542,7 +1542,7 @@ public class DbManager implements Serializable
         if(getRestaurantById(getReviewById(reply.getId_review()).getId_restaurant()).getId_owner()!=reply.getId_owner())
             return false;
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPLIES(DESCRIPTION,DATE_CREATION,ID_REVIEW,ID_OWNER"
-                + ",DATE_VALIDATION,ID_VALIDATOR,VALIDATED) VALUES (?,?,?.?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                + ",DATE_VALIDATION,ID_VALIDATOR,VALIDATED) VALUES (?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
                 PreparedStatement st2 = con.prepareStatement("INSERT INTO REPLIES_TO_BE_CONFIRMED VALUES (?,?)"))
 
         {
@@ -1559,7 +1559,7 @@ public class DbManager implements Serializable
                 if (rs.next())
                 {
                     st2.setInt(1, rs.getInt(1));
-                    st2.setTimestamp(2, new Timestamp(Calendar.getInstance().getTime().getTime()));
+                    st2.setTimestamp(2, new Timestamp(System.currentTimeMillis() - (60 * 60 * 1000)));
                     st2.executeUpdate();
                     con.commit();
                 }
@@ -1804,14 +1804,15 @@ public class DbManager implements Serializable
      * @param id_review Id della review target del like.
      * @param type Il tipo di like, deve essere 0(dislike) o 1(like).
      * @param id_user L'utente che ha fatto il like.
-     * @return True se il valore di like della review è cambiato, falso se l'utente
-     * ha già fatto like a questa review, se la review non esiste o se l'utente
-     * sta tentando di fare like alla sua review.
+     * @return 2 se esisteva già un like e ha cambiato il suo valore,  1 se il like
+     * ha avto successo ed era la prima volta che faceva like a questa rev, -2 se l'utente
+     * ha già fatto 1 like uguale a questa review, se la review non esiste o se l'utente
+     * sta tentando di fare like alla sua review
      * @throws SQLException
      */
-    public boolean addLike(int id_review, int type, int id_user) throws SQLException
+    public int addLike(int id_review, int type, int id_user) throws SQLException
     {
-        boolean res = false;
+        int res= -2;
         try (PreparedStatement checkLikeExist = con.prepareStatement("SELECT * FROM USER_REVIEW_LIKES WHERE ID_USER=? "
                 + "AND ID_REVIEW=? AND ID_CREATOR=?"))
         {
@@ -1828,7 +1829,7 @@ public class DbManager implements Serializable
                     //se like non esiste lo metto io e aggiorno like del creatore review e review
                     if (!rs.next())
                     {
-                        res=true;//sto aggiungendo il like, quindi il valore cambia
+                        res=1;
                         try (PreparedStatement makeLike = con.prepareStatement("INSERT INTO"
                                 + " USER_REVIEW_LIKES VALUES(?,?,?,?,?)"))
                         {
@@ -1856,7 +1857,7 @@ public class DbManager implements Serializable
                         //esistente, non faccio niente se è uguale
                         if (type != rs.getInt("LIKE_TYPE"))
                         {
-                            res=true;//sto cambiando il like, quindi il valore cambia
+                            res=2;//sto cambiando il like, quindi il valore cambia
                             try (PreparedStatement changeLike = con.prepareStatement("UPDATE USER_REVIEW_LIKES "
                                     + "SET LIKE_TYPE=? WHERE ID_USER=? AND ID_REVIEW=? AND ID_CREATOR=?"))
                             {
@@ -2288,7 +2289,7 @@ public class DbManager implements Serializable
 
     /**
      * Metodo per permette all'admin di rimuovere una foto dalle foto reportate.
-     * @param id Id della foto.
+     * @param id_photo Id della foto.
      * @throws SQLException
      */
     public void unreportPhoto(int id_photo) throws SQLException
@@ -2432,7 +2433,6 @@ public class DbManager implements Serializable
             {
                 unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate
                 st.setInt(1, id_review);
-                st.executeUpdate();
                 try (PreparedStatement rm1 = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
                         + "*(REVIEWS_COUNTER+VOTES_COUNTER))-?)/(REVIEWS_COUNTER+VOTES_COUNTER-1),REVIEWS_COUNTER="
                         + "REVIEWS_COUNTER-1 WHERE ID=?");
@@ -2460,6 +2460,7 @@ public class DbManager implements Serializable
                     rm3.executeUpdate();
                     rm4.executeUpdate();
                     rm5.executeUpdate();
+                    st.executeUpdate();//la rimozione della review la faccio per ultima per rispettare costraints
                     //setto res e rimuovo foto della review
                     Photo photo= getPhotoById(review.getId_photo());
                     res= photo.getPath();
@@ -2605,13 +2606,9 @@ public class DbManager implements Serializable
                 st.setInt(1, id_user);
                 st.setInt(2, id_restaurant);
                 if (type == 1 || type == 2)//se è un claim o creazione+claim setto l'owner
-                {
                     valid.setInt(1, id_user);
-                }
                 else
-                {
                     valid.setInt(1, -1);
-                }
                 valid.setInt(2, id_restaurant);
                 updateUser.setInt(1, id_user);
                 st.executeUpdate();

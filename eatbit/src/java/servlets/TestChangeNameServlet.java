@@ -6,7 +6,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,29 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Permette all'admin di accettare la richiesta di creazione o possesso di un ristorante
- * fatta da parte di un utente.
- * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se c'è stata una
- * eccezione, -1 se l'utente (l'admin) non aveva effettuato il login o se non era un admin 
- * o se manca uno dei 2 parametri:
- * id_user: id dell'utente che fa la request
- * id_restaurant: restaurant relativo alla request.
+ *
  * @author jacopo
  */
-@WebServlet(name = "AcceptRestaurantRequestByAdminServlet", urlPatterns =
+@WebServlet(name = "TestChangeNameServlet", urlPatterns =
 {
-    "/AcceptRestaurantRequestByAdminServlet"
+    "/TestChangeNameServlet"
 })
-public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
+public class TestChangeNameServlet extends HttpServlet
 {
-    private DbManager manager;
+private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,17 +44,19 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");
+            out.println("<title>Servlet TestChangeNameServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TestChangeNameServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -79,27 +73,21 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-        try {
-            User user = (User) request.getSession().getAttribute("user");
-            String stringIdRequester= request.getParameter("id_user");
-            String stringIdRest= request.getParameter("id_restaurant");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringIdRequester!=null && stringIdRest!=null) {
-                
-                manager.acceptRestaurantRequest(
-                        Integer.parseInt(stringIdRequester),
-                        Integer.parseInt(stringIdRest));
-                out.write("1");
-            }
-            else
-                out.write("-1");
-        } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(AcceptRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            out.write("0");
+            throws ServletException, IOException
+    {
+        String stringId= request.getParameter("id_user");
+        String name= request.getParameter("name");
+        String surname= request.getParameter("surname");
+        try
+        {
+            manager.modifyUserNameSurname(Integer.parseInt(stringId), name, surname);
+            response.getWriter().write("1");
         }
+    catch (SQLException ex)
+    {
+        Logger.getLogger(TestChangeNameServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
     }
 
     /**
@@ -112,7 +100,8 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -122,7 +111,8 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.regex.Pattern;
-import org.apache.commons.io.FilenameUtils;
+//import org.apache.commons.io.FilenameUtils;
 
 /**
  *
@@ -158,11 +158,11 @@ public class ModifyProfileServlet extends HttpServlet {
     public static String getRelativePath(String targetPath, String basePath, String pathSeparator) {
 
         // Normalize the paths
-        String normalizedTargetPath = FilenameUtils.normalizeNoEndSeparator(targetPath);
-        String normalizedBasePath = FilenameUtils.normalizeNoEndSeparator(basePath);
+        String normalizedTargetPath="";// = FilenameUtils.normalizeNoEndSeparator(targetPath);
+        String normalizedBasePath="";// =//FilenameUtils.normalizeNoEndSeparator(basePath);
 
         // Undo the changes to the separators made by normalization
-        if (pathSeparator.equals("/")) {
+       /* if (pathSeparator.equals("/")) {
             normalizedTargetPath = FilenameUtils.separatorsToUnix(normalizedTargetPath);
             normalizedBasePath = FilenameUtils.separatorsToUnix(normalizedBasePath);
 
@@ -172,7 +172,7 @@ public class ModifyProfileServlet extends HttpServlet {
 
         } else {
             throw new IllegalArgumentException("Unrecognised dir separator '" + pathSeparator + "'");
-        }
+        }*/
 
         String[] base = normalizedBasePath.split(Pattern.quote(pathSeparator));
         String[] target = normalizedTargetPath.split(Pattern.quote(pathSeparator));
