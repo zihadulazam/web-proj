@@ -51,19 +51,19 @@
         <script>
             $(document).ready(function() {
                 $(".acceptRA").click(function(event) {
-                    var ID = $(this).val();
-                    var element = $(this);
+                    var RA_ID = $(this).val();
+                    var element = $(this).parent().parent();
                     $.ajax(
                     {
                         url : "../eatbit/AcceptRestaurantRequestByAdminServlet",
-                        type: "POST",
-                        data : {ID:ID},
+                        type: "GET",
+                        data : {RA_ID:RA_ID},
                         success:function(data)  
                         {
                             //data: return data from server
                             if(data == "1"){
                                 //window.location.replace("/home");
-                               (".RA").remove();
+                               element.remove();
                             }
                             else{
                                 alert("Chiamata fallita!!!");            
@@ -83,7 +83,7 @@
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
-        
+        <c:out value="${user.getType()}" />
         <div class="container">
         
             <div class="col-md-3">

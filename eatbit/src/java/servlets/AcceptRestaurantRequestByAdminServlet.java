@@ -81,16 +81,16 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
             response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
+
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
             if (user != null && user.getType()==2) {
-                manager.acceptRestaurantRequest(
-                        Integer.parseInt(request.getParameter("id_user")),
-                        Integer.parseInt(request.getParameter("id_restaurant")));
+                manager.acceptRestaurantRequest(user.getId(),Integer.parseInt(request.getParameter("RA_ID")));
                 out.write("1");
             }
-            else
+            else{
                 out.write("0");
-            out.flush();
+                out.flush();
+            }
                 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AcceptRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
