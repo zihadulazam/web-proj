@@ -7,7 +7,10 @@
 
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="database.contexts.AttemptContext"%>
+<%@page import="database.contexts.ReplyContext"%>
+<%@page import="database.contexts.PhotoContext"%>
+<%@page import="database.contexts.ReviewContext"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -103,32 +106,36 @@
 
                         <!--RistorantiAttesa-->
                         <br>
-                       
-                            <c:forEach items="${ristorantiAttesa}" var="rA">
+                        <c:forEach items="${ristorantiAttesa}" var="rA">
                                 
                                 
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
                                         <a href="#">
-                                            Nuovo Ristorante In attesa di essere confermato!
+                                            &nbsp; Nuovo Ristorante In attesa di essere confermato!
                                         </a>
+                                        <br>
+                                        <hr>
+                                        
+                                        &nbsp; Descrizione Richiesta: <c:out value="${rA.getUsertextclaim()}"/>
                                     </div>
                                     <div class="row">
                                         <div class ="col-md-7">
                                         </div>
                                         <div class ="col-md-2">
-                                            <button  class="btn btn-primary " value="${rA.getId()}">Accept</button>
+                                            <button  class="btn btn-primary " value="">Accept</button>
                                         </div>
                                         <div class="col-md-1">
 
                                         </div>
                                         <div class ="col-md-2">
-                                            <button  class="btn btn-primary resolveNotify" value="${rA.getId()}">Decline</button>
+                                            <button  class="btn btn-primary resolveNotify" value="">Decline</button>
                                         </div>
                                     </div>
                                 </div>
                                 
-                            </c:forEach>      
+                            </c:forEach>
+                               
                         
 
                     </div>
