@@ -21,8 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *Permette all'admin di accettare una reply ad una review da parte di un ristoratore, 
  * rendendola visibile.
- * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se l'utente (l'admin)
- * non aveva effettuato il login o se non era un admin.
+ * Manderà come risposta 1 se l'accettazione è andata a buon fine (cioè il metodo
+ * è terminato correttamente, ma può terminare correttamente anche se non esiste una reply
+ * con quell'id), 0 se vi è stata una eccezione, -1 se manca un parametro, l'utente 
+ * non è loggato o l'utente non è admin.
  * @author jacopo
  */
 @WebServlet(name = "AcceptReplyByAdminServlet", urlPatterns =
@@ -77,22 +79,24 @@ public class AcceptReplyByAdminServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
-            PrintWriter out = response.getWriter();
+            String stringId = request.getParameter("id_reply");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2) {
-                manager.confirmReply(Integer.parseInt(request.getParameter("id_reply")), user.getId());
+            if (user != null && user.getType()==2 && stringId!=null) 
+            {
+                manager.confirmReply(Integer.parseInt(stringId), user.getId());
                 out.write("1");
             }
             else
-                out.write("0");
+                out.write("-1");
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AcceptReplyByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *Servlet per permette all'admin di rimuovore una review da quelle reportate (quindi
  * non sarà più considerata segnalata ma esisterà ancora).
- * Manderà come risposta 1 se la rimozione è andata a buon fine, 0 se l'utente
- * non aveva effettuato il login o se non era un admin.
+ * Manderà come risposta 1 se il metodo ha terminato, 0 se vi è stata una
+ * eccezione, -1 se l'utente non aveva effettuato il login o se non era un admin
+ * o se manca il parametro.
  * @author jacopo
  */
 @WebServlet(name = "UnreportReviewByAdminServlet", urlPatterns =
@@ -77,22 +78,22 @@ public class UnreportReviewByAdminServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
-            PrintWriter out = response.getWriter();
+            String stringId= request.getParameter("id_review");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2) {
-                manager.unreportReview(Integer.parseInt(request.getParameter("id_review")));
+            if (user != null && user.getType()==2 && stringId!=null) {
+                manager.unreportReview(Integer.parseInt(stringId));
                 out.write("1");
             }
             else
-                out.write("0");
-            out.flush();
+                out.write("-1");
                 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(UnreportReviewByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

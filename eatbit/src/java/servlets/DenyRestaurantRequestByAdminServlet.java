@@ -21,8 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *Permette all'admin di negare la richiesta di creazione o possesso di un ristorante
  * fatta da parte di un utente.
- * Manderà come risposta 1 se la negazione è andata a buon fine, 0 se l'utente (l'admin)
- * non aveva effettuato il login o se non era un admin.
+ * Manderà come risposta 1 se il metodo è andato a buon fine, 0 se viè stata
+ * una eccezione, -1 se l'utente (l'admin) non aveva effettuato il login o se
+ * non era un admin o se manca uno dei parametri:
+ * id_user: id dell'utente che fa la request
+ * id_restaurant: restaurant relativo alla request.
  * @author jacopo
  */
 @WebServlet(name = "DenyRestaurantRequestByAdminServlet", urlPatterns =
@@ -77,24 +80,24 @@ public class DenyRestaurantRequestByAdminServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
-            PrintWriter out = response.getWriter();
+            String stringIdRequester= request.getParameter("id_user");
+            String stringIdRest= request.getParameter("id_restaurant");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2) {
+            if (user != null && user.getType()==2 && stringIdRequester!=null && stringIdRest!=null) {
                 manager.denyRestaurantRequest(
-                        Integer.parseInt(request.getParameter("id_user")),
-                        Integer.parseInt(request.getParameter("id_restaurant")));
+                        Integer.parseInt(stringIdRequester),
+                        Integer.parseInt(stringIdRest));
                 out.write("1");
             }
             else
-                out.write("0");
-            out.flush();
-                
+                out.write("-1");
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(DenyRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

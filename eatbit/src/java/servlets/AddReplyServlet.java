@@ -23,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet per aggiungere una reply da parte di un ristoratore ad una review,
  * attraverso il metodo POST, e usa i parametri description e
  * id_review.
- * Ritorna true se la reply è stata aggiunta, falso se non è stata aggiunta perchè
- * l'utente non ha fatto login, o non è il proprietario del ristorante relative a questa
- * review, o la reply per questa review esiste già.
+ * Ritorna 1 se l'aggiunta della reply è andata a buon fine, 0 se ci sono state
+ * eccezioni, -1 se mancavano parametri o l'utente non era loggato, -2 se l'utente
+ * non è il propritario del ristorante o se ha già fatto una reply per questa review.
  *
  * @author jacopo
  */
@@ -57,7 +57,7 @@ public class AddReplyServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");
+            out.println("<title>Servlet AddReplyServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
@@ -92,29 +92,32 @@ public class AddReplyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
+            
             User user = (User) request.getSession().getAttribute("user");
+            String description= request.getParameter("description");
+            String stringIdRev= request.getParameter("id_review");
             //controllo che utente sia loggato in
-            if(user!=null)
+            if(user!=null && description!=null && stringIdRev!=null)
             {
                 Reply reply = new Reply();
-                reply.setDescription(request.getParameter("description"));
+                reply.setDescription(description);
                 reply.setDate_creation(null);
-                reply.setId_review(Integer.parseInt(request.getParameter("id_review")));
+                reply.setId_review(Integer.parseInt(stringIdRev));
                 reply.setId_owner(user.getId());
                 reply.setDate_validation(null);
-                reply.setId_validator(0);
+                reply.setId_validator(-1);
                 reply.setValidated(false);
-                out.write(Boolean.toString(manager.addReply(reply)));
+                out.write(manager.addReply(reply)?"1":"-2");
             }
             else
-                out.write("false");
+                out.write("-1");
             out.flush();
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AddReplyServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 

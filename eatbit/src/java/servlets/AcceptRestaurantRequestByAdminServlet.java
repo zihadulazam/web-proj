@@ -21,8 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *Permette all'admin di accettare la richiesta di creazione o possesso di un ristorante
  * fatta da parte di un utente.
- * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se l'utente (l'admin)
- * non aveva effettuato il login o se non era un admin.
+ * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se c'è stata una
+ * eccezione, -1 se l'utente (l'admin) non aveva effettuato il login o se non era un admin 
+ * o se manca uno dei 2 parametri:
+ * id_user: id dell'utente che fa la request
+ * id_restaurant: restaurant relativo alla request.
  * @author jacopo
  */
 @WebServlet(name = "AcceptRestaurantRequestByAdminServlet", urlPatterns =
@@ -74,13 +77,12 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
             User user = (User) request.getSession().getAttribute("user");
-            PrintWriter out = response.getWriter();
 
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
             if (user != null && user.getType()==2) {
@@ -91,10 +93,10 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
                 out.write("0");
                 out.flush();
             }
-                
-        } catch (NumberFormatException | SQLException ex) {
+
+        } catch (NumberFormatException ex) {
             Logger.getLogger(AcceptRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex);
+            out.write("0");
         }
     }
 
