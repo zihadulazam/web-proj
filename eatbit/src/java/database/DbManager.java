@@ -11,6 +11,14 @@ import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import database.contexts.PhotoContext;
 import database.contexts.RestaurantContext;
+import info.debatty.java.stringsimilarity.KShingling;
+import info.debatty.java.utils.SparseIntegerVector;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,6 +31,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.lang.Math.abs;
+import java.sql.Blob;
 import java.util.UUID;
 
 /**
@@ -33,13 +42,23 @@ public class DbManager implements Serializable
 {
 
     private final static int USER_NOTIFICATIONS_TO_GET=5;
+    private final static double SIMILARITY_THRESHOLD=0.36;
     private transient Connection con;
+    private KShingling kshingling;
     
-    public DbManager(String url) throws ClassNotFoundException, SQLException
+    public DbManager(String url) throws ClassNotFoundException, SQLException, IOException
     {
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         con = DriverManager.getConnection(url);
         con.setAutoCommit(false);
+        kshingling= getKShingling();
+        if(kshingling==null)
+        {
+            System.out.println("no shingling found");
+            kshingling= new KShingling(4);
+        }
+        else
+        System.out.println("shingling found");
     }
 
     /**
@@ -2047,7 +2066,7 @@ public class DbManager implements Serializable
      * @return Id del ristorante creato, -1 se la creazione è fallita.
      * @throws SQLException
      */
-    public int addRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, String userTextClaim, double min, double max, boolean isClaim) throws SQLException
+    public int addRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, String userTextClaim, double min, double max, boolean isClaim) throws SQLException, IOException
     {
         int restId=-1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO RESTAURANTS(NAME,DESCRIPTION,"
@@ -2090,6 +2109,8 @@ public class DbManager implements Serializable
                     //aggiungo il ristorante alla lista dei ristoranti da essere
                     //confermati da un admin, con flag per dire se è anche un claim
                     addClaim(restaurant.getId_creator(), restaurant.getId(), userTextClaim, isClaim ? 2 : 0);
+                    //inserisco i dati da usare per la string comparison per la fuzzy search
+                    setProfile(restaurant.getId(),restaurant.getName());
                     con.commit();
                 }
                 else
@@ -2802,7 +2823,7 @@ public class DbManager implements Serializable
      * @return True se è andata a buon fine, falso altrimenti.
      * @throws SQLException
      */
-    public boolean modifyRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, double min, double max) throws SQLException
+    public boolean modifyRestaurant(Restaurant restaurant, ArrayList<String> cucine, Coordinate coordinate, ArrayList<HoursRange> range, double min, double max) throws SQLException, IOException
     {
         boolean res = false;
         try (PreparedStatement st = con.prepareStatement("UPDATE RESTAURANTS SET "
@@ -2842,6 +2863,8 @@ public class DbManager implements Serializable
                 removeRestaurantHourRange(restaurant.getId());
                 for (int i = 0; i < range.size(); i++)
                     addHourRange(restaurant.getId(), range.get(i));
+                //aggiorno il profilo da usare per la fuzzy search
+                updateProfile(restaurantCheck.getId(),restaurant.getName());
                 con.commit();
                 res = true;
             }
@@ -3650,6 +3673,33 @@ public class DbManager implements Serializable
     }
     
     /**
+     * Recupera id dei ristoranti che hanno un determinato nome.
+     * @param name Nome dei ristoranti da recuperare.
+     * @return Un oggetto ArrayList<Integer>, vuoto se non esistono ristoranti 
+     * con quel nome.
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getRestaurantsIdByName(String name) throws SQLException
+    {
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID FROM RESTAURANTS WHERE NAME=?"))
+        {
+            st.setString(1, name);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getInt("ID"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    /**
      * Restituisce un ArrayList di ristoranti che hanno indirizzo,
      * città, stato, o complete_location pari a location.
      * @param location
@@ -3657,7 +3707,7 @@ public class DbManager implements Serializable
      * con quella location.
      * @throws SQLException
      */
-    public ArrayList<Restaurant> getRestaurantsFromLocation(String location) throws SQLException
+    public ArrayList<Restaurant> getRestaurantsByLocation(String location) throws SQLException
     {
         ArrayList<Restaurant> res = new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT * "
@@ -3701,6 +3751,43 @@ public class DbManager implements Serializable
         return res;
     }
     
+    /**
+     * Restituisce un ArrayList di id di ristorantiche hanno indirizzo,
+     * città, stato, o complete_location pari a location.
+     * @param location
+     * @return Un oggetto ArrayList<int>, vuoto se non ci sono ristoranti
+     * con quella location.
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getRestaurantsIdByLocation(String location) throws SQLException
+    {
+        ArrayList<Integer> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT ID "
+                + "FROM "
+                + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
+                + "FROM "
+                + "(select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=? OR STATE=? OR COMPLETE_LOCATION=?) IDCord, RESTAURANT_COORDINATE "
+                + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
+                + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID"))
+        {
+            st.setString(1, location);
+            st.setString(2, location);
+            st.setString(3, location);
+            st.setString(4, location);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                    res.add(rs.getInt("ID"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
     /**
      * Recupera i ristoranti che hanno un determinato proprietario.
      * @param id_owner Id del proprietario dei ristoranti.
@@ -4105,20 +4192,273 @@ public class DbManager implements Serializable
         return res;
     }
     
+    
+    private KShingling getKShingling() throws SQLException, IOException, ClassNotFoundException
+    {
+        KShingling res=null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM KSHINGLING"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Blob blob = rs.getBlob("CONTENT");
+                    InputStream ip= blob.getBinaryStream();
+                    ObjectInputStream obs= new ObjectInputStream(ip);
+                    res= (KShingling)obs.readObject();
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    private void saveKShingling() throws SQLException, IOException
+    {
+        try (PreparedStatement st1 = con.prepareStatement("DELETE FROM KSHINGLING");
+             PreparedStatement st2 = con.prepareStatement("INSERT INTO KSHINGLING VALUES(?)");)
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(kshingling);
+            byte[] byteS = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteS);
+            st2.setBinaryStream(1, bais, byteS.length);
+            st1.executeUpdate();
+            st2.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    /**
+     * Crea il profilo del ristorante nella tabella restaurant_profiles usato per 
+     * fuzzy search, se si sta modificando il ristorante usare updateProfile.
+     * @param id Id del ristorante.
+     * @param name Nome del ristorante.
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void setProfile(int id, String name) throws IOException, SQLException
+    {
+        try (PreparedStatement st1 = con.prepareStatement("INSERT INTO RESTAURANTS_PROFILES VALUES(?,?)"))
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(kshingling.getProfile(name).getSparseVector());
+            byte[] byteS = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteS);
+            st1.setInt(1,id);
+            st1.setBinaryStream(2, bais, byteS.length);
+            st1.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
+     * Aggiorna il profilo del ristorante nella tabella restaurant_profiles, usato per  
+     * fuzzy search, se si sta creando il ristorante usate setProfile.
+     * @param id Id del ristorante.
+     * @param name Nome del ristorante.
+     * @throws IOException
+     * @throws SQLException 
+     */
+    private void updateProfile(int id, String name) throws IOException, SQLException
+    {
+        try (PreparedStatement st1 = con.prepareStatement("UPDATE RESTAURANTS_PROFILES SET VECTOR=? WHERE ID=?"))
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(kshingling.getProfile(name).getSparseVector());
+            byte[] byteS = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteS);
+            st1.setInt(2,id);
+            st1.setBinaryStream(1, bais, byteS.length);
+            st1.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    public void test(String input) throws IOException, SQLException, ClassNotFoundException
+    {
+        SparseIntegerVector inputV= kshingling.getProfile(input).getSparseVector();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM TEST"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    String s = rs.getString("STRINGA");
+                    Blob blob = rs.getBlob("VECTOR");
+                    InputStream ip= blob.getBinaryStream();
+                    ObjectInputStream obs= new ObjectInputStream(ip);
+                    SparseIntegerVector res= (SparseIntegerVector) obs.readObject();
+                    System.out.println(s+" = "+inputV.cosineSimilarity(res));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    /**
+     * Recupera id dei ristoranti che hanno un nome simile a name.
+     * @param name Nome dei ristoranti da recuperare.
+     * @return Un oggetto ArrayList<Integer>, vuoto se non esistono ristoranti 
+     * con quel nome o nomi simili.
+     * @throws SQLException
+     */
+    public ArrayList<Integer> getRestaurantsIdByNameFuzzy(String name) throws SQLException
+    {
+        SparseIntegerVector nameV= kshingling.getProfile(name).getSparseVector();
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM RESTAURANTS_PROFILES"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Blob blob = rs.getBlob("VECTOR");
+                    InputStream ip= blob.getBinaryStream();
+                    ObjectInputStream obs= new ObjectInputStream(ip);
+                    SparseIntegerVector tmp= (SparseIntegerVector) obs.readObject();
+                    if(nameV.cosineSimilarity(tmp)>=SIMILARITY_THRESHOLD)
+                        res.add(rs.getInt("ID"));
+                }
+            }
+            catch (IOException | ClassNotFoundException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce un ArrayList di id di ristoranti che hanno indirizzo,
+     * città, stato, o complete_location pari a location, e nome simile a name.
+     * @param location Luogo del ristorante da cercare.
+     * @param name Nome del ristorante da cercare.
+     * @return Un oggetto ArrayList<int>, vuoto se non ci sono ristoranti
+     * con quella location.
+     * @throws SQLException
+     */
+    private ArrayList<Integer> getRestaurantsIdByLocationAndNameFuzzy(String location, String name) throws SQLException
+    {
+        SparseIntegerVector nameV= kshingling.getProfile(name).getSparseVector();
+        ArrayList<Integer> res = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT IDLOCATION.ID,VECTOR"
+                + " FROM (SELECT ID FROM (select RESTAURANT_COORDINATE.ID_RESTAURANT"
+                + " FROM (select ID FROM COORDINATES WHERE ADDRESS=? OR CITY=?"
+                + " OR STATE=? OR COMPLETE_LOCATION=?) IDCord, RESTAURANT_COORDINATE"
+                + " WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS"
+                + " WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID) IDLOCATION, RESTAURANTS_PROFILES"
+                + " WHERE IDLOCATION.ID=RESTAURANTS_PROFILES.ID;"))
+        {
+            st.setString(1, location);
+            st.setString(2, location);
+            st.setString(3, location);
+            st.setString(4, location);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Blob blob = rs.getBlob("VECTOR");
+                    InputStream ip= blob.getBinaryStream();
+                    ObjectInputStream obs= new ObjectInputStream(ip);
+                    SparseIntegerVector tmp= (SparseIntegerVector) obs.readObject();
+                    if(nameV.cosineSimilarity(tmp)>=SIMILARITY_THRESHOLD)
+                        res.add(rs.getInt("ID"));
+                }
+            }
+            catch (IOException | ClassNotFoundException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce contesti di ristoranti cercandoli per location e name.
+     * La ricerca su name è fuzzy, mentre location può essere pari a via, citta
+     * , stato o complete location.
+     * Location e/o name posso essere null.
+     * @param location Luogo del ristorante.
+     * @param name Nome d ristorante.
+     * @return I contesti dei ristoranti trovati.
+     * @throws SQLException 
+     */
+    public ArrayList<RestaurantContext> searchRestaurant(String location, String name) throws SQLException
+    {
+        ArrayList<RestaurantContext> res= new ArrayList<>();
+        ArrayList<Integer> tmp;
+        if(location==null && name==null)
+            return res;
+        else if(location==null)
+            tmp=getRestaurantsIdByNameFuzzy(name);
+        else if(name==null)
+            tmp=getRestaurantsIdByLocation(location);
+        else
+            tmp=getRestaurantsIdByLocationAndNameFuzzy(location,name);
+        for(int i=0;i<tmp.size();i++)
+            res.add(getRestaurantContext(tmp.get(i)));
+        return res;
+    }
+    
     /**
      * Chiude la connessione al database.
      * N.b. derby restituisce sempre un eccezzione (error code 45000) quando si chiude con successo.
      */
-    public static void shutdown()
+    public void shutdown()
     {
+        
         try
         {
+            saveKShingling();
+            System.out.println("saved shingling");
             DriverManager.getConnection("jdbc:derby://localhost:1527/eatbitDB;shutdown=true;user=eatbitDB;password=password;");
         }
-        catch (SQLException ex)
+        catch (SQLException | IOException ex)
         {
             Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }
