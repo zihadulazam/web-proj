@@ -39,7 +39,7 @@
                 </thead>
                 <tfoot></tfoot>
                 <tbody>
-                    <c:forEach var="i" begin="1" end="7">
+                    <c:forEach var="i" items="${list}">
                         <tr>
                             <td>
                                 <div class="container">
@@ -49,22 +49,27 @@
                                                 <img src="img/restaurant-default.png" class="img-circle"/>
                                             </div>
                                             <div class="col-md-4 container-content">
-                                                <h3 class="container-title">Titolo Ristorante <c:out value="${i}"/></h3>
+                                                <h3 class="container-title"><c:out value="${i.getName()}"/></h3><!-- Nome ristorante-->
                                                 <div class="row rating-stars">
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-full.png"/>
-                                                    <img src="img/star-empty.png"/>
-                                                    <img src="img/star-empty.png"/>
+                                                                <c:forEach var="j" begin="1" end="5"> <!-- Quante stelle ha il ristorante-->
+                                                                    <c:choose>
+                                                                        <c:when test="${i.getGlobal_value()>=j}">
+                                                                            <img src="img/star-full.png"/>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <img src="img/star-empty.png"/>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:forEach>
                                                 </div>
-                                                <p>(299 recensioni)</p>
+                                                <p><c:out value="${i.getReviews_counter()}"></c:out> recensioni</p>
                                                 <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Via Mario 51, Ala (TN), Italia</p>
                                                 <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 3492106738</p>
-                                                <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="#" target="_blank"> Sito Web</a></p>                                         
+                                                <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${i.getWeb_site_url()}"></c:out>" target="_blank"> Sito Web </a></p>                                         
                                             </div>
                                                 <div class="col-md-15 container-content">
                                                     <div class="btn-visita">
-                                                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button>
+                                                        <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getId()}"></c:out>"> Visita</a></button>
                                                     </div>
                                                 </div>   
                                         </div>

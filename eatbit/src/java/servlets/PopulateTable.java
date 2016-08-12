@@ -59,9 +59,9 @@ public class PopulateTable extends HttpServlet {
                 if(ListByname.contains(ListBylocation.get(i))==false)
                     ListByname.add(ListByname.get(i));
             }
-            ArrayList<Restaurant> List=ListByname;
+            ArrayList<Restaurant> list=ListByname;
             
-            request.setAttribute("list", List);
+            request.setAttribute("list", list);
             request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
