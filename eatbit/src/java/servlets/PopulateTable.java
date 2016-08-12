@@ -53,7 +53,7 @@ public class PopulateTable extends HttpServlet {
             String name =request.getParameter("name");
             
             ArrayList<Restaurant> ListByname=manager.getRestaurantsByName(name);
-            ArrayList<Restaurant> ListBylocation=manager.getRestaurantsFromLocation(location);
+            ArrayList<Restaurant> ListBylocation=manager.getRestaurantsByLocation(location);
             
             for(int i=0;i<ListBylocation.size();i++){
                 if(ListByname.contains(ListBylocation.get(i))==false)
