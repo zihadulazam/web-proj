@@ -133,7 +133,7 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                 try {
                     //CAMBIO FOTO UTENTE
-                    manager.modifyUserPhoto(user.getId(), "/img/avater/"+r);
+                    manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
                 } catch (SQLException ex) {
                     Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

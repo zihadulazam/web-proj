@@ -137,6 +137,7 @@
                                   <br> <%= user.getEmail()%>  </p>
                               <p><b>Reviews:</b>
                                   <br><c:out value="${numberReview}"/> </p>
+                              <c:out value="${user.getAvatar_path()}" />
                               <hr>
                             </div>
                         </div>
