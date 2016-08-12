@@ -193,13 +193,6 @@ and open the template in the editor.
         text-align: left;       
 }
 
-.resolveNotify{
-    
-}
-
-.resolveNotify2{
-    
-}
 
 .box{
     width:auto; height:auto;
@@ -246,5 +239,29 @@ declineRA{
 }
 
 RA{
+    
+}
+
+.removePhotoNot{
+    
+}
+
+.removeReviewNot{
+    
+}
+
+.modRest
+{
+    background-image: url('somewhere.jpg');
+    background-repeat: no-repeat;
+    padding-left: 30px;  /* width of the image plus a little extra padding */
+    display: block;  /* may not need this, but I've found I do */
+}
+
+modifyRest{
+    
+}
+
+visitRest{
     
 }

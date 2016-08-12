@@ -53,18 +53,22 @@ public class RemoveReviewNotificationFromUserServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        PrintWriter out = response.getWriter();
+        try {
+            response.setContentType("text/plain");
+            User user = (User) request.getSession().getAttribute("user");
+            if (user != null){
+                manager.removeReviewNotification(user.getId(),Integer.parseInt(request.getParameter("notifyId")));
+                out.write("1");
+            }else{
+                out.write("-1");
+                out.flush();
+            }
+                
+        } catch (NumberFormatException | SQLException ex) {
+            Logger.getLogger(RemovePhotoNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            out.write("0");
         }
     }
 
@@ -80,22 +84,7 @@ public class RemoveReviewNotificationFromUserServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-        try {
-            User user = (User) request.getSession().getAttribute("user");
-            if (user != null) 
-            {
-                manager.removeReviewNotification(user.getId(),Integer.parseInt(request.getParameter("id_notification")));
-            }
-            else
-                out.write("-1");
-            out.flush();
-                
-        } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(RemovePhotoNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            out.write("0");
-        }
+        processRequest(request, response);
     }
 
     /**

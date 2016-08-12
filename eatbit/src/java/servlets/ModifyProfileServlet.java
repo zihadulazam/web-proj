@@ -108,8 +108,13 @@ public class ModifyProfileServlet extends HttpServlet {
             
             try {
                 //CAMBIO NOME COGNOME UTENTE e NICKNAME
-                manager.modifyUserNameSurname(user.getId(), _name, _surname);
-                out.println("superata modifica nome cognome ");
+                if ((!"".equals(_name)) && (!"".equals(_surname))){
+                    manager.modifyUserNameSurname(user.getId(), _name, _surname);
+                    out.println("superata modifica nome cognome ");
+                }else{
+                    out.println("Name/SurName are empty");
+                }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             }
@@ -133,6 +138,8 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                 try {
                     //CAMBIO FOTO UTENTE
+                    
+                    //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
                     manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
                 } catch (SQLException ex) {
                     Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +152,7 @@ public class ModifyProfileServlet extends HttpServlet {
             
             
             //forward della richiesta
-            //response.sendRedirect(request.getHeader("referer"));    
+            response.sendRedirect(request.getHeader("referer"));    
             
         }
     
@@ -158,88 +165,7 @@ public class ModifyProfileServlet extends HttpServlet {
         }
     }
     
-    public static String getRelativePath(String targetPath, String basePath, String pathSeparator) {
-
-        // Normalize the paths
-        String normalizedTargetPath="";// = FilenameUtils.normalizeNoEndSeparator(targetPath);
-        String normalizedBasePath="";// =//FilenameUtils.normalizeNoEndSeparator(basePath);
-
-        // Undo the changes to the separators made by normalization
-       /* if (pathSeparator.equals("/")) {
-            normalizedTargetPath = FilenameUtils.separatorsToUnix(normalizedTargetPath);
-            normalizedBasePath = FilenameUtils.separatorsToUnix(normalizedBasePath);
-
-        } else if (pathSeparator.equals("\\")) {
-            normalizedTargetPath = FilenameUtils.separatorsToWindows(normalizedTargetPath);
-            normalizedBasePath = FilenameUtils.separatorsToWindows(normalizedBasePath);
-
-        } else {
-            throw new IllegalArgumentException("Unrecognised dir separator '" + pathSeparator + "'");
-        }*/
-
-        String[] base = normalizedBasePath.split(Pattern.quote(pathSeparator));
-        String[] target = normalizedTargetPath.split(Pattern.quote(pathSeparator));
-
-        // First get all the common elements. Store them as a string,
-        // and also count how many of them there are.
-        StringBuffer common = new StringBuffer();
-
-        int commonIndex = 0;
-        while (commonIndex < target.length && commonIndex < base.length
-                && target[commonIndex].equals(base[commonIndex])) {
-            common.append(target[commonIndex] + pathSeparator);
-            commonIndex++;
-        }
-
-        if (commonIndex == 0) {
-            // No single common path element. This most
-            // likely indicates differing drive letters, like C: and D:.
-            // These paths cannot be relativized.
-            throw new PathResolutionException("No common path element found for '" + normalizedTargetPath + "' and '" + normalizedBasePath
-                    + "'");
-        }   
-
-        // The number of directories we have to backtrack depends on whether the base is a file or a dir
-        // For example, the relative path from
-        //
-        // /foo/bar/baz/gg/ff to /foo/bar/baz
-        // 
-        // ".." if ff is a file
-        // "../.." if ff is a directory
-        //
-        // The following is a heuristic to figure out if the base refers to a file or dir. It's not perfect, because
-        // the resource referred to by this path may not actually exist, but it's the best I can do
-        boolean baseIsFile = true;
-
-        File baseResource = new File(normalizedBasePath);
-
-        if (baseResource.exists()) {
-            baseIsFile = baseResource.isFile();
-
-        } else if (basePath.endsWith(pathSeparator)) {
-            baseIsFile = false;
-        }
-
-        StringBuffer relative = new StringBuffer();
-
-        if (base.length != commonIndex) {
-            int numDirsUp = baseIsFile ? base.length - commonIndex - 1 : base.length - commonIndex;
-
-            for (int i = 0; i < numDirsUp; i++) {
-                relative.append(".." + pathSeparator);
-            }
-        }
-        relative.append(normalizedTargetPath.substring(common.length()));
-        return relative.toString();
-    }
-
-
-    static class PathResolutionException extends RuntimeException {
-        PathResolutionException(String msg) {
-            super(msg);
-        }
-    }    
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

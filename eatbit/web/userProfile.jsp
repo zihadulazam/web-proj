@@ -51,7 +51,7 @@
 
         <script>
             $(document).ready(function() {
-                $(".resolveNotify").click(function(event) {
+                $(".removePhotoNot").click(function(event) {
                     var notifyId = $(this).val();
                     var element = $(this);
                     $.ajax(
@@ -59,10 +59,10 @@
                         url : "../eatbit/RemovePhotoNotificationFromUserServlet",
                         type: "POST",
                         data : {notifyId:notifyId},
-                        success:function(data)  
+                        success:function(dati)  
                         {
                             //data: return data from server
-                            if(data == "OK"){
+                            if(dati = "1"){
                                 //window.location.replace("/home");
                                 element.remove();
                             }
@@ -79,9 +79,9 @@
              });
         </script>
         
-                <script>
+        <script>
             $(document).ready(function() {
-                $(".resolveNotify2").click(function(event) {
+                $(".removeReviewNot").click(function(event) {
                     var notifyId = $(this).val();
                     var element = $(this);
                     $.ajax(
@@ -89,10 +89,10 @@
                         url : "../eatbit/RemoveReviewNotificationFromUserServlet",
                         type: "POST",
                         data : {notifyId:notifyId},
-                        success:function(data)  
+                        success:function(dati)  
                         {
                             //data: return data from server
-                            if(data == "OK"){
+                            if(dati = "1"){
                                 //window.location.replace("/home");
                                 element.remove();
                             }
@@ -108,8 +108,23 @@
                 });
              });
         </script>
-
         
+        <script>
+            $(document).ready(function() {
+
+            $('.visitRest').click(function(){
+
+                //pairno tis times ap tin forma
+                var id_restaurant = $(this).val();
+
+                $.ajax({
+                type: "GET",
+                url: "GetRestaurantContextForwardToJspServlet",
+         });
+        });
+        </script>
+
+
     </head>
     <body>
                 
@@ -137,7 +152,7 @@
                                   <br> <%= user.getEmail()%>  </p>
                               <p><b>Reviews:</b>
                                   <br><c:out value="${numberReview}"/> </p>
-                              <c:out value="${user.getAvatar_path()}" />
+                              
                               <hr>
                             </div>
                         </div>
@@ -148,13 +163,13 @@
             <div class="col-md-9">
                 <h2>Risorse Personali</h2>
                 <ul class="nav nav-pills restaurant">
-                    <li class="active"><a data-toggle="tab" href="#menu1">Recensioni<span class="badge"><c:out value="${numberReview}"/></span></a></li>
+                    <li class="active"><a data-toggle="tab" href="#menu1">Recensioni<span class="badge"><c:out value="${listReview.size()}"/></span></a></li>
                     <c:choose>                            
                         <c:when test="${user.getType() == 1}">
-                            <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${numberListPhotoNotification}"/> </span></a></li>
+                            <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${listPhotoNotification.size()+listReviewNotification.size()}"/> </span></a></li>
                         </c:when>
                     </c:choose>
-                    <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${numberRestaurants}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${listRestaurants.size()}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Modifica Profilo</a></li>
                 </ul>
 
@@ -167,15 +182,12 @@
                         <c:choose>                            
                             <c:when test="${numberReview == 0}">
                                 <div class="alert alert-info notice mmm" role="alert">
-                                        <div class ="row">
-                                            <a href="#">
-                                               
-                                               &nbsp; Non hai ancora nessuna recensione!
-                                               <br>
-                                               <br>
-                                                &nbsp; Naviga e valuta i ristoranti di eatbit!
-                                                <br>                          
-                                            </a>
+                                        <div class ="row">                                                                                        
+                                           &nbsp; Non hai ancora nessuna recensione!
+                                           <br>
+                                           <br>
+                                            &nbsp; Naviga e valuta i ristoranti di eatbit!
+                                            <br>                                                                  
                                         </div>
                                     </div>
                             </c:when>
@@ -240,22 +252,19 @@
                     <div id="menu2" class="tab-pane fade">
                         
                         <c:choose>                            
-                            <c:when test="${user.getType() == 0}">
-                                
+                            <c:when test="${user.getType() == 0}">   
                                 <div class="alert alert-info notice restaurant" role="alert">
-                                            <div class ="row">
-                                                <a href="#">
-                                                   &nbsp; Non sei ancora un utente Ristoratore! 
-                                                </a>
-                                            </div>
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">
-                                                    <button  class="btn btn-primary diventaRis">Carica un Ristorante!</button>
-                                                </div>
-                                            </div>
+                                    <div class ="row">
+                                        &nbsp; Non sei ancora un utente Ristoratore!                                                
+                                    </div>
+                                    <div class="row">
+                                        <div class ="col-md-10">
                                         </div>
+                                        <div class ="col-md-2">
+                                            <a href="CreateRestaurant.html"  class="btn btn-primary diventaRis">Carica un Ristorante!</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </c:when>
                                 
                             <c:otherwise>                                
@@ -290,8 +299,8 @@
                                         </div>
                                         <div class="row container-fluid">
                                             <!-- va qua url del ristorante -->
-                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                                            <div class="btn-visita"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-eye-pencil" aria-hidden="true"></span> Modifica</button></div>
+                                            <div class="btn-visita"><button type="button" class="btn btn-success fixx visitRest" value="${restaurant.getId()}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
+                                            <div class="btn-visita"><button type="button" class="btn btn-success fixx modifyRest" value="${restaurant.getId()}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Modifica</button></div>
                                         </div>
                                     </div>
 
@@ -303,60 +312,75 @@
                     </div>
 
                     <!--MENU 3-->
-                    <div id="menu3" class="tab-pane fade">                                                                    
-
-                                
-                            <div class="col-md-6">
-                                <br>
-                                <!-- PhotoNotifications -->
-                                <h4>Nuove foto caricate sui tuoi ristoranti</h4>                           
-
-                                <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                    <div class="alert alert-info notice  not" role="alert">
-                                        <div class ="row">
-                                            <a href="#">
-                                               &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
-                                            </a>
-                                        </div>
-                                        <div class="row">
-                                            <div class ="col-md-10">
-                                            </div>
-                                            <div class ="col-md-2">
-                                                <button  class="btn btn-primary diventaRis" value="${photoNotification.getId()}">Non vedere più!</button>
-                                            </div>
-                                        </div>
+                    <div id="menu3" class="tab-pane fade">
+                        <c:choose>
+                            <c:when test="${(numberListPhotoNotification+numberListReviewNotification) <= 0}">
+                                <div class="alert alert-info notice restaurant" role="alert">
+                                    <div class ="row">
+                                        &nbsp; Nessuna nuova Notifica!                                                
                                     </div>
-                                </c:forEach>      
-
-                            </div>                   
-
-                            <div class="col-md-6">
-                                <br>
-                                <!-- ReviewNotifications -->
-                                <h4>Nuove recensioni sui tuoi ristoranti</h4>                          
-
-                                <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                    <div class="alert alert-info notice restaurant not" role="alert">
-                                        <div class ="row">
-                                            <a href="#">
-                                               &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
-                                            </a>
-                                        </div>
-                                        <div class="row">
-                                            <div class ="col-md-10">
-                                            </div>
-                                            <div class ="col-md-2">
-                                                <button  class="btn btn-primary diventaRis" value="${photoNotification.getId()}">Non vedere più!</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>  
-                            </div>
-                                
-                        
-
+                                </div>
+                            </c:when>
                             
+                            <c:otherwise>
+                                <div class="col-md-6">
+                                    <br>
+                                    <!-- PhotoNotifications -->
+                                    <h4>Nuove foto caricate sui tuoi ristoranti</h4>                           
 
+                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
+                                        <div class="alert alert-info notice  not" role="alert">
+                                            <div class ="row">
+                                                <a href="#">
+                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più!</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>  
+                                </div>                   
+
+                                <div class="col-md-6">
+                                    <br>
+                                    <!-- PhotoNotifications -->
+                                    <h4>Nuove recensioni caricate sui tuoi ristoranti</h4>                           
+
+                                    <c:forEach items="${listReviewNotification}" var="reviewNotification">
+                                        <div class="alert alert-info notice  not" role="alert">
+                                            <div class ="row">
+                                                <a href="#">
+                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <div class ="col-md-8">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${reviewNotification.getId()}">Non vedere più!</button>
+                                                </div>
+                                                <div class="col-md-2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>  
+                                </div>      
+                                
+                                <div class="row">
+                                        <div class="col-md-10">                                           
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
+                                        </div>
+                                </div>
+                                
+                            </c:otherwise>      
+                        </c:choose>
                     </div>          
                     
                     <!--MENU 4-->

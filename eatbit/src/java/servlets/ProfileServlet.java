@@ -95,24 +95,23 @@ public class ProfileServlet extends HttpServlet {
                 //raccolgo dati per utente
                 ArrayList<ReviewContext> listReview = null;
                 ArrayList<PhotoNotification> listPhotoNotification = null;
-                //ArrayList<ReviewNotification> listReviewNotification = null;
+                ArrayList<ReviewNotification> listReviewNotification = null;
                 ArrayList<Restaurant> listRestaurants = null;
                 
                 OwnUserContext userContext = null;
                 
                 //provo a interrogare il DB per ottenere le info
+                listReviewNotification = manager.getAllUserReviewNotifications(user.getId());
                 userContext = manager.getUserContext(user.getId());
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
                 listPhotoNotification = manager.getAllUserPhotoNotifications(user.getId());
-
+                
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
-                request.setAttribute("numberListPhotoNotification", listPhotoNotification.size());
+                request.setAttribute("listReviewNotification", listReviewNotification);
                 request.setAttribute("listReview", listReview);
-                request.setAttribute("numberReview", listReview.size());
-                request.setAttribute("listRestaurants", listRestaurants);
-                request.setAttribute("numberRestaurants", listRestaurants.size());                    
+                request.setAttribute("listRestaurants", listRestaurants);                
                 
                 request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
             }
