@@ -326,7 +326,7 @@
                                         <div class="alert alert-info notice notificaFoto" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                    &nbsp;Nuova foto su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
+                                                    &nbsp;<b><c:out value="${photoNotification.getUser().getName()}" /></b> ha caricato una foto su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
                                                 </a>
                                             </div>
                                             
@@ -342,6 +342,8 @@
                                                     
                                             <div class="row">
                                                 <div class ="col-md-10">
+                                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                    <c:out value="${photoNotification.getCreation()}"></c:out>
                                                 </div>
                                                 <div class ="col-md-2">   
                                                     <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più!</button>
@@ -368,7 +370,7 @@
                                         <div class="alert alert-info notice  not notificaRecensione" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                    &nbsp; Nuova recensione su <b><c:out value="${reviewNotification.getRestaurant_name()}" /></b> !                                                   
+                                                    &nbsp; Nuova recensione su <b><c:out value="${reviewNotification.getRestaurant_name()}" /></b>                                                   
                                                 </a>                                                
                                             </div>
                                                 
@@ -380,7 +382,7 @@
                                                         </div>
                                                         <div class="panel-body">
                                                             <c:out value="${reviewNotification.getReview().getDescription()}" />
-                                                        </div>
+                                                        </div>           
                                                     </div>
                                                 </div>
                                                 <div class ="col-md-2">                                                    
@@ -389,6 +391,10 @@
                                                 
                                             <div class="row">
                                                 <div class ="col-md-10">
+                                                    
+                                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                    <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                    
                                                 </div>
                                                 <div class ="col-md-2">
                                                     <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più!</button>

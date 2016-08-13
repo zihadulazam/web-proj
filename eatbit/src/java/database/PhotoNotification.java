@@ -15,9 +15,8 @@ import java.sql.Timestamp;
 public class PhotoNotification implements Serializable
 {
     private int id;
-    private int id_user;
+    private User user;
     private Photo photo;
-    private String user_name;
     private String restaurant_name;
     private Timestamp creation;
 
@@ -33,16 +32,6 @@ public class PhotoNotification implements Serializable
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public int getId_user()
-    {
-        return id_user;
-    }
-
-    public void setId_user(int id_user)
-    {
-        this.id_user = id_user;
     }
 
     public Photo getPhoto()
@@ -76,17 +65,17 @@ public class PhotoNotification implements Serializable
     }
 
     /**
-     * @return the user_name
+     * @return the user
      */
-    public String getUser_name() {
-        return user_name;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * @param user_name the user_name to set
+     * @param user the user to set
      */
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUser(User user) {
+        this.user = user;
     }
     
     
