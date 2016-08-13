@@ -6,9 +6,13 @@
 package servlets;
 
 import database.DbManager;
+import database.Reply;
+import database.User;
+import database.contexts.RestaurantContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,19 +25,21 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jacopo
  */
-@WebServlet(name = "TestChangeNameServlet", urlPatterns =
+@WebServlet(name = "TestSearchServlet", urlPatterns =
 {
-    "/TestChangeNameServlet"
+    "/TestSearchServlet"
 })
-public class TestChangeNameServlet extends HttpServlet
+public class TestSearchServlet extends HttpServlet
 {
-private DbManager manager;
+
+    private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,19 +50,17 @@ private DbManager manager;
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet TestChangeNameServlet</title>");            
+            out.println("<title>Servlet AddReplyServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet TestChangeNameServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,21 +77,31 @@ private DbManager manager;
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        String stringId= request.getParameter("id_user");
+            throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        String location= request.getParameter("location");
         String name= request.getParameter("name");
-        String surname= request.getParameter("surname");
+        if(location==null)
+            System.out.println("nullocation");
+        else
+            System.out.println(location);
+        if(name==null)
+            System.out.println("nullname");
+        else
+            System.out.println(name);
+        
         try
         {
-            manager.modifyUserNameSurname(Integer.parseInt(stringId), name, surname);
-            response.getWriter().write("1");
+            ArrayList<RestaurantContext> res= manager.searchRestaurant(location, name);
+            for (RestaurantContext context : res)
+                out.write(context.getRestaurant().getName()+"\n");
         }
-    catch (SQLException ex)
-    {
-        Logger.getLogger(TestChangeNameServlet.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
+        catch (SQLException ex)
+        {
+            Logger.getLogger(TestSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.write("0");
+        }
     }
 
     /**
@@ -100,9 +114,10 @@ private DbManager manager;
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        out.write("ayy");
     }
 
     /**
@@ -111,8 +126,7 @@ private DbManager manager;
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

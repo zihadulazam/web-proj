@@ -5,7 +5,6 @@
  */
 package database.contexts;
 
-import database.Notification;
 import database.Photo;
 import database.PhotoNotification;
 import database.Restaurant;

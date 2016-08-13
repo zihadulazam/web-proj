@@ -77,31 +77,64 @@ public class HoursRange implements Serializable
         switch (day)
         {
             case 1:
-                res="Monday";
+                res="lun";
                 break;
             case 2:
-                res="Tuesday";
+                res="mar";
                 break;
             case 3:
-                res="Wednesday";
+                res="mer";
                 break;
             case 4:
-                res="Thursday";
+                res="gio";
                 break;
             case 5:
-                res="Friday";
+                res="ven";
                 break;
             case 6:
-                res="Saturday";
+                res="sab";
                 break;
             case 7:
-                res="Sunday";
+                res="dom";
                 break;
             default:
                 res="UnknownDay";
                 break;
         }
         return res+" "+ getFormattedStart_hour() + " - " + getFormattedEnd_hour();
+    }
+    
+    public String getFormattedDay()
+    {
+        String res;
+        switch (day)
+        {
+            case 1:
+                res="lun";
+                break;
+            case 2:
+                res="mar";
+                break;
+            case 3:
+                res="mer";
+                break;
+            case 4:
+                res="gio";
+                break;
+            case 5:
+                res="ven";
+                break;
+            case 6:
+                res="sab";
+                break;
+            case 7:
+                res="dom";
+                break;
+            default:
+                res="UnknownDay";
+                break;
+        }
+        return res;
     }
 }
 
