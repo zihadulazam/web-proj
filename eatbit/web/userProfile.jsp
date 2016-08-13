@@ -49,8 +49,7 @@
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
-        
-        <input type="hidden" name="viewid" value="test.jsp">
+
         <div class="container">
         
             <div class="col-md-3">
@@ -183,7 +182,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="col-md-12">
                                                                     <button type="button" class="btn btn-danger btn-mi-piace"  disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
-                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></span></button>
+                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></button>
                                                                     <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${allComments.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
                                                                 </div>
                                                             </div>
@@ -296,7 +295,9 @@
                                             <div class="row">
                                                 <div class ="col-md-10">
                                                     <div class="contenutoNotFoto">
-                                                        <img src="${photoNotification.getPhoto().getPath()}" class="img-thumbnail" alt="PhotoNotification" width="304" height="236">                                                                                                                                                  
+                                                        <a class="thumbnail" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                            <img src="<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                        </a>                                                                                                                                                                                               
                                                     </div>
                                                 </div>
                                                 <div class ="col-md-2">                                                    
@@ -317,7 +318,7 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}">Segnala subito</button>
+                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}"  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
                                                 </div>                                                        
                                             </div>
                                         </div>
@@ -379,7 +380,7 @@
                                         <div class="col-md-9">                                           
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
+                                            <a href="allUserNotify.jsp" class="btn btn-primary">Vedi tutte le notifiche!</a>
                                         </div>
                                     <div class="col-md-2"></div>
                                 </div>
