@@ -346,7 +346,7 @@
                                                     <c:out value="${photoNotification.getCreation()}"></c:out>
                                                 </div>
                                                 <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più!</button>
+                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più</button>
                                                 </div>                                                        
                                             </div>
                                                     
@@ -354,7 +354,7 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}">Segnala!</button>
+                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}">Segnala subito</button>
                                                 </div>                                                        
                                             </div>
                                         </div>
@@ -378,7 +378,7 @@
                                                 <div class ="col-md-10">                                                    
                                                     <div class="panel panel-primary comm">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title">Mario ha commentato:</h3>
+                                                            <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
                                                         </div>
                                                         <div class="panel-body">
                                                             <c:out value="${reviewNotification.getReview().getDescription()}" />
@@ -397,7 +397,7 @@
                                                     
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più!</button>
+                                                    <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più</button>
                                                 </div>
                                             </div>
                                                 
@@ -405,7 +405,7 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi!</button>
+                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi subito</button>
                                                 </div>
                                             </div>
                                         </div>
