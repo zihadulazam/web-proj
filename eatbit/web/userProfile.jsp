@@ -30,86 +30,20 @@
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
                 
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
-        <link href="css/cssFooter.css" rel="stylesheet">
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
+
+        <!-- single img Viewer css-->
+        <link rel="stylesheet" href="css/lightbox.min.css">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>               
-                
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $(".removePhotoNot").click(function(event) {
-                    var notifyId = $(this).val();
-                    var element = $(this);
-                    $.ajax(
-                    {
-                        url : "../eatbit/RemovePhotoNotificationFromUserServlet",
-                        type: "POST",
-                        data : {notifyId:notifyId},
-                        success:function(dati)  
-                        {
-                            //data: return data from server
-                            if(dati = "1"){
-                                //window.location.replace("/home");
-                                element.remove();
-                            }
-                            else{
-                                alert("Chiamata fallita!!!");            
-                            }
-                        },
-                       error: function() 
-                        {
-                            alert("Errore Server!!!");     
-                        }
-                             });
-                });
-             });
-        </script>
-        
-        <script>
-            $(document).ready(function() {
-                $(".removeReviewNot").click(function(event) {
-                    var notifyId = $(this).val();
-                    var element = $(this);
-                    $.ajax(
-                    {
-                        url : "../eatbit/RemoveReviewNotificationFromUserServlet",
-                        type: "POST",
-                        data : {notifyId:notifyId},
-                        success:function(dati)  
-                        {
-                            //data: return data from server
-                            if(dati = "1"){
-                                //window.location.replace("/home");
-                                element.remove();
-                            }
-                            else{
-                                alert("Chiamata fallita!!!");            
-                            }
-                        },
-                       error: function() 
-                        {
-                            alert("Errore Server!!!");     
-                        }
-                             });
-                });
-             });
-        </script>
-
-
+    
     </head>
     <body>
                 
@@ -181,25 +115,37 @@
                             </c:when>
                             
                             <c:otherwise>
-                                <c:forEach var="reviewContext" items="${listReview}">
+                                <c:forEach var="allComments" items="${listReview}">
                                     <div class="comment">
-                                        <!--primo commento -->                                                
                                         <div class="container-fluid">
                                             <div class="row container-fluid">
                                                 <div class="col-md-2 comment-writer">
                                                     <img src="img/avater/avater.png" class="img-circle"/>
-                                                    <h5>You</h5>
+                                                    <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                     <p class="comment-data">
                                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                        <c:out value="${reviewContext.getReview().getDate_creation()}"></c:out>
+                                                        <c:out value="${allComments.getReview().getDate_creation()}" />
                                                     </p>
+                                                    <c:if test="${allComments.getPhoto()!=null}">
+                                                        <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
+                                                            <img src="<c:out value="${allComments.getPhoto().getPath()}" />">
+                                                        </a>
+                                                        <%--
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${allComments.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                        </div>
+                                                        --%>
+                                                    </c:if>
                                                 </div>
                                                 <div class="col-md-10 comment-content">
-                                                    <h3 class="comment-title"><c:out value="${reviewContext.getReview().getName()}"></c:out></h3>
+                                                    <p>
+                                                        <button type="button" class="btn btn-danger btn-segnala-review" id="<c:out value="${allComments.getReview().getId()}"  />" disabled="disabled" title="Segnala Recensione" onclick="segnalaReview(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                        <h3 class="comment-title"><c:out value="${allComments.getReview().getName()}" /></h3>
+                                                    </p>
                                                     <div class="row rating-stars">
                                                         <c:forEach var="i" begin="1" end="5">
                                                             <c:choose>
-                                                                <c:when test="${reviewContext.getReview().getGlobal_value()>=i}">
+                                                                <c:when test="${allComments.getReview().getGlobal_value()>=i}">
                                                                     <img src="img/star-full.png"/>
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -208,21 +154,39 @@
                                                             </c:choose>
                                                         </c:forEach>
                                                     </div>
-
-                                                    <p class="comment-text"><c:out value="${reviewContext.getReview().getDescription()}"></c:out> </p>
-
-                                                    <div class="container-fluid">
-                                                        <div class="row">
-                                                            <div class="col-md-2"></div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="container-fluid">
-                                                        <div class="row">
-                                                            <div class="col-md-6"> 
+                                                    
+                                                    <p class="comment-text"><c:out value="${allComments.getReview().getDescription()}" /> </p>
+                                                    
+                                                    <c:if test="${allComments.getReply()!=null}">
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col-md-2"></div>
+                                                                <div class="col-md-10">
+                                                                    <div class="container-fluid risposta-admin">
+                                                                        <div class="row">
+                                                                            <div class="col-md-2">
+                                                                                <p class="lb"><label>Risposta:</label></p>
+                                                                            </div>
+                                                                            <div class="col-md-10">
+                                                                                <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
+                                                                                <p class="risposta-autore">Da: Admin</p>
+                                                                                <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <h4 class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span> Ristorante: <a href="#"><c:out value="${reviewContext.getRestaurantName()}"></c:out></a></h4>
+                                                        </div>
+                                                    </c:if>
+                                                    
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-12">
+                                                                    <button type="button" class="btn btn-danger btn-mi-piace"  disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
+                                                                    <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></span></button>
+                                                                    <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${allComments.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -230,8 +194,7 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                </c:forEach>
+                            </c:forEach>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -454,9 +417,17 @@
                 </div>
             </div>           
         </div>
-        
-       <!--footer-->
-       <%@include file="components/footer.html"%>
 
+         <!-- included modal hear -->
+        <%@include file="components/log-reg-modal.jsp"%>
+
+        <!--footer-->
+        <%@include file="components/footer.html"%>
+        
+        <!-- Restaurant JS-->
+        <script type="text/javascript" src="js/userProfile.js"></script>
+
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
     </body>
 </html>

@@ -90,9 +90,11 @@
                                                                 <a class="thumbnail" href="<c:out value="${lastComment.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                     <img src="<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                 </a>
+                                                                <%--
                                                                 <div class="text-center">
                                                                     <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${lastComment.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
                                                                 </div>
+                                                                --%>
                                                             </c:if>
                                                         </div>
                                                         <div class="col-md-10 comment-content">
@@ -139,8 +141,20 @@
                                                             <div class="container-fluid">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <button type="button" class="btn btn-danger btn-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getLikes()}" /></span></button>
-                                                                        <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getDislikes()}" /></span></span></button>
+                                                                        <button type="button" class="btn btn-danger btn-mi-piace" 
+                                                                                    <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                                        disabled="disabled"
+                                                                                    </c:if>
+                                                                                        onclick="miPiace(<c:out value="${lastComment.getReview().getId()}"></c:out>,1)"
+                                                                                        id="btn-mipiace-<c:out value="${lastComment.getReview().getId()}"></c:out>"
+                                                                                        ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getLikes()}" /></span></button>
+                                                                        <button type="button" class="btn btn-danger btn-non-mi-piace" 
+                                                                                <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                                    disabled="disabled"
+                                                                                </c:if>
+                                                                                onclick="nonMiPiace(<c:out value="${lastComment.getReview().getId()}"></c:out>,0)"
+                                                                                id="btn-nonmipiace-<c:out value="${lastComment.getReview().getId()}"></c:out>"
+                                                                                ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getDislikes()}" /></span></span></button>
                                                                         <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
                                                                     </div>
                                                                 </div>

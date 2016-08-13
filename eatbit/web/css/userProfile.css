@@ -66,6 +66,7 @@ and open the template in the editor.
 
 /*commenti*/
 
+/* line 213, ../scss/restaurant.scss */
 .comment {
   margin-top: 25px;
   border: 5px solid #fff;
@@ -73,84 +74,159 @@ and open the template in the editor.
   background-color: #e62739;
   color: white;
 }
+/* line 219, ../scss/restaurant.scss */
 .comment .container-fluid {
   padding-right: 5px;
   padding-left: 5px;
 }
+/* line 223, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-writer {
   text-align: center;
   margin-top: 10px;
 }
-.comment .container-fluid .row .comment-writer img {
-  border: 2px solid white;
+/* line 227, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-writer .img-circle {
   width: 80px;
   height: 80px;
   margin: 2px;
 }
+/* line 232, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-writer .comment-data {
   color: #fff;
+  font-size: 12px;
 }
+/* line 236, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-writer .thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  padding: 2px;
+}
+/* line 247, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-writer .thumbnail img {
+  width: auto;
+  height: auto;
+}
+/* line 252, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-writer .btn-segnala-photo-recensione {
+  margin-top: 2px;
+  margin-bottom: 5px;
+  background-color: #e62739;
+  border: 1px solid #fff;
+  padding: 6px 8px 8px 8px;
+  font-size: 14px;
+  line-height: 1.42;
+  border-radius: 5px;
+}
+/* line 265, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-writer .btn-segnala-photo-recensione:enabled:hover {
+  background-color: #C70039;
+}
+/* line 271, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content {
   padding-bottom: 5px;
 }
-.comment .container-fluid .row .comment-content .comment-nome-ristorante {
-  text-align: right;
+/* line 273, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-segnala-review {
+  border: 1px solid #fff;
+  float: right;
+  margin-top: 10px;
+  background-color: #e62739;
 }
-.comment .container-fluid .row .comment-content .comment-nome-ristorante a {
-  color: #FFC300;
+/* line 279, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-segnala-review:enabled:hover {
+  background-color: #C70039;
 }
+/* line 284, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .comment-title {
   margin-top: 15px;
   margin-bottom: 5px;
   font-size: 18px;
   font-weight: bold;
 }
+/* line 290, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .comment-text {
   font-size: 13px;
 }
+/* line 293, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .risposta-admin {
   border: 1px solid #fff;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 10px;
 }
+/* line 298, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .risposta-admin .lb {
   text-align: right;
 }
 @media (max-width: 991px) {
+  /* line 298, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .risposta-admin .lb {
     text-align: left;
   }
 }
+/* line 304, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .risposta-admin .risposta-text {
   font-size: 12px;
 }
-.comment .container-fluid .row .comment-content .risposta-admin .risposta-autore, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-date {
+/* line 307, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .risposta-admin .risposta-autore, #recensioni-container .comment .container-fluid .row .comment-content .risposta-admin .risposta-date {
   text-align: right;
   font-size: 12px;
 }
+/* line 311, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .risposta-admin .risposta-autore {
   font-weight: bold;
   margin-bottom: 0px;
 }
+/* line 316, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
+/* line 320, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content .rating-stars img {
   height: 20px;
   width: auto;
 }
+/* line 325, ../scss/restaurant.scss */
 .comment .container-fluid .row .comment-content p {
   text-align: justify;
 }
-.comment .container-fluid .row .comment-content .btn-mi-piace,.comment .container-fluid .row .comment-content .btn-non-mi-piace {
+/* line 328, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-mi-piace, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace {
   background-color: #e62739;
   border: 1px solid #fff;
 }
-.comment .container-fluid .row .comment-content .btn-mi-piace:enabled:hover,.comment .container-fluid .row .comment-content .btn-non-mi-piace:enabled:hover {
+/* line 335, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-mi-piace:enabled:hover, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace:enabled:hover {
   background-color: #C70039;
+}
+@media (max-width: 387px) {
+  /* line 328, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-mi-piace, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace {
+    font-size: 12px;
+  }
+}
+/* line 344, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .btn-segnala-review {
+  border: 1px solid #fff;
+}
+/* line 347, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .comment-nome-ristorante {
+  float: right;
+  margin-top: 5px;
+}
+/* line 350, ../scss/restaurant.scss */
+.comment .container-fluid .row .comment-content .comment-nome-ristorante a {
+  color: #FFC300;
+  font-weight: bold;
 }
 
 /*notifiche*/

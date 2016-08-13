@@ -8,24 +8,8 @@
    SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");
    SimpleDateFormat fd = new SimpleDateFormat ("E");
    SimpleDateFormat ft = new SimpleDateFormat ("HH:mm");
-   int numDay=0;
-   switch(fd.format(dNow)){
-    case "lun": numDay=1;
-    break;
-    case "mar": numDay=2;
-    break;
-    case "mer": numDay=3;
-    break;
-    case "gio": numDay=4;
-    break;
-    case "ven": numDay=5;
-    break;
-    case "sab": numDay=6;
-    break;
-    case "dom": numDay=7;
-   }
    pageContext.setAttribute("Today", fdate.format(dNow));
-   pageContext.setAttribute("NowDay", numDay);
+   pageContext.setAttribute("NowDay", fd.format(dNow));
    pageContext.setAttribute("NowTime", ft.format(dNow));
 %>
 <html lang="it">
@@ -100,8 +84,8 @@
                         <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): <c:out value="${restaurant_context.getCityPosition()}"/></p>
                         <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi:</p>
                         <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
-                            <c:if test="${NowDay==ore.getDay()}">
-                                  <p><c:out value="${ore.getStart_hour()}"/> - <c:out value="${ore.getEnd_hour()}"/></p>
+                            <c:if test="${NowDay==ore.getFormattedDay()}">
+                                  <p><c:out value="${ore.getFormattedStart_hour()}"/> - <c:out value="${ore.getFormattedEnd_hour()}"/></p>
                                   <c:choose>
                                       <c:when test="${ore.getStart_hour()<=NowTime && ore.getEnd_hour()>=NowTime}">
                                           <p id="info-apertura"><span class="label label-success">Ora Aperto</span></p>
@@ -316,9 +300,11 @@
                                                     <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
                                                         <img src="<c:out value="${allComments.getPhoto().getPath()}" />">
                                                     </a>
+                                                    <%--
                                                     <div class="text-center">
                                                         <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${allComments.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
                                                     </div>
+                                                    --%>
                                                 </c:if>
                                             </div>
                                             <div class="col-md-10 comment-content">
@@ -366,8 +352,22 @@
                                                 <div class="container-fluid">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <button type="button" class="btn btn-danger btn-mi-piace"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge">4</span></button>
-                                                            <button type="button" class="btn btn-danger btn-non-mi-piace"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge">1</span></button>
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-danger btn-mi-piace" 
+                                                                            <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                                disabled="disabled"
+                                                                            </c:if>
+                                                                                onclick="miPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,1)"
+                                                                                id="btn-mipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
+                                                                                ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
+                                                                <button type="button" class="btn btn-danger btn-non-mi-piace" 
+                                                                        <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                            disabled="disabled"
+                                                                        </c:if>
+                                                                        onclick="nonMiPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,0)"
+                                                                        id="btn-nonmipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
+                                                                        ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></span></button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -485,7 +485,7 @@
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
-                        <p><c:out value="${ore.getStart_hour()}"/> - <c:out value="${ore.getEnd_hour()}"/></p><hr/>
+                        <p><c:out value="${ore.getFormattedStart_hour()}"/> - <c:out value="${ore.getFormattedEnd_hour()}"/></p><hr/>
                     </c:forEach>
                 </div>
             </div>
