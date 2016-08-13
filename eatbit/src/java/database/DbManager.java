@@ -617,10 +617,10 @@ public class DbManager implements Serializable
                     Photo photo = getPhotoById(rs.getInt("ID_PHOTO"));
                     PhotoNotification notification = new PhotoNotification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setId_user(rs.getInt("ID_USER"));
                     notification.setPhoto(photo);
                     notification.setRestaurant_name(getRestaurantById(photo.getId_restaurant()).getName());
                     notification.setCreation(rs.getTimestamp("CREATION"));
+                    notification.setUser(getUserById(id_user));
                     notifications.add(notification);
                 }
                 con.commit();
@@ -657,10 +657,10 @@ public class DbManager implements Serializable
                     Photo photo = getPhotoById(rs.getInt("ID_PHOTO"));
                     PhotoNotification notification = new PhotoNotification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setId_user(rs.getInt("ID_USER"));
                     notification.setPhoto(photo);
                     notification.setRestaurant_name(getRestaurantById(photo.getId_restaurant()).getName());
                     notification.setCreation(rs.getTimestamp("CREATION"));
+                    notification.setUser(getUserById(id_user));
                     notifications.add(notification);
                 }
                 con.commit();
@@ -700,10 +700,10 @@ public class DbManager implements Serializable
                     Review review = getReviewById(rs.getInt("ID_REVIEW"));
                     ReviewNotification notification = new ReviewNotification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setId_user(rs.getInt("ID_USER"));
                     notification.setReview(review);
                     notification.setRestaurant_name(getRestaurantById(review.getId_restaurant()).getName());
                     notification.setCreation(rs.getTimestamp("CREATION"));
+                    notification.setUser(getUserById(id_user));
                     notifications.add(notification);
                 }
                 con.commit();
@@ -740,10 +740,10 @@ public class DbManager implements Serializable
                     Review review = getReviewById(rs.getInt("ID_REVIEW"));
                     ReviewNotification notification = new ReviewNotification();
                     notification.setId(rs.getInt("ID"));
-                    notification.setId_user(rs.getInt("ID_USER"));
                     notification.setReview(review);
                     notification.setRestaurant_name(getRestaurantById(review.getId_restaurant()).getName());
                     notification.setCreation(rs.getTimestamp("CREATION"));
+                    notification.setUser(getUserById(id_user));
                     notifications.add(notification);
                 }
                 con.commit();

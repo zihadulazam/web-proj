@@ -12,7 +12,6 @@ import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -102,11 +101,11 @@ public class ProfileServlet extends HttpServlet {
                 OwnUserContext userContext = null;
                 
                 //provo a interrogare il DB per ottenere le info
-                listReviewNotification = manager.getAllUserReviewNotifications(user.getId());
+                listReviewNotification = manager.getUserReviewNotifications(user.getId(),4);
                 userContext = manager.getUserContext(user.getId());
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
-                listPhotoNotification = manager.getAllUserPhotoNotifications(user.getId());
+                listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
                 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);

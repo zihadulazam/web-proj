@@ -286,13 +286,9 @@ and open the template in the editor.
 
 .diventaRis{
     font-size:14px;
-    width: auto;
-    padding: 10px;
+    width: 105px;
+    padding: 2px;
     float: right;
-}
-
-.not{
-    background: #cafbc1 no-repeat 10px 100%;
 }
 
 .fixx{
@@ -319,7 +315,7 @@ RA{
 }
 
 .removePhotoNot{
-    
+    margin-bottom: 3px;
 }
 
 .removeReviewNot{
@@ -343,3 +339,28 @@ RA{
 }
 
 .cPwd{margin-right: 38px;}
+
+.comm {margin:10px;}
+
+.notificaFoto{
+    border-radius:0px;
+    background: #d3f3f3 no-repeat 10px 100%;    
+}
+
+.notificaRecensione{
+    border-radius:0px;
+    background: #d3f3f3 no-repeat 10px 100%;    
+}
+
+.rispRecensione{
+    text-align: center;
+    margin-top: 3px; 
+}
+
+.contenutoNotFoto{
+    margin: 10px;   
+}
+
+.allNotify{
+    padding: 6px 6px;
+}

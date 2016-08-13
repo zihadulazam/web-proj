@@ -15,9 +15,9 @@ import java.sql.Timestamp;
 public class ReviewNotification implements Serializable
 {
     private int id;
-    private int  id_user;
+    private User  user;
     private Review review;
-    String restaurant_name;
+    private String restaurant_name;
     private Timestamp creation;
 
     public ReviewNotification()
@@ -27,11 +27,6 @@ public class ReviewNotification implements Serializable
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public void setId_user(int id_user)
-    {
-        this.id_user = id_user;
     }
 
     public void setReview(Review review)
@@ -54,11 +49,6 @@ public class ReviewNotification implements Serializable
         return id;
     }
 
-    public int getId_user()
-    {
-        return id_user;
-    }
-
     public Review getReview()
     {
         return review;
@@ -72,5 +62,19 @@ public class ReviewNotification implements Serializable
     public Timestamp getCreation()
     {
         return creation;
+    }
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }
