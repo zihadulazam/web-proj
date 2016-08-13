@@ -258,10 +258,12 @@ RA{
     display: block;  /* may not need this, but I've found I do */
 }
 
-modifyRest{
+.modifyRest{
     
 }
 
-visitRest{
+.visitRest{
     
 }
+
+.cPwd{margin-right: 38px;}
