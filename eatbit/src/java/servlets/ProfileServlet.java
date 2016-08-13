@@ -12,7 +12,6 @@ import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
