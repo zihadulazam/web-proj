@@ -123,36 +123,38 @@ public class ModifyProfileServlet extends HttpServlet {
             //stampo parametri del file caricato in caso di mancato forward
             out.println("FILE:");
             Enumeration files = multi.getFileNames();
-            while (files.hasMoreElements()) {
-                String name = (String)files.nextElement();
-                String filename = multi.getFilesystemName(name);
-                String originalFilename = multi.getOriginalFileName(name);
-                String type = multi.getContentType(name);
+            try {
+                if (files.hasMoreElements()) {
+                    String name = (String)files.nextElement();
+                    String filename = multi.getFilesystemName(name);
+                    String originalFilename = multi.getOriginalFileName(name);
+                    String type = multi.getContentType(name);
+
+                    File f = multi.getFile(name); //file caricato
+                    //cambio il nome del file per non avere collisioni
+                    String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
+                    String photoPath = dirName+"\\"+r;
+                    File f2 = new File(photoPath);
+                    f.renameTo(f2);               
                 
-                File f = multi.getFile(name); //file caricato
-                //cambio il nome del file per non avere collisioni
-                String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
-                String photoPath = dirName+"\\"+r;
-                File f2 = new File(photoPath);
-                f.renameTo(f2);
-                
-                try {
                     //CAMBIO FOTO UTENTE
                     
                     //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
                     manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                //stampo qualche parametro 
-                out.println("dirName: " + dirName);
-                out.println("originalFilename: " + originalFilename);                
-                out.println();
+
+                    //stampo qualche parametro 
+                    out.println("dirName: " + dirName);
+                    out.println("originalFilename: " + originalFilename);                
+                    out.println();
+                }  
+                
+            } catch (Exception ex) {
+                Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             
             //forward della richiesta
-            response.sendRedirect(request.getHeader("referer"));    
+            request.getRequestDispatcher("/ProfileServlet").forward(request, response);
             
         }
     
@@ -161,7 +163,7 @@ public class ModifyProfileServlet extends HttpServlet {
         try {
             return name.substring(name.lastIndexOf(".") + 1);
         } catch (Exception e) {
-            return "";
+            return e.toString();
         }
     }
     

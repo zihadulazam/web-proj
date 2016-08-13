@@ -12,6 +12,7 @@ import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -114,6 +115,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("listRestaurants", listRestaurants);                
                 
                 request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -108,21 +108,6 @@
                 });
              });
         </script>
-        
-        <script>
-            $(document).ready(function() {
-
-            $('.visitRest').click(function(){
-
-                //pairno tis times ap tin forma
-                var id_restaurant = $(this).val();
-
-                $.ajax({
-                type: "GET",
-                url: "GetRestaurantContextForwardToJspServlet",
-         });
-        });
-        </script>
 
 
     </head>
@@ -151,8 +136,11 @@
                               <p><b>Email:</b>
                                   <br> <%= user.getEmail()%>  </p>
                               <p><b>Reviews:</b>
-                                  <br><c:out value="${numberReview}"/> </p>
-                              
+                                  <br><c:out value="${listReview.size()}"/> </p>
+                              <p>
+                                <form action="CreateRestaurant.html" method="get">
+                                    <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
+                                </form>
                               <hr>
                             </div>
                         </div>
@@ -298,9 +286,16 @@
                                             </div>
                                         </div>
                                         <div class="row container-fluid">
-                                            <!-- va qua url del ristorante -->
-                                            <div class="btn-visita"><button type="button" class="btn btn-success fixx visitRest" value="${restaurant.getId()}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</button></div>
-                                            <div class="btn-visita"><button type="button" class="btn btn-success fixx modifyRest" value="${restaurant.getId()}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Modifica</button></div>
+                                            <!-- va qua url del ristorante -->                                            
+                                            <div class="btn-visita">
+                                                <form action="GetRestaurantContextForwardToJspServlet" method="GET">
+                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="id_restaurant"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Visita</button>            
+                                                </form>
+                                                
+                                                <form action="/" method="GET">
+                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="id_restaurant"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
+                                                </form>
+                                            </div>                                            
                                         </div>
                                     </div>
 
@@ -314,7 +309,7 @@
                     <!--MENU 3-->
                     <div id="menu3" class="tab-pane fade">
                         <c:choose>
-                            <c:when test="${(numberListPhotoNotification+numberListReviewNotification) <= 0}">
+                            <c:when test="${(listPhotoNotification.size()+listReviewNotification.size()) <= 0}">
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
                                         &nbsp; Nessuna nuova Notifica!                                                
@@ -348,23 +343,22 @@
 
                                 <div class="col-md-6">
                                     <br>
-                                    <!-- PhotoNotifications -->
+                                    <!-- ReviewNotifications -->
                                     <h4>Nuove recensioni caricate sui tuoi ristoranti</h4>                           
 
                                     <c:forEach items="${listReviewNotification}" var="reviewNotification">
                                         <div class="alert alert-info notice  not" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
-                                                </a>
+                                                    &nbsp; Nuova RECENSIONE sul ristorante <span><c:out value="${reviewNotification.getRestaurant_name()}" /></span> !                                                   
+                                                </a>                                                
                                             </div>
+                                                
                                             <div class="row">
-                                                <div class ="col-md-8">
+                                                <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${reviewNotification.getId()}">Non vedere più!</button>
-                                                </div>
-                                                <div class="col-md-2">
+                                                    <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più!</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -395,7 +389,7 @@
                                         Nome
                                     </div>
                                     <div class='right'>
-                                        <input name="name" type="text" class="form-control" placeholder="${user.getName()}" aria-describedby="basic-addon1">
+                                        <input name="name" type="text" class="form-control" value="${user.getName()}" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 
@@ -404,7 +398,7 @@
                                         Cognome
                                     </div>
                                     <div class='right'>
-                                        <input name="surname" type="text" class="form-control" placeholder="${user.getSurname()}" aria-describedby="basic-addon1">
+                                        <input name="surname" type="text" class="form-control" value="${user.getSurname()}" aria-describedby="basic-addon1">
                                     </div>
                                 </li>
                                 
@@ -444,12 +438,15 @@
                                     <div class="right">
                                         <p><button class="btn btn-primary fixx" type="submit" role="button">Salva Modifiche</button></p>
                                     </div>
-                                    <div class="right">
-                                        <p><button class="btn btn-primary fixx" type="submit" role="button" onclick="">Cambia Password</button></p>
-                                    </div>
+                                    
                                 </li>
                             </ul>   
                            </form>
+                                    <form action="/" method="POST">
+                                        <div class="right">
+                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
+                                        </div>
+                                    </form>
                         </div>
                                     
                         
