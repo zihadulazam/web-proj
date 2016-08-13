@@ -17,7 +17,8 @@ public class PhotoNotification implements Serializable
     private int id;
     private int id_user;
     private Photo photo;
-    String restaurant_name;
+    private String user_name;
+    private String restaurant_name;
     private Timestamp creation;
 
     public PhotoNotification()
@@ -72,6 +73,20 @@ public class PhotoNotification implements Serializable
     public void setCreation(Timestamp creation)
     {
         this.creation = creation;
+    }
+
+    /**
+     * @return the user_name
+     */
+    public String getUser_name() {
+        return user_name;
+    }
+
+    /**
+     * @param user_name the user_name to set
+     */
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
     
     

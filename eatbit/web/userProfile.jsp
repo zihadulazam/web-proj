@@ -109,7 +109,6 @@
              });
         </script>
 
-
     </head>
     <body>
                 
@@ -321,21 +320,40 @@
                                 <div class="col-md-6">
                                     <br>
                                     <!-- PhotoNotifications -->
-                                    <h4>Nuove foto caricate sui tuoi ristoranti</h4>                           
+                                    <h4>Nuove foto</h4>                           
 
                                     <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                        <div class="alert alert-info notice  not" role="alert">
+                                        <div class="alert alert-info notice notificaFoto" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                   &nbsp; Hanno caricato una nuova foto sul tuo ristorante!
+                                                    &nbsp;Nuova foto su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
                                                 </a>
                                             </div>
+                                            
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                    <div class="contenutoNotFoto">
+                                                        <img src="${photoNotification.getPhoto().getPath()}" class="img-thumbnail" alt="PhotoNotification" width="304" height="236">                                                                                                                                                  
+                                                    </div>
+                                                </div>
+                                                <div class ="col-md-2">                                                    
+                                                </div>
+                                            </div>
+                                                    
                                             <div class="row">
                                                 <div class ="col-md-10">
                                                 </div>
-                                                <div class ="col-md-2">
+                                                <div class ="col-md-2">   
                                                     <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più!</button>
+                                                </div>                                                        
+                                            </div>
+                                                    
+                                            <div class="row">
+                                                <div class ="col-md-10">
                                                 </div>
+                                                <div class ="col-md-2">   
+                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}">Segnala!</button>
+                                                </div>                                                        
                                             </div>
                                         </div>
                                     </c:forEach>  
@@ -344,15 +362,30 @@
                                 <div class="col-md-6">
                                     <br>
                                     <!-- ReviewNotifications -->
-                                    <h4>Nuove recensioni caricate sui tuoi ristoranti</h4>                           
+                                    <h4>Nuove recensioni</h4>                           
 
                                     <c:forEach items="${listReviewNotification}" var="reviewNotification">
-                                        <div class="alert alert-info notice  not" role="alert">
+                                        <div class="alert alert-info notice  not notificaRecensione" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                    &nbsp; Nuova RECENSIONE sul ristorante <span><c:out value="${reviewNotification.getRestaurant_name()}" /></span> !                                                   
+                                                    &nbsp; Nuova recensione su <b><c:out value="${reviewNotification.getRestaurant_name()}" /></b> !                                                   
                                                 </a>                                                
                                             </div>
+                                                
+                                            <div class="row">
+                                                <div class ="col-md-10">                                                    
+                                                    <div class="panel panel-primary comm">
+                                                        <div class="panel-heading">
+                                                            <h3 class="panel-title">Mario ha commentato:</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <c:out value="${reviewNotification.getReview().getDescription()}" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class ="col-md-2">                                                    
+                                                </div>
+                                            </div>    
                                                 
                                             <div class="row">
                                                 <div class ="col-md-10">
@@ -361,16 +394,25 @@
                                                     <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più!</button>
                                                 </div>
                                             </div>
+                                                
+                                            <div class="row">
+                                                <div class ="col-md-10">
+                                                </div>
+                                                <div class ="col-md-2">
+                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi!</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </c:forEach>  
                                 </div>      
                                 
                                 <div class="row">
-                                        <div class="col-md-10">                                           
+                                        <div class="col-md-9">                                           
                                         </div>
                                         <div class="col-md-2">
                                             <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
                                         </div>
+                                    <div class="col-md-2"></div>
                                 </div>
                                 
                             </c:otherwise>      
