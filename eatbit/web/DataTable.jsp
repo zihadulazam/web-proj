@@ -49,11 +49,11 @@
                                                 <img src="img/restaurant-default.png" class="img-circle"/>
                                             </div>
                                             <div class="col-md-4 container-content">
-                                                <h3 class="container-title"><c:out value="${i.getName()}"/></h3><!-- Nome ristorante-->
+                                                <h3 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h3><!-- Nome ristorante-->
                                                 <div class="row rating-stars">
                                                                 <c:forEach var="j" begin="1" end="5"> <!-- Quante stelle ha il ristorante-->
                                                                     <c:choose>
-                                                                        <c:when test="${i.getGlobal_value()>=j}">
+                                                                        <c:when test="${i.getRestaurant().getGlobal_value()>=j}">
                                                                             <img src="img/star-full.png"/>
                                                                         </c:when>
                                                                         <c:otherwise>
@@ -62,14 +62,13 @@
                                                                     </c:choose>
                                                                 </c:forEach>
                                                 </div>
-                                                <p><c:out value="${i.getReviews_counter()}"></c:out> recensioni</p>
-                                                <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Via Mario 51, Ala (TN), Italia</p>
-                                                <p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> 3492106738</p>
-                                                <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${i.getWeb_site_url()}"></c:out>" target="_blank"> Sito Web </a></p>                                         
+                                                <p><c:out value="${i.getRestaurant().getReviews_counter()}"></c:out> recensioni</p>
+                                                <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <c:out value="${i.getCoordinate().getAddress()}"></c:out>, <c:out value="${i.getCoordinate().getCity()}"></c:out>, <c:out value="${i.getCoordinate().getState()}"></c:out> </p>
+                                                <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${i.getRestaurant().getWeb_site_url()}"></c:out>" target="_blank"> Sito Web </a></p>                                         
                                             </div>
                                                 <div class="col-md-15 container-content">
                                                     <div class="btn-visita">
-                                                        <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getId()}"></c:out>"> Visita</a></button>
+                                                        <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"> Visita</a></button>
                                                     </div>
                                                 </div>   
                                         </div>
@@ -90,7 +89,7 @@
         <%@include file="components/footer.html"%>
         
         <!-- Datatable -->
-        <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+        
         
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js">
 	</script>
@@ -101,16 +100,17 @@
         <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js">
 	</script>
 	
-	<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+	<!--<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>-->
         
         <script type="text/javascript" language="javascript" class="init">
               $(document).ready(function() {
                 $('#tabella-ristoranti').DataTable( {
                     "pagingType": "full_numbers",
-                    bFilter: false,
+                    bFilter: true,
                     bInfo: false,
                     ordering:  false,
                     "language": {
+                        "search":"Filtra per tipo di cucina:",
                         "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
                         "zeroRecords": "Non ci sono ristoranti",
                         "info": "Sto visualizzando _PAGE_ of _PAGES_",

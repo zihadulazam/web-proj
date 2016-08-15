@@ -7,6 +7,7 @@ package servlets;
 
 import database.DbManager;
 import database.Restaurant;
+import database.contexts.RestaurantContext;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -52,17 +53,10 @@ public class PopulateTable extends HttpServlet {
             String location=request.getParameter("luogo");
             String name =request.getParameter("name");
             
-            ArrayList<Restaurant> ListByname=manager.getRestaurantsByName(name);
-            ArrayList<Restaurant> ListBylocation=manager.getRestaurantsByLocation(location);
-            
-            for(int i=0;i<ListBylocation.size();i++){
-                if(ListByname.contains(ListBylocation.get(i))==false)
-                    ListByname.add(ListByname.get(i));
-            }
-            ArrayList<Restaurant> list=ListByname;
-            
+            ArrayList<RestaurantContext> list=manager.searchRestaurant(location, name);
             request.setAttribute("list", list);
             request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
+            
         } catch (SQLException ex) {
             Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.getRequestDispatcher("/error.jsp").forward(request, response);
