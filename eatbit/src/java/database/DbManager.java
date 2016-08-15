@@ -2434,7 +2434,7 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
-            unreportPhoto(id_photo);//rimuovo dalla lista reportati
+            //unreportPhoto(id_photo);//rimuovo dalla lista reportati non necessario causa ON DELETE CASCADE
             st.setInt(1, id_photo);
             st.executeUpdate();
             con.commit();
@@ -2548,7 +2548,7 @@ public class DbManager implements Serializable
             Review review = getReviewById(id_review);
             if (review != null)
             {
-                unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate
+                //unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate nn necessario causa ON DELETE CASCADE
                 st.setInt(1, id_review);
                 try (PreparedStatement rm1 = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
                         + "*(REVIEWS_COUNTER+VOTES_COUNTER))-?)/(REVIEWS_COUNTER+VOTES_COUNTER-1),REVIEWS_COUNTER="
@@ -2577,7 +2577,7 @@ public class DbManager implements Serializable
                     //ordine di rimozione per rispettare costraint
                     rm1.executeUpdate();
                     rm2.executeUpdate();
-                    rm4.executeUpdate();
+                    //rm4.executeUpdate();fatto da db con delete on cascade
                     rm5.executeUpdate();
                     st.executeUpdate();
                     rm3.executeUpdate();
@@ -2800,6 +2800,7 @@ public class DbManager implements Serializable
         try (PreparedStatement st = con.prepareStatement("DELETE FROM RESTAURANTS WHERE ID=?"))
         {
             st.setInt(1, id_restaurant);
+            removeRestaurantPhotos(id_restaurant);
             removeRestaurantHourRange(id_restaurant);
             removeRestaurantCuisine(id_restaurant);
             removeRestaurantCoordinate(id_restaurant);
@@ -2814,6 +2815,30 @@ public class DbManager implements Serializable
         }
     }
 
+    /**
+     * Rimuove le foto associate a un ristorante.
+     *
+     * @param id_restaurant Id del ristorante da rimuovere.
+     * @throws SQLException
+     */
+    private void removeRestaurantPhotos(final int id_restaurant) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID_RESTAURANT=?"))
+        {
+            st.setInt(1, id_restaurant);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    
+    
     /**
      * Rimuove gli orari di un ristorante a partire dal suo id.
      *
@@ -4838,6 +4863,53 @@ public class DbManager implements Serializable
             {
                 if(rs.next())
                     res=rs.getInt(1);
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce un array di oggetti Neighbour (nome,latitudine,longitudine) relativi
+     * ad un ristorante. Vengono considerati vicini di un ristorante i ristoranti
+     * che sono a una distanza minore del parametro distance, da considerarsi in
+     * km.
+     * Al momento nel vicinato di un ristorante è presente il ristorante stesso.
+     * @param id_restaurant Id del ristorante di cui cercare i vicini.
+     * @param distance Distanza in km dal ristorante.
+     * @return I vicini del ristorante.
+     * @throws SQLException 
+     */
+    public ArrayList<Neighbour> getRestaurantNeighbourhood(final int id_restaurant, final double distance) throws SQLException
+    {
+        ArrayList<Neighbour> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT R.NAME,IDS.LATITUDE,IDS.LONGITUDE "
+                + "FROM (SELECT C.ID,C.LATITUDE,C.LONGITUDE FROM COORDINATES C, "
+                + "(SELECT ID,LATITUDE,LONGITUDE FROM COORDINATES WHERE ID =?) TARGET WHERE "
+                + "(12742*ASIN(SQRT(0.5 - COS((TARGET.LATITUDE - C.LATITUDE) * "
+                + "0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) * "
+                + "COS(TARGET.LATITUDE * 0.017453292519943295) * (1- COS((TARGET.LONGITUDE - C.LONGITUDE) * "
+                + "0.017453292519943295))/2))) < ?) IDS, RESTAURANTS R, RESTAURANT_COORDINATE RC "
+                + "WHERE R.ID=RC.ID_RESTAURANT AND RC.ID_COORDINATE=IDS.ID"))
+        {
+            st.setInt(1, id_restaurant);
+            st.setDouble(2, distance);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Neighbour n= new Neighbour();
+                    n.setName(rs.getString("NAME"));
+                    n.setLatitude(rs.getDouble("LATITUDE"));
+                    n.setLongitude(rs.getDouble("LONGITUDE"));
+                    res.add(n);
+                }
                 con.commit();
             }
         }
