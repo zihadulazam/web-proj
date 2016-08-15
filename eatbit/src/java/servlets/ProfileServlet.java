@@ -117,7 +117,7 @@ public class ProfileServlet extends HttpServlet {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
         

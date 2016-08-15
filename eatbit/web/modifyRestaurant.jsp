@@ -21,10 +21,18 @@
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
         
-        
+        <div class="container">
+            <div class="col-md-6">
+                
+            </div>
+            
+            <div class="col-md-6">
+                
+            </div>
+        </div>
         
         <!--footer-->
        <%@include file="components/footer.html"%>
-</body>
+    </body>
 </html>
 
