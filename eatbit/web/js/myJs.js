@@ -176,4 +176,62 @@ function nonMiPiace(reviewId,likeType){
         }
     });
 }    
-  
+
+(function($,W,D)
+    {
+        var JQUERY4U = {};
+
+        JQUERY4U.UTIL =
+        {
+            setupFormValidation: function()
+            {
+                //set error action
+               $.validator.setDefaults({
+                    errorElement: 'div',
+                    errorClass: 'help-block',
+                    highlight: function(element) {
+                    $(element)
+                        .closest('.form-group')
+                        .addClass('has-error');
+                    },
+                    unhighlight: function(element) {
+                    $(element)
+                        .closest('.form-group')
+                        .removeClass('has-error');
+                    },
+                    errorPlacement: function (error, element) {
+                        return true;
+                    }
+                });
+
+                // search validation
+                $("#search-form").validate({
+                    rules:{
+                        luogo:{
+                             required:function(element) {
+                                    return $('#nomeRisto').val() == '';
+                            }
+                        },
+                        name:{
+                             required:function(element) {
+                                    return $('#locationRisto').val() == '';
+                            }
+                        }
+                    },
+                    messages:{
+                        luogo:'*Campo obligatorio',
+                        name:'*Campo obligatorio'
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
+            }
+        }
+        
+        //dopo il document load
+        $(D).ready(function($) {
+            JQUERY4U.UTIL.setupFormValidation();
+        });
+
+})(jQuery, window, document);

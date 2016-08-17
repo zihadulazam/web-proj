@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">
-                        <form role="form" method="get" action="/eatbit/PopulateTable">
+                        <form id="search-form" role="form" method="get" action="/eatbit/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
                                 <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?">
                                 <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del ristorante">

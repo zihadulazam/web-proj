@@ -29,15 +29,15 @@
             
             <!-- Seach form for not index pages -->  
             <div class="nav navbar-nav navbar-left" id="nav-search-bar">                
-                <form class="navbar-form" role="form">
+                <form id="search-form" class="navbar-form" role="form" method="get" action="/eatbit/PopulateTable">
                     
                     <!-- Nav search form -->
                     <div class="form-group has-feedback has-feedback-left">
-                        <input type="text" class="form-control" id="locationRisto" placeholder="Dove?" />
+                        <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?" />
                         <i class="form-control-feedback glyphicon glyphicon-map-marker"></i>
                     </div>
                     <div class="form-group has-feedback has-feedback-left">
-                        <input type="text" class="form-control" id="nomeRisto" placeholder="Nome del ristorante" />
+                        <input type="text" class="form-control" id="nomeRisto" name="name" placeholder="Nome del ristorante" />
                         <i class="form-control-feedback glyphicon glyphicon-cutlery"></i>
                     </div>
                     <button type="submit" class="btn btn-info">Cerca</button>
