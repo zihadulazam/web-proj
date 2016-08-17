@@ -186,6 +186,11 @@
          }
      }
 }
+
+.navbar-collapse.in {
+    overflow-y: inherit !important;
+}
+
 @media (max-width: 1020px){
    #locationRisto{
        width: 100px;

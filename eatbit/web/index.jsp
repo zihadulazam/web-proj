@@ -90,11 +90,9 @@
                                                                 <a class="thumbnail" href="<c:out value="${lastComment.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                     <img src="<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                 </a>
-                                                                <%--
                                                                 <div class="text-center">
-                                                                    <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${lastComment.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                                    <a class="btn-segnala-photo-recensione popov" href="" id="<c:out value="${lastComment.getPhoto().getId()}"/>"  onclick="segnalaPhoto(this.id); return false;">Segnala Photo!</a>
                                                                 </div>
-                                                                --%>
                                                             </c:if>
                                                         </div>
                                                         <div class="col-md-10 comment-content">

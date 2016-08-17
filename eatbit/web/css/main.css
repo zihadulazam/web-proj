@@ -1,7 +1,7 @@
 /* line 4, ../scss/components/_navbar-default.scss */
 .eatbit-logo {
-  height: 31px;
-  width: 30px;
+  height: 35px;
+  width: 36px;
 }
 
 /* line 8, ../scss/components/_navbar-default.scss */
@@ -202,32 +202,37 @@
     color: #333 !important;
   }
 }
+/* line 190, ../scss/components/_navbar-default.scss */
+.navbar-collapse.in {
+  overflow-y: inherit !important;
+}
+
 @media (max-width: 1020px) {
-  /* line 190, ../scss/components/_navbar-default.scss */
+  /* line 195, ../scss/components/_navbar-default.scss */
   #locationRisto {
     width: 100px;
   }
 }
 @media (max-width: 895px) {
-  /* line 195, ../scss/components/_navbar-default.scss */
+  /* line 200, ../scss/components/_navbar-default.scss */
   #nomeRisto {
     width: 150px;
   }
 }
 @media (max-width: 817px) {
-  /* line 200, ../scss/components/_navbar-default.scss */
+  /* line 205, ../scss/components/_navbar-default.scss */
   #nomeRisto {
     width: 100px;
   }
 }
 @media (max-width: 767px) {
-  /* line 205, ../scss/components/_navbar-default.scss */
+  /* line 210, ../scss/components/_navbar-default.scss */
   #locationRisto, #nomeRisto {
     width: 100%;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 210, ../scss/components/_navbar-default.scss */
+  /* line 215, ../scss/components/_navbar-default.scss */
   .navbar {
     padding-left: 40px;
     padding-right: 40px;
