@@ -1858,25 +1858,24 @@ public class DbManager implements Serializable
     /**
      * Aggiunge una foto ad un ristorante.
      *
-     * @param id_restaurant Il ristorante relativo alla foto.
-     * @param id_user Il proprietario della foto.
      * @param photo L'oggetto foto da inserire.
-     * @return Id del record creato nel db(id della foto).
+     * @return Id del record creato nel db(id della foto), -1 se il ristorante
+     * con id nel campo id_restaurant della foto non esiste.
      * @throws SQLException
      */
-    private int addPhoto(final int id_restaurant, final int id_user, final Photo photo) throws SQLException
+    public int addPhoto(final Photo photo) throws SQLException
     {
         int res = -1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
                 + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS))
         {
-            if (getRestaurantById(id_restaurant) != null)
+            if (getRestaurantById(photo.getId_restaurant()) != null)
             {
                 st.setString(1, photo.getName());
                 st.setString(2, photo.getDescription());
                 st.setString(3, photo.getPath());
-                st.setInt(4, id_restaurant);
-                st.setInt(5, id_user);
+                st.setInt(4, photo.getId_restaurant());
+                st.setInt(5, photo.getId_owner());
                 st.executeUpdate();
                 try (ResultSet rs = st.getGeneratedKeys())
                 {
@@ -2149,7 +2148,7 @@ public class DbManager implements Serializable
      * @throws SQLException
      * @throws java.io.IOException
      */
-    public int addRestaurant(Restaurant restaurant, final ArrayList<String> cucine, 
+    public int addRestaurant(Restaurant restaurant, final String[] cucine, 
             final Coordinate coordinate, final ArrayList<HoursRange> range, 
             final String userTextClaim, final double min, final double max, final boolean isClaim) throws SQLException, IOException
     {
@@ -2175,9 +2174,9 @@ public class DbManager implements Serializable
                 {
                     restId = rs.getInt(1);
                     //per ogni cucina aggiungo la relazione, se quella cucina esiste nel nostro db
-                    for (int i = 0; i < cucine.size(); i++)
+                    for (int i = 0; i < cucine.length; i++)
                     {
-                        int cuisineId = findCuisine(cucine.get(i));
+                        int cuisineId = findCuisine(cucine[i]);
                         if (cuisineId != -1)
                         {
                             addRestaurantXCuisine(restId, cuisineId);

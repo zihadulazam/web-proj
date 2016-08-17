@@ -31,7 +31,7 @@ public class Photo implements Serializable
         this.id_owner = id_owner;
     }
 
-    Photo()
+    public Photo()
     {
     }
 
