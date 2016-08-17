@@ -144,8 +144,7 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException {
-        try {
+    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {
                 /*3 modi di avere ip: localhost, pubblico, ip locale
@@ -173,10 +172,6 @@ public class RegisterUserServlet extends HttpServlet {
                         + "&id=" + Integer.toString(id);
                 EmailSender.sendEmail(email, begin+t3, "user verification");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            throw new ServletException(ex.toString());
-        }
     }
 }
 

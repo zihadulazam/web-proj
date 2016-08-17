@@ -1,3 +1,6 @@
 /eatbit/build/
 /eatbit/dist/
 /eatbit/nbproject/private/
+/eatbit/test/HttpTester/build/
+/eatbit/test/HttpTester/dist/
+/eatbit/test/HttpTester/nbproject/private/
