@@ -82,7 +82,6 @@ public class RemoveReviewByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            
             User user = (User) request.getSession().getAttribute("user");
             String stringId= request.getParameter("id_review");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin

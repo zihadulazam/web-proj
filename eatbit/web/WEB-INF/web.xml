@@ -44,5 +44,13 @@
         /img/avater
       </param-value>
         </init-param>
+        <init-param>
+            <param-name>
+        uploadPhotosDir
+      </param-name>
+            <param-value>
+        /img/photos
+      </param-value>
+        </init-param>
     </servlet>
 </web-app>
