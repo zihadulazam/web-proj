@@ -1,0 +1,246 @@
+/* line 2, ../scss/createRestaurant.scss */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* line 7, ../scss/createRestaurant.scss */
+strong {
+  font-weight: 500;
+}
+
+/* line 9, ../scss/createRestaurant.scss */
+a, a:hover, a:focus {
+  color: #f35b3f;
+  text-decoration: none;
+  -o-transition: all .3s;
+  -moz-transition: all .3s;
+  -webkit-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s;
+}
+
+/* line 15, ../scss/createRestaurant.scss */
+h1, h2 {
+  margin-top: 10px;
+  font-size: 38px;
+  font-weight: 100;
+  color: #555;
+  line-height: 50px;
+}
+
+/* line 23, ../scss/createRestaurant.scss */
+h3 {
+  font-size: 22px;
+  font-weight: 300;
+  color: #555;
+  line-height: 30px;
+}
+
+/* line 30, ../scss/createRestaurant.scss */
+h4 {
+  font-size: 18px;
+  font-weight: 300;
+  color: #555;
+  line-height: 26px;
+}
+
+/* line 37, ../scss/createRestaurant.scss */
+img {
+  max-width: 100%;
+}
+
+/* line 39, ../scss/createRestaurant.scss */
+::-moz-selection {
+  background: #f35b3f;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* line 40, ../scss/createRestaurant.scss */
+::selection {
+  background: #f35b3f;
+  color: #fff;
+  text-shadow: none;
+}
+
+/***** Top content *****/
+/* line 45, ../scss/createRestaurant.scss */
+.top-content {
+  font-size: 16px;
+  font-weight: 300;
+  color: #888;
+  line-height: 30px;
+  text-align: center;
+  padding: 40px 0 170px 0;
+}
+/* line 53, ../scss/createRestaurant.scss */
+.top-content .text {
+  color: #fff;
+}
+/* line 54, ../scss/createRestaurant.scss */
+.top-content .text h1 {
+  color: #fff;
+}
+/* line 55, ../scss/createRestaurant.scss */
+.top-content .description {
+  margin: 20px 0 10px 0;
+}
+/* line 56, ../scss/createRestaurant.scss */
+.top-content .description p {
+  opacity: 0.8;
+}
+/* line 57, ../scss/createRestaurant.scss */
+.top-content .description a {
+  color: #fff;
+}
+/* line 59, ../scss/createRestaurant.scss */
+.top-content .description a:hover,
+.top-content .description a:focus {
+  border-bottom: 1px dotted #fff;
+}
+/* line 61, ../scss/createRestaurant.scss */
+.top-content .form-box {
+  padding-top: 40px;
+}
+/* line 63, ../scss/createRestaurant.scss */
+.top-content .f1 {
+  padding: 25px;
+  background: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+/* line 67, ../scss/createRestaurant.scss */
+.top-content .f1 h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+/* line 69, ../scss/createRestaurant.scss */
+.top-content .f1-steps {
+  overflow: hidden;
+  position: relative;
+  margin-top: 20px;
+}
+/* line 71, ../scss/createRestaurant.scss */
+.top-content .f1-progress {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+}
+/* line 72, ../scss/createRestaurant.scss */
+.top-content .f1-progress-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  background: #f35b3f;
+}
+/* line 74, ../scss/createRestaurant.scss */
+.top-content .f1-step {
+  position: relative;
+  float: left;
+  width: 33.333333%;
+  padding: 0 5px;
+}
+/* line 76, ../scss/createRestaurant.scss */
+.top-content .f1-step-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-top: 4px;
+  background: #ddd;
+  font-size: 16px;
+  color: #fff;
+  line-height: 40px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+/* line 81, ../scss/createRestaurant.scss */
+.top-content .f1-step.activated .f1-step-icon {
+  background: #fff;
+  border: 1px solid #f35b3f;
+  color: #f35b3f;
+  line-height: 38px;
+}
+/* line 84, ../scss/createRestaurant.scss */
+.top-content .f1-step.active .f1-step-icon {
+  width: 48px;
+  height: 48px;
+  margin-top: 0;
+  background: #f35b3f;
+  font-size: 22px;
+  line-height: 48px;
+}
+/* line 88, ../scss/createRestaurant.scss */
+.top-content .f1-step p {
+  color: #ccc;
+}
+/* line 89, ../scss/createRestaurant.scss */
+.top-content .f1-step.activated p {
+  color: #f35b3f;
+}
+/* line 90, ../scss/createRestaurant.scss */
+.top-content .f1-step.active p {
+  color: #f35b3f;
+}
+/* line 92, ../scss/createRestaurant.scss */
+.top-content .f1 fieldset {
+  display: none;
+  text-align: left;
+}
+/* line 94, ../scss/createRestaurant.scss */
+.top-content .f1-buttons {
+  text-align: right;
+}
+/* line 96, ../scss/createRestaurant.scss */
+.top-content .f1 .input-error {
+  border-color: #f35b3f;
+}
+/* line 97, ../scss/createRestaurant.scss */
+.top-content #btn-camera {
+  height: 44px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 30px;
+  color: #888;
+}
+
+/***** Media queries *****/
+@media (max-width: 767px) {
+  /* line 116, ../scss/createRestaurant.scss */
+  .top-content {
+    padding: 40px 0 110px 0;
+  }
+}
+@media (max-width: 415px) {
+  /* line 122, ../scss/createRestaurant.scss */
+  h1, h2 {
+    font-size: 32px;
+  }
+
+  /* line 124, ../scss/createRestaurant.scss */
+  .f1 {
+    padding-bottom: 20px;
+  }
+
+  /* line 125, ../scss/createRestaurant.scss */
+  .f1-buttons button {
+    margin-bottom: 5px;
+  }
+}
+/* Retina-ize images/icons */
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  /* logo */
+  /* line 141, ../scss/createRestaurant.scss */
+  .navbar-brand {
+    background-image: url(../img/logo@2x.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: 162px 36px !important;
+  }
+}

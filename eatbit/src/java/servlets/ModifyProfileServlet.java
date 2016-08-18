@@ -132,7 +132,7 @@ public class ModifyProfileServlet extends HttpServlet {
                     File f = multi.getFile(name); //file caricato
                     //cambio il nome del file per non avere collisioni
                     String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
-                    String photoPath = dirName+"\\"+r;
+                    String photoPath = dirName+"/"+r;
                     File f2 = new File(photoPath);
                     f.renameTo(f2);               
                 

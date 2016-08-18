@@ -8,7 +8,6 @@ package servlets;
 import database.DbManager;
 import database.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,13 +24,13 @@ import javax.servlet.http.HttpServletResponse;
  * token token che era stato fornito all'utente via email
  * oldPassword vecchia password
  * newPassword nuova password
- * Verrà verificata l'esistenza dell'utente, la correttezza della password e del token,
+ * Verrà verificata l'esistenza dell'utente, la correttezza del token,
  * e in caso di successo sarà passato il controllo a success.jsp, altrimenti failure.jsp.
  * @author jacopo
  */
 @WebServlet(name = "VerifyPasswordServlet", urlPatterns =
 {
-    "/verifyPassword"
+    "/VerifyPasswordServlet"
 })
 public class VerifyPasswordServlet extends HttpServlet
 {
@@ -58,9 +57,8 @@ public class VerifyPasswordServlet extends HttpServlet
         try {
             String stringId= request.getParameter("id");
             String token = request.getParameter("token");
-            String oldPassword= request.getParameter("oldPassword");
-            String newPassword= request.getParameter("newPassword");
-            if (stringId != null && token != null && oldPassword!=null && newPassword!=null)
+            String newPassword= request.getParameter("new_password");
+            if (stringId != null && token != null && newPassword!=null)
             {
                 int id= Integer.parseInt(stringId);
                 
@@ -68,29 +66,30 @@ public class VerifyPasswordServlet extends HttpServlet
                 User user1= manager.getUserById(id);
                 //se non esiste utente con quell'id mando a failure
                 if(user1==null)
-                    request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    response.getWriter().write("-4");
+                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
                 
-                //verifico che la vecchia psw sia giusta
-                User user= manager.loginUserByEmailOrNickname(user1.getEmail(), oldPassword);
-                //se la password non matcha mando a failure
-                if(user==null)
-                    request.getRequestDispatcher("/failure.jsp").forward(request, response);
-                
-                //l'utente esiste e la vecchia password matcha, controllo che il token sia valido
+                //l'utente esiste, controllo che il token sia valido
                 //cambio la password e mando a success se è valido, altrimenti a failure
                 if (manager.verifyPasswordChangeToken(id, token)) 
                 {
                     manager.modifyUserPassword(id, newPassword);
-                    request.getRequestDispatcher("/success.jsp").forward(request, response);
+                    response.getWriter().write("1");
+                   
+                    //request.getRequestDispatcher("/success.jsp").forward(request, response);
                 } 
                 else 
-                    request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    response.getWriter().write("-2");
+                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
             }
             else
-                request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                response.getWriter().write("-1");
+            //else
+                //request.getRequestDispatcher("/failure.jsp").forward(request, response);
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            response.getWriter().write("0");
+            //request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

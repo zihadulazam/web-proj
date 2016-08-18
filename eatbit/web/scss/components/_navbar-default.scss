@@ -186,29 +186,39 @@
          }
      }
 }
-@media (max-width: 1020px){
-   #locationRisto{
-       width: 100px;
-   }
+
+.navbar-collapse.in {
+    overflow-y: inherit !important;
 }
-@media (max-width: 895px){
-   #nomeRisto{
-       width: 150px;
-   }
-}
-@media (max-width: 817px){
-   #nomeRisto{
-       width: 100px;
-   }
-}
-@media (max-width: 767px){
-   #locationRisto, #nomeRisto{
-       width: 100%;
-   }
-}
-@media only screen and (max-width: 1200px) {
-    .navbar {
-        padding-left: 40px;
-        padding-right: 40px;
+
+.navbar-default{
+    @media (max-width: 1020px){
+    #locationRisto{
+        width: 100px;
+    }
+    }
+    @media (max-width: 902px){
+    #nomeRisto{
+        width: 150px;
+    }
+    }
+    @media (max-width: 825px){
+    #nomeRisto{
+        width: 90px;
+    }
+    #locationRisto{
+        width: 90px;
+    }
+    }
+    @media (max-width: 767px){
+    #locationRisto, #nomeRisto{
+        width: 100%;
+    }
+    }
+    @media only screen and (max-width: 1200px) {
+        .navbar {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
     }
 }

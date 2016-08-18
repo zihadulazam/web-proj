@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">
-                        <form role="form" method="get" action="/eatbit/PopulateTable">
+                        <form id="search-form" role="form" method="get" action="/eatbit/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
                                 <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?">
                                 <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del ristorante">
@@ -90,11 +90,9 @@
                                                                 <a class="thumbnail" href="<c:out value="${lastComment.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                     <img src="<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                 </a>
-                                                                <%--
                                                                 <div class="text-center">
-                                                                    <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${lastComment.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                                    <a class="btn-segnala-photo-recensione popov" href="" id="<c:out value="${lastComment.getPhoto().getId()}"/>"  onclick="segnalaPhoto(this.id); return false;">Segnala Photo!</a>
                                                                 </div>
-                                                                --%>
                                                             </c:if>
                                                         </div>
                                                         <div class="col-md-10 comment-content">

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>eatBit | Inserisci nuovo ristorante</title>
+        <title>eatBit | Crea nuovo ristorante</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -17,143 +17,211 @@
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
         
         <!-- google font link -->
-        <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
+        <!-- header font -->
+         <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+        <!-- footer font -->
+        <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+
+        <!-- creat Restaurant liks -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/form-elements.css">
+        <link rel="stylesheet" href="css/createRestaurant.css">
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         
     </head>
     <body>
-        <!-- nav-bar -->
-        <div class="navbar navbar-default navbar-fixed-top">
-            <div class="container-fluid">
-                
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <a class="navbar-brand navbar-extra-width" href="#">
-                        <img class="eatbit-logo" src="img/eatbit.png">
-                    </a>
+        <!-- include navbar hear -->
+        <%@include file="components/navbar-second.jsp"%>
 
+        <!-- page container -->
+        <!-- Top content -->
+        <div class="top-content">
+            <div class="container">
+                
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2 text">
+                        <h1><strong>Aggiungi</strong> Un Ristorante</h1>
+                        <div class="description">
+                       	    <p>
+                                Dopo <strong>l'approvazione</strong> il tuo ristorante verra' aggiunto nel nostro sito!
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="jumbotron">
-            <div class="container-fluid">
-                <div class="horizontally-centered">
-                    <div class="jumbo-text-container">
-        
-            <div class="input-thumbnail thumbnail">
-                <form role="form">
-                            <div class="jumbo-textbox-container form-group horizontally-centered">
-                                    <br>
-                                    <div class="form-group">
-                                        <label for="restaurant">Nome del ristorante:</label>
-                                        <input id="name" class="form-control" type="text" placeholder="Nome ristorante" name="restaurant">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="restaurant">Descrizione:</label> <br>
-                                        <textarea rows="4" cols="95" style="color:black"> </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="city">Sito web:</label>                                          
-                                        <input id="website" class="form-control" type="text" placeholder="Sito Web" name="website">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="city">Città:</label>                                          
-                                        <input id="surname" class="form-control" type="text" placeholder="Città" name="city">
+                
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
+                    	<form role="form" action="" method="post" class="f1">
+
+                    		<h3>Crea Ristorante</h3>
+                    		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
+                    		<div class="f1-steps">
+                    			<div class="f1-progress">
+                    			    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3" style="width: 16.66%;"></div>
+                    			</div>
+                    			<div class="f1-step active">
+                    				<div class="f1-step-icon"><i class="fa fa-university"></i></div>
+                    				<p>Dati</p>
+                    			</div>
+                    			<div class="f1-step">
+                    				<div class="f1-step-icon"><i class="fa fa-cutlery"></i></div>
+                    				<p>Tipi di Cucina, Prezzo e Photo</p>
+                    			</div>
+                    		    <div class="f1-step">
+                    				<div class="f1-step-icon"><i class="fa fa-clock-o"></i></div>
+                    				<p>Orario d'appertura</p>
+                    			</div>
+                    		</div>
+                    		
+                    		<fieldset>
+                    		    <h4>Informazioni sul vostro ristorante:</h4>
+                    			<div class="form-group">
+                    			    <label class="sr-only" for="name">Nome</label>
+                                    <input type="text" name="name" placeholder="Nome..." class="form-control" id="name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="description">Descrizione</label>
+                                    <textarea name="description" placeholder="Descrizione..." 
+                                    	                 class="form-control" id="description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="web_site">Sito Web</label>
+                                    <div class="input-group">
+                                        <input type="text" name="web_site" placeholder="Sito Web..." class="form-control" id="web_site">
+                                        <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label for="province">Provincia:</label> 
-                                        <input id="nickname" class="form-control" type="text" placeholder="Provincia" name="province">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="address">Indirizzo</label>
+                                    <div class="input-group">
+                                        <input type="text" name="address" placeholder="Indririzzo..." class="form-control" id="address">
+                                        <span class="input-group-addon"><span class="fa fa-map-marker" aria-hidden="true"></span></span>
                                     </div>
-           
-                                    <div class="form-group">
-                                        <label for="address">Indirizzo:</label> 
-                                        <input id="email" class="form-control" type="text" placeholder="Indirizzo" name="address">
+                                    <label id="lblresult"></label>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-next">Successivo</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <h4>Tipi di cucina, Prezzo e Photo:</h4>
+                                <div class="form-group">
+                                    <h5>Cucina:</h5>
+                                    <div class="row">
+                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <input type="checkbox" name="americana" value="Americana"/> Americana
+                                            <br />
+                                            <input type="checkbox" name="asiatica" value="Asiatica"/> Asiatica
+                                            <br />
+                                            <input type="checkbox" name="africana" value="Africana"/> Africana
+                                            <br />
+                                            <input type="checkbox" name="cinese" value="Cinese"/> Cinese
+                                            <br />
+                                            <input type="checkbox" name="japonese" value="Japonese"/> Japonese
+                                            <br />
+                                            <input type="checkbox" name="sushi" value="Sushi"/> Sushi
+                                         </div>
+                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <input type="checkbox" name="indiana" value="Indiana"/> Indiana
+                                            <br />
+                                            <input type="checkbox" name="italiana" value="Italiana"/> Italiana
+                                            <br />
+                                            <input type="checkbox" name="pizza" value="Pizza"/> Pizza
+                                            <br />
+                                            <input type="checkbox" name="francese" value="Francese"/> Francese
+                                            <br />
+                                            <input type="checkbox" name="spagnola" value="Spagnola"/> Spagnola
+                                            <br />
+                                            <input type="checkbox" name="pesce" value="Pesce"/> Pesce
+                                         </div>
+                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <input type="checkbox" name="carne" value="Carne"/> Carne
+                                            <br />
+                                            <input type="checkbox" name="messicana" value="Messicana"/> Messicana
+                                            <br />
+                                            <input type="checkbox" name="fastfood" value="Fast-Food"/> Fast-Food
+                                            <br />
+                                            <input type="checkbox" name="vegetariana" value="Vegetariana"/> Vegetariana
+                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                    <label for="image">Inserisci immagini:</label>
-                                    <input type="file" onchange="previewFile()"><br>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Fascia Prezzo:</h5>
+                                    <div class="input-group">
+                                        <input type="text" name="prezzo_min" placeholder="Prezzo Min..." class="form-control" id="prezzo_min">
+                                        <span class="input-group-addon">€</span>
                                     </div>
-                                    <div class="form-group">
-                                    <label for="image">Tipo di cucina:</label>
-                                    <fieldset>
-                                    Cinese <input type="checkbox" name="chinese" value="chinese" style="width: 50%">
-                                    Thailandese <input type="checkbox" name="thai" value="thai">
-                                    <br>
-                                    Italiano <input type="checkbox" name="italian" value="italian" style="width: 50%">
-                                    Messicano <input type="checkbox" name="mexican" value="mexican">
-                                    <br>
-                                    Brasiliano <input type="checkbox" name="brazilian" value="brazilian" style="width: 50%">
-                                    Giapponese <input type="checkbox" name="japanese" value="japanese">
-                                    </fieldset>
+                                    <div class="input-group">
+                                        <input type="text" name="prezzo_max" placeholder="Prezzo Max..." class="form-control" id="prezzo_max">
+                                        <span class="input-group-addon">€</span>
                                     </div>
-                                    <div class="form-group">
-                                    <label for="image">Range di prezzo:</label>
-                                    <center><table>
-                           
-                                        <tr><td>
-                                                <input id="fromprice" class="form-control" type="text" placeholder="Da" name="fromprice" style=""> </td>
-                                            <td><br></td>
-                                            <td><input id="toprice" class="form-control" type="text" placeholder="A" name="toprice"> </td>
-                                    </tr>
-                                        
-                                        </table></center>
+                                </div>
+                                <div class="form-group">
+                                    <h5>Photo:</h5>
+                                    <div class="input-group">
+                                        <label class="input-group-btn">
+                                            <span class="btn btn-default" id="btn-camera">
+                                                Cerca Photo&hellip; <input name="photo" id="Add-photo" type="file" style="display: none;" accept="image/*" multiple>
+                                            </span>
+                                        </label>
+                                        <input type="text" id="Add-photo-name" class="form-control" readonly>
                                     </div>
-                                    <label for="image">Orari di apertura:</label>
-                                    <center>
-                                    <table>
-                                        
-                                            <tr><td><label for="image">Lunedì:</label></td></tr>
-                                        <tr><td>
-                                                <input id="fromlun" class="form-control" type="text" placeholder="Dalle" name="fromlun"> </td><td><br></td>
-                                            <td><input id="tolun" class="form-control" type="text" placeholder="Alle" name="tolun"> </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Martedì:</label></td></tr>
-                                    <tr><td>
-                                        
-                                                <input id="frommar" class="form-control" type="text" placeholder="Dalle" name="frommar"> </td><td><br></td>
-                                            <td><input id="tomar" class="form-control" type="text" placeholder="Alle" name="tomar" </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Mercoledì:</label></td></tr>
-                                    <tr><td>
-                                            <input id="frommer" class="form-control" type="text" placeholder="Dalle" name="frommer"> </td><td><br></td>
-                                            <td><input id="tomer" class="form-control" type="text" placeholder="Alle" name="tomer"> </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Giovedì:</label></td></tr>
-                                    <tr><td>
-                                                <input id="fromgiove" class="form-control" type="text" placeholder="Dalle" name="fromgiove"> </td><td><br></td>
-                                            <td><input id="togiove" class="form-control" type="text" placeholder="Alle" name="togiove"> </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Venerdì:</label></td></tr>
-                                    <tr><td>
-                                                <input id="fromvene" class="form-control" type="text" placeholder="Dalle" name="fromvene"> </td><td><br></td>
-                                            <td><input id="tovene" class="form-control" type="text" placeholder="Alle" name="tovene"> </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Sabato:</label></td></tr>
-                                    <tr><td>
-                                                <input id="fromsaba" class="form-control" type="text" placeholder="Dalle" name="fromsaba"> </td><td><br></td>
-                                            <td><input id="tosaba" class="form-control" type="text" placeholder="Alle" name="tosaba"> </td>
-                                    </tr>
-                                    <tr><td><br><label for="image">Domenica:</label></td></tr>
-                                    <tr><td>
-                                                <input id="fromdome" class="form-control" type="text" placeholder="Dalle" name="fromdome"> </td><td><br></td>
-                                            <td><input id="todome" class="form-control" type="text" placeholder="Alle" name="todome"> </td>
-                                    </tr>    
-                                    </table></center>                                    
-                                    <br>
-                                    <div class="form-group">
-                                    <fieldset>
-                                    <input type="checkbox" name="owner" value="owner"> Sono il proprietario
-                                    </fieldset>
-                                    </div>
-                                    </div>
-                                    <button class="btn btn-default btn-register" type="submit" name="commit" aria-label="Left Align">
-                                        <span class="glyphicon glyphicon glyphicon glyphicon-check" aria-hidden="true"></span>
-                                        Registra ristorante
-                                    </button>
-            </div></div></div></div></div></form></div></div></div></div>
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Precedente</button>
+                                    <button type="button" class="btn btn-next">Successivo</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <h4>Orario d'apertura (Da Finire):</h4>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
+                                    <input type="text" name="f1-facebook" placeholder="..." class="f1-facebook form-control" id="f1-facebook">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
+                                    <input type="text" name="f1-twitter" placeholder="..." class="f1-twitter form-control" id="f1-twitter">
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="f1-google-plus">Giorno</label>
+                                    <input type="text" name="f1-google-plus" placeholder="..." class="f1-google-plus form-control" id="f1-google-plus">
+                                </div>
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Precedente</button>
+                                    <button type="submit" class="btn btn-submit">Fine</button>
+                                </div>
+                            </fieldset>
+                    	
+                    	</form>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+
+
+         <!-- include modal hear -->
+        <%@include file="components/log-reg-modal.jsp"%>
+        
+        <!-- footer -->
+        <%@include file="components/footer.html"%>
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5PvbD12gNax9Avkf-qes0_Y-_oB90b-o&libraries=places"></script>
+        <script src="js/createRestaurant.js"></script>
 </body>
 </html>

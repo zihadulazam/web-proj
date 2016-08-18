@@ -45,18 +45,24 @@ public class ReportReviewServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportPhotoServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportPhotoServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        try {
+            String review= request.getParameter("id_review");
+            if(review!=null)
+            {
+                int id_review = Integer.parseInt(review);
+                manager.reportReview(id_review);
+                out.write("1");
+            }
+            else
+                out.write("-1");
+
+        } 
+        catch (SQLException | NumberFormatException ex)
+        {
+            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.write("0");
         }
     }
 
@@ -72,28 +78,7 @@ public class ReportReviewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-        try {
-            String review= request.getParameter("id_review");
-            if(review!=null)
-            {
-                int id_review = Integer.parseInt(review);
-                manager.reportReview(id_review);
-                out.write("1");
-            }
-            else
-                out.write("-1");
-
-        } catch (NumberFormatException ex) {
-            //non loggo le eccezioni dovute a parametri get mal formati
-            out.write("0");
-        }
-        catch (SQLException ex)
-        {
-            Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
-            out.write("0");
-        }
+        processRequest(request, response);
     }
 
     /**

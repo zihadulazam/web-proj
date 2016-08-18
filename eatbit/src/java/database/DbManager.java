@@ -1858,25 +1858,24 @@ public class DbManager implements Serializable
     /**
      * Aggiunge una foto ad un ristorante.
      *
-     * @param id_restaurant Il ristorante relativo alla foto.
-     * @param id_user Il proprietario della foto.
      * @param photo L'oggetto foto da inserire.
-     * @return Id del record creato nel db(id della foto).
+     * @return Id del record creato nel db(id della foto), -1 se il ristorante
+     * con id nel campo id_restaurant della foto non esiste.
      * @throws SQLException
      */
-    private int addPhoto(final int id_restaurant, final int id_user, final Photo photo) throws SQLException
+    public int addPhoto(final Photo photo) throws SQLException
     {
         int res = -1;
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTOS(NAME,"
                 + "DESCRIPTION,PATH,ID_RESTAURANT,ID_OWNER) VALUES(?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS))
         {
-            if (getRestaurantById(id_restaurant) != null)
+            if (getRestaurantById(photo.getId_restaurant()) != null)
             {
                 st.setString(1, photo.getName());
                 st.setString(2, photo.getDescription());
                 st.setString(3, photo.getPath());
-                st.setInt(4, id_restaurant);
-                st.setInt(5, id_user);
+                st.setInt(4, photo.getId_restaurant());
+                st.setInt(5, photo.getId_owner());
                 st.executeUpdate();
                 try (ResultSet rs = st.getGeneratedKeys())
                 {
@@ -2149,7 +2148,7 @@ public class DbManager implements Serializable
      * @throws SQLException
      * @throws java.io.IOException
      */
-    public int addRestaurant(Restaurant restaurant, final ArrayList<String> cucine, 
+    public int addRestaurant(Restaurant restaurant, final String[] cucine, 
             final Coordinate coordinate, final ArrayList<HoursRange> range, 
             final String userTextClaim, final double min, final double max, final boolean isClaim) throws SQLException, IOException
     {
@@ -2175,9 +2174,9 @@ public class DbManager implements Serializable
                 {
                     restId = rs.getInt(1);
                     //per ogni cucina aggiungo la relazione, se quella cucina esiste nel nostro db
-                    for (int i = 0; i < cucine.size(); i++)
+                    for (String cucine1 : cucine)
                     {
-                        int cuisineId = findCuisine(cucine.get(i));
+                        int cuisineId = findCuisine(cucine1);
                         if (cuisineId != -1)
                         {
                             addRestaurantXCuisine(restId, cuisineId);
@@ -2434,7 +2433,7 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
-            unreportPhoto(id_photo);//rimuovo dalla lista reportati
+            //unreportPhoto(id_photo);//rimuovo dalla lista reportati non necessario causa ON DELETE CASCADE
             st.setInt(1, id_photo);
             st.executeUpdate();
             con.commit();
@@ -2548,7 +2547,7 @@ public class DbManager implements Serializable
             Review review = getReviewById(id_review);
             if (review != null)
             {
-                unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate
+                //unreportReview(id_review);//rimuovo review dalla tabella delle review segnalate nn necessario causa ON DELETE CASCADE
                 st.setInt(1, id_review);
                 try (PreparedStatement rm1 = con.prepareStatement("UPDATE RESTAURANTS SET GLOBAL_VALUE=((GLOBAL_VALUE"
                         + "*(REVIEWS_COUNTER+VOTES_COUNTER))-?)/(REVIEWS_COUNTER+VOTES_COUNTER-1),REVIEWS_COUNTER="
@@ -2577,7 +2576,7 @@ public class DbManager implements Serializable
                     //ordine di rimozione per rispettare costraint
                     rm1.executeUpdate();
                     rm2.executeUpdate();
-                    rm4.executeUpdate();
+                    //rm4.executeUpdate();fatto da db con delete on cascade
                     rm5.executeUpdate();
                     st.executeUpdate();
                     rm3.executeUpdate();
@@ -2800,6 +2799,7 @@ public class DbManager implements Serializable
         try (PreparedStatement st = con.prepareStatement("DELETE FROM RESTAURANTS WHERE ID=?"))
         {
             st.setInt(1, id_restaurant);
+            removeRestaurantPhotos(id_restaurant);
             removeRestaurantHourRange(id_restaurant);
             removeRestaurantCuisine(id_restaurant);
             removeRestaurantCoordinate(id_restaurant);
@@ -2814,6 +2814,30 @@ public class DbManager implements Serializable
         }
     }
 
+    /**
+     * Rimuove le foto associate a un ristorante.
+     *
+     * @param id_restaurant Id del ristorante da rimuovere.
+     * @throws SQLException
+     */
+    private void removeRestaurantPhotos(final int id_restaurant) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID_RESTAURANT=?"))
+        {
+            st.setInt(1, id_restaurant);
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
+    
+    
+    
     /**
      * Rimuove gli orari di un ristorante a partire dal suo id.
      *
@@ -4849,4 +4873,77 @@ public class DbManager implements Serializable
         }
         return res;
     }
-}
+    
+    /**
+     * Restituisce un array di oggetti Neighbour (nome,latitudine,longitudine) relativi
+     * ad un ristorante. Vengono considerati vicini di un ristorante i ristoranti
+     * che sono a una distanza minore del parametro distance, da considerarsi in
+     * km.
+     * Al momento nel vicinato di un ristorante è presente il ristorante stesso.
+     * @param id_restaurant Id del ristorante di cui cercare i vicini.
+     * @param distance Distanza in km dal ristorante.
+     * @return I vicini del ristorante.
+     * @throws SQLException 
+     */
+    public ArrayList<Neighbour> getRestaurantNeighbourhood(final int id_restaurant, final double distance) throws SQLException
+    {
+        ArrayList<Neighbour> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT R.NAME,IDS.LATITUDE,IDS.LONGITUDE "
+                + "FROM (SELECT C.ID,C.LATITUDE,C.LONGITUDE FROM COORDINATES C, "
+                + "(SELECT ID,LATITUDE,LONGITUDE FROM COORDINATES WHERE ID =?) TARGET WHERE "
+                + "(12742*ASIN(SQRT(0.5 - COS((TARGET.LATITUDE - C.LATITUDE) * "
+                + "0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) * "
+                + "COS(TARGET.LATITUDE * 0.017453292519943295) * (1- COS((TARGET.LONGITUDE - C.LONGITUDE) * "
+                + "0.017453292519943295))/2))) < ?) IDS, RESTAURANTS R, RESTAURANT_COORDINATE RC "
+                + "WHERE R.ID=RC.ID_RESTAURANT AND RC.ID_COORDINATE=IDS.ID"))
+        {
+            st.setInt(1, id_restaurant);
+            st.setDouble(2, distance);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Neighbour n= new Neighbour();
+                    n.setName(rs.getString("NAME"));
+                    n.setLatitude(rs.getDouble("LATITUDE"));
+                    n.setLongitude(rs.getDouble("LONGITUDE"));
+                    res.add(n);
+                }
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce tutte i tipi di cucina al momento presenti nel db.
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> getAllCuisines() throws SQLException
+    {
+        ArrayList<String> res=new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM CUISINES"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getString("NAME"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    }

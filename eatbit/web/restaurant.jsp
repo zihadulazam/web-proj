@@ -300,11 +300,9 @@
                                                     <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
                                                         <img src="<c:out value="${allComments.getPhoto().getPath()}" />">
                                                     </a>
-                                                    <%--
                                                     <div class="text-center">
-                                                        <button type="button" class="btn btn-danger btn-segnala-photo-recensione popov" id="<c:out value="${allComments.getPhoto().getId()}"/>" title="Segnala Photo" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                        <a class="btn-segnala-photo-recensione popov" href="" id="<c:out value="${lastComment.getPhoto().getId()}"/>"  onclick="segnalaPhoto(this.id); return false;">Segnala Photo!</a>
                                                     </div>
-                                                    --%>
                                                 </c:if>
                                             </div>
                                             <div class="col-md-10 comment-content">
@@ -385,7 +383,7 @@
 
         <!------------------- Mappa Vicini -------------------->
         <div class="container contenitori-blocco" id="map-container">
-            <h1><img src="img/restaurant/map.png"/> Vicino a NOME_RISTORANTE</h1>
+            <h1><img src="img/restaurant/map.png"/> Vicino a <c:out value="${restaurant_context.getRestaurant().getName()}"/></h1>
             <hr/>
             <div id="map"></div>
         </div>
@@ -483,7 +481,7 @@
                     <p>Sabato</p><hr/>
                     <p>Domenica</p>
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
                         <p><c:out value="${ore.getFormattedStart_hour()}"/> - <c:out value="${ore.getFormattedEnd_hour()}"/></p><hr/>
                     </c:forEach>

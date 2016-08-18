@@ -34,15 +34,15 @@ public class ReportPhotoServlet extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
@@ -57,15 +57,26 @@ public class ReportPhotoServlet extends HttpServlet {
             else
                 out.write("-1");
 
-        } catch (NumberFormatException ex) {
-            //non loggo le eccezioni dovute a parametri get mal formati
-            out.write("0");
-        }
-        catch (SQLException ex)
+        } 
+        catch (SQLException |NumberFormatException ex)
         {
             Logger.getLogger(ReportPhotoServlet.class.getName()).log(Level.SEVERE, null, ex);
             out.write("0");
         }
+    }
+    
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -79,8 +90,7 @@ public class ReportPhotoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.write(0);
+        processRequest(request, response);
     }
 
     /**
