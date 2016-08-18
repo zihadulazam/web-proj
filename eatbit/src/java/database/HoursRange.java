@@ -13,7 +13,7 @@ import java.util.Calendar;
  *
  * @author jacopo
  */
-public class HoursRange implements Serializable
+public final class HoursRange implements Serializable
 {
     private int day;
     private Time start_hour;
@@ -135,6 +135,39 @@ public class HoursRange implements Serializable
                 break;
         }
         return res;
+    }
+    
+    private boolean isDay(final int day )
+    {
+        return day>=0 && day <=7;
+    }
+    
+    private boolean isHour(final int hour)
+    {
+        return hour>=0 && hour<=24;
+    }
+    
+    private boolean isMinute(final int minute)
+    {
+        return minute>=0 && minute<=60;
+    }
+    
+    public HoursRange(String hour)
+    {
+        int tDay=hour.charAt(0)-'0';
+        int hourOp=Integer.parseInt(hour.substring(1, 3));
+        int minuteOp=Integer.parseInt(hour.substring(4, 6));
+        int hourCl=Integer.parseInt(hour.substring(6, 8));
+        int minuteCl=Integer.parseInt(hour.substring(9, 11));
+        if(isDay(tDay)&&isHour(hourOp)&&isMinute(minuteOp)&&isHour(hourCl)
+                &&isMinute(minuteCl))
+        {
+         setDay(tDay);
+         setStart_hour(new Time(hourOp,minuteOp,0));
+         setEnd_hour(new Time(hourCl,minuteCl,0));
+        }
+        else
+            throw new NumberFormatException("wrong day or hour or minutes range");
     }
 }
 

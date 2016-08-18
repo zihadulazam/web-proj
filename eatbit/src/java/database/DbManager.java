@@ -2174,9 +2174,9 @@ public class DbManager implements Serializable
                 {
                     restId = rs.getInt(1);
                     //per ogni cucina aggiungo la relazione, se quella cucina esiste nel nostro db
-                    for (int i = 0; i < cucine.length; i++)
+                    for (String cucine1 : cucine)
                     {
-                        int cuisineId = findCuisine(cucine[i]);
+                        int cuisineId = findCuisine(cucine1);
                         if (cuisineId != -1)
                         {
                             addRestaurantXCuisine(restId, cuisineId);
@@ -4920,4 +4920,30 @@ public class DbManager implements Serializable
         }
         return res;
     }
-}
+    
+    /**
+     * Restituisce tutte i tipi di cucina al momento presenti nel db.
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<String> getAllCuisines() throws SQLException
+    {
+        ArrayList<String> res=new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM CUISINES"))
+        {
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getString("NAME"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    }

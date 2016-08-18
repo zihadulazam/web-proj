@@ -7,10 +7,11 @@ package servlets;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import database.Coordinate;
 import database.DbManager;
+import database.HoursRange;
 import database.Photo;
 import database.Restaurant;
-import database.Review;
 import database.User;
 import java.io.File;
 import java.io.IOException;
@@ -29,14 +30,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *Servlet per aggiungere una cucina, restituisce 1 se è andato a buon fine, 0 se 
+ * c'è stata una eccezione sql o di formato dei numeri (parametri che dovevano essere
+ * numeri non lo erano), -1 se mancavano parametri.
+ * parametri necessari:
+ * name
+ * description
+ * url
+ * cuisine
+ * address
+ * city
+ * state
+ * latitude//deve essere numero, anche reale
+ * longitude//deve essere numero, anche reale
+ * hour//formato 110:0018:40    [giorno da 1 a 7][ora:minuto][ora:minuto]
+ * text_claim
+ * min//deve essere numero, anche reale
+ * max//deve essere numero, anche reale
+ * claim//deve essere numero intero, 1 per dire che questa creazione di ristorante è anche una
+ * richiesta di possesso, 0 se è solo una creazione
+ * photo_description
+ * Deve inoltre esserci un file(foto).
  * @author jacopo
  */
-@WebServlet(name = "addRestaurantServlet", urlPatterns =
+
+@WebServlet(name = "AddRestaurantServlet", urlPatterns =
 {
-    "/addRestaurantServlet"
+    "/AddRestaurantServlet"
 })
-public class addRestaurantServlet extends HttpServlet
+public class AddRestaurantServlet extends HttpServlet
 {
     private String dirName;
     private DbManager manager;
@@ -71,13 +93,27 @@ public class addRestaurantServlet extends HttpServlet
                     new DefaultFileRenamePolicy());
         //prendo il file
         Enumeration files = multi.getFileNames();
-        Restaurant restaurant = new  Restaurant();
         //preparo le stringhe e gli oggetti per raccogliere i parametri
+        //stringhe per risto
         String sName=null;
         String sDescription=null;
         String sUrl=null;
-        String[] cuisines;
-        
+        //cucine
+        String[] sCuisines=null;
+        //stringhe per coordinata
+        String sAddress=null;
+        String sCity=null;
+        String sState=null;
+        String sLatitude=null;//deve essere numero, anche reale
+        String sLongitude=null;//deve essere numero, anche reale
+        //orari
+        String[] sHours=null;
+        //altre Stringhe
+        String sPhoto_description=null;
+        String sText_claim=null;
+        String sMin=null;//deve essere numero, anche reale
+        String sMax=null;//deve essere numero, anche reale
+        String sClaim=null;//deve essere numero intero
         //prendo i parametri
         Enumeration params = multi.getParameterNames();            
         while (params.hasMoreElements()) 
@@ -89,15 +125,28 @@ public class addRestaurantServlet extends HttpServlet
                 case "description": sDescription=value[0];break;
                 case "name": sName=value[0];break;
                 case "url": sUrl=value[0];break;
-                case "cuisine": cuisines=value;
+                case "cuisine": sCuisines=value;break;
+                case "address": sAddress=value[0];break;
+                case "city": sCity=value[0];break;
+                case "state": sState=value[0];break;
+                case "latitude": sLatitude=value[0];break;
+                case "longitude": sLongitude=value[0];break;
+                case "hour": sHours=value;break;
+                case "text_claim": sText_claim=value[0];break;
+                case "min": sMin=value[0];break;
+                case "max": sMax=value[0];break;
+                case "claim": sClaim=value[0];break;
+                case "photo_description": sPhoto_description=value[0];break;
                 default: break;
             }
         }
-        /*
+        
         //controllo che siano presenti tutti i parametri necessari
-        if(sAtmosphere==null||sDescription==null||sFood==null||sGlobal_value==null
-                ||sId_rest==null||sName==null||sService==null||sValue_for_money==null
-                ||sPhoto_description==null||!files.hasMoreElements())
+        if(sDescription==null||sName==null||sUrl==null||sCuisines==null
+                ||sAddress==null||sCity==null|sState==null||sLatitude==null
+                ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
+                ||sMax==null||sClaim==null||sPhoto_description==null
+                ||!files.hasMoreElements())
             out.write("-1");
         else
         {
@@ -108,7 +157,7 @@ public class addRestaurantServlet extends HttpServlet
             String type = multi.getContentType(name);
             File f = multi.getFile(name); 
             String newName = UUID.randomUUID().toString()+"."+getExtension(f.toString());
-            String newPath = dirName+"\\"+newName;
+            String newPath = dirName+"/"+newName;
             File f2 = new File(newPath);
             f.renameTo(f2);
             //converto i parametri che lo necessitano in numeri e faccio
@@ -116,51 +165,43 @@ public class addRestaurantServlet extends HttpServlet
             try
             {
                 User user= (User) request.getSession().getAttribute("user");//user deve essere trovato causa filtro
-                //aggiungo foto e ottengo il suo id
-                Photo photo= new Photo();
-                photo.setId_owner(user.getId());
-                photo.setId_restaurant(Integer.parseInt(sId_rest));
-                photo.setPath("img/photos/"+newName);
-                photo.setName(name);
-                photo.setDescription(sPhoto_description);
-                int id_photo= manager.addPhoto(photo);
-                if(id_photo==-1)
-                {
-                    //ristorante non esiste
-                    out.write("-2");
-                }
+                Restaurant restaurant = new  Restaurant();
+                Coordinate coordinate= new Coordinate();
+                restaurant.setName(sName);
+                restaurant.setDescription(sDescription);
+                restaurant.setWeb_site_url(sUrl);
+                restaurant.setId_creator(user.getId());
+                coordinate.setAddress(sAddress);
+                coordinate.setCity(sCity);
+                coordinate.setState(sState);
+                coordinate.setLatitude(Double.parseDouble(sLatitude));
+                coordinate.setLongitude(Double.parseDouble(sLongitude));
+                ArrayList<HoursRange> hours=parseHours(sHours);
+                double minPrice=Double.parseDouble(sMin);
+                double maxPrice=Double.parseDouble(sMax);
+                int claim=Integer.parseInt(sClaim);
+                int idRest=manager.addRestaurant(restaurant, sCuisines, coordinate,
+                        hours, sText_claim, minPrice, maxPrice, (claim==1));
+                if(idRest==-1)
+                    ;//deleta da fs la foto
                 else
                 {
-                    //una volta caricata la foto setto la review e la inserisco
-                    Review review= new Review();
-                    review.setAtmosphere(Integer.parseInt(sAtmosphere));
-                    review.setDescription(sDescription);
-                    review.setFood(Integer.parseInt(sFood));
-                    review.setGlobal_value(Integer.parseInt(sGlobal_value));
-                    review.setId_creator(user.getId());
-                    review.setId_photo(id_photo);
-                    review.setId_restaurant(Integer.parseInt(sId_rest));
-                    review.setName(sName);
-                    review.setService(Integer.parseInt(sService));
-                    review.setValue_for_money(Integer.parseInt(sValue_for_money));
-                    switch (manager.addReview(review))
-                    {//n.b. va cancellata dal fs la foto per i casi -2 -3
-                    //l'utente ha già fatto un voto o una review a questo ristorante nelle ultime 24h
-                        case -2: out.write("-3");break;
-                    //l'utente ristoratore sta cercando di recensire il proprio ristorante
-                        case -3: out.write("-4");break;
-                    //successo
-                        default: out.write("1");break;
-                    }
+                    Photo photo= new Photo();
+                    photo.setId_owner(user.getId());
+                    photo.setId_restaurant(idRest);
+                    photo.setPath("img/photos/"+newName);
+                    photo.setName(name);
+                    photo.setDescription(sPhoto_description);
+                    out.write("1");
                 }
             }
             catch(NumberFormatException | SQLException e)
             {
                 //va deletata foto da filesystem
-                Logger.getLogger(addReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
+                Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
             }
-        }*/
+        }
         
     }
 
@@ -214,4 +255,26 @@ public class addRestaurantServlet extends HttpServlet
             return e.toString();
         }
     }
+    
+    private ArrayList<HoursRange> parseHours(final String[] hours)
+    {
+        ArrayList<HoursRange> res=new ArrayList<>();
+        for (String hour : hours)
+        {
+            //formato è 110:0018:30  [giorno][apertura][chiusura]
+            try
+            {
+                HoursRange tmp=new HoursRange(hour);
+                res.add(tmp);
+            }
+            catch(NumberFormatException | IndexOutOfBoundsException e)
+            {
+                //se parte una eccezione su una ora non faccio niente e vado
+                //avanti a parsare il resto
+            }
+        }
+        return res;
+    }
+    
+    
 }

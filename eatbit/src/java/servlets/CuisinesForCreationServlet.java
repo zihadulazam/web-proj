@@ -6,17 +6,12 @@
 package servlets;
 
 import database.DbManager;
-import database.Restaurant;
-import database.Review;
-import database.User;
-import database.contexts.RestaurantContext;
-import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,18 +19,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet che mette in request i 5 top ristoranti per voto, 5 per numero
- * recensioni e le ultime 5 review. Passa poi il controllo a /index.jsp.
- *
+ *Servlet per fare in modo che la pagina di creazione del ristorante abbia
+ * le cucine al momento disponibili, per evitare di hardcodarle nella jsp.
  * @author jacopo
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
-public class HomeServlet extends HttpServlet {
-
+@WebServlet(name = "CuisinesForCreationServlet", urlPatterns =
+{
+    "/CuisinesForCreationServlet"
+})
+public class CuisinesForCreationServlet extends HttpServlet
+{
     private DbManager manager;
 
     @Override
-    public void init() throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
@@ -50,21 +47,22 @@ public class HomeServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            ArrayList<RestaurantContext> top5RestContextsByValue = manager.getTop5RestaurantContextsByValue();
-            ArrayList<RestaurantContext> top5RestContextsByReviews = manager.getTop5RestaurantContextsByReviewsCounter();
-            ArrayList<ReviewContext> last5ReviewsContexts = manager.getLast5ReviewContexts();
-            request.setAttribute("top5RestByValue", top5RestContextsByValue);
-            request.setAttribute("top5RestByReviews", top5RestContextsByReviews);
-            request.setAttribute("last5Reviews", last5ReviewsContexts);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            throws ServletException, IOException
+    {
+        try
+        {
+            request.setAttribute("cuisines", manager.getAllCuisines());
+            request.getRequestDispatcher("/CreateRestaurant.jsp").forward(request, response);
+        }
+        catch(SQLException e)
+        {
+            Logger.getLogger(CuisinesForCreationServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
+        
     }
-    
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -75,8 +73,9 @@ public class HomeServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
     }
 
     /**
@@ -89,17 +88,19 @@ public class HomeServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

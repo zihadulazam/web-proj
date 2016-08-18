@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.Enumeration;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -47,15 +48,15 @@ import javax.servlet.http.HttpServletResponse;
  * service INTERO
  * value_for_money INTERO
  * photo_description STRINGA
- * Oltrea a questi parametri deve essere mandato un file (foto).
+ * Oltre a questi parametri deve essere mandato un file (foto).
  * @author jacopo
  */
 
-@WebServlet(name = "addReviewServlet", urlPatterns =
+@WebServlet(name = "AddReviewServlet", urlPatterns =
 {
-    "/addReviewServlet"
+    "/AddReviewServlet"
 })
-public class addReviewServlet extends HttpServlet
+public class AddReviewServlet extends HttpServlet
 {
     private String dirName;
     private DbManager manager;
@@ -135,7 +136,7 @@ public class addReviewServlet extends HttpServlet
             String type = multi.getContentType(name);
             File f = multi.getFile(name); 
             String newName = UUID.randomUUID().toString()+"."+getExtension(f.toString());
-            String newPath = dirName+"\\"+newName;
+            String newPath = dirName+"/"+newName;
             File f2 = new File(newPath);
             f.renameTo(f2);
             //converto i parametri che lo necessitano in numeri e faccio
@@ -184,7 +185,7 @@ public class addReviewServlet extends HttpServlet
             catch(NumberFormatException | SQLException e)
             {
                 //va deletata foto da filesystem
-                Logger.getLogger(addReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
+                Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
             }
         }
