@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
+import utility.FileDeleter;
 //import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -81,8 +81,7 @@ public class ModifyProfileServlet extends HttpServlet {
         
         session.setAttribute("user", user);
         PrintWriter out = response.getWriter();
-        //creo il realpath della directory di salvataggio avatar
-        
+        //creo il realpath della directory di salvataggio avatar       
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avater";
         out.println(request.getSession().getServletContext());        
         //String _path = getRelativePath("", strRealPath, strRealPath);
@@ -138,10 +137,20 @@ public class ModifyProfileServlet extends HttpServlet {
                     f.renameTo(f2);               
                 
                     //CAMBIO FOTO UTENTE
+                   
                     
                     //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
-                    manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
-
+                    String oldAvatarPath = user.getAvatar_path();
+                    out.println("old_avatar_path :" + oldAvatarPath);   
+                    
+                    if(FileDeleter.deleteFile(oldAvatarPath)){
+                        manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
+                        out.println("superata modifica avatar ");         
+                    }else{
+                        //request.getRequestDispatcher("/index.jsp").forward(request, response);
+                        out.println("deleteFile = false");   
+                    }                 
+                    
                     //stampo qualche parametro 
                     out.println("dirName: " + dirName);
                     out.println("originalFilename: " + originalFilename);                
@@ -154,7 +163,7 @@ public class ModifyProfileServlet extends HttpServlet {
             
             
             //forward della richiesta
-            request.getRequestDispatcher("/ProfileServlet").forward(request, response);
+            //request.getRequestDispatcher("/ProfileServlet").forward(request, response);
             
         }
     
