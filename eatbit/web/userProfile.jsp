@@ -252,8 +252,8 @@
                                                     <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="id_restaurant"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Visita</button>            
                                                 </form>
                                                 
-                                                <form action="/GetRestaurantInfoServlet" method="GET">
-                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="id_restaurant"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
+                                                <form action="GetRestaurantInfoServlet" method="POST">
+                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="restaurant_id"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
                                                 </form>
                                             </div>                                            
                                         </div>

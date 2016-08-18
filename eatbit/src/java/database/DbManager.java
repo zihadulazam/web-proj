@@ -4946,4 +4946,28 @@ public class DbManager implements Serializable
         return res;
     }
     
+    public PriceRange getPriceRangeById(int id) throws SQLException{
+        PriceRange priceRange = null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM PRICE_RANGES WHERE ID=?"))
+        {
+            st.setInt(1, id);
+            try (ResultSet rs = st.executeQuery())
+            {
+                if (rs.next())
+                {
+                    priceRange = new PriceRange();
+                    priceRange.setMax(rs.getInt("MAX_VALUE"));
+                    priceRange.setMin(rs.getInt("MIN_VALUE"));
+                    priceRange.setName(rs.getString("NAME"));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return priceRange;
+    }
     }

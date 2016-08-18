@@ -6,6 +6,7 @@
 package servlets;
 
 import database.DbManager;
+import database.PriceRange;
 import database.Restaurant;
 import database.User;
 import java.io.IOException;
@@ -63,11 +64,13 @@ public class GetRestaurantInfoServlet extends HttpServlet {
                 rd.forward(request, response);
             }
             //prendo l'ID del ristorante da modificare
-            int id_restaurant = (int) request.getAttribute("id_restaurant");
+            int id_restaurant = Integer.parseInt(request.getParameter("restaurant_id"));
             //raccolgo le informazioni
             Restaurant restaurant = manager.getRestaurantById(id_restaurant);
+            PriceRange priceRange = manager.getPriceRangeById(restaurant.getId_price_range());
             //aggiungo il ristorante alla richiesta
             request.setAttribute("restaurant", restaurant);
+            request.setAttribute("priceRange", priceRange);
             //dirigo verso la pagina di modifica del ristorante
             request.getRequestDispatcher("/modifyRestaurant.jsp").forward(request, response);
             
