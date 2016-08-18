@@ -14,7 +14,8 @@ import java.io.File;
 public class FileDeleter {
     /**
      * procedura statica che prende il path assoluto di un file e lo cancella
-     * @param _path percorso assoluto del file da cancellare
+     * @param _path percorso assoluto del file da cancellare 
+     * es_path:  C:\Users\andrei\Desktop\PROGETTO\web-proj\eatbit\web\img\avater\be320b71-bd27-471a-80ba-b1e64dacf25e.jpg
      * @return ritorna true se il file é stato cancellato, false altrimenti
      */
     public static boolean deleteFile(String _path){     

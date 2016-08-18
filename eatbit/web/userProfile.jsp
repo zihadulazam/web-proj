@@ -70,7 +70,7 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${listReview.size()}"/> </p>
                               <p>
-                                <form action="CreateRestaurant.html" method="get">
+                                <form action="CreateRestaurant.jsp" method="get">
                                     <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
                                 </form>
                               <hr>
@@ -137,9 +137,8 @@
                                                 </div>
                                                 <div class="col-md-10 comment-content">
                                                     <p>
-                                                        <button type="button" class="btn btn-danger btn-segnala-review" id="<c:out value="${allComments.getReview().getId()}"  />" disabled="disabled" title="Segnala Recensione" onclick="segnalaReview(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
-                                                        <h3 class="comment-title"><c:out value="${allComments.getReview().getName()}" /></h3>
-                                                    </p>
+                                                        <button type="button" class="btn btn-danger btn-segnala-review" value="<c:out value="${allComments.getReview().getId()}"  />" disabled="disabled" title="Segnala Recensione" onclick="segnalaReview(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                                                        <h3 class="comment-title"><c:out value="${allComments.getReview().getName()}" /></h3>                                                    
                                                     <div class="row rating-stars">
                                                         <c:forEach var="i" begin="1" end="5">
                                                             <c:choose>
@@ -380,7 +379,7 @@
                                         <div class="col-md-9">                                           
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="allUserNotify.jsp" class="btn btn-primary">Vedi tutte le notifiche!</a>
+                                            <a href="GetAllNotify" class="btn btn-primary">Vedi tutte le notifiche!</a>
                                         </div>
                                     <div class="col-md-2"></div>
                                 </div>
