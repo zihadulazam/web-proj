@@ -1,0 +1,575 @@
+/* line 3, ../scss/restaurant.scss */
+#header {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+/* line 8, ../scss/restaurant.scss */
+#restaurant-name img {
+  height: 110px;
+  width: auto;
+  text-align: center;
+}
+/* line 13, ../scss/restaurant.scss */
+#restaurant-name h1 {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-family: 'Raleway', sans-serif;
+  color: #555;
+  font-size: 40px;
+}
+
+/* line 24, ../scss/restaurant.scss */
+#restaurant-profile-pic {
+  width: 200px;
+  height: 200px;
+}
+
+/* line 28, ../scss/restaurant.scss */
+.informazioni {
+  text-align: center;
+}
+/* line 30, ../scss/restaurant.scss */
+.informazioni #tipi-di-cucina {
+  font-size: 16px;
+}
+
+/* line 35, ../scss/restaurant.scss */
+.rating-stars {
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  display: block !important;
+}
+/* line 40, ../scss/restaurant.scss */
+.rating-stars img {
+  height: 20px;
+  width: auto;
+}
+
+/* line 46, ../scss/restaurant.scss */
+#informazioni-orario {
+  text-align: right;
+  line-height: 10px;
+}
+/* line 47, ../scss/restaurant.scss */
+#informazioni-orario #bold {
+  font-weight: bold;
+  color: #337ab7;
+  margin-top: 70px;
+}
+/* line 52, ../scss/restaurant.scss */
+#informazioni-orario #classifica {
+  color: #337ab7;
+  font-weight: bold;
+}
+/* line 56, ../scss/restaurant.scss */
+#informazioni-orario #info-apertura {
+  font-size: 16px;
+}
+
+@media (max-width: 991px) {
+  /* line 63, ../scss/restaurant.scss */
+  #informazioni-orario {
+    text-align: center;
+    padding-top: 0px;
+  }
+  /* line 66, ../scss/restaurant.scss */
+  #informazioni-orario #bold {
+    margin-top: 0px;
+  }
+
+  /* line 70, ../scss/restaurant.scss */
+  #restaurant-profile-pic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+/*--------------------Slider CSS -----------------------*/
+/*-------------------------------------------------------
+---------------------------------------------------------*/
+/* jssor slider arrow navigator skin 05 css */
+/*
+.jssora05l                  (normal)
+.jssora05r                  (normal)
+.jssora05l:hover            (normal mouseover)
+.jssora05r:hover            (normal mouseover)
+.jssora05l.jssora05ldn      (mousedown)
+.jssora05r.jssora05rdn      (mousedown)
+*/
+/* line 90, ../scss/restaurant.scss */
+#jssor_1 {
+  border: 10px solid #fff;
+  box-shadow: 0px 0px 5px 1px #999;
+  -webkit-box-shadow: 0px 0px 5px 1px #999;
+  -moz-box-shadow: 0px 0px 5px 1px #999;
+}
+
+/* line 98, ../scss/restaurant.scss */
+.jssora05l, .jssora05r {
+  display: block;
+  position: absolute;
+  /* size of arrow element */
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: url("../img/a17.png") no-repeat;
+  overflow: hidden;
+}
+
+/* line 108, ../scss/restaurant.scss */
+.jssora05l {
+  background-position: -10px -40px;
+}
+
+/* line 109, ../scss/restaurant.scss */
+.jssora05r {
+  background-position: -70px -40px;
+}
+
+/* line 110, ../scss/restaurant.scss */
+.jssora05l:hover {
+  background-position: -130px -40px;
+}
+
+/* line 111, ../scss/restaurant.scss */
+.jssora05r:hover {
+  background-position: -190px -40px;
+}
+
+/* line 112, ../scss/restaurant.scss */
+.jssora05l.jssora05ldn {
+  background-position: -250px -40px;
+}
+
+/* line 113, ../scss/restaurant.scss */
+.jssora05r.jssora05rdn {
+  background-position: -310px -40px;
+}
+
+/* jssor slider thumbnail navigator skin 01 css */
+/*
+.jssort01-99-66 .p            (normal)
+.jssort01-99-66 .p:hover      (normal mouseover)
+.jssort01-99-66 .p.pav        (active)
+.jssort01-99-66 .p.pdn        (mousedown)
+*/
+/* line 122, ../scss/restaurant.scss */
+.jssort01-99-66 .p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 99px;
+  height: 66px;
+}
+
+/* line 130, ../scss/restaurant.scss */
+.jssort01-99-66 .t {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* line 139, ../scss/restaurant.scss */
+.jssort01-99-66 .w {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 147, ../scss/restaurant.scss */
+.jssort01-99-66 .c {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 95px;
+  height: 62px;
+  border: #000 2px solid;
+  box-sizing: content-box;
+  background: url("../img/t01.png") -800px -800px no-repeat;
+  _background: none;
+}
+
+/* line 159, ../scss/restaurant.scss */
+.jssort01-99-66 .pav .c {
+  top: 2px;
+  _top: 0px;
+  left: 2px;
+  _left: 0px;
+  width: 95px;
+  height: 62px;
+  border: #000 0px solid;
+  _border: #fff 2px solid;
+  background-position: 50% 50%;
+}
+
+/* line 171, ../scss/restaurant.scss */
+.jssort01-99-66 .p:hover .c {
+  top: 0px;
+  left: 0px;
+  width: 97px;
+  height: 64px;
+  border: #fff 1px solid;
+  background-position: 50% 50%;
+}
+
+/* line 180, ../scss/restaurant.scss */
+.jssort01-99-66 .p.pdn .c {
+  background-position: 50% 50%;
+  width: 95px;
+  height: 62px;
+  border: #000 2px solid;
+}
+
+/* line 187, ../scss/restaurant.scss */
+* html .jssort01-99-66 .c, * html .jssort01-99-66 .pdn .c, * html .jssort01-99-66 .pav .c {
+  /* ie quirks mode adjust */
+  width: 99px;
+  height: 66px;
+}
+
+/*---------------------END Slider CSS ----------------------*/
+/*----------------------------------------------------------*/
+/* line 195, ../scss/restaurant.scss */
+#button-container {
+  margin-top: 15px;
+}
+
+/* line 198, ../scss/restaurant.scss */
+#button-rec-foto {
+  text-align: right;
+}
+/* line 200, ../scss/restaurant.scss */
+#button-rec-foto .btn-config {
+  margin-top: 10px;
+  width: 230px;
+}
+
+/* line 206, ../scss/restaurant.scss */
+#collapseAddRecensione #btn-pubblica {
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* line 212, ../scss/restaurant.scss */
+.rating-lb {
+  font-size: 16px;
+}
+
+/* line 215, ../scss/restaurant.scss */
+.rating-bar {
+  margin-left: 20px;
+  margin-top: 5px;
+  width: 300px;
+  float: left;
+}
+
+/* line 221, ../scss/restaurant.scss */
+.rating-value {
+  margin-left: 20px;
+  background-color: #F5F5F5;
+  float: left;
+  border: 0;
+  font-weight: bold;
+  display: block;
+}
+
+/* line 229, ../scss/restaurant.scss */
+#recensione-title {
+  width: 100%;
+}
+
+/* line 233, ../scss/restaurant.scss */
+#btn-upload {
+  text-align: right;
+}
+
+@media (max-width: 991px) {
+  /* line 237, ../scss/restaurant.scss */
+  #button-rec-foto {
+    text-align: center;
+  }
+
+  /* line 240, ../scss/restaurant.scss */
+  #btn-upload {
+    margin-top: 10px;
+  }
+}
+
+/* line 251, ../scss/restaurant.scss */
+.contenitori-blocco h1 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #666;
+  text-align: center;
+}
+
+/* line 260, ../scss/restaurant.scss */
+#ristoranti-container .dataTables_wrapper table thead {
+  margin-top:  10px;
+}
+
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    display: block;
+    font-family: FontAwesome;
+}
+
+/* line 263, ../scss/restaurant.scss */
+#ristoranti-container table {
+  border: 0px;
+}
+/* line 266, ../scss/restaurant.scss */
+#ristoranti-container {
+  background-color: #fff !important;
+  border: 0px;
+}
+
+/* line 270, ../scss/restaurant.scss */
+#ristoranti-container .container-left {
+  margin-top: 25px;  
+  border: 5px solid #fff;
+  border-right-color: #e62739;
+  box-shadow: 0px 0px 5px 1px #999;
+  background-color: #e62739;
+  color: white;
+  height: 130px;
+  
+}
+#ristoranti-container .container-left .container-fluid {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+#ristoranti-container .container-left .container-fluid .container-writer
+{
+    text-align: center;
+    margin-top: 10px;
+}
+
+#ristoranti-container .container-left .container-fluid .container-writer img {
+  border: 2px solid white;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}
+
+
+#ristoranti-container .container-center {
+  margin-top: 25px;  
+  border: 5px solid #fff;
+  border-right-color: #e62739;
+  border-left-color: #e62739;
+  box-shadow: 0px 0px 5px 1px #999;
+  background-color: #e62739;
+  color: white;
+  height: 130px;
+}
+
+#ristoranti-container .container-center .container-fluid {
+  padding-right: 5px;
+  padding-left: 5px;
+  text-align: center;
+}
+
+#ristoranti-container .container-center .container-fluid .container-writer
+{
+    text-align: center;
+    margin-top: 0px;
+    
+}
+
+#ristoranti-container .container-center .container-fluid .container-writer ul
+{    text-align: center;        
+}
+
+#ristoranti-container .container-center .container-fluid .container-writer img {
+  border: 2px solid white;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}
+
+
+#ristoranti-container .container-center .container-fluid .container-value {
+    text-align: center;
+    margin-top: 20px; 
+    width: auto;
+}
+
+.contenitori-blocco{
+    height: 100px;
+}
+.contenitori-blocco img {
+  height: 30px;
+  width: auto;
+  text-align: center;
+}
+
+#ristoranti-container .container-right {
+  margin-top: 25px;  
+  border: 5px solid #fff;
+  border-left-color: #e62739;
+  box-shadow: 0px 0px 5px 1px #999;
+  background-color: #e62739;
+  color: white;
+  height: 130px;
+}
+
+#ristoranti-container .container-right .container-fluid {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+#ristoranti-container .container-right .container-fluid .container-writer
+{
+    text-align: center;
+    margin-top: 10px;
+}
+
+#ristoranti-container .container-right .container-fluid .container-writer img {
+  border: 2px solid white;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}
+
+#ristoranti-container .container-right .container-fluid .container-value {
+    text-align: center;
+    margin-top: 50px;    
+}
+
+/* line 276, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+/* line 280, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-writer {
+  text-align: center;
+  margin-top: 10px;
+}
+/* line 284, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-writer img {
+  border: 2px solid white;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}
+/* line 290, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-writer .container-data {
+  color: #fff;
+}
+/* line 294, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content {
+  padding-bottom: 5px;
+}
+/* line 296, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .container-nome-ristorante {
+  text-align: right;
+}
+/* line 298, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .container-nome-ristorante a {
+  color: #FFC300;
+}
+/* line 302, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .container-title {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+/* line 308, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .container-text {
+  font-size: 13px;
+}
+/* line 311, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .risposta-admin {
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+/* line 316, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .risposta-admin .lb {
+  text-align: right;
+}
+@media (max-width: 991px) {
+  /* line 316, ../scss/restaurant.scss */
+  #ristoranti-container .container .container-fluid .row .container-content .risposta-admin .lb {
+    text-align: left;
+  }
+}
+/* line 322, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .risposta-admin .risposta-text {
+  font-size: 12px;
+}
+/* line 325, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .risposta-admin .risposta-autore, #ristoranti-container .container .container-fluid .row .container-content .risposta-admin .risposta-date {
+  text-align: right;
+  font-size: 12px;
+}
+/* line 329, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .risposta-admin .risposta-autore {
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+/* line 334, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .rating-stars {
+  margin-left: 0px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
+}
+/* line 338, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .rating-stars img {
+  height: 20px;
+  width: auto;
+}
+/* line 343, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content p {
+  text-align: justify;
+  text-align: center;
+}
+/* line 346, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .btn-mi-piace {
+  border: 1px solid #fff;
+}
+/* line 348, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .btn-mi-piace .badge {
+  background-color: #e62739;
+}
+/* line 352, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .btn-non-mi-piace {
+  background-color: #e62739;
+  border: 1px solid #fff;
+}
+/* line 355, ../scss/restaurant.scss */
+#ristoranti-container .container .container-fluid .row .container-content .btn-non-mi-piace:hover {
+  background-color: #C70039;
+}
+
+/* line 366, ../scss/restaurant.scss */
+#map {
+  height: 400px;
+  width: 100%;
+  border: 10px solid #fff;
+  box-shadow: 0px 0px 5px 1px #999;
+}
+.btn-visita {
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
