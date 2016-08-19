@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author andrei
  */
-@WebServlet(name = "ModifyRestaurantServlet", urlPatterns = {"/ModifyRestaurantServlet"})
+@WebServlet("ModifyRestaurantServlet")
 public class ModifyRestaurantServlet extends HttpServlet {
     private DbManager manager;
 
@@ -45,8 +45,11 @@ public class ModifyRestaurantServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("text/plain");
+        
+        PrintWriter out = response.getWriter();
         //prendo la sessione
         HttpSession session = request.getSession();
         //variabili per la mofifica dati ristorante
@@ -56,7 +59,7 @@ public class ModifyRestaurantServlet extends HttpServlet {
         String indirizzo = request.getParameter("indirizzo");
         String[] checkboxes = request.getParameterValues("CK");
         
-        System.out.println(nome);
+        out.println(nome);
         
         //prendo l'user della sessione
         User user = (User)session.getAttribute("user");
@@ -71,7 +74,6 @@ public class ModifyRestaurantServlet extends HttpServlet {
         } 
         
         session.setAttribute("user", user);
-        PrintWriter out = response.getWriter();
         
         
         
