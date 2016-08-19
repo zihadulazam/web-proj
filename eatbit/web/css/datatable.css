@@ -379,20 +379,18 @@ table.dataTable thead th.sorting_desc:after {
 #ristoranti-container .container-center .container-fluid {
   padding-right: 5px;
   padding-left: 5px;
+  text-align: center;
 }
 
 #ristoranti-container .container-center .container-fluid .container-writer
 {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 0px;
     
 }
 
 #ristoranti-container .container-center .container-fluid .container-writer ul
-{
-    text-align: center;
-    
-    
+{    text-align: center;        
 }
 
 #ristoranti-container .container-center .container-fluid .container-writer img {

@@ -30,14 +30,14 @@
         
        <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
-
+        
         <!-- Main Content -->
         <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px">
             <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%" >
                 <thead>
                     <tr >
                         <th class="col-sm-2 sorting"> </th>
-                        <th class="col-sm-2 sorting"> Nome e info Ristorante</th>
+                        <th class="col-sm-2 sorting"> Nome Ristorante</th>
                         <th class="col-sm-2 sorting">Voto</th>
                         <th class="col-sm-2 sorting">Tipi di cucina</th>
                         <th class="col-sm-2 sorting">Num Recensioni</th>
@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tfoot></tfoot>
-                <tbody> 
+                <tbody>                    
                     <c:forEach var="i" items="${list}">
                         <tr >
                             <!-- Prima colonna-->
@@ -64,8 +64,7 @@
                                     <div class="container-fluid">
                                         <div class="container-writer">
                                             <h3 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h3>                                            
-                                            <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <c:out value="${i.getCoordinate().getAddress()}"></c:out>, <c:out value="${i.getCoordinate().getCity()}"></c:out>, <c:out value="${i.getCoordinate().getState()}"></c:out> </p>
-                                            <p><span class="glyphicon glyphicon-globe" aria-hidden="true"></span><a href="<c:out value="${i.getRestaurant().getWeb_site_url()}"></c:out>" target="_blank"> Sito Web </a></p>                                         
+                                            <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> <c:out value="${i.getCoordinate().getAddress()}"></c:out>, <c:out value="${i.getCoordinate().getCity()}"></c:out>, <c:out value="${i.getCoordinate().getState()}"></c:out> </p>                                                        
                                         </div>
                                     </div>
                                 </div>
@@ -95,8 +94,12 @@
                             <td class="col-sm-2 sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-center">  
                                     <div class="container-fluid">
-                                        <div class="container-value">
-                                             
+                                        <div class="container-writer">
+                                            <ul>
+                                                <c:forEach var="k" items="${i.getCuisines()}">
+                                                        <li style="padding-left: 0 px;"><c:out value="${k}"/></li>
+                                                </c:forEach>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -154,8 +157,7 @@
                     "pagingType": "full_numbers",
                     bFilter: true,
                     bInfo: false,
-                    ordering:  true,
-                    
+                    "order": [[ 2, "desc" ]],                    
                     "language": {
                         "search":"Filtra per tipo di cucina:",
                         "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
