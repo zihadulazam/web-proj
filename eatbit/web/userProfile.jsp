@@ -118,7 +118,7 @@
                                         <div class="container-fluid">
                                             <div class="row container-fluid">
                                                 <div class="col-md-2 comment-writer">
-                                                    <img src="img/avater/avater.png" class="img-circle"/>
+                                                    <img src="img/avatar/avatar.png" class="img-circle"/>
                                                     <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                     <p class="comment-data">
                                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>

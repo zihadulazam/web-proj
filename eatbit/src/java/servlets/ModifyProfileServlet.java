@@ -82,7 +82,7 @@ public class ModifyProfileServlet extends HttpServlet {
         session.setAttribute("user", user);
         PrintWriter out = response.getWriter();
         //creo il realpath della directory di salvataggio avatar       
-        String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avater";
+        String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avatar";
         out.println(request.getSession().getServletContext());        
         //String _path = getRelativePath("", strRealPath, strRealPath);
         out.println("str " + strRealPath);
