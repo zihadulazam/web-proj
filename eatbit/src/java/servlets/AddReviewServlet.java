@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.Enumeration;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -171,14 +170,15 @@ public class AddReviewServlet extends HttpServlet
                     review.setName(sName);
                     review.setService(Integer.parseInt(sService));
                     review.setValue_for_money(Integer.parseInt(sValue_for_money));
-                    switch (manager.addReview(review))
+                    int id_review= manager.addReview(review);
+                    switch (id_review)
                     {//n.b. va cancellata dal fs la foto per i casi -2 -3
                     //l'utente ha già fatto un voto o una review a questo ristorante nelle ultime 24h
                         case -2: out.write("-3");break;
                     //l'utente ristoratore sta cercando di recensire il proprio ristorante
                         case -3: out.write("-4");break;
                     //successo
-                        default: out.write("1");break;
+                        default: out.write("1");manager.notifyReview(Integer.parseInt(sId_rest), id_review);
                     }
                 }
             }

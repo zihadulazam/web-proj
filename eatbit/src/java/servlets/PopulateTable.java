@@ -6,12 +6,8 @@
 package servlets;
 
 import database.DbManager;
-import database.Restaurant;
 import database.contexts.RestaurantContext;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,16 +17,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.derby.client.am.SqlException;
-import org.json.simple.JSONArray;
 
 /**
- *
+ *Servlet per la ricerca di un ristorante. Può essere una ricerca per luogo, nome
+ * o cucina, o longitudine, latitudine, nome o cucina. Qualsiasi di questi parametri
+ * può essere null. Se la ricerca è luogo + nome/cucina o luogo o nome devono essere
+ * diversi da null se si vuole ricevere risultati.
+ * Parametri:
+ * luogo
+ * nome
+ * longitude
+ * latitude
  * @author User
  */
 @WebServlet(name = "PopulateTable", urlPatterns = {"/PopulateTable"})
 public class PopulateTable extends HttpServlet {
-
+    static final double DISTANCESEARCHINKM=2;
     private DbManager manager;
 
     @Override
@@ -50,17 +52,28 @@ public class PopulateTable extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
+            ArrayList<RestaurantContext> list=null;
             String location=request.getParameter("luogo");
             String name =request.getParameter("name");
-            
-            if(location =="")
+            String sLongitude= request.getParameter("longitude");
+            String sLatitude= request.getParameter("latitude");
+            if("".equals(location))
                 location=null;
-            
-            ArrayList<RestaurantContext> list=manager.searchRestaurant(location, name);
+            if("".equals(name))
+               name=null;
+            //se longitude o latitude non sono specificate non è una ricerca nelle vicinanze dell'utente
+            if(sLongitude==null||sLatitude==null)
+                list=manager.searchRestaurant(location, name);
+            else
+            {
+                double longitude= Double.parseDouble(sLongitude);
+                double latitude= Double.parseDouble(sLatitude);
+                list=manager.searchRestaurantNear(longitude, latitude,DISTANCESEARCHINKM, name);
+            }
             request.setAttribute("list", list);
             request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
             
-        } catch (SQLException ex) {
+        } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.getRequestDispatcher("/error.jsp").forward(request, response);
         }  

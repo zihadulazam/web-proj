@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletResponse;
  * cuisine
  * address
  * city
+ * province
  * state
  * latitude//deve essere numero, anche reale
  * longitude//deve essere numero, anche reale
@@ -71,7 +72,7 @@ public class AddRestaurantServlet extends HttpServlet
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
         dirName = getServletContext().getRealPath(config.getInitParameter("uploadPhotosDir")).replace("build/", "").replace("build\\", "");
         if (dirName == null) 
-          throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addReviewServlet");
+          throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addRestaurantServlet");
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -103,6 +104,7 @@ public class AddRestaurantServlet extends HttpServlet
         //stringhe per coordinata
         String sAddress=null;
         String sCity=null;
+        String sProvince=null;
         String sState=null;
         String sLatitude=null;//deve essere numero, anche reale
         String sLongitude=null;//deve essere numero, anche reale
@@ -128,6 +130,7 @@ public class AddRestaurantServlet extends HttpServlet
                 case "cuisine": sCuisines=value;break;
                 case "address": sAddress=value[0];break;
                 case "city": sCity=value[0];break;
+                case "province": sProvince=value[0];break;
                 case "state": sState=value[0];break;
                 case "latitude": sLatitude=value[0];break;
                 case "longitude": sLongitude=value[0];break;
@@ -143,7 +146,7 @@ public class AddRestaurantServlet extends HttpServlet
         
         //controllo che siano presenti tutti i parametri necessari
         if(sDescription==null||sName==null||sUrl==null||sCuisines==null
-                ||sAddress==null||sCity==null|sState==null||sLatitude==null
+                ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
                 ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
                 ||sMax==null||sClaim==null||sPhoto_description==null
                 ||!files.hasMoreElements())
@@ -173,6 +176,7 @@ public class AddRestaurantServlet extends HttpServlet
                 restaurant.setId_creator(user.getId());
                 coordinate.setAddress(sAddress);
                 coordinate.setCity(sCity);
+                coordinate.setProvince(sProvince);
                 coordinate.setState(sState);
                 coordinate.setLatitude(Double.parseDouble(sLatitude));
                 coordinate.setLongitude(Double.parseDouble(sLongitude));

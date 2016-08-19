@@ -232,9 +232,9 @@ public class HttpTester
         String psw="lol";
         //
         //INFORMAZIONI DI UN RISTORANTE CHE DEVE ESISTERE, il proprietario deve essere l'utente qua sopra
-        String id_rest_owned="2";
+        String id_rest_owned="1";
         //INFORMAZIONI DI UN RISTORANTE CHE DEVE ESISTERE, il proprietario NON deve essere l'utente qua sopra
-        String id_rest_not_owned="3";
+        String id_rest_not_owned="2";
         //INFORMAZIONI DI UNA REVIEW DHE DEVE ESISTERE, il proprietario deve essere l'utente qua sopra
         String id_rev_owned="2";
         //INFORMAZIONI DI UNA REVIEW DHE DEVE ESISTERE, il proprietario non deve essere l'utente qua sopra

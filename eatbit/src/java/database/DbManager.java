@@ -5,6 +5,7 @@
  */
 package database;
 
+import utility.BCrypt;
 import database.contexts.AttemptContext;
 import database.contexts.OwnUserContext;
 import database.contexts.ReplyContext;
@@ -34,6 +35,7 @@ import static java.lang.Math.abs;
 import java.sql.Blob;
 import java.util.Collections;
 import java.util.UUID;
+import static java.lang.Math.abs;
 
 /**
  *
@@ -2324,8 +2326,8 @@ public class DbManager implements Serializable
     private void addCoordinate(final int idRest, final Coordinate cord) throws SQLException
     {
         try (PreparedStatement ins = con.prepareStatement("INSERT INTO COORDINATES("
-                + "LATITUDE,LONGITUDE,ADDRESS,CITY,STATE,COMPLETE_LOCATION) "
-                + "VALUES(?,?,?,?,?,?||', '||?||', '||?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                + "LATITUDE,LONGITUDE,ADDRESS,CITY,PROVINCE,STATE,COMPLETE_LOCATION) "
+                + "VALUES(?,?,?,?,?,?,?||', '||?||', '||?||', '||?)", PreparedStatement.RETURN_GENERATED_KEYS);
                 PreparedStatement ins2 = con.prepareStatement("INSERT INTO RESTAURANT_COORDINATE"
                         + " VALUES(?,?)"))
         {
@@ -2333,10 +2335,12 @@ public class DbManager implements Serializable
             ins.setDouble(2, cord.getLongitude());
             ins.setString(3, cord.getAddress());
             ins.setString(4, cord.getCity());
-            ins.setString(5, cord.getState());
-            ins.setString(6, cord.getAddress());
-            ins.setString(7, cord.getCity());
-            ins.setString(8, cord.getState());
+            ins.setString(5, cord.getProvince());
+            ins.setString(6, cord.getState());
+            ins.setString(7, cord.getAddress());
+            ins.setString(8, cord.getCity());
+            ins.setString(9, cord.getProvince());
+            ins.setString(10, cord.getState());
             ins.executeUpdate();
             try (ResultSet st = ins.getGeneratedKeys())
             {
@@ -2452,19 +2456,24 @@ public class DbManager implements Serializable
      * loro ristorante. Queste notifiche non riguardano le notifiche di
      * foto/review etc segnalate che arrivano agli admin.
      *
-     * @param id_user L'id dell'utente a cui fare arrivare la notifica.
+     * @param id_rest Id del ristorante di cui il proprietario va notificato, se esiste.
      * @param id_photo Id della foto di cui l'utente va avvisato della
      * creazione.
      * @throws SQLException
      */
-    public void notifyPhoto(final int id_user, final int id_photo) throws SQLException
+    public void notifyPhoto(final int id_rest, final int id_photo) throws SQLException
     {
         try (PreparedStatement st = con.prepareStatement("INSERT INTO PHOTO_NOTIFICATIONS"
                 + "(ID_USER,ID_PHOTO) VALUES(?,?)"))
         {
-            st.setInt(1, id_user);
-            st.setInt(2, id_photo);
-            st.executeUpdate();
+            Restaurant rest= getRestaurantById(id_rest);
+            if(rest!=null && rest.getId_owner()!=-1)
+            {
+                st.setInt(1,rest.getId_owner() );
+                st.setInt(2, id_photo);
+                st.executeUpdate();
+                con.commit();
+            }
         }
         catch (SQLException ex)
         {
@@ -2480,19 +2489,24 @@ public class DbManager implements Serializable
      * Queste notifiche non riguardano le notifiche di foto/review etc segnalate
      * che arrivano agli admin.
      *
-     * @param id_user L'id dell'utente a cui fare arrivare la notifica.
+     * @param id_rest Id del ristorante di cui avvisare il prorietario, se esiste.
      * @param id_review Id della review di cui l'utente va avvisato della
      * creazione.
      * @throws SQLException
      */
-    public void notifyReview(final int id_user, final int id_review) throws SQLException
+    public void notifyReview(final int id_rest, final int id_review) throws SQLException
     {
         try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEW_NOTIFICATIONS"
                 + "(ID_USER,ID_REVIEW) VALUES(?,?)"))
         {
-            st.setInt(1, id_user);
-            st.setInt(2, id_review);
-            st.executeUpdate();
+            Restaurant rest= getRestaurantById(id_rest);
+            if(rest!=null && rest.getId_owner()!=-1)
+            {
+                st.setInt(1, rest.getId_owner());
+                st.setInt(2, id_review);
+                st.executeUpdate();
+                con.commit();
+            }
         }
         catch (SQLException ex)
         {
@@ -3216,7 +3230,7 @@ public class DbManager implements Serializable
                 + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
                 + "FROM "
                 + "(SELECT ID FROM COORDINATES WHERE upper(ADDRESS)=? OR upper(CITY)=? "
-                + "OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE "
+                + "OR upper(PROVINCE)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE "
                 + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
                 + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID AND RESTAURANTS.VALIDATED=TRUE"))
         {
@@ -3224,6 +3238,7 @@ public class DbManager implements Serializable
             st.setString(2, location.toUpperCase());
             st.setString(3, location.toUpperCase());
             st.setString(4, location.toUpperCase());
+            st.setString(5, location.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -3892,7 +3907,7 @@ public class DbManager implements Serializable
                 + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
                 + "FROM "
                 + "(select ID FROM COORDINATES WHERE upper(ADDRESS)=? OR upper(CITY)=? "
-                + "OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE "
+                + "OR upper(PROVINCE)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE "
                 + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
                 + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID"))
         {
@@ -3900,6 +3915,7 @@ public class DbManager implements Serializable
             st.setString(2, location.toUpperCase());
             st.setString(3, location.toUpperCase());
             st.setString(4, location.toUpperCase());
+            st.setString(5, location.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -3941,19 +3957,16 @@ public class DbManager implements Serializable
     public ArrayList<Integer> getRestaurantsIdByLocation(final String location) throws SQLException
     {
         ArrayList<Integer> res = new ArrayList<>();
-        try (PreparedStatement st = con.prepareStatement("SELECT ID "
-                + "FROM "
-                + "(select RESTAURANT_COORDINATE.ID_RESTAURANT "
-                + "FROM "
-                + "(select ID FROM COORDINATES WHERE upper(ADDRESS)=? OR upper(CITY)=? "
-                + "OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE "
-                + "WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS "
-                + "WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID"))
+        try (PreparedStatement st = con.prepareStatement("SELECT RESTAURANT_COORDINATE.ID_RESTAURANT "
+                + "AS ID FROM (select ID FROM COORDINATES WHERE upper(ADDRESS)=? "
+                + "OR upper(PROVINCE)=? OR upper(CITY)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) "
+                + "IDCord, RESTAURANT_COORDINATE WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE"))
         {
             st.setString(1, location.toUpperCase());
             st.setString(2, location.toUpperCase());
             st.setString(3, location.toUpperCase());
             st.setString(4, location.toUpperCase());
+            st.setString(5, location.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -4169,6 +4182,7 @@ public class DbManager implements Serializable
                     coordinate.setLongitude(rs.getDouble("LONGITUDE"));
                     coordinate.setAddress(rs.getString("ADDRESS"));
                     coordinate.setCity(rs.getString("CITY"));
+                    coordinate.setProvince(rs.getString("PROVINCE"));
                     coordinate.setState(rs.getString("STATE"));
                 }
             }
@@ -4599,18 +4613,18 @@ public class DbManager implements Serializable
         SparseIntegerVector nameV = kshingling.getProfile(name.toUpperCase()).getSparseVector();
         ArrayList<Integer> res = new ArrayList<>();
         ArrayList<SimplePair> tmpRes = new ArrayList<>();
-        try (PreparedStatement st = con.prepareStatement("SELECT IDLOCATION.ID,VECTOR"
-                + " FROM (SELECT ID FROM (select RESTAURANT_COORDINATE.ID_RESTAURANT"
-                + " FROM (select ID FROM COORDINATES WHERE upper(ADDRESS)=? OR upper(CITY)=?"
-                + " OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, RESTAURANT_COORDINATE"
-                + " WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) RISTO, RESTAURANTS"
-                + " WHERE RISTO.ID_RESTAURANT=RESTAURANTS.ID) IDLOCATION, RESTAURANTS_PROFILES"
-                + " WHERE IDLOCATION.ID=RESTAURANTS_PROFILES.ID"))
+        try (PreparedStatement st = con.prepareStatement("SELECT RISTO.ID,VECTOR FROM "
+                + "(select RESTAURANT_COORDINATE.ID_RESTAURANT AS ID FROM "
+                + "(select ID FROM COORDINATES WHERE upper(ADDRESS)=? OR upper(CITY)=? "
+                + "OR upper(PROVINCE)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) IDCord, "
+                + "RESTAURANT_COORDINATE WHERE IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) "
+                + "RISTO, RESTAURANTS_PROFILES WHERE RISTO.ID=RESTAURANTS_PROFILES.ID"))
         {
             st.setString(1, location.toUpperCase());
             st.setString(2, location.toUpperCase());
             st.setString(3, location.toUpperCase());
             st.setString(4, location.toUpperCase());
+            st.setString(5, location.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
@@ -4646,36 +4660,45 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Restituisce contesti di ristoranti cercandoli per location e name. La
+     * Restituisce contesti di ristoranti cercandoli per location e name/cucina. La
      * ricerca su name è fuzzy, mentre location può essere pari a via, citta ,
      * stato o complete location. Location e/o name posso essere null. Quando la
-     * ricerca comprende il nome i ristoranti vengono restituiti in base alla
+     * ricerca comprende il nome/cucina vengono prima inseriti i ristoranti che hanno
+     * una cucina corrispondente a nameOrCuisine, e poi i ristoranti in base alla
      * somiglianza del loro nome con name, in ordine discendente.
      *
      * @param location Luogo del ristorante.
-     * @param name Nome d ristorante.
+     * @param nameOrCuisine Nome d ristorante.
      * @return I contesti dei ristoranti trovati.
      * @throws SQLException
      */
-    public ArrayList<RestaurantContext> searchRestaurant(final String location, final String name) throws SQLException
+    public ArrayList<RestaurantContext> searchRestaurant(final String location, final String nameOrCuisine) throws SQLException
     {
         ArrayList<RestaurantContext> res = new ArrayList<>();
         ArrayList<Integer> tmp;
-        if (location == null && name == null)
+        if (location == null && nameOrCuisine == null)
         {
             return res;
         }
         else if (location == null)
         {
-            tmp = getRestaurantsIdByNameFuzzy(name);
+            tmp = getRestaurantIdsByCuisine(nameOrCuisine);
+            ArrayList<Integer> tmp2= getRestaurantsIdByNameFuzzy(nameOrCuisine);
+            for(Integer id: tmp2)
+                if(!tmp.contains(id))
+                    tmp.add(id);
         }
-        else if (name == null)
+        else if (nameOrCuisine == null)
         {
             tmp = getRestaurantsIdByLocation(location);
         }
         else
         {
-            tmp = getRestaurantsIdByLocationAndNameFuzzy(location, name);
+            tmp= getRestaurantsIdByLocationCuisine(location, nameOrCuisine);
+            ArrayList<Integer> tmp2 = getRestaurantsIdByLocationAndNameFuzzy(location, nameOrCuisine);
+            for(Integer id: tmp2)
+                if(!tmp.contains(id))
+                    tmp.add(id);
         }
         for (int i = 0; i < tmp.size(); i++)
         {
@@ -4969,5 +4992,268 @@ public class DbManager implements Serializable
             throw ex;
         }
         return priceRange;
+    }
+    
+    /**
+     * Restituisce gli id dei ristoranti con una distanza pari a distance
+     * dal luogo indicato dai parametri longitude e latitude, e che hanno
+     * fra le loro cucine quella indicata da cuisine.
+     * Gli id restituiti sono restituiti per ordine di GLOBAL_VALUE dei 
+     * relativi ristoranti.
+     * @param cuisine La cucina che i ristoranti di cui si ricava l'id devono
+     * avere.
+     * @param longitude Longitudine del punto di partenza della ricerca.
+     * @param latitude Latitudine del punto di partenza della ricerca.
+     * @param distance Distanza in km dal ristorante.
+     * @return Id dei ristoranti vicini con quella cucina.
+     * @throws SQLException 
+     */
+    public ArrayList<Integer> getRestaurantIdsNearLocationByCuisine(final double longitude, final double latitude, final double distance, final String cuisine) throws SQLException
+    {
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT RDIST.ID FROM "
+                + "(SELECT R.ID FROM (SELECT C.ID FROM "
+                + "COORDINATES C WHERE (12742*ASIN(SQRT(0.5 - COS((? - C.LATITUDE) "
+                + "* 0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) "
+                + "* COS(? * 0.017453292519943295) * (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) "
+                + "< ?) IDS, RESTAURANTS R, RESTAURANT_COORDINATE RC WHERE R.ID=RC.ID_RESTAURANT "
+                + "AND RC.ID_COORDINATE=IDS.ID) RDIST, RESTAURANT_CUISINE, CUISINES WHERE CUISINES.NAME=? "
+                + "AND RDIST.ID=RESTAURANT_CUISINE.ID_RESTAURANT AND RESTAURANT_CUISINE.ID_CUISINE=CUISINES.ID "
+                + "ORDER BY RDIST.GLOBAL_VALUE DESC"))
+        {
+            st.setDouble(1, latitude);
+            st.setDouble(2, latitude);
+            st.setDouble(3, longitude);
+            st.setDouble(4, distance);
+            st.setString(5, cuisine);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getInt("ID"));
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+ 
+    /**
+     * Restituisce gli id dei ristoranti con una distanza pari a distance
+     * dal luogo indicato dai parametri longitude e latitude.
+     * Gli id restituiti sono restituiti per ordine di GLOBAL_VALUE dei 
+     * relativi ristoranti.
+     * @param longitude Longitudine del punto di partenza della ricerca.
+     * @param latitude Latitudine del punto di partenza della ricerca.
+     * @param distance Distanza in km dal ristorante.
+     * @return Id dei ristoranti vicini con quella cucina.
+     * @throws SQLException 
+     */
+    public ArrayList<Integer> getRestaurantIdsNearLocation(final double longitude, final double latitude, final double distance) throws SQLException
+    {
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT RDIST.ID FROM "
+                + "(SELECT R.ID, GLOBAL_VALUE FROM (SELECT C.ID "
+                + "FROM COORDINATES C WHERE (12742*ASIN(SQRT(0.5 - COS((? - C.LATITUDE) "
+                + "* 0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) * "
+                + "COS(? * 0.017453292519943295) * (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) "
+                + "< ?) IDS, RESTAURANTS R, RESTAURANT_COORDINATE RC WHERE R.ID=RC.ID_RESTAURANT "
+                + "AND RC.ID_COORDINATE=IDS.ID) RDIST ORDER BY RDIST.GLOBAL_VALUE DESC"))
+        {
+            st.setDouble(1, latitude);
+            st.setDouble(2, latitude);
+            st.setDouble(3, longitude);
+            st.setDouble(4, distance);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getInt("ID"));
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce gli id di ristoranti che hanno una certa cucina, ordinati per
+     * GLOBAL_VALUE.
+     * @param cuisine
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<Integer> getRestaurantIdsByCuisine(String cuisine) throws SQLException{
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT R.ID FROM RESTAURANTS R, "
+                + "RESTAURANT_CUISINE RC, CUISINES C WHERE C.NAME=? "
+                + "AND R.ID=RC.ID_RESTAURANT AND RC.ID_CUISINE=C.ID ORDER BY R.GLOBAL_VALUE DESC"))
+        {
+            st.setString(1, cuisine);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                    res.add(rs.getInt("ID"));
+                con.commit();
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce un ArrayList di id di ristoranti che hanno indirizzo, città,
+     * stato, o complete_location pari a location, e (una) cucina uguale a cuisine.
+     *
+     * @param location Luogo del ristorante da cercare.
+     * @param cuisine Nome della cucina.
+     * @return Un oggetto ArrayList<int>, vuoto se non ci sono ristoranti con
+     * quella location o con quella cucina in quella location.
+     * @throws SQLException
+     */
+    private ArrayList<Integer> getRestaurantsIdByLocationCuisine(final String location, final String cuisine) throws SQLException
+    {
+        ArrayList<Integer> res= new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT RISTO.ID FROM "
+                + "(select RESTAURANT_COORDINATE.ID_RESTAURANT AS ID FROM "
+                + "(select ID FROM COORDINATES WHERE upper(ADDRESS)=? OR "
+                + "upper(CITY)=? OR upper(PROVINCE)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) "
+                + "IDCord, RESTAURANT_COORDINATE WHERE "
+                + "IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) "
+                + "RISTO, RESTAURANT_CUISINE RC, CUISINES C WHERE C.NAME=? "
+                + "AND RISTO.ID=RC.ID_RESTAURANT AND RC.ID_CUISINE=C.ID"))
+        {
+            st.setString(1, location.toUpperCase());
+            st.setString(2, location.toUpperCase());
+            st.setString(3, location.toUpperCase());
+            st.setString(4, location.toUpperCase());
+            st.setString(5, location.toUpperCase());
+            st.setString(6, cuisine);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while (rs.next())
+                    res.add(rs.getInt("ID"));
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce contesti di ristoranti cercandoli per vicinanza a una longitudine e 
+     * latitudine e se hanno una cucina=nameOrCuisine o nome simile a nameOrCuisine.
+     * La ricerca su name è fuzzy, nameOrCuisine può essere null per indicare una ricerca
+     * basata solo sulla distanza. Quando la ricerca comprende il nome/cucina vengono 
+     * prima inseriti i ristoranti che hanno una cucina corrispondente a nameOrCuisine, 
+     * e poi i ristoranti in base alla somiglianza del loro nome con name, in ordine discendente.
+     *
+     * @param longitude
+     * @param nameOrCuisine Nome del ristorante o sua cucina.
+     * @param latitude 
+     * @param distance Distanza in km.
+     * @return I contesti dei ristoranti trovati.
+     * @throws SQLException
+     */
+    public ArrayList<RestaurantContext> searchRestaurantNear(final double longitude, final double latitude, final double distance, final String nameOrCuisine) throws SQLException
+    {
+        ArrayList<RestaurantContext> res = new ArrayList<>();
+        ArrayList<Integer> tmp;
+        if(nameOrCuisine==null)
+            tmp= getRestaurantIdsNearLocation(longitude, latitude, distance);
+        else
+        {
+            ArrayList<Integer> tmp2= getRestaurantIdsNearLocationByName(longitude,latitude,distance,nameOrCuisine);
+            tmp=getRestaurantIdsNearLocationByCuisine(longitude,latitude,distance,nameOrCuisine);
+            for(Integer id: tmp2)
+                if(!tmp.contains(id))
+                    tmp.add(id);
+        }
+        for (int i = 0; i < tmp.size(); i++)
+        {
+            res.add(getRestaurantContext(tmp.get(i)));
+        }
+        return res;
+    }
+    
+    /**
+     * Restituisce gli id dei ristoranti con una distanza pari a distance
+     * dal luogo indicato dai parametri longitude e latitude e che hanno
+     * un nome simile al parametro name.
+     * Gli id restituiti sono restituiti per ordine di somiglianza fra il loro
+     * nome e il parametro name.
+     * @param longitude Longitudine del punto di partenza della ricerca.
+     * @param latitude Latitudine del punto di partenza della ricerca.
+     * @param distance Distanza in km dal ristorante.
+     * @param name Nome del ristorante da cercare in maniera fuzzy.
+     * @return Id dei ristoranti vicini con quella cucina.
+     * @throws SQLException 
+     */
+    public ArrayList<Integer> getRestaurantIdsNearLocationByName(final double longitude, final double latitude, final double distance, final String name) throws SQLException
+    {
+        SparseIntegerVector nameV = kshingling.getProfile(name.toUpperCase()).getSparseVector();
+        ArrayList<Integer> res= new ArrayList<>();
+        ArrayList<SimplePair> tmpRes = new ArrayList<>();
+        try (PreparedStatement st = con.prepareStatement("SELECT DISTID.ID, "
+                + "VECTOR FROM (SELECT C.ID FROM COORDINATES C WHERE "
+                + "(12742*ASIN(SQRT(0.5 - COS((? - C.LATITUDE) * 0.017453292519943295)/2 + "
+                + "COS(C.LATITUDE * 0.017453292519943295) * COS(? * 0.017453292519943295) "
+                + "* (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) < ?) DISTID, "
+                + "RESTAURANTS_PROFILES RP WHERE RP.ID=DISTID.ID"))
+        {
+            st.setDouble(1, latitude);
+            st.setDouble(2, latitude);
+            st.setDouble(3, longitude);
+            st.setDouble(4, distance);
+            try (ResultSet rs = st.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Blob blob = rs.getBlob("VECTOR");
+                    InputStream ip = blob.getBinaryStream();
+                    ObjectInputStream obs = new ObjectInputStream(ip);
+                    SparseIntegerVector tmp = (SparseIntegerVector) obs.readObject();
+                    double similarity = nameV.cosineSimilarity(tmp);
+                    if (similarity >= SIMILARITY_THRESHOLD)
+                    {
+                        tmpRes.add(new SimplePair(rs.getInt("ID"), similarity));
+                    }
+                }
+                Collections.sort(tmpRes);
+                for (int i = 0; i < tmpRes.size(); i++)
+                {
+                    res.add(tmpRes.get(i).getId());
+                }
+                con.commit();
+            }
+            catch (IOException | ClassNotFoundException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return res;
     }
     }

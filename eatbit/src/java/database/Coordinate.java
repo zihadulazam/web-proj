@@ -17,19 +17,22 @@ public class Coordinate implements Serializable
     private double longitude;
     private String address;
     private String city;
+    private String province;
     private String state;
 
-    public Coordinate(double latitude, double longitude, String address, String city, String state)
-    {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-    }
 
     public Coordinate()
     {
+    }
+
+    public String getProvince()
+    {
+        return province;
+    }
+
+    public void setProvince(String province)
+    {
+        this.province = province;
     }
     
     
