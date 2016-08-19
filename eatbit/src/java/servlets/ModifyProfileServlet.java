@@ -163,7 +163,7 @@ public class ModifyProfileServlet extends HttpServlet {
             
             
             //forward della richiesta
-            //request.getRequestDispatcher("/ProfileServlet").forward(request, response);
+            request.getRequestDispatcher("/ProfileServlet").forward(request, response);
             
         }
     

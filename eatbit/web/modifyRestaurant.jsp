@@ -58,12 +58,12 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
-                    	<form role="form" action="" method="post" class="f1">
+                    	<form role="form" action="ModifyRestaurantServlet" method="post" class="f1">
 
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
                     		<div class="f1-steps">
                     			<div class="f1-progress">
-                    			    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3" style="width: 16.66%;"></div>
+                    			    <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="4" style="width: 26.66%;"></div>
                     			</div>
                     			<div class="f1-step active">
                     				<div class="f1-step-icon"><i class="fa fa-university"></i></div>
@@ -73,6 +73,7 @@
                     				<div class="f1-step-icon"><i class="fa fa-cutlery"></i></div>
                     				<p>Tipi di Cucina, Prezzo e Photo</p>
                     			</div>
+                                    
                     		    <div class="f1-step">
                     				<div class="f1-step-icon"><i class="fa fa-clock-o"></i></div>
                     				<p>Orario d'appertura</p>
@@ -82,16 +83,16 @@
                     		<fieldset>
                     		    <h4>Informazioni sul vostro ristorante:</h4>
                     			<div class="form-group">
-                    			    <label class="sr-only" for="name">Nome</label>
+                    			    <h5>Nome:</h5>
                                     <input type="text" name="name" value="${restaurant.getName()}" class="form-control" id="name">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="description"></label>
+                                    <h5>Descrizione</h5>
                                     <textarea name="description" placeholder="Descrizione..." 
                                     	                 class="form-control" id="description"><c:out  value="${restaurant.getDescription()}" /></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="web_site">Sito Web</label>
+                                    <h5>Sito Web:</h5>
                                     <div class="input-group">
                                         <input type="text" name="web_site" placeholder="Sito Web..." value="${restaurant.getWeb_site_url()}" class="form-control" id="web_site">
                                         <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
@@ -99,7 +100,7 @@
                                     
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="address">Indirizzo</label>
+                                    <h5>Indirizzo:</h5>
                                     <div class="input-group">
                                         <input type="text" value="" name="address" placeholder="Indririzzo..." class="form-control" id="address">
                                         <span class="input-group-addon"><span class="fa fa-map-marker" aria-hidden="true"></span></span>
@@ -112,7 +113,7 @@
                             </fieldset>
 
                             <fieldset>
-                                <h4>Tipi di cucina, Prezzo e Photo:</h4>
+                                <h4>Tipi di cucina e Prezzo:</h4>
                                 <div class="form-group">
                                     <h5>Cucina:</h5>
                                     <div class="row">
@@ -130,26 +131,26 @@
                                             <input type="checkbox" name="sushi" value="Sushi"/> Sushi
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="indiana" value="Indiana"/> Indiana
+                                            <input type="checkbox" name="CK" value="Indiana"/> Indiana
                                             <br />
-                                            <input type="checkbox" name="italiana" value="Italiana"/> Italiana
+                                            <input type="checkbox" name="CK" value="Italiana"/> Italiana
                                             <br />
-                                            <input type="checkbox" name="pizza" value="Pizza"/> Pizza
+                                            <input type="checkbox" name="CK" value="Pizza"/> Pizza
                                             <br />
-                                            <input type="checkbox" name="francese" value="Francese"/> Francese
+                                            <input type="checkbox" name="CK" value="Francese"/> Francese
                                             <br />
-                                            <input type="checkbox" name="spagnola" value="Spagnola"/> Spagnola
+                                            <input type="checkbox" name="CK" value="Spagnola"/> Spagnola
                                             <br />
-                                            <input type="checkbox" name="pesce" value="Pesce"/> Pesce
+                                            <input type="checkbox" name="CK" value="Pesce"/> Pesce
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="carne" value="Carne"/> Carne
+                                            <input type="checkbox" name="CK" value="Carne"/> Carne
                                             <br />
-                                            <input type="checkbox" name="messicana" value="Messicana"/> Messicana
+                                            <input type="checkbox" name="CK" value="Messicana"/> Messicana
                                             <br />
-                                            <input type="checkbox" name="fastfood" value="Fast-Food"/> Fast-Food
+                                            <input type="checkbox" name="CK" value="Fast-Food"/> Fast-Food
                                             <br />
-                                            <input type="checkbox" name="vegetariana" value="Vegetariana"/> Vegetariana
+                                            <input type="checkbox" name="CK" value="Vegetariana"/> Vegetariana
                                          </div>
                                     </div>
                                 </div>
@@ -160,19 +161,8 @@
                                         <span class="input-group-addon">€</span>
                                     </div>
                                     <div class="input-group">
-                                        <input type="text" name="prezzo_max" placeholder="Prezzo Max..." class="form-control" id="prezzo_max">
+                                        <input value = "${priceRange.getMax()}" type="text" name="prezzo_max" placeholder="Prezzo Max..." class="form-control" id="prezzo_max">
                                         <span class="input-group-addon">€</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <h5>Photo:</h5>
-                                    <div class="input-group">
-                                        <label class="input-group-btn">
-                                            <span class="btn btn-default" id="btn-camera">
-                                                Cerca Photo&hellip; <input name="photo" id="Add-photo" type="file" style="display: none;" accept="image/*" multiple>
-                                            </span>
-                                        </label>
-                                        <input type="text" id="Add-photo-name" class="form-control" readonly>
                                     </div>
                                 </div>
                                 <div class="f1-buttons">
@@ -180,20 +170,20 @@
                                     <button type="button" class="btn btn-next">Successivo</button>
                                 </div>
                             </fieldset>
-
+                                        
                             <fieldset>
-                                <h4>Orario d'apertura (Da Finire):</h4>
+                                <h4>Orario d'apertura:</h4>
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="f1-facebook" placeholder="..." class="f1-facebook form-control" id="f1-facebook">
+                                    <input type="text" name="oraInizio" placeholder="Ora Inizio (Es: 10:00)" class="f1-facebook form-control" id="f1-facebook">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="f1-twitter" placeholder="..." class="f1-twitter form-control" id="f1-twitter">
+                                    <label class="sr-only" for="oraFine">Ora Fine</label>
+                                    <input type="text" name="f1-twitter" placeholder="Ora Inizio (Es: 22:00)" class="f1-twitter form-control" id="f1-twitter">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="f1-google-plus">Giorno</label>
-                                    <input type="text" name="f1-google-plus" placeholder="..." class="f1-google-plus form-control" id="f1-google-plus">
+                                    <label class="sr-only" for="f1-google-plus">Giorni della settimana</label>
+                                    <input type="text" name="giorni" placeholder="Giorni della settimana (Es: 1,2,3,4,5,6,7)" class="f1-google-plus form-control" id="f1-google-plus">
                                 </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
