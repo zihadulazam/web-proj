@@ -45,7 +45,7 @@
         uploadDir
       </param-name>
             <param-value>
-        /img/avater
+        /img/avatar
       </param-value>
         </init-param>
     </servlet>

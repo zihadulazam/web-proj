@@ -137,10 +137,10 @@ public class ModifyProfileServlet extends HttpServlet {
                     f.renameTo(f2);               
                 
                     //CAMBIO FOTO UTENTE
-                    manager.modifyUserPhoto(user.getId(), "img/avater/"+r);
+                    manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
                     out.println("superata modifica avatar ");         
                     //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
-                    String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avater/", "\\");
+                    String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "\\");
                     out.println("old_avatar_path :" + oldAvatarPath);   
                     
                     boolean success = FileDeleter.deleteFile(oldAvatarPath);
