@@ -313,7 +313,7 @@
 
 /* line 260, ../scss/restaurant.scss */
 #ristoranti-container .dataTables_wrapper table thead {
-  
+  margin-top:  10px;
 }
 
 table.dataTable thead th.sorting:after,
@@ -335,6 +335,7 @@ table.dataTable thead th.sorting_desc:after {
   background-color: #fff !important;
   border: 0px;
 }
+
 /* line 270, ../scss/restaurant.scss */
 #ristoranti-container .container-left {
   margin-top: 25px;  
