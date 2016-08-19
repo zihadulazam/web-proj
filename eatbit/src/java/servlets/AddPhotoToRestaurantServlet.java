@@ -29,11 +29,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jacopo
  */
-@WebServlet(name = "addPhotoToRestaurantServlet", urlPatterns =
+@WebServlet(name = "AddPhotoToRestaurantServlet", urlPatterns =
 {
-    "/addPhotoToRestaurantServlet"
+    "/AddPhotoToRestaurantServlet"
 })
-public class addPhotoToRestaurantServlet extends HttpServlet
+public class AddPhotoToRestaurantServlet extends HttpServlet
 {
 
     private String dirName;
@@ -45,9 +45,10 @@ public class addPhotoToRestaurantServlet extends HttpServlet
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName = getServletContext().getRealPath(config.getInitParameter("uploadPhotosDir")).replace("build/", "").replace("build\\", "");
+        dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
         if (dirName == null) 
           throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addPhotoToRestaurantServlet");
+        dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -100,7 +101,7 @@ public class addPhotoToRestaurantServlet extends HttpServlet
             }
             catch (SQLException | NumberFormatException ex)
             {
-                Logger.getLogger(addPhotoToRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AddPhotoToRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
                 out.write("0");
             }
         }

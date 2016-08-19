@@ -66,9 +66,10 @@ public class AddReviewServlet extends HttpServlet
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName = getServletContext().getRealPath(config.getInitParameter("uploadPhotosDir")).replace("build/", "").replace("build\\", "");
+        dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
         if (dirName == null) 
           throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addReviewServlet");
+        dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
