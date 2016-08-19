@@ -113,7 +113,7 @@
                         <p class="sp-layer sp-white sp-padding"
                             data-horizontal="50" data-vertical="50"
                             data-show-transition="left" data-show-delay="400">
-                            <button  class="btn btn-large btn-block btn-danger btn-segnala" id="<c:out value="${photos.getId()}"/>" title="Segnala" onclick="segnalaPhoto(this.id)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
+                            <button  class="btn btn-large btn-block btn-danger btn-segnala" title="Segnala" onclick="segnalaPhoto(<c:out value="${photos.getId()}"/>)"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></button>
                         </p>
                         <p class="sp-layer sp-black sp-padding"
                                 data-horizontal="50" data-vertical="350"
@@ -139,35 +139,62 @@
             <div class="row">
                 <div class="col-md-12">
                     <p id="button-rec-foto">
-                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddRistoRate" aria-expanded="false" aria-controls="collapseAddRecensione"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Vota questo ristorante</button>
-                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddRecensione" aria-expanded="false" aria-controls="collapseAddRecensione"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Scrivi una recensione</button>
-                        <button type="button" class="btn btn-success btn-lg btn-config" data-toggle="collapse" data-target="#collapseAddFoto" aria-expanded="false" aria-controls="collapseAddFoto"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Aggiungi una foto</button>
+                        <button type="button" class="btn btn-success btn-lg btn-config" 
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getNickname()==null}">
+                                    onclick="primaFaiLogin()"
+                                 </c:when>
+                                 <c:otherwise>
+                                    data-toggle="collapse" data-target="#collapseAddRistoRate" aria-expanded="false" aria-controls="collapseAddRecensione"
+                                </c:otherwise>
+                            </c:choose>
+                            ><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Vota questo ristorante</button>
+                        <button type="button" class="btn btn-success btn-lg btn-config" 
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getNickname()==null}">
+                                    onclick="primaFaiLogin()"
+                                 </c:when>
+                                 <c:otherwise>
+                                    data-toggle="collapse" data-target="#collapseAddRecensione" aria-expanded="false" aria-controls="collapseAddRecensione"
+                                </c:otherwise>
+                            </c:choose>
+                            ><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Scrivi una recensione</button>
+                        <button type="button" class="btn btn-success btn-lg btn-config" 
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getNickname()==null}">
+                                        onclick="primaFaiLogin()"
+                                    </c:when>
+                                    <c:otherwise>
+                                        data-toggle="collapse" data-target="#collapseAddFoto" aria-expanded="false" aria-controls="collapseAddFoto"
+                                        data-toggle="collapse" data-target="#collapseAddRecensione" aria-expanded="false" aria-controls="collapseAddRecensione"
+                                    </c:otherwise>
+                                </c:choose>
+                            ><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Aggiungi una foto</button>
                     </p>
                 </div>
             </div>
             <div class="collapse" id="collapseAddRistoRate">
                 <div class="well">
-                    <form>
-                        <div class="from-group">
-                            <div class="row">
-                                <div class="col-sm-12 col-md-3">
-                                    <label class="rating-lb"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Valutazione Globale: </label>
-                                </div>
-                                <div class="col-sm-12 col-md-9">
-                                    <div class="rating-bar" id="valutazioneGlobaleRistoBar" type="text"></div>
-                                    <input type="text" id="valutazioneGlobaleRistoValue" class="rating-value">
-                                </div>
+                    <div class="from-group">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-3">
+                                <label class="rating-lb"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Valutazione Globale: </label>
+                            </div>
+                            <div class="col-sm-12 col-md-9">
+                                <div class="rating-bar" id="valutazioneGlobaleRistoBar" type="text"></div>
+                                <input type="text" id="valutazioneGlobaleRistoValue" class="rating-value">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="form-group">
+                        <p id="btn-pubblica"><button class="btn btn-primary" type="submit" onclick="addRistoVote(<c:out value="${restaurant_context.getRestaurant().getId()}"/>)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
+                    </div>
                 </div>
             </div>
             <div class="collapse" id="collapseAddRecensione">
                 <div class="well">
-                    <form>
+                    <form method="POST" action="../eatbit/AddReviewServlet">
+                        <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                         <div class="from-group">
                             <div class="row">
                                 <div class="col-sm-12 col-md-3">
@@ -175,7 +202,7 @@
                                 </div>
                                 <div class="col-sm-12 col-md-9">
                                     <div class="rating-bar" id="valutazioneGlobaleBar" type="text"></div>
-                                    <input type="text" id="valutazioneGlobaleValue" class="rating-value">
+                                    <input type="text" name="global_value" id="valutazioneGlobaleValue" class="rating-value">
                                 </div>
                             </div>
                         </div>
@@ -186,7 +213,7 @@
                                 </div>
                                 <div class="col-md-9">
                                      <div class="rating-bar" id="ciboBar" type="text"></div>
-                                    <input type="text" id="ciboValue" class="rating-value">
+                                    <input type="text" name="food" id="ciboValue" class="rating-value">
                                 </div>
                             </div>
                         </div>
@@ -197,7 +224,7 @@
                                 </div>
                                 <div class="col-md-9">
                                      <div class="rating-bar" id="servizioBar" type="text"></div>
-                                    <input type="text" id="servizioValue" class="rating-value">
+                                    <input type="text" name="service" id="servizioValue" class="rating-value">
                                 </div>
                             </div>
                         </div>
@@ -208,7 +235,7 @@
                                 </div>
                                 <div class="col-md-9">
                                      <div class="rating-bar" id="atmosferaBar" type="text"></div>
-                                    <input type="text" id="atmosferaValue" class="rating-value">
+                                    <input type="text" name="atmosphere" id="atmosferaValue" class="rating-value">
                                 </div>
                             </div>
                         </div>
@@ -219,35 +246,40 @@
                                 </div>
                                 <div class="col-md-9">
                                      <div class="rating-bar" id="prezzoBar" type="text"></div>
-                                    <input type="text" id="prezzoValue" class="rating-value">
+                                    <input type="text" name="value_for_money" id="prezzoValue" class="rating-value">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <br/>
                             <p>
-                                <label class="rating-lb" for="comment">Titolo:</label>
-                                <input id="recensione-title" type="text">
+                                <label class="rating-lb" for="recensione-title">Titolo:</label>
+                                <input id="recensione-title" name="name" type="text">
                             </p>
                         </div>
                         <div class="form-group">
                             <br/>
                             <label class="rating-lb" for="comment">Recensione:</label>
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                            <textarea class="form-control" rows="7" name="description" id="comment" maxlength="32000"></textarea>
                         </div>
                         <div class="form-group">
                             <br/>
-                            <label class="rating-lb" for="comment">Photo:</label>
+                            <label class="rating-lb" for="AddRecensione-cerca-photo">Photo:</label>
                             <div class="input-group">
                                 <label class="input-group-btn">
                                     <span class="btn btn-default">
-                                        Cerca Photo&hellip; <input name="photo" id="AddRecensione-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
+                                        Cerca Photo&hellip; <input name="photo" name="foto" id="AddRecensione-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
                                     </span>
                                 </label>
                                 <input type="text" id="AddRecensione-cerca-photo-name" class="form-control" readonly>
                             </div>
-                            <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
                         </div>
+                        <div class="form-group">
+                            <br/>
+                            <label class="rating-lb" for="photo_description" maxlength="32000">Descrizione Photo:</label>
+                            <textarea class="form-control" rows="3" name="photo_description" id="photo_description"></textarea>
+                        </div>
+                        <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Pubblica</button></p>
                     </form>
                 </div>
             </div>

@@ -124,8 +124,12 @@ public class AddReviewServlet extends HttpServlet
         //controllo che siano presenti tutti i parametri necessari
         if(sAtmosphere==null||sDescription==null||sFood==null||sGlobal_value==null
                 ||sId_rest==null||sName==null||sService==null||sValue_for_money==null
-                ||sPhoto_description==null||!files.hasMoreElements())
-            out.write("-1");
+                ||sPhoto_description==null||!files.hasMoreElements()){
+            request.setAttribute("title", "Risultato Operazione:");
+            request.setAttribute("status", "danger");
+            request.setAttribute("description", "Errore: Mancano i parametri");
+            request.getRequestDispatcher("/info.jsp").forward(request, response);
+        }
         else
         {
             //prendo foto e rinonimo per evitare collisioni di nomi
@@ -154,7 +158,10 @@ public class AddReviewServlet extends HttpServlet
                 if(id_photo==-1)
                 {
                     //ristorante non esiste
-                    out.write("-2");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "danger");
+                    request.setAttribute("description", "Errore: Ristorante non esiste.");
+                    request.getRequestDispatcher("/info.jsp").forward(request, response);
                 }
                 else
                 {
@@ -174,11 +181,23 @@ public class AddReviewServlet extends HttpServlet
                     switch (id_review)
                     {//n.b. va cancellata dal fs la foto per i casi -2 -3
                     //l'utente ha già fatto un voto o una review a questo ristorante nelle ultime 24h
-                        case -2: out.write("-3");break;
+                        case -2:    request.setAttribute("title", "Risultato Operazione:");
+                                    request.setAttribute("status", "warning");
+                                    request.setAttribute("description", "Ops: Hai già fatto una recensione a questo ristorante nelle ultime 24h.");
+                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                        break;
                     //l'utente ristoratore sta cercando di recensire il proprio ristorante
-                        case -3: out.write("-4");break;
+                        case -3:    request.setAttribute("title", "Risultato Operazione:");
+                                    request.setAttribute("status", "warning");
+                                    request.setAttribute("description", "Ops: Il proprietario non può fare recensione.");
+                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                        break;
                     //successo
-                        default: out.write("1");manager.notifyReview(Integer.parseInt(sId_rest), id_review);
+                        default:    request.setAttribute("title", "Risultato Operazione:");
+                                    request.setAttribute("status", "ok");
+                                    request.setAttribute("description", "Successo: Il tuo recensione è stato inserito con successo.");
+                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                        manager.notifyReview(Integer.parseInt(sId_rest), id_review);
                     }
                 }
             }
@@ -186,7 +205,10 @@ public class AddReviewServlet extends HttpServlet
             {
                 //va deletata foto da filesystem
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-                out.write("0");
+                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Errore!!!");
+                request.getRequestDispatcher("/info.jsp").forward(request, response);
             }
         }
         
