@@ -156,3 +156,43 @@ function toggleBounce2() {
     marker2.setAnimation(google.maps.Animation.BOUNCE);
   }
 }
+
+
+//add restaurant vote
+function addRistoVote(restaurantId){
+    var vote=$('#valutazioneGlobaleRistoValue').val();
+     $.ajax(
+    {
+        url : "../eatbit/UserVoteServlet",
+        type: "GET",
+        data : {id_restaurant:restaurantId, vote:vote},
+        success:function(data, textStatus, jqXHR) 
+        {
+            if(data == "1"){
+                alert("Grazie per il suo voto preziozo");
+                location.reload();
+            }
+            if(data=="-2")
+                alert("Mi dispiace, Non puoi votare il tuo ristorante !!");
+            if(data=="-1" || data=="0")
+                alert("Mi dispiace, votazione al momento non è disponibile");
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            alert("Mi dispiace, votazione al momento non è disponibile");
+        }
+    });
+}
+
+////add restaurant review
+function addRistoReview(){
+    var valutazioneGlobale=$('#valutazioneGlobaleValue').val();
+    var cibo=$('#ciboValue').val();
+    var servizio=$('#servizioValue').val();
+    var atmosfera=$('#atmosferaValue').val();
+    var prezzo=$('#prezzoValue').val();
+    var title=$('#recensione-title').val();
+    var descrizione=$('#comment').val();
+    var photo_description=$('#photo_description').val();
+    alert(title);
+}

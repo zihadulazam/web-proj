@@ -143,7 +143,6 @@ function nonMiPiace(reviewId,likeType){
         data : {id_review:reviewId, like_type:likeType},
         success:function(data, textStatus, jqXHR) 
         {
-            data=-2;
             if(data == "1"){
                 var newUnLikeNum=parseInt($(btnNonMiPiaceId).find(".badge").text());
                 newUnLikeNum++;
@@ -235,3 +234,14 @@ function nonMiPiace(reviewId,likeType){
         });
 
 })(jQuery, window, document);
+
+//chiama login modal se non è loggato
+function primaFaiLogin(){
+    showLoginForm();
+    setTimeout(function(){
+        $('#loginModal').modal('show');    
+    }, 230);
+    
+    $('.error').addClass('alert alert-danger').html("Prima devi fare il Login");
+                shakeModal();
+}
