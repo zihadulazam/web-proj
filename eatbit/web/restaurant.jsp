@@ -193,7 +193,7 @@
             </div>
             <div class="collapse" id="collapseAddRecensione">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddReviewServlet">
+                    <form method="POST" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
                         <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                         <div class="from-group">
                             <div class="row">
