@@ -19,6 +19,7 @@
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
+         <link href="css/modifyRestaurant.css" rel="stylesheet">
         
         <!-- google font link -->
         <!-- header font -->
@@ -43,7 +44,6 @@
     <body>
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
-
         <!-- page container -->
         <!-- Top content -->
         <div class="top-content">
@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
                     	<form action="${pageContext.request.contextPath}/ModifyRestaurantServlet" method="post" class="f1">
-
+                                <c:set var="id_restaurant" value="${restaurant.getRestaurant().getId()}" scope="request"/>
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
                     		
                     		<fieldset>
@@ -73,6 +73,7 @@
                     			    <h5>Nome:</h5>
                                     <input type="text" name="name" value="${restaurant.getRestaurant().getName()}" class="form-control" id="name">
                                 </div>
+           
                                 <div class="form-group">
                                     <h5>Descrizione</h5>
                                     <textarea name="description" placeholder="Descrizione..." 
@@ -250,12 +251,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineDomenica"  class="f1-twitter form-control" id="f1-twitter">
+                                    <input type="text" name="oraFineDomenica"  class="f1-twitter form-control" id="f1-twitter">   
                                 </div>
-
+                                
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
-                                    <button name ="id_restaurant" type="submit" class="btn btn-submit">Fine</button>
+                                    <button  type="submit" class="btn btn-submit">Fine</button>
                                 </div>
                             </fieldset>
                     	

@@ -15,10 +15,14 @@
     <body>
         <h1>Errore durante la modifica del ristorante</h1><br>
         <p>
-            -<h3><c:out value="${error}" /></h3><br>
-            -<h3><c:out value="${error1}" /></h3><br>
-            -<h3><c:out value="${error2}" /></h3><br>
-            -<h3><c:out value="${error3}" /></h3><br>
-            -<h3><c:out value="${error4}" /></h3><br>
+            -<h3><c:out value="${errore}" /></h3><br>
+            -<h3><c:out value="${errore1}" /></h3><br>
+            -<h3><c:out value="${errore2}" /></h3><br>
+            -<h3><c:out value="${errore3}" /></h3><br>
+            -<h3><c:out value="${errore4}" /></h3><br>
+            
+            <a class="btn btn-submit" href="/ProfileServlet">
+                Torna Indietro
+            </a>
     </body>
 </html>
