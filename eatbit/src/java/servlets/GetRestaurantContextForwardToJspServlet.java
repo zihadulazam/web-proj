@@ -75,10 +75,22 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
                 VotoTotaleAtmosfera+=review.getReview().getAtmosphere();
                 VotoTolatePrezzo+=review.getReview().getValue_for_money();
             }
-            request.setAttribute("voto_per_cibo", (int)(VotoTotaleCibo/context.getReviewsContextsByNewest().size()));
-            request.setAttribute("voto_per_servizio", (int)(VotoTotaleServizio/context.getReviewsContextsByNewest().size()));
-            request.setAttribute("voto_per_atmosfera", (int)(VotoTotaleAtmosfera/context.getReviewsContextsByNewest().size()));
-            request.setAttribute("voto_per_prezzo", (int)(VotoTolatePrezzo/context.getReviewsContextsByNewest().size()));
+            if(VotoTotaleCibo>0)
+                request.setAttribute("voto_per_cibo", (int)(VotoTotaleCibo/context.getReviewsContextsByNewest().size()));
+            else
+                request.setAttribute("voto_per_cibo", 1);
+            if(VotoTotaleServizio>0)
+                request.setAttribute("voto_per_servizio", (int)(VotoTotaleServizio/context.getReviewsContextsByNewest().size()));
+            else
+                request.setAttribute("voto_per_servizio", 1);
+            if(VotoTotaleAtmosfera>0)
+                request.setAttribute("voto_per_atmosfera", (int)(VotoTotaleAtmosfera/context.getReviewsContextsByNewest().size()));
+            else
+                request.setAttribute("voto_per_atmosfera", 1);
+            if(VotoTolatePrezzo>0)
+                request.setAttribute("voto_per_prezzo", (int)(VotoTolatePrezzo/context.getReviewsContextsByNewest().size()));
+            else
+                request.setAttribute("voto_per_prezzo", 1);
             
             //GENERAZIONE QR
             String qrContent="";
@@ -119,7 +131,7 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request,response);
+        processRequest(request, response);
     }
 
     /* Handles the HTTP <code>POST</code> method.
