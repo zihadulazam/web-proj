@@ -68,25 +68,25 @@ public class ProfileServlet extends HttpServlet {
                 //raccolgo dati per l'admin
                 ArrayList<AttemptContext> ristorantiAttesa = null;
                 ArrayList<ReplyContext> risposteConfermare = null;
-                ArrayList<PhotoContext> fotoSegnalate = null;
-                ArrayList<ReviewContext> reviewSegnalate = null;
+                ArrayList<PhotoContext> listPhotoNotification = null;
+                ArrayList<ReviewContext> listReviewNotification = null;
                 
                 //provo a interrogare il DB per ottenere le info                
                 ristorantiAttesa = manager.getAllRestaurantsRequests();
                 risposteConfermare = manager.getAllRepliesToBeConfirmed();
-                fotoSegnalate = manager.getAllReportedPhotos();
-                reviewSegnalate = manager.getAllReportedReviews();
+                listPhotoNotification = manager.getAllReportedPhotos();
+                listReviewNotification = manager.getAllReportedReviews();
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
                 request.setAttribute("risposteConfermare", risposteConfermare);
-                request.setAttribute("fotoSegnalate", fotoSegnalate);
-                request.setAttribute("reviewSegnalate", reviewSegnalate);
+                request.setAttribute("listPhotoNotification", listPhotoNotification);
+                request.setAttribute("reviewSegnalate", listReviewNotification);
                 
                 request.setAttribute("nRA", ristorantiAttesa.size());
                 request.setAttribute("nRC", risposteConfermare.size());
-                request.setAttribute("nFS", fotoSegnalate.size());
-                request.setAttribute("nRS", reviewSegnalate.size());
+                request.setAttribute("nFS", listPhotoNotification.size());
+                request.setAttribute("nRS", listReviewNotification.size());
 
                 request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
 

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author andrei
  */
-@WebServlet("ModifyRestaurantServlet")
+@WebServlet(name = "ModifyRestaurantServlet", urlPatterns = {"/ModifyRestaurantServlet"})
 public class ModifyRestaurantServlet extends HttpServlet {
     private DbManager manager;
 
