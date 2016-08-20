@@ -6,35 +6,15 @@
 package servlets;
 
 import database.DbManager;
-import database.Restaurant;
-import database.Review;
 import database.User;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Authenticator;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utility.EmailSender;
 import utility.IpFinder;
-import static utility.IpFinder.getLocalIp;
 
 /**
  *Servlet per registrazione utente, si occupa di mandare una mail di verifica, i
@@ -86,7 +65,7 @@ public class RegisterUserServlet extends HttpServlet {
             String nickname = request.getParameter("nickname");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String avatarPath = "/img/user_default.png";
+            String avatarPath = "img/avatar/avatar.png";
             if (name != null && surname != null && nickname != null && email != null && password != null) {
                 int res;
                 User user = new User();

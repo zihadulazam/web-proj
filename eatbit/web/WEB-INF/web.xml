@@ -29,6 +29,10 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:derby://localhost:1527/eatbitDB;user=eatbitDB;password=password;</param-value>
     </context-param>
+    <context-param>
+        <param-name>uploadPhotosDir</param-name>
+        <param-value>/img/photos</param-value>
+    </context-param>
     <servlet>
         <servlet-name>
         ModifyProfileServlet
@@ -41,15 +45,7 @@
         uploadDir
       </param-name>
             <param-value>
-        /img/avater
-      </param-value>
-        </init-param>
-        <init-param>
-            <param-name>
-        uploadPhotosDir
-      </param-name>
-            <param-value>
-        /img/photos
+        /img/avatar
       </param-value>
         </init-param>
     </servlet>

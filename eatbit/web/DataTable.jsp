@@ -36,12 +36,12 @@
             <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%" >
                 <thead>
                     <tr >
-                        <th class="col-sm-2 sorting"> </th>
-                        <th class="col-sm-2 sorting"> Nome Ristorante</th>
-                        <th class="col-sm-2 sorting">Voto</th>
-                        <th class="col-sm-2 sorting">Tipi di cucina</th>
-                        <th class="col-sm-2 sorting">Num Recensioni</th>
-                        <th class="col-sm-2 sorting"></th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"> </th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Nome Ristorante</th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Voto</th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Tipi di cucina</th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Num Recensioni</th>
+                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"></th>
                     </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -157,7 +157,8 @@
                     "pagingType": "full_numbers",
                     bFilter: true,
                     bInfo: false,
-                    "order": [[ 2, "desc" ]],                    
+                    ordering:true,
+                    order: [[ 2, "desc" ]],                    
                     "language": {
                         "search":"Filtra per tipo di cucina:",
                         "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
