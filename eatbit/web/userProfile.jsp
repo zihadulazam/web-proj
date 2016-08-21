@@ -100,7 +100,7 @@
                         <!--Reviews-->
                         <br>
                         <c:choose>                            
-                            <c:when test="${numberReview == 0}">
+                            <c:when test="${listReview.size() == 0}">
                                 <div class="alert alert-info notice mmm" role="alert">
                                         <div class ="row">                                                                                        
                                            &nbsp; Non hai ancora nessuna recensione!
@@ -166,7 +166,7 @@
                                                                             </div>
                                                                             <div class="col-md-10">
                                                                                 <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
-                                                                                <p class="risposta-autore">Da: Admin</p>
+                                                                                <p class="risposta-autore">Da: Proprietario</p>
                                                                                 <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
                                                                             </div>
                                                                         </div>
@@ -472,7 +472,7 @@
         <!--footer-->
         <%@include file="components/footer.html"%>
         
-        <!-- Restaurant JS-->
+        <!-- UserProfile JS-->
         <script type="text/javascript" src="js/userProfile.js"></script>
 
         <!-- Single image viewer js -->

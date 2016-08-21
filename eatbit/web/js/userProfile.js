@@ -10,7 +10,7 @@ $(document).ready(function() {
             success:function(dati)  
             {
                 //data: return data from server
-                if(dati = "1"){
+                if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
                 }
@@ -36,7 +36,7 @@ $(document).ready(function() {
             success:function(dati)  
             {
                 //data: return data from server
-                if(dati = "1"){
+                if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
                 }

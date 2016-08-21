@@ -1,17 +1,20 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
 import database.DbManager;
 import database.PhotoNotification;
-import database.Restaurant;
 import database.ReviewNotification;
 import database.User;
 import database.contexts.AttemptContext;
-import database.contexts.OwnUserContext;
 import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -26,19 +29,18 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author mario
+ * @author andrei
  */
-@WebServlet(name = "ProfileServlet", urlPatterns = {"/ProfileServlet"})
-public class ProfileServlet extends HttpServlet {
-    
-    DbManager manager;
+@WebServlet(name = "GetAllAdmin", urlPatterns = {"/GetAllAdmin"})
+public class GetAllAdmin extends HttpServlet {
+
+        DbManager manager;
     
     @Override
     public void init(){
         // inizializza il DBManager 
         this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
     }
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,8 +52,9 @@ public class ProfileServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        try {
+        response.setContentType("text/html;charset=UTF-8");
+               response.setContentType("text/html;charset=UTF-8");
+        try{
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");   
             
@@ -62,63 +65,34 @@ public class ProfileServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
                 rd.forward(request, response);
             }
-            int type = user.getType();
-            session.setAttribute("user", user);
-            if (type==2){
-                //raccolgo dati per l'admin
+            
+           //raccolgo dati per l'admin
                 ArrayList<AttemptContext> ristorantiAttesa = null;
                 ArrayList<ReplyContext> risposteConfermare = null;
                 ArrayList<PhotoContext> listPhotoNotification = null;
                 ArrayList<ReviewContext> listReviewNotification = null;
                 
                 //provo a interrogare il DB per ottenere le info                
-                ristorantiAttesa = manager.getRestaurantsRequests(4);
-                risposteConfermare = manager.getRepliesToBeConfirmed(4);
-                listPhotoNotification = manager.getReportedPhotos(4);
-                listReviewNotification = manager.getReportedReviews(4);
+                ristorantiAttesa = manager.getAllRestaurantsRequests();
+                risposteConfermare = manager.getAllRepliesToBeConfirmed();
+                listPhotoNotification = manager.getAllReportedPhotos();
+                listReviewNotification = manager.getAllReportedReviews();
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
                 request.setAttribute("risposteConfermare", risposteConfermare);
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("reviewSegnalate", listReviewNotification);
-                //response.getWriter().println(listPhotoNotification.size());
-                //response.getWriter().println(listReviewNotification.size());
-                request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
-
-                
-            }else{
-                //raccolgo dati per utente
-                ArrayList<ReviewContext> listReview = null;
-                ArrayList<PhotoNotification> listPhotoNotification = null;
-                ArrayList<ReviewNotification> listReviewNotification = null;
-                ArrayList<Restaurant> listRestaurants = null;
-                
-                OwnUserContext userContext = null;
-                
-                //provo a interrogare il DB per ottenere le info
-                listReviewNotification = manager.getUserReviewNotifications(user.getId(),4);
-                userContext = manager.getUserContext(user.getId());
-                listReview = userContext.getReviewContext();
-                listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
-                listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
-                
-                response.setContentType("text/plain");
-                request.setAttribute("listPhotoNotification", listPhotoNotification);
-                request.setAttribute("listReviewNotification", listReviewNotification);
-                request.setAttribute("listReview", listReview);
-                request.setAttribute("listRestaurants", listRestaurants);                
-                
-                request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
-
-            }
-        } catch (SQLException ex) {
+            
+            request.getRequestDispatcher("/allAdminNotify.jsp").forward(request, response);
+            
+        }catch(ServletException | IOException | SQLException ex){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.setAttribute("error1", "Errore interno");
+            request.getRequestDispatcher("/errorModifyRest.jsp").forward(request, response);
         }
-        
     }
-        
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

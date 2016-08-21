@@ -75,7 +75,8 @@ public class GetAllNotify extends HttpServlet {
             
         }catch(ServletException | IOException | SQLException ex){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.setAttribute("error1", "Errore interno");
+            request.getRequestDispatcher("/errorModifyRest.jsp").forward(request, response);
         }
     }
 

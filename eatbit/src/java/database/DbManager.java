@@ -2167,7 +2167,7 @@ public class DbManager implements Serializable
             st.setInt(6, restaurant.getId_creator());
             st.setInt(7, findClosestPrice(min, max));
             st.setInt(8, 0);
-            st.setInt(9, 0);
+            st.setInt(9, 1);
             st.setBoolean(10, false);
             st.executeUpdate();
             try (ResultSet rs = st.getGeneratedKeys())
@@ -2744,7 +2744,7 @@ public class DbManager implements Serializable
                 {
                     //se è solo creazione metto owner a -1 e setto il profilo per la ricerca fuzzy
                     valid.setInt(1, -1);
-                    setProfile(restaurant.getId(), restaurant.getName());
+                    //setProfile(restaurant.getId(), restaurant.getName());
                 }
                 st.setInt(1, id_user);
                 st.setInt(2, id_restaurant);

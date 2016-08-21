@@ -18,6 +18,7 @@ public class PhotoContext implements Serializable
 
     private User user;
     private Photo photo;
+    private String restaurantName;
 
     public PhotoContext(User user, Photo photo)
     {
@@ -47,6 +48,20 @@ public class PhotoContext implements Serializable
     public void setPhoto(Photo photo)
     {
         this.photo = photo;
+    }
+
+    /**
+     * @return the restaurantName
+     */
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    /**
+     * @param restaurantName the restaurantName to set
+     */
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
 }
