@@ -59,7 +59,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
+                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 form-box">
                     	<form role="form" action="" method="post" class="f1">
 
                     		<h3>Crea Ristorante</h3>
@@ -186,18 +186,628 @@
 
                             <fieldset>
                                 <h4>Orario d'apertura (Da Finire):</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="f1-facebook" placeholder="..." class="f1-facebook form-control" id="f1-facebook">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                                        <h5>Giorno</h5>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                                        <h5>Dalle</h5>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                                        <h5>Alle</h5>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="f1-twitter" placeholder="..." class="f1-twitter form-control" id="f1-twitter">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Lunedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-google-plus">Giorno</label>
-                                    <input type="text" name="f1-google-plus" placeholder="..." class="f1-google-plus form-control" id="f1-google-plus">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Martedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Mercoledì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Giovedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Venerdì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Sabato:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Domenica:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select class="form-control" id="sel1">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <br/>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
                                     <button type="submit" class="btn btn-submit">Fine</button>
