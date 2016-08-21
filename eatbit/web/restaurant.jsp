@@ -285,7 +285,7 @@
             </div>
             <div class="collapse" id="collapseAddFoto">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" >
+                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-12" id="AddFoto-FileInput">
                                 <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
