@@ -235,7 +235,7 @@ public class AddReviewServlet extends HttpServlet
             }
             catch(NumberFormatException | SQLException e)
             {
-                //va deletata foto da filesystem
+                //va deletata foto da filesystem e db
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");
