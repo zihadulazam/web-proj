@@ -13,7 +13,6 @@ import database.Review;
 import database.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -116,7 +115,6 @@ public class AddReviewServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out= response.getWriter();
         //prendo richiesta multipart
         MultipartRequest multi = new MultipartRequest(request,
                     dirName, 
@@ -230,14 +228,14 @@ public class AddReviewServlet extends HttpServlet
                         default:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "ok");
                                     request.setAttribute("description", "Successo: Il tuo recensione è stato inserito con successo.");
+                                    manager.notifyReview(Integer.parseInt(sId_rest), id_review);
                                     request.getRequestDispatcher("/info.jsp").forward(request, response);
-                        manager.notifyReview(Integer.parseInt(sId_rest), id_review);
                     }
                 }
             }
             catch(NumberFormatException | SQLException e)
             {
-                //va deletata foto da filesystem
+                //va deletata foto da filesystem e db
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");

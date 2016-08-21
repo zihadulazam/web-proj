@@ -2223,9 +2223,9 @@ public class DbManager implements Serializable
     private int findCuisine(final String cuisine) throws SQLException
     {
         int res = -1;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE NAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE uppercase(NAME)=?"))
         {
-            st.setString(1, cuisine);
+            st.setString(1, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
@@ -2244,31 +2244,29 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Aggiunge la coppia id_ristorante e id_cucina alla tabella
-     * restaurant_cuisine, viene prima controllato che questa coppia non esista
-     * già.
-     *
+     * Aggiunge la coppia id_ristorante e id_cucina alla tabella.
+     * 
      * @param idRest Id del ristorante.
      * @param cuisine Id della cucina.
      * @throws SQLException
      */
     private void addRestaurantXCuisine(final int idRest, final int cuisine) throws SQLException
     {
-        try (PreparedStatement check = con.prepareStatement("SELECT * FROM RESTAURANT_CUISINE "
-                + "WHERE ID_RESTAURANT=? AND ID_CUISINE=?");
+        try (/*PreparedStatement check = con.prepareStatement("SELECT * FROM RESTAURANT_CUISINE "
+                + "WHERE ID_RESTAURANT=? AND ID_CUISINE=?");*/
                 PreparedStatement st = con.prepareStatement("INSERT INTO RESTAURANT_CUISINE VALUES(?,?)"))
         {
-            check.setInt(1, idRest);
+            /*check.setInt(1, idRest);
             check.setInt(2, cuisine);
             try (ResultSet rs = check.executeQuery())
             {
                 if (!rs.next())
-                {
+                {*/
                     st.setInt(1, idRest);
                     st.setInt(2, cuisine);
                     st.executeUpdate();
-                }
-            }
+               // }
+            //}
         }
         catch (SQLException ex)
         {
@@ -3758,7 +3756,7 @@ public class DbManager implements Serializable
      * @return Un intero, che se è positivo rappresenta il nuovo voto del
      * ristorante, (che potrebbe comunque essere uguale a prima), se è 0 indica
      * che il voto dell'utente non ha avuto alcun effetto perchè aveva votato
-     * prima di 24h ore fa o perchè non esiste un ristorante con quell'id o
+     * prima di 24h ore fa, -1 se non esiste un ristorante con quell'id o
      * perchè l'utente è il prorietario.
      * @throws SQLException
      */
@@ -3768,6 +3766,7 @@ public class DbManager implements Serializable
         Restaurant restaurant = getRestaurantById(id_restaurant);
         if (restaurant == null || restaurant.getId_owner() == id_user)
         {
+            res=-1;
             return res;
         }
         boolean canVote = addOrRefreshVote(id_user, id_restaurant);
@@ -5017,7 +5016,7 @@ public class DbManager implements Serializable
                 + "* 0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) "
                 + "* COS(? * 0.017453292519943295) * (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) "
                 + "< ?) IDS, RESTAURANTS R, RESTAURANT_COORDINATE RC WHERE R.ID=RC.ID_RESTAURANT "
-                + "AND RC.ID_COORDINATE=IDS.ID) RDIST, RESTAURANT_CUISINE, CUISINES WHERE CUISINES.NAME=? "
+                + "AND RC.ID_COORDINATE=IDS.ID) RDIST, RESTAURANT_CUISINE, CUISINES WHERE upper(CUISINES.NAME)=? "
                 + "AND RDIST.ID=RESTAURANT_CUISINE.ID_RESTAURANT AND RESTAURANT_CUISINE.ID_CUISINE=CUISINES.ID "
                 + "ORDER BY RDIST.GLOBAL_VALUE DESC"))
         {
@@ -5025,7 +5024,7 @@ public class DbManager implements Serializable
             st.setDouble(2, latitude);
             st.setDouble(3, longitude);
             st.setDouble(4, distance);
-            st.setString(5, cuisine);
+            st.setString(5, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while(rs.next())
@@ -5094,10 +5093,10 @@ public class DbManager implements Serializable
     public ArrayList<Integer> getRestaurantIdsByCuisine(String cuisine) throws SQLException{
         ArrayList<Integer> res= new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT R.ID FROM RESTAURANTS R, "
-                + "RESTAURANT_CUISINE RC, CUISINES C WHERE C.NAME=? "
+                + "RESTAURANT_CUISINE RC, CUISINES C WHERE upper(C.NAME)=? "
                 + "AND R.ID=RC.ID_RESTAURANT AND RC.ID_CUISINE=C.ID ORDER BY R.GLOBAL_VALUE DESC"))
         {
-            st.setString(1, cuisine);
+            st.setString(1, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while(rs.next())
@@ -5133,7 +5132,7 @@ public class DbManager implements Serializable
                 + "upper(CITY)=? OR upper(PROVINCE)=? OR upper(STATE)=? OR upper(COMPLETE_LOCATION)=?) "
                 + "IDCord, RESTAURANT_COORDINATE WHERE "
                 + "IDCORD.ID=RESTAURANT_COORDINATE.ID_COORDINATE) "
-                + "RISTO, RESTAURANT_CUISINE RC, CUISINES C WHERE C.NAME=? "
+                + "RISTO, RESTAURANT_CUISINE RC, CUISINES C WHERE upper(C.NAME)=? "
                 + "AND RISTO.ID=RC.ID_RESTAURANT AND RC.ID_CUISINE=C.ID"))
         {
             st.setString(1, location.toUpperCase());
@@ -5141,7 +5140,7 @@ public class DbManager implements Serializable
             st.setString(3, location.toUpperCase());
             st.setString(4, location.toUpperCase());
             st.setString(5, location.toUpperCase());
-            st.setString(6, cuisine);
+            st.setString(6, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())

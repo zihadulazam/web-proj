@@ -9,6 +9,10 @@
 
 	<title>Eatbit | Search</title>
         
+        <!-- ico-->
+        <link rel="icon" href="../img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+        
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
         
@@ -31,9 +35,27 @@
        <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
         
-        <!-- Main Content -->
-        <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px">
-            <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%" >
+        <!-- Main Content --> 
+        <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px;">
+            <div class="col-sm-12" style="text-align: center;">
+                <label >Filtra per cucina/prezzo:</label>
+            </div>
+            <div class="col-sm-6">            
+                <select id="scelta_Cucina" aria-controls="tabella-ristoranti" class="form-control input-sm"  style="margin-bottom: 10px;">
+                        <option value=" "> </option>
+                        <option value="Italiano">Italiano</option>
+                        <option value="Giapponese">Giapponese</option>
+                    </select> 
+            </div>
+            <div class="col-sm-6"> 
+                <select id="scelta_Prezzo" class="form-control input-sm" style="margin-bottom: 10px;">
+                        <option value=""></option>
+                        <option value="Basso">Basso</option>
+                        <option value="Medio">Medio</option>
+                        <option value="Alto">Alto</option>
+                    </select> 
+            </div>
+            <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%"  >
                 <thead>
                     <tr >
                         <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"> </th>
@@ -45,7 +67,7 @@
                     </tr>
                 </thead>
                 <tfoot></tfoot>
-                <tbody>                    
+                <tbody >                    
                     <c:forEach var="i" items="${list}">
                         <tr >
                             <!-- Prima colonna-->
@@ -152,13 +174,17 @@
 	<!--<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>-->
         
         <script type="text/javascript" language="javascript" class="init">
-              $(document).ready(function() {
-                $('#tabella-ristoranti').DataTable( {
+            $(document).ready(function() {
+                var tabella= $('#tabella-ristoranti').DataTable( {
                     "pagingType": "full_numbers",
-                    bFilter: true,
+                    bFilter: false,
                     bInfo: false,
                     ordering:true,
-                    order: [[ 2, "desc" ]],                    
+                    order: [[ 2, "desc" ]], 
+                    scrollX:true,
+                    scrollY:false,
+                    scrollCollapse:false,
+                    StateSave:true,
                     "language": {
                         "search":"Filtra per tipo di cucina:",
                         "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
@@ -180,6 +206,12 @@
                                     {"targets": [ 4 ], "searchable": false},
                                     {"targets": [ 5 ], "searchable": false}]
                 } );
+                $('#scelta_Cucina').change(function() {
+                    tabella
+                       .columns( 3 )
+                       .search(  $(this).val() )
+                       .draw();
+                      });
             } );
 	</script>
     </body>

@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * Ritorna 1 se il voto dell'utente ha avuto effetto ritorna 0 se c'è stata una eccezione o
  * non esiste un ristorante con quell'id, ritorna -1 se l'utente non ha fatto login 
  * (non c'è User in session) o se manca un parametro, -2 se l'utente non poteva
- * votare xk ha già votato o fatto una recensione meno di 24h fa o se il ristorante
+ * votare xk ha già votato o fatto una recensione meno di 24h fa, -3 se il ristorante
  * con quell'id non esiste o se è il proprietario del ristorante.
  * parametri:
  * vote 
@@ -70,7 +70,19 @@ public class UserVoteServlet extends HttpServlet {
                 int voto = Integer.parseInt(voteString);
                 voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 
                 voto = max(voto, 1);
-                out.write(manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest)>0?"1":"-2");
+                int res= manager.addUserVoteOnRestaurant(voto, user.getId(), id_rest);
+                switch (res)
+                {
+                    case 0:
+                        out.write("-2");//24h
+                        break;
+                    case -1:
+                        out.write("-3");//proprietario
+                        break;
+                    default:
+                        out.write("1");
+                        break;
+                }
             }
             else
                 out.write("-1");
