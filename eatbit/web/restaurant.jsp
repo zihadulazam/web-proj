@@ -285,9 +285,10 @@
             </div>
             <div class="collapse" id="collapseAddFoto">
                 <div class="well">
-                    <form>
+                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" >
                         <div class="row">
-                            <div class="col-md-10" id="AddFoto-FileInput">
+                            <div class="col-md-12" id="AddFoto-FileInput">
+                                <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                                 <div class="input-group">
                                     <label class="input-group-btn">
                                         <span class="btn btn-default">
@@ -297,9 +298,14 @@
                                     <input type="text" id="AddFoto-cerca-photo-name" class="form-control" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-2" id="btn-upload">
-                                <button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Carica</button>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <br/>
+                            <label class="rating-lb" for="photo_description" maxlength="32000">Descrizione Photo:</label>
+                            <textarea class="form-control" rows="3" name="photo_description" id="photo_description"></textarea>
+                        </div>
+                        <div class="text-right" id="btn-upload">
+                            <button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Carica</button>
                         </div>
                     </form>
                 </div>

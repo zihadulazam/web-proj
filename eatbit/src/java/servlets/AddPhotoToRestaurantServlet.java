@@ -12,7 +12,6 @@ import database.Photo;
 import database.User;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -54,7 +53,36 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out= response.getWriter();
+        
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
         //prendo richiesta multipart
         MultipartRequest multi = new MultipartRequest(request,
                     dirName, 
@@ -64,8 +92,12 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
         Enumeration files = multi.getFileNames();
         String sId_rest= multi.getParameter("id_rest");
         String sPhoto_description= multi.getParameter("photo_description");
-        if(sId_rest==null || !files.hasMoreElements() || sPhoto_description==null)
-            out.write("-1");
+        if(sId_rest==null || !files.hasMoreElements() || sPhoto_description==null){
+            request.setAttribute("title", "Risultato Operazione:");
+            request.setAttribute("status", "danger");
+            request.setAttribute("description", "Errore: Mancano i parametri");
+            request.getRequestDispatcher("/info.jsp").forward(request, response);
+        }
         else
         {
             //prendo foto e rinonimo per evitare collisioni di nomi
@@ -91,51 +123,29 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
                 {
                     //ristorante non esiste
                     //va cancellato file
-                    out.write("-2");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "danger");
+                    request.setAttribute("description", "Errore: Ristorante non esiste.");
+                    request.getRequestDispatcher("/info.jsp").forward(request, response);
                 }
                 else
                 {
-                    out.write("1");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "ok");
+                    request.setAttribute("description", "Ok: La tua <strong>Photo</strong> è stato inserito con successo.");
+                    request.getRequestDispatcher("/info.jsp").forward(request, response);
                     manager.notifyPhoto(Integer.parseInt(sId_rest), id_photo);
                 }
             }
             catch (SQLException | NumberFormatException ex)
             {
                 Logger.getLogger(AddPhotoToRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
-                out.write("0");
+                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Errore!!!");
+                request.getRequestDispatcher("/info.jsp").forward(request, response);
             }
         }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
     }
 
     /**
