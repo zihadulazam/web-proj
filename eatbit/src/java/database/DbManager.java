@@ -3758,7 +3758,7 @@ public class DbManager implements Serializable
      * @return Un intero, che se è positivo rappresenta il nuovo voto del
      * ristorante, (che potrebbe comunque essere uguale a prima), se è 0 indica
      * che il voto dell'utente non ha avuto alcun effetto perchè aveva votato
-     * prima di 24h ore fa o perchè non esiste un ristorante con quell'id o
+     * prima di 24h ore fa, -1 se non esiste un ristorante con quell'id o
      * perchè l'utente è il prorietario.
      * @throws SQLException
      */
@@ -3768,6 +3768,7 @@ public class DbManager implements Serializable
         Restaurant restaurant = getRestaurantById(id_restaurant);
         if (restaurant == null || restaurant.getId_owner() == id_user)
         {
+            res=-1;
             return res;
         }
         boolean canVote = addOrRefreshVote(id_user, id_restaurant);

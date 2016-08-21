@@ -33,7 +33,7 @@
         
         <!-- Main Content -->
         <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px">
-            <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%" >
+            <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%"  >
                 <thead>
                     <tr >
                         <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"> </th>
@@ -158,7 +158,10 @@
                     bFilter: true,
                     bInfo: false,
                     ordering:true,
-                    order: [[ 2, "desc" ]],                    
+                    order: [[ 2, "desc" ]], 
+                    scrollX:true,
+                    scrollY:false,
+                    scrollCollapse:false,
                     "language": {
                         "search":"Filtra per tipo di cucina:",
                         "lengthMenu": "Visualizza _MENU_ ristoranti per pagina",
