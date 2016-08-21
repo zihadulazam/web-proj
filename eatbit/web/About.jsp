@@ -15,7 +15,7 @@
         <h1>
             EatBit è il portale di ristoranti più piccolo al mondo, probabilmente. 
             Permette agli utenti e a chi ha fame di cercare fra una manciata di ristoranti che potrebbero non esistere.
-            Il marchio eatBit rappresenta la più piccola community di mangiatori al mondo, con meno di 20 utenti registrati; e il suo
+            Il marchio eatBit rappresenta la più piccola community di mangiatori al mondo, con meno di 20 utenti registrati, e il suo
             sito è attivo solo in italia.
         </h1>
     </body>
