@@ -42,7 +42,7 @@
             </div>
             <div class="col-sm-6">            
                 <select id="scelta_Cucina" aria-controls="tabella-ristoranti" class="form-control input-sm" style="margin-bottom: 10px;">
-                        <option value="">CUCINA</option>                        
+                        <option value="">Cucina</option>                        
                         <option value="AMERICANA">AMERICANA</option>
                         <option value="ASIATICA">ASIATICA</option>
                         <option value="AFRICANA">AFRICANA</option>
@@ -74,13 +74,13 @@
             <table id="tabella-ristoranti" class="display" cellspacing="0" width="100%"  >
                 <thead>
                     <tr >
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"> </th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Nome Ristorante</th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Voto</th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Tipi di cucina</th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Num Recensioni</th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;"></th>
-                        <th class="col-sm-2 sorting" style="background-color: #DFDFDF; border-style: ridge;">Prezzo</th>
+                        <th class="col-sm-2 sorting bg-primary"> </th>
+                        <th class="col-sm-2 sorting bg-primary">Nome Ristorante</th>
+                        <th class="col-sm-2 sorting bg-primary">Voto</th>
+                        <th class="col-sm-2 sorting bg-primary">Tipi di cucina</th>
+                        <th class="col-sm-2 sorting bg-primary">Num Recensioni</th>
+                        <th class="col-sm-2 sorting bg-primary"></th>
+                        <th class="col-sm-2 sorting bg-primary">Prezzo</th>
                     </tr>
                 </thead>
                 <tfoot></tfoot>
@@ -92,7 +92,14 @@
                                 <div class=" container-left">
                                     <div class="container-fluid">
                                         <div class="container-writer">
-                                            <img src="img/restaurant-default.png" class="img-circle"/>
+                                            <c:choose>
+                                                    <c:when test="${i.getPhotos().size()>0}">
+                                                        <img src="<c:out value="${i.getPhotos().get(0).getPath()}"/>"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="img/restaurant-default.png" class="img-circle"/>
+                                                    </c:otherwise>
+                                                </c:choose>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -158,7 +165,7 @@
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-value">
-                                            <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"> Visita</a></button>
+                                            <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"><span class="glyphicon glyphicon-eye-open"></span> Visita</a></button>
                                         </div>
                                     </div>
                                 </div>
