@@ -58,6 +58,10 @@
     <jsp-file>/success.jsp</jsp-file>
     </servlet>
     <servlet>
+  <servlet-name>failure</servlet-name>
+    <jsp-file>/failure.jsp</jsp-file>
+    </servlet>
+    <servlet>
     <servlet-name>error</servlet-name>
     <jsp-file>/error.jsp</jsp-file>
     </servlet>
@@ -80,6 +84,10 @@
 <servlet-mapping>
     <servlet-name>success</servlet-name>
     <url-pattern>/success</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>failure</servlet-name>
+    <url-pattern>/failure</url-pattern>
 </servlet-mapping>
 <servlet-mapping>
     <servlet-name>nothing_here</servlet-name>
