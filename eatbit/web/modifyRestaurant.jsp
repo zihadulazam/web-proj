@@ -63,8 +63,8 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
-                    	<form action="${pageContext.request.contextPath}/ModifyRestaurantServlet" method="post" class="f1">
-                                <c:set var="id_restaurant" value="${restaurant.getRestaurant().getId()}" scope="request"/>
+                    	<form id="formModifica" action="${pageContext.request.contextPath}/ModifyRestaurantServletBackup" method="post" class="f1">
+                                
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
                     		
                     		<fieldset>
@@ -76,8 +76,7 @@
            
                                 <div class="form-group">
                                     <h5>Descrizione</h5>
-                                    <textarea name="description" placeholder="Descrizione..." 
-                                    	                 class="form-control" id="description"><c:out  value="${restaurant.getRestaurant().getDescription()}" /></textarea>
+                                    <input type="text" name="description" placeholder="Descrizione" value="${restaurant.getRestaurant().getDescription()}" class="form-control" id="web_site">
                                 </div>
                                 <div class="form-group">
                                     <h5>Sito Web:</h5>
@@ -86,6 +85,14 @@
                                         <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
                                     </div>
                                     
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="address">Indirizzo</label>
+                                    <div class="input-group">
+                                        <input type="text" name="indirizzo" placeholder="Indririzzo..." class="form-control" id="address">
+                                        <span class="input-group-addon"><span class="fa fa-map-marker" aria-hidden="true"></span></span>
+                                    </div>
+                                    <label id="lblresult"></label>
                                 </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-next">Successivo</button>
@@ -98,39 +105,39 @@
                                     <h5>Cucina:</h5>
                                     <div class="row">
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="CUCINE" value="Americana"/> Americana
+                                            <input type="checkbox" name="cuisine" value="Americana"/> Americana
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Asiatica"/> Asiatica
+                                            <input type="checkbox" name="cuisine" value="Asiatica"/> Asiatica
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Africana"/> Africana
+                                            <input type="checkbox" name="cuisine" value="Africana"/> Africana
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Cinese"/> Cinese
+                                            <input type="checkbox" name="cuisine" value="Cinese"/> Cinese
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Japonese"/> Japonese
+                                            <input type="checkbox" name="cuisine" value="Japonese"/> Japonese
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Sushi"/> Sushi
+                                            <input type="checkbox" name="cuisine" value="Sushi"/> Sushi
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="CUCINE" value="Indiana"/> Indiana
+                                            <input type="checkbox" name="cuisine" value="Indiana"/> Indiana
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Italiana"/> Italiana
+                                            <input type="checkbox" name="cuisine" value="Italiana"/> Italiana
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Pizza"/> Pizza
+                                            <input type="checkbox" name="cuisine" value="Pizza"/> Pizza
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Francese"/> Francese
+                                            <input type="checkbox" name="cuisine" value="Francese"/> Francese
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Spagnola"/> Spagnola
+                                            <input type="checkbox" name="cuisine" value="Spagnola"/> Spagnola
                                             <br />
-                                            <input type="checkbox" name="CUCINE" value="Pesce"/> Pesce
+                                            <input type="checkbox" name="cuisine" value="Pesce"/> Pesce
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="CK" value="Carne"/> Carne
+                                            <input type="checkbox" name="cuisine" value="Carne"/> Carne
                                             <br />
-                                            <input type="checkbox" name="CK" value="Messicana"/> Messicana
+                                            <input type="checkbox" name="cuisine" value="Messicana"/> Messicana
                                             <br />
-                                            <input type="checkbox" name="CK" value="Fast-Food"/> Fast-Food
+                                            <input type="checkbox" name="cuisine" value="Fast-Food"/> Fast-Food
                                             <br />
-                                            <input type="checkbox" name="CK" value="Vegetariana"/> Vegetariana
+                                            <input type="checkbox" name="cuisine" value="Vegetariana"/> Vegetariana
                                          </div>
                                     </div>
                                 </div>
@@ -150,113 +157,652 @@
                                     <button type="button" class="btn btn-next">Successivo</button>
                                 </div>
                             </fieldset>
-                                   
-                            <fieldset>
-                                <h4>Coordinate:</h4>
-                                <div class="form-group">
-                                    <h5>Latitudine</h5>
-                                    <input type="text" name="latitudine" placeholder="${restaurant.getCoordinate().getLatitude()}" class="f1-facebook form-control" id="f1-facebook">
-                                </div>
-                                <div class="form-group">
-                                    <h5>Longitudine</h5>
-                                    <input type="text" name="longitudine" placeholder="${restaurant.getCoordinate().getLatitude()}" class="f1-twitter form-control" id="f1-twitter">
-                                </div>
-                                <div class="form-group">
-                                    <h5>Indirizzo</h5>
-                                    <input type="text" name="indirizzo" placeholder="${restaurant.getCoordinate().getAddress()}" class="f1-google-plus form-control" id="f1-google-plus">
-                                </div>
-                                <div class="form-group">
-                                    <h5>Città</h5>
-                                    <input type="text" name="città" placeholder="${restaurant.getCoordinate().getCity()}" class="f1-google-plus form-control" id="f1-google-plus">
-                                </div>
-                                <div class="form-group">
-                                    <h5>Provincia</h5>
-                                    <input type="text" name="provincia" placeholder="${restaurant.getCoordinate().getProvince()}" class="f1-google-plus form-control" id="f1-google-plus">
-                                </div>
-                                <div class="form-group">
-                                    <h5>Stato</h5>
-                                    <input type="text" name="stato" placeholder="${restaurant.getCoordinate().getState()}" class="f1-google-plus form-control" id="f1-google-plus">
-                                </div>
-                                <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Precedente</button>
-                                    <button type="submit" class="btn btn-next">Successivo</button>
-                                </div>
-                            </fieldset>            
+                            
+                                              
                                         
                             <fieldset>
-                                <h4>Orario d'apertura Lunedì :</h4> (Esempio orario 12:00)
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioLunedi" class="f1-facebook form-control" id="f1-facebook">
+                                <h4>Orario d'apertura (Quasi Finito):</h4>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
+                                        <h5>Giorno</h5>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                                        <h5>Dalle</h5>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+                                        <h5>Alle</h5>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineLunedi" class="f1-twitter form-control" id="f1-twitter">
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Lunedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="LunMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="LunMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="LunPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="LunPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <h4>Orario d'apertura Martedì :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioMartedi"  class="f1-facebook form-control" id="f1-facebook">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Martedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MarMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MarMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MarPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MarPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineMartedi"  class="f1-twitter form-control" id="f1-twitter">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Mercoledì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MerMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MerMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MerPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="MerPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <h4>Orario d'apertura Mercoledì :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioMercoledi"  class="f1-facebook form-control" id="f1-facebook">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Giovedì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="GioMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="GioMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="GioPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="GioPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineMercoledi"  class="f1-twitter form-control" id="f1-twitter">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Venerdì:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="VenMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="VenMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="VenPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="VenPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <h4>Orario d'apertura Giovedì :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioGiovedi"  class="f1-facebook form-control" id="f1-facebook">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Sabato:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="SabMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="SabMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="SabPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="SabPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineGiovedi"  class="f1-twitter form-control" id="f1-twitter">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <h5>Domenica:</h5>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="DomMatH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="DomMatM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="DomPomH">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="23">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                        <div class="input-group">
+                                            <select name="hour" class="form-control" id="DomPomM">
+                                                <option>--</option>
+                                                <option>00</option>
+                                                <option>01</option>
+                                                <option>02</option>
+                                                <option>03</option>
+                                                <option>04</option>
+                                                <option>05</option>
+                                                <option>06</option>
+                                                <option>07</option>
+                                                <option>08</option>
+                                                <option>09</option>
+                                                <c:forEach var="i" begin="10" end="59">
+                                                    <option><c:out value="${i}"/></option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <h4>Orario d'apertura Venerdì :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioVenerdi"  class="f1-facebook form-control" id="f1-facebook">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineVenerdi"  class="f1-twitter form-control" id="f1-twitter">
-                                </div>
-                                
-                                <h4>Orario d'apertura Sabato :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioSabato"  class="f1-facebook form-control" id="f1-facebook">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineSabato"  class="f1-twitter form-control" id="f1-twitter">
-                                </div>
-                                
-                                <h4>Orario d'apertura Domenica :</h4>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-facebook">Ora inizio</label>
-                                    <input type="text" name="oraInizioDomenica"  class="f1-facebook form-control" id="f1-facebook">
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="f1-twitter">Ora Fine</label>
-                                    <input type="text" name="oraFineDomenica"  class="f1-twitter form-control" id="f1-twitter">   
-                                </div>
-                                
+                                <br/>
+                                <br/>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
-                                    <button  type="submit" class="btn btn-submit">Fine</button>
+                                    <button type ="submit" id="invia" class="btn btn-submit">Fine</button>
+                                    
+                                    <input name="address" type="hidden" id="location" />
+                                    <input name="city" type="hidden" id="city" />
+                                    <input name="province" type="hidden" id="province" />
+                                    <input name="state" type="hidden" id="state" />
+                                    <input name="longitude" type="hidden" id="longitude" />
+                                    <input name="latitude" type="hidden" id="latitude" />
+                                    <input name="id_restaurant" type="hidden" value="${restaurant.getRestaurant().getId()}" />
+                                    <input name="orarioL" type="hidden" id="orarioL" />
+                                    <input name="orarioM" type="hidden" id="orarioM" />
+                                    <input name="orarioMe" type="hidden" id="orarioMe" />
+                                    <input name="orarioG" type="hidden" id="orarioG" />
+                                    <input name="orarioV" type="hidden" id="orarioV" />
+                                    <input name="orarioS" type="hidden" id="orarioS" />
+                                    <input name="orarioD" type="hidden" id="orarioD" />
                                 </div>
                             </fieldset>
                     	

@@ -57,12 +57,13 @@ public class DenyReplyByAdminServlet extends HttpServlet
             User user = (User) request.getSession().getAttribute("user");
             String stringId = request.getParameter("id_reply");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
+
             if (user != null && user.getType()==2 && stringId!=null) {
                 manager.unconfirmReply(Integer.parseInt(stringId));
                 out.write("1");
             }
             else
-                out.write("-1");
+                out.write(" string "+ stringId);
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {

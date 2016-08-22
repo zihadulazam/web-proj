@@ -108,6 +108,8 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
+        
+       
     	// fields validation
     	
     });
@@ -123,16 +125,26 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-	var autocomplete=new google.maps.places.Autocomplete(document.getElementById('address'));
+        var places;
+        var location;
+        var lat;
+        var lon;
+        var via;
+        var num;
+        var city;
+        var country;
+        var province;
+	
+    var autocomplete=new google.maps.places.Autocomplete(document.getElementById('address'));
 	google.maps.event.addListener(autocomplete,'place_changed',function(){
-		var places=autocomplete.getPlace();
-		var location="Location: "+places.formatted_address;
-		var lat="lat: "+places.geometry.location.lat();
-		var lon="lon: "+places.geometry.location.lng();
-		var via="Via: ";
-		var num=" ";
-		var city="Città: ";
-		var country="Paese: ";
+		places=autocomplete.getPlace();
+		location=""+places.formatted_address;
+		lat=""+places.geometry.location.lat();
+		lon=""+places.geometry.location.lng();
+		via="Via ";
+		num="";
+		city="";
+		country="";
 		for (var i = 0; i < places.address_components.length; i++)
 		{
 			var addr=places.address_components[i];
@@ -144,8 +156,97 @@ $(document).ready(function(){
 				city=addr.long_name;
 			if(addr.types[0]=='country')
 				country=addr.long_name;
+                        if(addr.types[0]=='administrative_area_level_2')
+                                province = addr.long_name;
+
 		}
 		via+=" "+num;
-		alert(location+" "+lat+" "+lon+" "+via+" "+city+" "+country);
+		alert(location+" "+lat+" "+lon+" "+via+" "+city+" "+province+" "+country);
+                //passo le coordinate al server
+                document.getElementById("location").value = location;
+                document.getElementById("city").value = city;
+                document.getElementById("province").value = province;
+                document.getElementById("state").value = country;
+                document.getElementById("latitude").value = lat;
+                document.getElementById("longitude").value = lon;   
+
+                
 	});
+
+
+       $('select').change(function(){
+           //prendo gli orari
+           var LMH = document.getElementById("LunMatH").value;
+           var LMM = document.getElementById("LunMatM").value;
+           var LPH = document.getElementById("LunPomH").value;
+           var LPM = document.getElementById("LunPomM").value;
+           
+           var MMH = document.getElementById("MarMatH").value;
+           var MMM = document.getElementById("MarMatM").value;
+           var MPH = document.getElementById("MarPomH").value;
+           var MPM = document.getElementById("MarPomM").value;
+           
+           var MEMH = document.getElementById("MerMatH").value;
+           var MEMM = document.getElementById("MerMatM").value;
+           var MEPH = document.getElementById("MerPomH").value;
+           var MEPM = document.getElementById("MerPomM").value;
+           
+           var GMH = document.getElementById("GioMatH").value;
+           var GMM = document.getElementById("GioMatM").value;
+           var GPH = document.getElementById("GioPomH").value;
+           var GPM = document.getElementById("GioPomM").value;
+           
+           var VMH = document.getElementById("VenMatH").value;
+           var VMM = document.getElementById("VenMatM").value;
+           var VPH = document.getElementById("VenPomH").value;
+           var VPM = document.getElementById("VenPomM").value;
+           
+           var SMH = document.getElementById("SabMatH").value;
+           var SMM = document.getElementById("SabMatM").value;
+           var SPH = document.getElementById("SabPomH").value;
+           var SPM = document.getElementById("SabPomM").value;
+           
+           var DMH = document.getElementById("DomMatH").value;
+           var DMM = document.getElementById("DomMatM").value;
+           var DPH = document.getElementById("DomPomH").value;
+           var DPM = document.getElementById("DomPomM").value;
+
+           
+           
+
+           
+           if ((LMH != "--") && (LMM != "--") && (LPH != "--") 
+                   && (LPM != "--") && (MMH != "--") && (MMM != "--") 
+                   && (MPH != "--") && (MPM != "--") && (MEMH != "--") 
+                   && (MEMM != "--") && (MEPH != "--") && (MEPM != "--") 
+                   && (GMH != "--") && (GMM != "--") && (GPH != "--") 
+                   && (GPM != "--") && (VMH != "--") && (VMM != "--") 
+                   && (VPH != "--") && (VPM != "--") && (SMH != "--") 
+                   && (SMM != "--") && (SPH != "--") && (SPM != "--") 
+                   && (DMH != "--") && (DMM != "--") && (DPH != "--") && (DPM != "--")) {
+               
+                          //formatto gli orari
+                    var orarioLun = 1+LMH+":"+LMM+LPH+":"+LPM;
+                    var orarioMar = 1+MMH+":"+MMM+MPH+":"+MPM;
+                    var orarioMer = 1+MEMH+":"+MEMM+MEPH+":"+MEPM;
+                    var orarioGio = 1+GMH+":"+GMM+GPH+":"+GPM;
+                    var orarioVen = 1+VMH+":"+VMM+VPH+":"+VPM;
+                    var orarioSab = 1+SMH+":"+SMM+SPH+":"+SPM;
+                    var orarioDom = 1+DMH+":"+DMM+DPH+":"+DPM;
+               
+               alert("Orari: " + orarioLun + " " + orarioMar + " " 
+                   + orarioMer +" " + orarioGio + " " + orarioVen
+                   + " " + orarioSab + " " + orarioDom );
+           
+                    document.getElementById("orarioL").value = orarioLun;
+                     document.getElementById("orarioM").value = orarioMar;
+                     document.getElementById("orarioMe").value = orarioMer;
+                     document.getElementById("orarioG").value = orarioGio;
+                     document.getElementById("orarioV").value = orarioVen;
+                     document.getElementById("orarioS").value = orarioSab;   
+                     document.getElementById("orarioD").value = orarioDom; 
+                 }
+           
+       });
+        
 });

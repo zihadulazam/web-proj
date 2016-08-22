@@ -71,11 +71,14 @@ public class ProfileServlet extends HttpServlet {
                 ArrayList<PhotoContext> listPhotoNotification = null;
                 ArrayList<ReviewContext> listReviewNotification = null;
                 
-                //provo a interrogare il DB per ottenere le info                
-                ristorantiAttesa = manager.getRestaurantsRequests(4);
-                risposteConfermare = manager.getRepliesToBeConfirmed(4);
-                listPhotoNotification = manager.getReportedPhotos(4);
-                listReviewNotification = manager.getReportedReviews(4);
+                //provo a interrogare il DB per ottenere le info
+                
+                //DA CAMBIARE ALL I MANY
+                
+                ristorantiAttesa = manager.getAllRestaurantsRequests();
+                risposteConfermare = manager.getAllRepliesToBeConfirmed();
+                listPhotoNotification = manager.getAllReportedPhotos();
+                listReviewNotification = manager.getAllReportedReviews();
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);

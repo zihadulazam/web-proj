@@ -11,13 +11,19 @@ import database.Coordinate;
 import database.DbManager;
 import database.HoursRange;
 import database.Photo;
+import database.PriceRange;
 import database.Restaurant;
 import database.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -28,6 +34,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *Servlet per modificare un ristorante, restituisce 1 se è andato a buon fine, 0 se 
@@ -80,52 +87,108 @@ public class ModifyRestaurantServletBackup extends HttpServlet
         PrintWriter out= response.getWriter();
         //preparo le stringhe e gli oggetti per raccogliere i parametri
         //stringhe per risto
-        String sName=null;
-        String sDescription=null;
-        String sUrl=null;
+        String sName=request.getParameter("name");;
+        String sDescription=request.getParameter("description");;
+        String sUrl=request.getParameter("web_site");
         //cucine
         String[] sCuisines=null;
         //stringhe per coordinata
-        String sAddress=null;
-        String sCity=null;
-        String sProvince=null;
-        String sState=null;
-        String sLatitude=null;//deve essere numero, anche reale
-        String sLongitude=null;//deve essere numero, anche reale
-        //orari
-        String[] sHours=null;
+        String sAddress=request.getParameter("address");
+        String sCity=request.getParameter("city");;
+        String sProvince=request.getParameter("province");;
+        String sState=request.getParameter("state");;
+        String sLatitude=request.getParameter("latitude");;//deve essere numero, anche reale
+        String sLongitude=request.getParameter("longitude");;//deve essere numero, anche reale
+        //ORARI
+        String orarioLun = request.getParameter("orarioL");
+        String orarioMar = request.getParameter("orarioM");
+        String orarioMer = request.getParameter("orarioMe");
+        String orarioGio = request.getParameter("orarioG");
+        String orarioVen = request.getParameter("orarioV");
+        String orarioSab = request.getParameter("orarioS");
+        String orarioDom = request.getParameter("orarioD");
+        
+        HoursRange lun = new HoursRange(orarioLun);
+        HoursRange mar = new HoursRange(orarioMar);
+        HoursRange mer = new HoursRange(orarioMer);
+        HoursRange gio = new HoursRange(orarioGio);
+        HoursRange ven = new HoursRange(orarioVen);
+        HoursRange sab = new HoursRange(orarioSab);
+        HoursRange dom = new HoursRange(orarioDom);
+        
+        ArrayList<HoursRange> hours = new ArrayList<>();
+        hours.add(lun);
+        hours.add(mar);
+        hours.add(mer);
+        hours.add(gio);
+        hours.add(ven);
+        hours.add(sab);
+        hours.add(dom);
+        
         //altre Stringhe
-        String sMin=null;//deve essere numero, anche reale
-        String sMax=null;//deve essere numero, anche reale
+        Double sMin=null;//deve essere numero, anche reale
+        Double sMax=null;//deve essere numero, anche reale
         //prendo i parametri
-        Enumeration params = request.getParameterNames();            
-        while (params.hasMoreElements()) 
-        {
-            String name = (String)params.nextElement();
-            String[] value = request.getParameterValues(name);
-            switch(name)
-            {
-                case "description": sDescription=value[0];break;
-                case "name": sName=value[0];break;
-                case "url": sUrl=value[0];break;
-                case "cuisine": sCuisines=value;break;
-                case "address": sAddress=value[0];break;
-                case "city": sCity=value[0];break;
-                case "province": sProvince=value[0];break;
-                case "state": sState=value[0];break;
-                case "latitude": sLatitude=value[0];break;
-                case "longitude": sLongitude=value[0];break;
-                case "hour": sHours=value;break;
-                case "min": sMin=value[0];break;
-                case "max": sMax=value[0];break;
-                default: break;
-            }
+
+        //variabili per la mofifica dati ristorante
+        int id_restaurant = -1;
+        try{
+            id_restaurant = Integer.parseUnsignedInt(request.getParameter("id_restaurant"));
+        }catch (NumberFormatException e){
+            Logger.getLogger(ModifyRestaurantServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
+            request.setAttribute("errore1", "Errore interno con l'ID del ristorante");
+            
         }
+        out.println("ID: "+id_restaurant);
+;
+        try{
+            sMin = Double.parseDouble(request.getParameter("prezzo_min"));
+            sMax = Double.parseDouble(request.getParameter("prezzo_max"));
+            if (sMin>sMax){
+                throw new NumberFormatException();
+            }
+        }catch(NumberFormatException e){
+            Logger.getLogger(ModifyRestaurantServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
+            request.setAttribute("errore2", "Il prezzo minimo e massimo non é inserito correttamente oppure il minimo é MINORE del massimo");
+        }
+
+
+        String[] checkboxes = request.getParameterValues("cuisine");
+        ArrayList<String> cucine = new ArrayList<String>();
+        Collections.addAll(cucine,checkboxes);
+
+        out.println("Cucine");
+         out.println(checkboxes.length);
+        for(String c:cucine){
+            out.println(c);
+        }
+
+        out.println(sName);
+      out.println(sDescription);
+      out.println(sLatitude);
+      out.println(sLongitude);
+      out.println(sAddress);
+      out.println(sCity);
+      out.println(sProvince);
+      out.println(sState);
+      out.println(sUrl);
+      out.println(sMin);
+      out.println(sMax);
+
+        out.println("ORARI");
+        out.println("Lun:" + orarioLun);
+        out.println("Mar:"+orarioMar);
+        out.println("Mer:"+orarioMer);
+        out.println("Gio:"+orarioGio);
+        out.println("Ven:"+orarioVen);
+        out.println("Sab:"+orarioSab);
+        out.println("Dom:"+orarioDom);
+        
         
         //controllo che siano presenti tutti i parametri necessari
-        if(sDescription==null||sName==null||sUrl==null||sCuisines==null
+        if(sDescription==null||sName==null||sUrl==null||cucine==null
                 ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
-                ||sLongitude==null||sHours==null||sMin==null||sMax==null)
+                ||sLongitude==null||sMin==null||sMax==null)
             out.write("-1");
         else
         {
@@ -146,10 +209,8 @@ public class ModifyRestaurantServletBackup extends HttpServlet
                 coordinate.setState(sState);
                 coordinate.setLatitude(Double.parseDouble(sLatitude));
                 coordinate.setLongitude(Double.parseDouble(sLongitude));
-                ArrayList<HoursRange> hours=parseHours(sHours);
-                double minPrice=Double.parseDouble(sMin);
-                double maxPrice=Double.parseDouble(sMax);
-                manager.modifyRestaurant(restaurant, sCuisines, coordinate, hours, minPrice, maxPrice);
+                
+                manager.modifyRestaurant(restaurant, sCuisines, coordinate,hours, sMin, sMin);
                 out.write("1");
             }
             catch(NumberFormatException | SQLException e)
@@ -205,12 +266,14 @@ public class ModifyRestaurantServletBackup extends HttpServlet
     private ArrayList<HoursRange> parseHours(final String[] hours)
     {
         ArrayList<HoursRange> res=new ArrayList<>();
+        
         for (String hour : hours)
         {
             //formato è 110:0018:30  [giorno][apertura][chiusura]
             try
             {
                 HoursRange tmp=new HoursRange(hour);
+                
                 res.add(tmp);
             }
             catch(NumberFormatException | IndexOutOfBoundsException e)
