@@ -67,7 +67,7 @@ public class DenyRestaurantRequestByAdminServlet extends HttpServlet
                 out.write("1");
             }
             else
-                out.write("-1");
+                out.write(""+stringIdRequester+"");
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(DenyRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");

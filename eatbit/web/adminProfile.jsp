@@ -139,7 +139,7 @@
                                             <div class ="col-md-8">
                                             </div>
                                             <div class ="col-md-2">
-                                                <input type="text" disabled value="${rA.getUser().getId()}" class="hide">
+                                                <input id="valore" class="hidden" value="${rA.getUser().getId()}"/> 
                                                 <button  class="btn btn-primary acceptRestaurantAttempt" value="${rA.getRestaurant().getId()}">Accept</button>
                                             </div>
 

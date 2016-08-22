@@ -7,7 +7,7 @@
 $(document).ready(function() {
     $(".acceptRestaurantAttempt").click(function(event) {
         var id_restaurant = $(this).val();
-        var element = $(this);
+        var element = $(this).parent().parent();
         var id_user = $(this).prev().val();
         $.ajax(
         {
@@ -35,8 +35,8 @@ $(document).ready(function() {
     
     $(".declineRestaurantAttempt").click(function(event) {
         var id_restaurant = $(this).val();
-        var element = $(this);
-        var id_user = $(this).prev().val();
+        var element = $(this).parent().parent();
+        var id_user =  $("#valore").val();
         $.ajax(
         {
             url : "../eatbit/DenyRestaurantRequestByAdminServlet",
