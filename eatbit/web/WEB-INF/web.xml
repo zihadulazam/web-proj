@@ -61,8 +61,28 @@
     <servlet-name>error</servlet-name>
     <jsp-file>/error.jsp</jsp-file>
     </servlet>
+    <servlet>
+    <servlet-name>about</servlet-name>
+    <jsp-file>/About.jsp</jsp-file>
+    </servlet>
     <error-page>
     <error-code>404</error-code>
-    <location>/nothingHere.jsp</location>
+    <location>/nothing_here</location>
 </error-page>
+<servlet-mapping>
+    <servlet-name>about</servlet-name>
+    <url-pattern>/about</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>error</servlet-name>
+    <url-pattern>/error</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>success</servlet-name>
+    <url-pattern>/success</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>nothing_here</servlet-name>
+    <url-pattern>/nothing_here</url-pattern>
+</servlet-mapping>
 </web-app>
