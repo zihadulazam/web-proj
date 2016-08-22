@@ -2082,7 +2082,7 @@ public class DbManager implements Serializable
 
     private void incrementReviewDislikes(final Review review) throws SQLException
     {
-        try (PreparedStatement st = con.prepareStatement("UPDATE REVIEWS SET DISLIKES WHERE ID=?"))
+        try (PreparedStatement st = con.prepareStatement("UPDATE REVIEWS SET DISLIKES=? WHERE ID=?"))
         {
             st.setInt(1, review.getDislikes() + 1);
             st.setInt(2, review.getId());
