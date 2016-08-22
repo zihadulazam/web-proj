@@ -53,6 +53,14 @@
   <servlet-name>nothing_here</servlet-name>
     <jsp-file>/nothingHere.jsp</jsp-file>
     </servlet>
+    <servlet>
+  <servlet-name>success</servlet-name>
+    <jsp-file>/success.jsp</jsp-file>
+    </servlet>
+    <servlet>
+    <servlet-name>error</servlet-name>
+    <jsp-file>/error.jsp</jsp-file>
+    </servlet>
     <error-page>
     <error-code>404</error-code>
     <location>/nothingHere.jsp</location>
