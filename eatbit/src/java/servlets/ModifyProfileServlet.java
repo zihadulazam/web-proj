@@ -78,8 +78,7 @@ public class ModifyProfileServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/index.html");           
             rd.forward(request, response);
         } 
-        
-        session.setAttribute("user", user);
+
         PrintWriter out = response.getWriter();
         //creo il realpath della directory di salvataggio avatar       
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avatar";
@@ -151,6 +150,7 @@ public class ModifyProfileServlet extends HttpServlet {
                     //CAMBIO FOTO UTENTE
                     manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
                     user.setAvatar_path("img/avatar/"+r);
+                    session.setAttribute("user", user);
                     out.println("superata modifica avatar ");         
                     
                     

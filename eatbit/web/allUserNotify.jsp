@@ -40,7 +40,7 @@
 
                 <ul class="nav nav-pills restaurant">
                     <li class="active"><a data-toggle="tab" href="#menu1">Foto<span class="badge"><c:out value="${listPhotoNotification.size()}"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu2">Revisioni<span class="badge"><c:out value="${listReviewNotification.size()}"/></span></a></li>
+                    <li><a data-toggle="tab" href="#menu2">Recensioni<span class="badge"><c:out value="${listReviewNotification.size()}"/></span></a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -71,8 +71,8 @@
                                             
                                             <div class="row">
                                                 <div class ="col-md-10">
-                                                    <div class="contenutoNotFoto">
-                                                        <a class="thumbnail" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                    <div class=" contenutoNotFoto">
+                                                        <a class="thumbnail autoX" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
                                                             <img src="<c:out value="${photoNotification.getPhoto().getPath()}" />">
                                                         </a>                                                                                                                                                                                               
                                                     </div>
@@ -176,7 +176,16 @@
             </div>
         </div>
         
+        <!-- included modal hear -->
+        <%@include file="components/log-reg-modal.jsp"%>
+
         <!--footer-->
-       <%@include file="components/footer.html"%>
+        <%@include file="components/footer.html"%>
+        
+        <!-- UserProfile JS-->
+        <script type="text/javascript" src="js/userProfile.js"></script>
+
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
 </body>
 </html>

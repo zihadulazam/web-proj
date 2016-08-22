@@ -361,6 +361,10 @@ mmm{
     margin: 10px;   
 }
 
+.autoX{
+    display: -moz-box;
+}
+
 .allNotify{
     padding: 6px 6px;
 }
