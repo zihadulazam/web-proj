@@ -1,5 +1,6 @@
 
 .dataTables_filter { visibility: hidden;}
+.dataTables_scroll{overflow-y: hidden;}
 
 /* line 3, ../scss/restaurant.scss */
 #header {
