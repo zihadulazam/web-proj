@@ -170,10 +170,16 @@ $(document).ready(function(){
                 document.getElementById("latitude").value = lat;
                 document.getElementById("longitude").value = lon;   
 
+
+	
+    
+
                 
 	});
 
 
+       
+       
        $('select').change(function(){
            //prendo gli orari
            var LMH = document.getElementById("LunMatH").value;
