@@ -60,16 +60,16 @@ public class VerifyUserServlet extends HttpServlet
                 //altrimenti a una jsp che comunica il fallimento della verifica
                 //n.b. i nomi success.jsp e failure.jsp sono semplicemente placeholder
                 if (manager.verifyUser(id, token)) {
-                    request.getRequestDispatcher("/success.jsp").forward(request, response);
+                    request.getRequestDispatcher("/success").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    request.getRequestDispatcher("/failure").forward(request, response);
                 }
             }
             else
-                request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                request.getRequestDispatcher("/failure").forward(request, response);
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/error").forward(request, response);
         }
     }
 

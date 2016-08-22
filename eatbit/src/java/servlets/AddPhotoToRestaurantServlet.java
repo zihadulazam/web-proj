@@ -23,6 +23,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.FileDeleter;
 
 /**
  *
@@ -121,8 +122,8 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
                 int id_photo= manager.addPhoto(photo);
                 if(id_photo==-1)
                 {
-                    //ristorante non esiste
-                    //va cancellato file
+                    //ristorante non esiste, cancello il file
+                    FileDeleter.deleteFile(newPath);
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "Errore: Ristorante non esiste.");
@@ -139,6 +140,8 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
             }
             catch (SQLException | NumberFormatException ex)
             {
+                //cancello il file in caso di eccezione
+                FileDeleter.deleteFile(newPath);
                 Logger.getLogger(AddPhotoToRestaurantServlet.class.getName()).log(Level.SEVERE, null, ex);
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");

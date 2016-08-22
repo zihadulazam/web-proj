@@ -24,6 +24,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.FileDeleter;
 
 /**
  *Servlet per aggiungere una recensione, restituisce:
@@ -69,7 +70,6 @@ public class AddReviewServlet extends HttpServlet
         if (dirName == null) 
           throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addReviewServlet");
         dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
-        
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -174,6 +174,7 @@ public class AddReviewServlet extends HttpServlet
             String newPath = dirName+"/"+newName;
             File f2 = new File(newPath);
             f.renameTo(f2);
+            int id_photo=-1;//serve in scope per catch
             //converto i parametri che lo necessitano in numeri e faccio
             //le chiamate al db, preparando prima gli oggetto necessari
             try
@@ -186,10 +187,11 @@ public class AddReviewServlet extends HttpServlet
                 photo.setPath("img/photos/"+newName);
                 photo.setName(name);
                 photo.setDescription(sPhoto_description);
-                int id_photo= manager.addPhoto(photo);
+                id_photo= manager.addPhoto(photo);
                 if(id_photo==-1)
                 {
-                    //ristorante non esiste
+                    //ristorante non esiste, cancello foto
+                    FileDeleter.deleteFile(newPath);
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "Errore: Ristorante non esiste.");
@@ -211,7 +213,7 @@ public class AddReviewServlet extends HttpServlet
                     review.setValue_for_money(Integer.parseInt(sValue_for_money));
                     int id_review= manager.addReview(review);
                     switch (id_review)
-                    {//n.b. va cancellata dal fs la foto per i casi -2 -3
+                    {//n.b. la foto nn viene cancellata perchè è permesso postare foto in qualunque caso, quindi la lasciamo
                     //l'utente ha già fatto un voto o una review a questo ristorante nelle ultime 24h
                         case -2:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
@@ -235,7 +237,13 @@ public class AddReviewServlet extends HttpServlet
             }
             catch(NumberFormatException | SQLException e)
             {
-                //va deletata foto da filesystem e db
+                //cancello foto e rimuovo associazione foto-ristorante da db
+                FileDeleter.deleteFile(newPath);
+                try{manager.removePhoto(id_photo);}
+                catch (SQLException ex)
+                {
+                    Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");

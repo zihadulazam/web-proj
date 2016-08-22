@@ -164,6 +164,7 @@
                                     <div class="container-fluid">
                                         <div class="container-value">
                                             <button type="button" class="btn btn-success"><a href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"><span class="glyphicon glyphicon-eye-open"></span> Visita</a></button>
+
                                         </div>
                                     </div>
                                 </div>

@@ -2082,7 +2082,7 @@ public class DbManager implements Serializable
 
     private void incrementReviewDislikes(final Review review) throws SQLException
     {
-        try (PreparedStatement st = con.prepareStatement("UPDATE REVIEWS SET DISLIKES WHERE ID=?"))
+        try (PreparedStatement st = con.prepareStatement("UPDATE REVIEWS SET DISLIKES=? WHERE ID=?"))
         {
             st.setInt(1, review.getDislikes() + 1);
             st.setInt(2, review.getId());
@@ -2974,14 +2974,12 @@ public class DbManager implements Serializable
      * @param range Nuovi orari (7 HourRange messi in ArrayList)-
      * @param min Nuovo prezzo minimo.
      * @param max Il nuovo prezzo massimo.
-     * @return True se è andata a buon fine, falso altrimenti.
      * @throws SQLException
      * @throws java.io.IOException
      */
-    public boolean modifyRestaurant(final Restaurant restaurant, final ArrayList<String> cucine, 
+    public void modifyRestaurant(final Restaurant restaurant, final String[] cucine, 
             final Coordinate coordinate, final ArrayList<HoursRange> range, final double min, double max) throws SQLException, IOException
     {
-        boolean res = false;
         try (PreparedStatement st = con.prepareStatement("UPDATE RESTAURANTS SET "
                 + "NAME=?,DESCRIPTION=?,WEB_SITE_URL=?,GLOBAL_VALUE=?,ID_OWNER=?,"
                 + "ID_CREATOR=?,ID_PRICE_RANGE=?,REVIEWS_COUNTER=?,VOTES_COUNTER=?,VALIDATED=? "
@@ -3006,9 +3004,9 @@ public class DbManager implements Serializable
                 //per ogni cucina aggiunto la relazione, se quella cucina esiste nel nostro db
                 //dopo aver pulito quelle prima
                 removeRestaurantCuisine(restaurant.getId());
-                for (int i = 0; i < cucine.size(); i++)
+                for (int i = 0; i < cucine.length; i++)
                 {
-                    int cuisineId = findCuisine(cucine.get(i));
+                    int cuisineId = findCuisine(cucine[i]);
                     if (cuisineId != -1)
                     {
                         addRestaurantXCuisine(restaurant.getId(), cuisineId);
@@ -3026,7 +3024,6 @@ public class DbManager implements Serializable
                 //aggiorno il profilo da usare per la fuzzy search
                 updateProfile(restaurantCheck.getId(), restaurant.getName());
                 con.commit();
-                res = true;
             }
         }
         catch (SQLException ex)
@@ -3035,7 +3032,6 @@ public class DbManager implements Serializable
             con.rollback();
             throw ex;
         }
-        return res;
     }
 
     /**
