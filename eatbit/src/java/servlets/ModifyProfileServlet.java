@@ -109,6 +109,8 @@ public class ModifyProfileServlet extends HttpServlet {
                 //CAMBIO NOME COGNOME UTENTE e NICKNAME
                 if ((!"".equals(_name)) && (!"".equals(_surname))){
                     manager.modifyUserNameSurname(user.getId(), _name, _surname);
+                    user.setName(_name);
+                    user.setSurname(_surname);
                     out.println("superata modifica nome cognome ");
                 }else{
                     out.println("Name/SurName are empty");
@@ -138,6 +140,7 @@ public class ModifyProfileServlet extends HttpServlet {
                 
                     //CAMBIO FOTO UTENTE
                     manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
+                    user.setAvatar_path("img/avatar/"+r);
                     out.println("superata modifica avatar ");         
                     //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
                     String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "\\");

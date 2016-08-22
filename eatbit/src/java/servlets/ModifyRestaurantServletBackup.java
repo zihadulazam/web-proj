@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *Servlet per aggiungere un ristorante, restituisce 1 se è andato a buon fine, 0 se 
+ *Servlet per modificare un ristorante, restituisce 1 se è andato a buon fine, 0 se 
  * c'è stata una eccezione sql o di formato dei numeri (parametri che dovevano essere
  * numeri non lo erano), -1 se mancavano parametri.
  * parametri necessari:
@@ -45,23 +45,17 @@ import javax.servlet.http.HttpServletResponse;
  * latitude//deve essere numero, anche reale
  * longitude//deve essere numero, anche reale
  * hour//formato 110:0018:40    [giorno da 1 a 7][ora:minuto][ora:minuto]
- * text_claim
  * min//deve essere numero, anche reale
  * max//deve essere numero, anche reale
- * claim//deve essere numero intero, 1 per dire che questa creazione di ristorante è anche una
- * richiesta di possesso, 0 se è solo una creazione
- * photo_description
- * Deve inoltre esserci un file(foto).
  * @author jacopo
  */
-
-@WebServlet(name = "AddRestaurantServlet", urlPatterns =
+@WebServlet(name = "ModifyRestaurantServletBackup", urlPatterns =
 {
-    "/AddRestaurantServlet"
+    "/ModifyRestaurantServletBackup"
 })
-public class AddRestaurantServlet extends HttpServlet
+
+public class ModifyRestaurantServletBackup extends HttpServlet
 {
-    private String dirName;
     private DbManager manager;
 
     @Override
@@ -69,12 +63,8 @@ public class AddRestaurantServlet extends HttpServlet
         super.init(config);
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
-        //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
-        if (dirName == null) 
-          throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addRestaurantServlet");
-        dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
     }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -88,13 +78,6 @@ public class AddRestaurantServlet extends HttpServlet
             throws ServletException, IOException
     {
         PrintWriter out= response.getWriter();
-        //prendo richiesta multipart
-        MultipartRequest multi = new MultipartRequest(request,
-                    dirName, 
-                    10*1024*1024, "ISO-8859-1", 
-                    new DefaultFileRenamePolicy());
-        //prendo il file
-        Enumeration files = multi.getFileNames();
         //preparo le stringhe e gli oggetti per raccogliere i parametri
         //stringhe per risto
         String sName=null;
@@ -112,17 +95,14 @@ public class AddRestaurantServlet extends HttpServlet
         //orari
         String[] sHours=null;
         //altre Stringhe
-        String sPhoto_description=null;
-        String sText_claim=null;
         String sMin=null;//deve essere numero, anche reale
         String sMax=null;//deve essere numero, anche reale
-        String sClaim=null;//deve essere numero intero
         //prendo i parametri
-        Enumeration params = multi.getParameterNames();            
+        Enumeration params = request.getParameterNames();            
         while (params.hasMoreElements()) 
         {
             String name = (String)params.nextElement();
-            String[] value = multi.getParameterValues(name);
+            String[] value = request.getParameterValues(name);
             switch(name)
             {
                 case "description": sDescription=value[0];break;
@@ -136,11 +116,8 @@ public class AddRestaurantServlet extends HttpServlet
                 case "latitude": sLatitude=value[0];break;
                 case "longitude": sLongitude=value[0];break;
                 case "hour": sHours=value;break;
-                case "text_claim": sText_claim=value[0];break;
                 case "min": sMin=value[0];break;
                 case "max": sMax=value[0];break;
-                case "claim": sClaim=value[0];break;
-                case "photo_description": sPhoto_description=value[0];break;
                 default: break;
             }
         }
@@ -148,22 +125,10 @@ public class AddRestaurantServlet extends HttpServlet
         //controllo che siano presenti tutti i parametri necessari
         if(sDescription==null||sName==null||sUrl==null||sCuisines==null
                 ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
-                ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
-                ||sMax==null||sClaim==null||sPhoto_description==null
-                ||!files.hasMoreElements())
+                ||sLongitude==null||sHours==null||sMin==null||sMax==null)
             out.write("-1");
         else
         {
-            //prendo foto e rinonimo per evitare collisioni di nomi
-            String name = (String)files.nextElement();
-            String filename = multi.getFilesystemName(name);
-            String originalFilename = multi.getOriginalFileName(name);
-            String type = multi.getContentType(name);
-            File f = multi.getFile(name); 
-            String newName = UUID.randomUUID().toString()+"."+getExtension(f.toString());
-            String newPath = dirName+"/"+newName;
-            File f2 = new File(newPath);
-            f.renameTo(f2);
             //converto i parametri che lo necessitano in numeri e faccio
             //le chiamate al db, preparando prima gli oggetto necessari
             try
@@ -184,30 +149,15 @@ public class AddRestaurantServlet extends HttpServlet
                 ArrayList<HoursRange> hours=parseHours(sHours);
                 double minPrice=Double.parseDouble(sMin);
                 double maxPrice=Double.parseDouble(sMax);
-                int claim=Integer.parseInt(sClaim);
-                int idRest=manager.addRestaurant(restaurant, sCuisines, coordinate,
-                        hours, sText_claim, minPrice, maxPrice, (claim==1));
-                if(idRest==-1)
-                    ;//deleta da fs la foto
-                else
-                {
-                    Photo photo= new Photo();
-                    photo.setId_owner(user.getId());
-                    photo.setId_restaurant(idRest);
-                    photo.setPath("img/photos/"+newName);
-                    photo.setName(name);
-                    photo.setDescription(sPhoto_description);
-                    out.write("1");
-                }
+                manager.modifyRestaurant(restaurant, sCuisines, coordinate, hours, minPrice, maxPrice);
+                out.write("1");
             }
             catch(NumberFormatException | SQLException e)
             {
-                //va deletata foto da filesystem
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
             }
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -252,15 +202,6 @@ public class AddRestaurantServlet extends HttpServlet
         return "Short description";
     }// </editor-fold>
 
-    private String getExtension(String name){
-        
-        try {
-            return name.substring(name.lastIndexOf(".") + 1);
-        } catch (Exception e) {
-            return e.toString();
-        }
-    }
-    
     private ArrayList<HoursRange> parseHours(final String[] hours)
     {
         ArrayList<HoursRange> res=new ArrayList<>();
@@ -280,6 +221,4 @@ public class AddRestaurantServlet extends HttpServlet
         }
         return res;
     }
-    
-    
 }

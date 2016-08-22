@@ -302,7 +302,7 @@ public class ModifyRestaurantServlet extends HttpServlet {
 
                 try {
                     Restaurant r = manager.getRestaurantById(id_restaurant);
-                    manager.modifyRestaurant(r, cucine, coordinate, orari, min, max);
+                    manager.modifyRestaurant(r, (String[])cucine.toArray(), coordinate, orari, min, max);
                 }catch(SQLException | IOException | NullPointerException e){
                     request.setAttribute("errore4", "Errore interno durante la modifica dei dati - Riprova più tardi");
                     err = true;
