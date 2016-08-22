@@ -17,12 +17,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.FileDeleter;
 
 /**
  * Servlet per permettere all'admin di rimuovere una review che era stata segnalata.
- * n.b. Al momento la foto della review NON viene dal db.
- * TODO aggiungere rimozione foto review nel db.
- * TODO aggiungere passaggio controllo a servlet o metodo che rimuove foto dal filesystem.
+ * Rimuove la foto associata alla review dal filesystem.
  * Manderà come risposta 1 se la rimozione è andata a buon fine, 0 se l'utente
  * non aveva effettuato il login o se non era un admin.
  * @author jacopo
@@ -34,11 +33,16 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoveReviewByAdminServlet extends HttpServlet
 {
     private DbManager manager;
-
+    private String dirName;
+    
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
+        dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
+        if (dirName == null) 
+          throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addReviewServlet");
+        dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
     }
 
     /**
@@ -59,8 +63,10 @@ public class RemoveReviewByAdminServlet extends HttpServlet
             String stringId= request.getParameter("id_review");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
             if (user != null && user.getType()==2 && stringId!=null) {
-                String photoToRemove = manager.removeReview(Integer.parseInt(stringId));
-                //rimozione foto via utility per rimuovere file da filesystem
+                String photoPath = manager.removeReview(Integer.parseInt(stringId));
+                //cancello foto da filesystem
+                String path = dirName + photoPath.replace("img/photos/", "/");
+                FileDeleter.deleteFile(path);
                 out.write("1");
             }
             else

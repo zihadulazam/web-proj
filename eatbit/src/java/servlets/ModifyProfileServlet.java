@@ -136,23 +136,25 @@ public class ModifyProfileServlet extends HttpServlet {
                     String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
                     String photoPath = dirName+"/"+r;
                     File f2 = new File(photoPath);
-                    f.renameTo(f2);               
-                
-                    //CAMBIO FOTO UTENTE
-                    manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
-                    user.setAvatar_path("img/avatar/"+r);
-                    out.println("superata modifica avatar ");         
-                    //PRIMA BISOGNEREBBE CANCELLARE QUELLO VECCHIO
-                    String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "\\");
-                    out.println("old_avatar_path :" + oldAvatarPath);   
+                    f.renameTo(f2);    
                     
+                    //CANCELLO FOTO VECCHIA
+                    String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "/");
+                    out.println("old_avatar_path :" + oldAvatarPath);   
                     boolean success = FileDeleter.deleteFile(oldAvatarPath);
                     if(success){
                         out.println("file vecchio cancellato ");  
                     }else{
                         out.println("non sono riuscito a cancellare il file ");  
                     }
-                    out.println("delete = " + success );         
+                    out.println("delete = " + success );    
+                    //CAMBIO FOTO UTENTE
+                    manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
+                    user.setAvatar_path("img/avatar/"+r);
+                    out.println("superata modifica avatar ");         
+                    
+                    
+                         
                     
                     //stampo qualche parametro 
                     out.println("dirName: " + dirName);

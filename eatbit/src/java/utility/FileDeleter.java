@@ -12,6 +12,9 @@ import java.io.File;
  * @author mario
  */
 public class FileDeleter {
+    
+    private FileDeleter(){}
+    
     /**
      * procedura statica che prende il path assoluto di un file e lo cancella
      * @param _path percorso assoluto del file da cancellare 
@@ -20,6 +23,8 @@ public class FileDeleter {
      */
     public static boolean deleteFile(String _path){     
 
+        System.out.println("path");
+        System.out.println(_path);
         boolean success = (new File (_path)).delete();
         if (success) {
             System.out.println("The file has been successfully deleted!!");           

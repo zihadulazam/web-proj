@@ -28,6 +28,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utility.FileDeleter;
 
 /**
  *Servlet per aggiungere un ristorante, restituisce 1 se è andato a buon fine, 0 se 
@@ -187,8 +188,8 @@ public class AddRestaurantServlet extends HttpServlet
                 int claim=Integer.parseInt(sClaim);
                 int idRest=manager.addRestaurant(restaurant, sCuisines, coordinate,
                         hours, sText_claim, minPrice, maxPrice, (claim==1));
-                if(idRest==-1)
-                    ;//deleta da fs la foto
+                if(idRest==-1)//cancello foto se nn è andato a buon fine inserimento ristorante
+                    FileDeleter.deleteFile(newPath);
                 else
                 {
                     Photo photo= new Photo();
@@ -197,12 +198,14 @@ public class AddRestaurantServlet extends HttpServlet
                     photo.setPath("img/photos/"+newName);
                     photo.setName(name);
                     photo.setDescription(sPhoto_description);
+                    manager.addPhoto(photo);
                     out.write("1");
                 }
             }
             catch(NumberFormatException | SQLException e)
             {
-                //va deletata foto da filesystem
+                //cancello foto da filesystem in caso di eccezione
+                FileDeleter.deleteFile(newPath);
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
             }
