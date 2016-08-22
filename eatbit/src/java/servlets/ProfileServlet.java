@@ -71,10 +71,7 @@ public class ProfileServlet extends HttpServlet {
                 ArrayList<PhotoContext> listPhotoNotification = null;
                 ArrayList<ReviewContext> listReviewNotification = null;
                 
-                //provo a interrogare il DB per ottenere le info
-                
-                //DA CAMBIARE ALL I MANY
-                
+                //provo a interrogare il DB per ottenere le info                
                 ristorantiAttesa = manager.getAllRestaurantsRequests();
                 risposteConfermare = manager.getAllRepliesToBeConfirmed();
                 listPhotoNotification = manager.getAllReportedPhotos();

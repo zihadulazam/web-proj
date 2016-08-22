@@ -38,14 +38,14 @@
             <div class="container" id="main">
                 <div id="last-update">
                     <div id="info-box">
-                                <h1>La cosa che stavi facendo ha funzionato! Complimenti!</h1>
+                                <h1>L'operazione non è andata a buon fine, ci dispiace.</h1>
                     </div>
                     <div id="updates">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12 update">
                                     <div class="horizontally-centered">
-                                        <img src="img/success.jpg"/>
+                                        <img src="img/sorry.jpg"/>
                                     </div>
                                 </div>
                             </div>

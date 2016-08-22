@@ -140,12 +140,10 @@
                             <td class="col-sm-2 sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-center">  
                                     <div class="container-fluid">
-                                        <div class="container-writer">
-                                            <ul>
-                                                <c:forEach var="k" items="${i.getCuisines()}">
-                                                        <li style="padding-left: 0 px;"><c:out value="${k}"/></li>
-                                                </c:forEach>
-                                            </ul>
+                                        <div class="container-writer">                                            
+                                            <c:forEach var="k" items="${i.getCuisines()}">
+                                                    <span class="label label-info"><c:out value="${k}"/></span>
+                                            </c:forEach>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -165,7 +163,8 @@
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-value">
-                                            <button type="button" class="btn btn-success"><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"><span class="glyphicon glyphicon-eye-open"></span> Visita</a></button>
+                                            <button type="button" class="btn btn-success"><a href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"></c:out>"><span class="glyphicon glyphicon-eye-open"></span> Visita</a></button>
+
                                         </div>
                                     </div>
                                 </div>
