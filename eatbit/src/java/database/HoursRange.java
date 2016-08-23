@@ -152,7 +152,7 @@ public final class HoursRange implements Serializable
         return minute>=0 && minute<=60;
     }
     
-    public HoursRange(String hour)
+    public HoursRange(String hour) throws NumberFormatException
     {
         int tDay=hour.charAt(0)-'0';
         int hourOp=Integer.parseInt(hour.substring(1, 3));
@@ -163,8 +163,10 @@ public final class HoursRange implements Serializable
                 &&isMinute(minuteCl))
         {
          setDay(tDay);
-         setStart_hour(new Time(hourOp,minuteOp,0));
-         setEnd_hour(new Time(hourCl,minuteCl,0));
+         start_hour=new Time(hourOp,minuteOp,0);
+         end_hour=new Time(hourCl,minuteCl,0);
+         if(!start_hour.before(end_hour))
+             throw new NumberFormatException("start hour is not before end hour");
         }
         else
             throw new NumberFormatException("wrong day or hour or minutes range");

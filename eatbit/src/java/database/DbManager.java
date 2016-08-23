@@ -2223,7 +2223,7 @@ public class DbManager implements Serializable
     private int findCuisine(final String cuisine) throws SQLException
     {
         int res = -1;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE uppercase(NAME)=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE upper(NAME)=?"))
         {
             st.setString(1, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
@@ -2858,16 +2858,12 @@ public class DbManager implements Serializable
      */
     private void removeRestaurantHourRange(final int id_restaurant) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM "
-                + "OPENING_HOURS_RANGE_RESTAURANT WHERE ID_RESTAURANT=?");
-                PreparedStatement st1 = con.prepareStatement("DELETE FROM "
+        try(PreparedStatement st1 = con.prepareStatement("DELETE FROM "
                         + "OPENING_HOURS_RANGES WHERE ID IN "
                         + "(SELECT ID_OPENING_HOURS_RANGE FROM OPENING_HOURS_RANGE_RESTAURANT WHERE ID_RESTAURANT=?)"))
         {
             st1.setInt(1, id_restaurant);
-            st2.setInt(1, id_restaurant);
             st1.executeUpdate();
-            st2.executeUpdate();
         }
         catch (SQLException ex)
         {
@@ -2890,6 +2886,7 @@ public class DbManager implements Serializable
                 + "RESTAURANT_CUISINE WHERE ID_RESTAURANT=?"))
         {
             st.setInt(1, id_restaurant);
+            st.executeUpdate();
         }
         catch (SQLException ex)
         {
@@ -2907,16 +2904,12 @@ public class DbManager implements Serializable
      */
     private void removeRestaurantCoordinate(final int id_restaurant) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM "
-                + "RESTAURANT_COORDINATE WHERE ID_RESTAURANT=?");
-                PreparedStatement st1 = con.prepareStatement("DELETE FROM "
+        try (PreparedStatement st1 = con.prepareStatement("DELETE FROM "
                         + "COORDINATES WHERE ID IN "
                         + "(SELECT ID_COORDINATE FROM RESTAURANT_COORDINATE WHERE ID_RESTAURANT=?)"))
         {
             st1.setInt(1, id_restaurant);
-            st2.setInt(1, id_restaurant);
             st1.executeUpdate();
-            st2.executeUpdate();
         }
         catch (SQLException ex)
         {
