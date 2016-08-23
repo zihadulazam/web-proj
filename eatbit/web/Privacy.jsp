@@ -47,7 +47,7 @@ Effettuando l'accesso al portale e utilizzando i servizi a disposizione, l'utent
 <br>
 L'ultimo aggiornamento della presente Informativa sulla privacy risale al giorno 20 giugno 2014. EatBit si riserva il diritto di modificare periodicamente la Informativa sulla privacy, si consiglia pertanto di prenderne regolarmente visione al fine di essere al corrente degli aggiornamenti.
 <br><br>
-<strong>Dati raccolti<strong><br>
+<strong>Dati raccolti</strong><br>
 <strong>Informazioni di carattere generale.</strong><br>
 <br>
 EatBit riceve e archivia le informazioni inserite dagli utenti attraverso il portale o altro mezzo. Tali informazioni includono dati che consentono di identificare personalmente gli utenti o di contattarli direttamente ("dati personali").
