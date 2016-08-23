@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- *
+ *Rispecchia la tabella REPLIES nel db, rappresenta la reply di un ristoratore
+ * a una recensione.
  * @author jacopo
  */
 public class Reply implements Serializable

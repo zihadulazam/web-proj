@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import utility.BCrypt;
@@ -31,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static java.lang.Math.abs;
 import java.sql.Blob;
 import java.util.Collections;
 import java.util.UUID;
@@ -3129,8 +3123,10 @@ public class DbManager implements Serializable
         {
             return res;
         }
-        try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM RESTAURANTS WHERE"
-                + " upper(NAME) like upper(?) ESCAPE '!' AND VALIDATED=TRUE FETCH FIRST 5 ROWS ONLY"))
+        try (PreparedStatement st = con.prepareStatement("(SELECT NAME FROM CUISINES "
+                + "WHERE upper(NAME) like upper(?) ESCAPE '!' FETCH FIRST 5 ROWS ONLY) "
+                + "UNION (SELECT NAME FROM RESTAURANTS WHERE upper(NAME) like upper(?) "
+                + "ESCAPE '!' AND VALIDATED=TRUE FETCH FIRST 5 ROWS ONLY)"))
         {
             term = term
                     .replace("!", "!!")
@@ -3138,11 +3134,12 @@ public class DbManager implements Serializable
                     .replace("_", "!_")
                     .replace("[", "![");
             st.setString(1, term + "%");
+            st.setString(2, term + "%");
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
                 {
-                    res.add(rs.getString("NAME"));
+                    res.add(rs.getString("NAME").toLowerCase());
                 }
             }
             con.commit();

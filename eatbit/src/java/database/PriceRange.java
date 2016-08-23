@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 
 /**
- *
+ *Oggetto che rispecchia la tabella PRICE_RANGES, indica la fascia di prezzo in cui
+ * si trova un ristorante, min e max riguardano la fascia di prezzo e non il min
+ * e max settato dal ristoratore alla creazione o modifica del ristorante.
  * @author jacopo
  */
 public class PriceRange implements Serializable

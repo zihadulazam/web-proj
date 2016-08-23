@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -71,12 +66,12 @@ public class GetAllNotify extends HttpServlet {
             request.setAttribute("listPhotoNotification", listPhotoNotification);
             request.setAttribute("listReviewNotification", listReviewNotification);
             
-            request.getRequestDispatcher("/allUserNotify.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/allUserNotify.jsp").forward(request, response);
             
         }catch(ServletException | IOException | SQLException ex){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.setAttribute("error1", "Errore interno");
-            request.getRequestDispatcher("/errorModifyRest.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/errorModifyRest.jsp").forward(request, response);
         }
     }
 

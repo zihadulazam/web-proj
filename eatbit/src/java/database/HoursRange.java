@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
@@ -10,7 +5,8 @@ import java.sql.Time;
 import java.util.Calendar;
 
 /**
- *
+ *Bean per gli orari di un ristorante, day è un numero da 1 a 7 che indica il giorno, con 1
+ * che indica lunedì e 7 domenica.
  * @author jacopo
  */
 public final class HoursRange implements Serializable
@@ -53,6 +49,10 @@ public final class HoursRange implements Serializable
         this.end_hour = end_hour;
     }
     
+    /**
+     * Restituisce l'ora di apertura in un formato del tipo 10:30
+     * @return 
+     */
     public String getFormattedStart_hour()
     {
         int resH=start_hour.getHours();
@@ -62,6 +62,10 @@ public final class HoursRange implements Serializable
         return stringH+":"+stringM;
     }
     
+    /**
+     *Restituisce l'ora di chiusura in un formato del tipo 10:30. 
+     * @return 
+     */
     public String getFormattedEnd_hour()
     {
         int resH=end_hour.getHours();
@@ -71,6 +75,11 @@ public final class HoursRange implements Serializable
         return stringH+":"+stringM;
     }
     
+    /**
+     * Restituisce l'orario rappresentato da questo oggeto, in un formato del tipo:
+     * lun 10:30 - 15:50
+     * @return 
+     */
     public String getFormattedWeeklyHour()
     {
         String res;
@@ -104,6 +113,14 @@ public final class HoursRange implements Serializable
         return res+" "+ getFormattedStart_hour() + " - " + getFormattedEnd_hour();
     }
     
+    /**
+     * Restituisce il giorno di questo oggetto, con un formato del tipo
+     * lun
+     * mar
+     * etc
+     * 
+     * @return 
+     */
     public String getFormattedDay()
     {
         String res;
@@ -152,6 +169,17 @@ public final class HoursRange implements Serializable
         return minute>=0 && minute<=60;
     }
     
+    /**
+     * Costruttore per creare un oggetto di tipo HoursRange a partire da una stringa
+     * con formato 
+     * 110:3016:40
+     * dove la prima cifra indica il giorno, e poi seguono 2 orari con ora:minuti.
+     * Lancia eccezione se l'orario di apertura non risulterà prima dell'orario di chiusura
+     * o se le ore fornite non sono convertibili in ore reali, per esempio:
+     * 142:9314:40 darà un eccezione a causa di 42:92.
+     * @param hour
+     * @throws NumberFormatException 
+     */
     public HoursRange(String hour) throws NumberFormatException
     {
         int tDay=hour.charAt(0)-'0';

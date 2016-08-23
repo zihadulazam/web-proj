@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -10,7 +5,6 @@ import database.HoursRange;
 import database.contexts.RestaurantContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -111,12 +105,13 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
             qrUrl ="data:image/png;base64," + Base64.encodeBase64String(bytes);
             //fine generazione QR
             
+            manager.getRestaurantNeighbourhood(id_restaurant, 10);
             request.setAttribute("restaurant_context", manager.getRestaurantContext(id_restaurant));
             request.setAttribute("qr_url", qrUrl);
             request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(GetRestaurantContextForwardToJspServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

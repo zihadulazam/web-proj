@@ -4,27 +4,13 @@
         <description>ServletContextListener</description>
         <listener-class>listeners.ContextListener</listener-class>
     </listener>
-    <servlet>
-        <servlet-name>LocationAutocompleteServlet</servlet-name>
-        <servlet-class>servlets.LocationAutocompleteServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>VerifyPasswordServlet</servlet-name>
-        <servlet-class>servlets.VerifyPasswordServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LocationAutocompleteServlet</servlet-name>
-        <url-pattern>/LocationAutocompleteServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>VerifyPasswordServlet</servlet-name>
-        <url-pattern>/VerifyPasswordServlet</url-pattern>
-    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:derby://localhost:1527/eatbitDB;user=eatbitDB;password=password;</param-value>
@@ -33,64 +19,77 @@
         <param-name>uploadPhotosDir</param-name>
         <param-value>/img/photos</param-value>
     </context-param>
+    
+    <servlet>
+        <servlet-name>LocationAutocompleteServlet</servlet-name>
+        <servlet-class>servlets.LocationAutocompleteServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>VerifyPasswordServlet</servlet-name>
+        <servlet-class>servlets.VerifyPasswordServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>LocationAutocompleteServlet</servlet-name>
+        <url-pattern>/LocationAutocompleteServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>VerifyPasswordServlet</servlet-name>
+        <url-pattern>/VerifyPasswordServlet</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>
         ModifyProfileServlet
-      </servlet-name>
+        </servlet-name>
         <servlet-class>
         servlets.ModifyProfileServlet
-      </servlet-class>
+        </servlet-class>
         <init-param>
             <param-name>
-        uploadDir
-      </param-name>
+                uploadDir
+            </param-name>
             <param-value>
-        /img/avatar
-      </param-value>
+                /img/avatar
+            </param-value>
         </init-param>
     </servlet>
+    
     <servlet>
-  <servlet-name>nothing_here</servlet-name>
-    <jsp-file>/nothingHere.jsp</jsp-file>
+        <servlet-name>nothing_here</servlet-name>
+        <jsp-file>/WEB-INF/nothingHere.jsp</jsp-file>
     </servlet>
+    <servlet-mapping>
+      <servlet-name>nothing_here</servlet-name>
+      <url-pattern>/nothing_here</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
-  <servlet-name>success</servlet-name>
-    <jsp-file>/success.jsp</jsp-file>
-    </servlet>
-    <servlet>
-  <servlet-name>failure</servlet-name>
-    <jsp-file>/failure.jsp</jsp-file>
-    </servlet>
-    <servlet>
-    <servlet-name>error</servlet-name>
-    <jsp-file>/error.jsp</jsp-file>
-    </servlet>
-    <servlet>
-    <servlet-name>about</servlet-name>
-    <jsp-file>/About.jsp</jsp-file>
-    </servlet>
+        <servlet-name>about</servlet-name>
+        <jsp-file>/WEB-INF/About.jsp</jsp-file>
+    </servlet>     
+    <servlet-mapping>
+        <servlet-name>about</servlet-name>
+        <url-pattern>/about</url-pattern>
+    </servlet-mapping>    
+    
     <error-page>
-    <error-code>404</error-code>
-    <location>/nothing_here</location>
-</error-page>
-<servlet-mapping>
-    <servlet-name>about</servlet-name>
-    <url-pattern>/about</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>error</servlet-name>
-    <url-pattern>/error</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>success</servlet-name>
-    <url-pattern>/success</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>failure</servlet-name>
-    <url-pattern>/failure</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>nothing_here</servlet-name>
-    <url-pattern>/nothing_here</url-pattern>
-</servlet-mapping>
+        <error-code>404</error-code>
+        <location>/nothing_here</location>
+    </error-page>
+    
+    <servlet>
+        <servlet-name>privacy</servlet-name>
+        <jsp-file>/WEB-INF/Privacy.jsp</jsp-file>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>privacy</servlet-name>
+        <url-pattern>/privacy</url-pattern>
+    </servlet-mapping>  
+    
+    <welcome-file-list> 
+        <welcome-file>home</welcome-file>
+    </welcome-file-list> 
 </web-app>
