@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 
 /**
- *
+ *Oggetto che rispecchia la tabella Photos nel database.
+ * Il path della foto è relativo.
  * @author jacopo
  */
 public class Photo implements Serializable

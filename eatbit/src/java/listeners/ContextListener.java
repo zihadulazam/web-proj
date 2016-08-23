@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package listeners;
 
 import database.DbManager;
-import database.User;
-import info.debatty.java.stringsimilarity.KShingling;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;

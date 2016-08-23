@@ -1,15 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
- *
+ *Oggetto che rispecchia la tabella PHOTO_NOTIFICATIONS del database, rappresenta
+ * la notifica di una foto che il ristoratore riceve quando viene caricata
+ * una foto per il suo ristorante.
  * @author jacopo
  */
 public class PhotoNotification implements Serializable

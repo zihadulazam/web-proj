@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database.contexts;
 
 import database.Coordinate;
@@ -10,20 +5,20 @@ import database.HoursRange;
 import database.Photo;
 import database.PriceRange;
 import database.Restaurant;
-import database.Review;
 import database.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ *Contenitore delle informazioni di un ristorante, cioè il ristorante, il proprietario
+ * se esiste, la sua posizione in classifica nella sua città, le cucine, il range di prezzi, 
+ * gli orari, le foto, le recensioni e le coordinate.
  * @author jacopo
  */
 public class RestaurantContext implements Serializable
 {
     private Restaurant restaurant;
     private User owner;
-    //private int globalPosition;
     private int cityPosition;
     private ArrayList<String> cuisines;
     private PriceRange priceRange;

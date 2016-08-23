@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database.contexts;
 
 import database.Photo;
@@ -10,7 +5,8 @@ import database.User;
 import java.io.Serializable;
 
 /**
- *
+ *Contiene il contesto di una foto, cioè l'utente che l'ha uploadata, il nome
+ * del ristorante relativo alla foto e la foto stessa.
  * @author jacopo
  */
 public class PhotoContext implements Serializable

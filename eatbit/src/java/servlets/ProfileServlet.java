@@ -1,4 +1,3 @@
-
 package servlets;
 
 import database.DbManager;
