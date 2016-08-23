@@ -56,8 +56,10 @@ public class PopulateTable extends HttpServlet {
                 location=null;
             if("".equals(name))
                name=null;
+            System.out.println(sLongitude);
+                System.out.println(sLatitude);
             //se longitude o latitude non sono specificate non è una ricerca nelle vicinanze dell'utente
-            if(sLongitude==""||sLatitude=="")
+            if("".equals(sLongitude)||"".equals(sLatitude))
                 list=manager.searchRestaurant(location, name);
             else
             {

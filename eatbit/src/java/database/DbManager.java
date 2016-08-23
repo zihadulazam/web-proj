@@ -4997,7 +4997,7 @@ public class DbManager implements Serializable
     {
         ArrayList<Integer> res= new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT RDIST.ID FROM "
-                + "(SELECT R.ID FROM (SELECT C.ID FROM "
+                + "(SELECT R.ID, GLOBAL_VALUE FROM (SELECT C.ID FROM "
                 + "COORDINATES C WHERE (12742*ASIN(SQRT(0.5 - COS((? - C.LATITUDE) "
                 + "* 0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) "
                 + "* COS(? * 0.017453292519943295) * (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) "
