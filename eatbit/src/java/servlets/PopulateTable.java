@@ -52,12 +52,16 @@ public class PopulateTable extends HttpServlet {
             String name =request.getParameter("name");
             String sLongitude= request.getParameter("longitude");
             String sLatitude= request.getParameter("latitude");
+            //controlli necessari in quanto le barre dalla home potrebbero mandare
+            //longitude o latitude come stringhe vuote, mentre la barra dell header non li manda proprio
             if("".equals(location))
                 location=null;
             if("".equals(name))
                name=null;
-            System.out.println(sLongitude);
-                System.out.println(sLatitude);
+            if(sLongitude==null)
+                sLongitude="";
+            if(sLatitude==null)
+                sLatitude="";    
             //se longitude o latitude non sono specificate non è una ricerca nelle vicinanze dell'utente
             if("".equals(sLongitude)||"".equals(sLatitude))
                 list=manager.searchRestaurant(location, name);
