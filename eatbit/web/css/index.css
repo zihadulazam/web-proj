@@ -53,35 +53,54 @@
   padding: 15px 15px;
   min-width: 270px;
   margin-bottom: 0px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
 }
-/* line 28, ../scss/index.scss */
+/* line 31, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-textbox-container {
   margin-bottom: 0px;
 }
-/* line 31, ../scss/index.scss */
+/* line 32, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container .checkbox {
+  font-weight: bolder;
+  color: #fff;
+  font-size: 16px;
+  margin-top: 0px;
+}
+/* line 37, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container .checkbox .glyphicon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+/* line 41, ../scss/index.scss */
+.jumbotron .input-thumbnail .jumbo-textbox-container .checkbox #error-msg, .jumbotron .input-thumbnail .jumbo-textbox-container .checkbox #susscess-msg {
+  font-size: 15px;
+}
+/* line 46, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-textbox-container .sapce-top {
   margin-top: 8px;
 }
-/* line 35, ../scss/index.scss */
+/* line 50, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container {
   padding-top: 10px;
 }
-/* line 37, ../scss/index.scss */
+/* line 52, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container .btn-block {
   background-color: #C70039;
   color: #fff;
   border: 1px solid #fff;
 }
-/* line 41, ../scss/index.scss */
+/* line 56, ../scss/index.scss */
 .jumbotron .input-thumbnail .jumbo-button-container .btn-block:hover {
   background-color: #e62739;
 }
-/* line 46, ../scss/index.scss */
+/* line 61, ../scss/index.scss */
 .jumbotron .input-thumbnail form {
   margin-bottom: 0px;
 }
 
-/* line 54, ../scss/index.scss */
+/* line 69, ../scss/index.scss */
 #last-update #info-box {
   font-family: 'Source Sans Pro', sans-serif;
   color: #666;
@@ -89,30 +108,30 @@
   padding-bottom: 5px;
   text-align: center;
 }
-/* line 61, ../scss/index.scss */
+/* line 76, ../scss/index.scss */
 #last-update #updates {
   padding: 10px 10px;
 }
-/* line 63, ../scss/index.scss */
+/* line 78, ../scss/index.scss */
 #last-update #updates .update {
   padding: 0px;
   padding-top: 20px;
 }
-/* line 66, ../scss/index.scss */
+/* line 81, ../scss/index.scss */
 #last-update #updates .update .update-head-img {
   padding-bottom: 10px;
 }
-/* line 68, ../scss/index.scss */
+/* line 83, ../scss/index.scss */
 #last-update #updates .update .update-head-img img {
   height: 100px;
   width: auto;
   text-align: center;
 }
-/* line 74, ../scss/index.scss */
+/* line 89, ../scss/index.scss */
 #last-update #updates .update .update-body {
   border: 0px;
 }
-/* line 76, ../scss/index.scss */
+/* line 91, ../scss/index.scss */
 #last-update #updates .update .update-body .comment {
   margin-top: 25px;
   border: 5px solid #fff;
@@ -120,28 +139,28 @@
   background-color: #e62739;
   color: white;
 }
-/* line 82, ../scss/index.scss */
+/* line 97, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid {
   padding-right: 5px;
   padding-left: 5px;
 }
-/* line 86, ../scss/index.scss */
+/* line 101, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer {
   text-align: center;
   margin-top: 10px;
 }
-/* line 90, ../scss/index.scss */
+/* line 105, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .img-circle {
   width: 80px;
   height: 80px;
   margin: 2px;
 }
-/* line 95, ../scss/index.scss */
+/* line 110, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .comment-data {
   color: #fff;
   font-size: 12px;
 }
-/* line 99, ../scss/index.scss */
+/* line 114, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .thumbnail {
   max-width: 100px;
   max-height: 100px;
@@ -153,229 +172,229 @@
   margin-bottom: 5px;
   padding: 2px;
 }
-/* line 110, ../scss/index.scss */
+/* line 125, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .thumbnail img {
   width: auto;
   height: auto;
 }
-/* line 115, ../scss/index.scss */
+/* line 130, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-writer .btn-segnala-photo-recensione {
   margin-bottom: 3px;
   font-size: 12px;
   color: #fff;
 }
-/* line 121, ../scss/index.scss */
+/* line 136, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content {
   padding-bottom: 5px;
 }
-/* line 123, ../scss/index.scss */
+/* line 138, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-segnala-review {
   border: 1px solid #fff;
   float: right;
   margin-top: 10px;
   background-color: #e62739;
 }
-/* line 129, ../scss/index.scss */
+/* line 144, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-segnala-review:enabled:hover {
   background-color: #C70039;
 }
-/* line 134, ../scss/index.scss */
+/* line 149, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-title {
   margin-top: 15px;
   margin-bottom: 5px;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 140, ../scss/index.scss */
+/* line 155, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-text {
   font-size: 13px;
 }
-/* line 143, ../scss/index.scss */
+/* line 158, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin {
   border: 1px solid #fff;
   border-radius: 20px;
   padding: 10px;
   margin-bottom: 10px;
 }
-/* line 148, ../scss/index.scss */
+/* line 163, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .lb {
   text-align: right;
 }
 @media (max-width: 991px) {
-  /* line 148, ../scss/index.scss */
+  /* line 163, ../scss/index.scss */
   #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .lb {
     text-align: left;
   }
 }
-/* line 154, ../scss/index.scss */
+/* line 169, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-text {
   font-size: 12px;
 }
-/* line 157, ../scss/index.scss */
+/* line 172, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-autore, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-date {
   text-align: right;
   font-size: 12px;
 }
-/* line 161, ../scss/index.scss */
+/* line 176, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .risposta-admin .risposta-autore {
   font-weight: bold;
   margin-bottom: 0px;
 }
-/* line 166, ../scss/index.scss */
+/* line 181, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 170, ../scss/index.scss */
+/* line 185, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .rating-stars img {
   height: 20px;
   width: auto;
 }
-/* line 175, ../scss/index.scss */
+/* line 190, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content p {
   text-align: justify;
 }
-/* line 178, ../scss/index.scss */
+/* line 193, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace {
   background-color: #e62739;
   border: 1px solid #fff;
 }
-/* line 185, ../scss/index.scss */
+/* line 200, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace:enabled:hover, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace:enabled:hover {
   background-color: #C70039;
 }
 @media (max-width: 405px) {
-  /* line 178, ../scss/index.scss */
+  /* line 193, ../scss/index.scss */
   #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace {
     margin-top: 2px;
     width: 150px;
   }
 }
 @media (max-width: 430px) {
-  /* line 178, ../scss/index.scss */
+  /* line 193, ../scss/index.scss */
   #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-mi-piace, #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .btn-non-mi-piace {
     font-size: 12px;
   }
 }
-/* line 197, ../scss/index.scss */
+/* line 212, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante {
   float: right;
   margin-top: 5px;
 }
-/* line 200, ../scss/index.scss */
+/* line 215, ../scss/index.scss */
 #last-update #updates .update .update-body .comment .container-fluid .row .comment-content .comment-nome-ristorante a {
   color: #FFC300;
   font-weight: bold;
 }
-/* line 209, ../scss/index.scss */
+/* line 224, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant {
   margin-top: 15px;
   box-shadow: 10px 10px 5px #dedede;
   border: 1px solid #dedede;
 }
-/* line 214, ../scss/index.scss */
+/* line 229, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title {
   text-align: center;
   margin-top: 10px;
 }
-/* line 217, ../scss/index.scss */
+/* line 232, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .r-img {
   border: 2px solid white;
   width: 100px;
   height: 100px;
   margin: 2px;
 }
-/* line 223, ../scss/index.scss */
+/* line 238, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 227, ../scss/index.scss */
+/* line 242, ../scss/index.scss */
 #last-update #updates .update .update-body .restaurant .row .restaurant-title .rating-stars img {
   height: 20px;
   width: auto;
 }
 
-/* line 241, ../scss/index.scss */
+/* line 256, ../scss/index.scss */
 .restaurant-body {
   margin-top: 10px;
 }
 
-/* line 245, ../scss/index.scss */
+/* line 260, ../scss/index.scss */
 .info-lable {
   font-weight: bold;
   font-size: 16px;
   color: #2196F3;
 }
 
-/* line 250, ../scss/index.scss */
+/* line 265, ../scss/index.scss */
 .info-text {
   font-size: 15px;
 }
 
-/* line 253, ../scss/index.scss */
+/* line 268, ../scss/index.scss */
 .tipo-cucine {
   font-size: 16px;
 }
 
-/* line 256, ../scss/index.scss */
+/* line 271, ../scss/index.scss */
 .btn-visita {
   text-align: right;
   margin-bottom: 10px;
 }
-/* line 259, ../scss/index.scss */
+/* line 274, ../scss/index.scss */
 .btn-visita button {
   background-color: #009688;
 }
-/* line 261, ../scss/index.scss */
+/* line 276, ../scss/index.scss */
 .btn-visita button:hover {
   background-color: #00796B;
 }
 
-/* line 267, ../scss/index.scss */
+/* line 282, ../scss/index.scss */
 #second-update-row {
   margin-top: 40px;
 }
-/* line 269, ../scss/index.scss */
+/* line 284, ../scss/index.scss */
 #second-update-row .lable {
   font-size: 18px;
 }
 
-/* line 274, ../scss/index.scss */
+/* line 289, ../scss/index.scss */
 #update-left {
   padding-right: 20px;
 }
-/* line 276, ../scss/index.scss */
+/* line 291, ../scss/index.scss */
 #update-left .restaurant {
   border-color: #3f51b5 !important;
 }
-/* line 280, ../scss/index.scss */
+/* line 295, ../scss/index.scss */
 #update-left .btn-visita button {
   background-color: #3F51B5 !important;
 }
-/* line 282, ../scss/index.scss */
+/* line 297, ../scss/index.scss */
 #update-left .btn-visita button:hover {
   background-color: #303F9F !important;
 }
 
-/* line 288, ../scss/index.scss */
+/* line 303, ../scss/index.scss */
 #update-right {
   padding-left: 20px;
 }
-/* line 290, ../scss/index.scss */
+/* line 305, ../scss/index.scss */
 #update-right .restaurant {
   border-color: #00796B !important;
 }
 
 @media (max-width: 767px) {
-  /* line 296, ../scss/index.scss */
+  /* line 311, ../scss/index.scss */
   #update-left {
     padding-right: 0px;
   }
 
-  /* line 299, ../scss/index.scss */
+  /* line 314, ../scss/index.scss */
   #update-right {
     padding-left: 0px;
   }
@@ -412,7 +431,7 @@ h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
 h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
 h4{font-size:18px; font-weight: 400}
 */
-/* line 341, ../scss/index.scss */
+/* line 356, ../scss/index.scss */
 .hide-this {
   display: none;
 }

@@ -1,54 +1,4 @@
 
-$(function() {
-    $( "#nomeRisto" ).autocomplete({
-        max:1,
-        source:function(request,response){
-            $.ajax({
-                type:"GET",
-                url:"../eatbit/NameAutocompleteServlet",
-                data:{keys:request.term},
-                success: function(data) {
-                    response($.map( data, function( item ) {
-                        return {
-                            value: item
-                        }
-                    }));
-                },
-                dataType: "json"//set to JSON  
-            });   
-        },
-        change: function (event, ui) {
-            if (!ui.item) {
-                this.value = '';}
-        //else { Return your label here }
-        }
-    });
-    $( "#locationRisto" ).autocomplete({
-        max:1,
-        source:function(request,response){
-            $.ajax({
-                type:"GET",
-                url:"../eatbit/LocationAutoCompleteServlet",
-                data:{keys:request.term},
-                success: function(data) {
-                    response($.map( data, function( item ) {
-                        return {
-                            value: item
-                        }
-                    }));
-                },
-                dataType: "json"//set to JSON  
-            });   
-        },
-        change: function (event, ui) {
-            if (!ui.item) {
-                this.value = '';}
-        //else { Return your label here }
-        }
-    }); 
-  });
-  
-  
 //segnala Review
 function segnalaReview(reviewId){
     $.ajax(
@@ -206,14 +156,28 @@ function nonMiPiace(reviewId,likeType){
                 // search validation
                 $("#search-form").validate({
                     rules:{
+                        latitude:{
+                            required: function(element) {
+                                    if($('#nomeRisto').val() == '' && $('#locationRisto').val() == '')
+                                        return true;
+                                    else 
+                                        return false;
+                            }
+                        },
                         luogo:{
                              required:function(element) {
-                                    return $('#nomeRisto').val() == '';
+                                    if($('#nomeRisto').val() == '' && $("#lat").val() == '')
+                                        return true;
+                                    else 
+                                        return false;
                             }
                         },
                         name:{
                              required:function(element) {
-                                    return $('#locationRisto').val() == '';
+                                    if($('#locationRisto').val() == '' && $("#lat").val() == '')
+                                        return true;
+                                    else 
+                                        return false;
                             }
                         }
                     },
@@ -245,3 +209,4 @@ function primaFaiLogin(){
     $('.error').addClass('alert alert-danger').html("Prima devi fare il Login");
                 shakeModal();
 }
+

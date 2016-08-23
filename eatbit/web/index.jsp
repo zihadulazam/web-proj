@@ -46,8 +46,15 @@
                     <div class="input-thumbnail thumbnail">
                         <form id="search-form" role="form" method="get" action="/eatbit/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
+                                <div class="checkbox text-right">
+                                        <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span><label><input type="checkbox" id="vicino_a_me">Vicino a me</label>
+                                        <div class="alert alert-danger text-center" id="error-msg" role="alert" style="display: none;"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></div>
+                                        <div class="alert alert-success text-center" id="success-msg" role="alert" style="display: none;"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></div>
+                                </div>
+                                <input type="hidden" id="lat" name="latitude">
+                                <input type="hidden" id="lon" name="longitude">
                                 <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?">
-                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del ristorante">
+                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del Ristorante / Tipo di Cucina">
                             </div>
                             <div class="jumbo-button-container">
                                 <button class="btn btn-default btn-lg btn-block" type="submit" aria-label="Left Align">
@@ -275,6 +282,9 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
+        
+        <!-- index.js -->
+        <script src="js/index.js"></script>
         
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>
