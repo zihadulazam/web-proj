@@ -62,7 +62,7 @@ public class VerifyPasswordServlet extends HttpServlet
                 //se non esiste utente con quell'id mando a failure
                 if(user1==null)
                     response.getWriter().write("-4");
-                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    //request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
                 
                 //l'utente esiste, controllo che il token sia valido
                 //cambio la password e mando a success se è valido, altrimenti a failure
@@ -71,20 +71,20 @@ public class VerifyPasswordServlet extends HttpServlet
                     manager.modifyUserPassword(id, newPassword);
                     response.getWriter().write("1");
                    
-                    //request.getRequestDispatcher("/success.jsp").forward(request, response);
+                    //request.getRequestDispatcher("/WEB-INF/success.jsp").forward(request, response);
                 } 
                 else 
                     response.getWriter().write("-2");
-                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    //request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
             }
             else
                 response.getWriter().write("-1");
             //else
-                //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                //request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             response.getWriter().write("0");
-            //request.getRequestDispatcher("/error.jsp").forward(request, response);
+            //request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

@@ -66,11 +66,11 @@ public class PopulateTable extends HttpServlet {
                 list=manager.searchRestaurantNear(longitude, latitude,DISTANCESEARCHINKM, name);
             }
             request.setAttribute("list", list);
-            request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/DataTable.jsp").forward(request, response);
             
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }  
     }
 

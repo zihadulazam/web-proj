@@ -52,7 +52,7 @@ public class HomeServlet extends HttpServlet {
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
     

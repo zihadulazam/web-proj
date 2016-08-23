@@ -76,12 +76,12 @@ public class GetAllAdmin extends HttpServlet {
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("reviewSegnalate", listReviewNotification);
             
-            request.getRequestDispatcher("/allAdminNotify.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/allAdminNotify.jsp").forward(request, response);
             
         }catch(ServletException | IOException | SQLException ex){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.setAttribute("error1", "Errore interno");
-            request.getRequestDispatcher("/errorModifyRest.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/errorModifyRest.jsp").forward(request, response);
         }
     }
 

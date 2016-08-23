@@ -155,7 +155,7 @@ public class AddReviewServlet extends HttpServlet
             request.setAttribute("title", "Risultato Operazione:");
             request.setAttribute("status", "danger");
             request.setAttribute("description", "Errore: Mancano i parametri");
-            request.getRequestDispatcher("/info.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
         }
         else
         {
@@ -190,7 +190,7 @@ public class AddReviewServlet extends HttpServlet
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "Errore: Ristorante non esiste.");
-                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
                 else
                 {
@@ -213,20 +213,20 @@ public class AddReviewServlet extends HttpServlet
                         case -2:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
                                     request.setAttribute("description", "Ops: Hai già fatto una recensione a questo ristorante nelle ultime 24h.");
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //l'utente ristoratore sta cercando di recensire il proprio ristorante
                         case -3:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
                                     request.setAttribute("description", "Ops: Il proprietario non può fare recensione.");
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //successo
                         default:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "ok");
                                     request.setAttribute("description", "Successo: Il tuo recensione è stato inserito con successo.");
                                     manager.notifyReview(Integer.parseInt(sId_rest), id_review);
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                     }
                 }
             }
@@ -243,7 +243,7 @@ public class AddReviewServlet extends HttpServlet
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");
                 request.setAttribute("description", "Errore!!!");
-                request.getRequestDispatcher("/info.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }
     }

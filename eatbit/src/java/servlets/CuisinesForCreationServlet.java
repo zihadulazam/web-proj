@@ -51,7 +51,7 @@ public class CuisinesForCreationServlet extends HttpServlet
         catch(SQLException e)
         {
             Logger.getLogger(CuisinesForCreationServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         
     }

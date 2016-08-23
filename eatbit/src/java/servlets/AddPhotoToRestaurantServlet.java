@@ -92,7 +92,7 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
             request.setAttribute("title", "Risultato Operazione:");
             request.setAttribute("status", "danger");
             request.setAttribute("description", "Errore: Mancano i parametri");
-            request.getRequestDispatcher("/info.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
         }
         else
         {
@@ -122,14 +122,14 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "Errore: Ristorante non esiste.");
-                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
                 else
                 {
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "ok");
                     request.setAttribute("description", "Ok: La tua <strong>Photo</strong> è stato inserito con successo.");
-                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                     manager.notifyPhoto(Integer.parseInt(sId_rest), id_photo);
                 }
             }
@@ -141,7 +141,7 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");
                 request.setAttribute("description", "Errore!!!");
-                request.getRequestDispatcher("/info.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }
     }

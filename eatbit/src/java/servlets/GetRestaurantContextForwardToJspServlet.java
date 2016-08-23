@@ -111,7 +111,7 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
             request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(GetRestaurantContextForwardToJspServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 
