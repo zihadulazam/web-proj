@@ -176,7 +176,7 @@
                             <div class="row" >
                                 <!-- top 5 restaurant -->
                                 <div id="second-update-row">
-                                    <div class="col-md-6 update">
+                                    <div class="col-md-12 update">
                                         <div id="update-left">
                                             <div class="update-head-img horizontally-centered">
                                                 <h2>Top 5 per voto</h2>
@@ -206,9 +206,9 @@
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text"><c:out value="${topRatedRisto.getCoordinate().getAddress()}" />, <c:out value="${topRatedRisto.getCoordinate().getCity()}" />, <c:out value="${topRatedRisto.getCoordinate().getState()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${topRatedRisto.getRestaurant().getReviews_counter()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topRatedRisto.getPriceRange().getMin()}"/>€ - <c:out value="${topRatedRisto.getPriceRange().getMax()}" />€</span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                                                <p class="info-row cucin"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
                                                                     <c:forEach var="tipocucine" items="${topRatedRisto.getCuisines()}">
-                                                                        <span class="label label-danger tipo-cucine"><c:out value="${tipocucine}"/></span>
+                                                                        <span class="label label-danger tipo-cucine cucin"><c:out value="${tipocucine}"/></span>
                                                                     </c:forEach>
                                                                 </p>
                                                             </div>
@@ -223,8 +223,10 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row" >
                                 <!-- top 5 per recensioni -->
-                                <div class="col-md-6 update">
+                                <div class="col-md-12 update">
                                     <div id="update-right">
                                         <div class="update-head-img horizontally-centered">
                                             <h2>Top 5 per # recensioni</h2>

@@ -209,7 +209,7 @@
                                         <div class ="col-md-10">
                                         </div>
                                         <div class ="col-md-2">
-                                            <a href="CreateRestaurant.html"  class="btn btn-primary diventaRis">Carica un Ristorante!</a>
+                                            <a href="/eatbit/CuisinesForCreationServlet"  class="btn btn-primary diventaRis">Carica un Ristorante!</a>
                                         </div>
                                     </div>
                                 </div>

@@ -164,9 +164,8 @@ $(document).ready(function(){
         if(lat==" "|| lon==" ")
             alert("errore Indirizzo");
         else{
-            alert(location+" "+lat+" "+lon+" "+via+" "+city+" "+province+" "+country);
             //passo le coordinate al server
-            document.getElementById("location").value = location;
+            document.getElementById("location").value = via;
             document.getElementById("city").value = city;
             document.getElementById("province").value = province;
             document.getElementById("state").value = country;
@@ -237,18 +236,14 @@ $(document).ready(function(){
                     var orarioVen = "5"+VMH+":"+VMM+VPH+":"+VPM;
                     var orarioSab = "6"+SMH+":"+SMM+SPH+":"+SPM;
                     var orarioDom = "7"+DMH+":"+DMM+DPH+":"+DPM;
-               
-               alert("Orari: " + orarioLun + " " + orarioMar + " " 
-                   + orarioMer +" " + orarioGio + " " + orarioVen
-                   + " " + orarioSab + " " + orarioDom );
            
                     document.getElementById("orarioL").value = orarioLun;
-                     document.getElementById("orarioM").value = orarioMar;
-                     document.getElementById("orarioMe").value = orarioMer;
-                     document.getElementById("orarioG").value = orarioGio;
-                     document.getElementById("orarioV").value = orarioVen;
-                     document.getElementById("orarioS").value = orarioSab;   
-                     document.getElementById("orarioD").value = orarioDom; 
+                    document.getElementById("orarioM").value = orarioMar;
+                    document.getElementById("orarioMe").value = orarioMer;
+                    document.getElementById("orarioG").value = orarioGio;
+                    document.getElementById("orarioV").value = orarioVen;
+                    document.getElementById("orarioS").value = orarioSab;   
+                    document.getElementById("orarioD").value = orarioDom; 
                  }
            
        });

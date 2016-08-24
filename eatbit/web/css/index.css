@@ -332,69 +332,67 @@
 /* line 265, ../scss/index.scss */
 .info-text {
   font-size: 15px;
+  line-height: 20px;
 }
 
-/* line 268, ../scss/index.scss */
+/* line 269, ../scss/index.scss */
 .tipo-cucine {
   font-size: 16px;
 }
 
-/* line 271, ../scss/index.scss */
+/* line 273, ../scss/index.scss */
+.cucin {
+  line-height: 1.7;
+}
+
+/* line 276, ../scss/index.scss */
 .btn-visita {
   text-align: right;
   margin-bottom: 10px;
 }
-/* line 274, ../scss/index.scss */
+/* line 279, ../scss/index.scss */
 .btn-visita button {
   background-color: #009688;
 }
-/* line 276, ../scss/index.scss */
+/* line 281, ../scss/index.scss */
 .btn-visita button:hover {
   background-color: #00796B;
 }
 
-/* line 282, ../scss/index.scss */
+/* line 287, ../scss/index.scss */
 #second-update-row {
   margin-top: 40px;
 }
-/* line 284, ../scss/index.scss */
+/* line 289, ../scss/index.scss */
 #second-update-row .lable {
   font-size: 18px;
 }
 
-/* line 289, ../scss/index.scss */
-#update-left {
-  padding-right: 20px;
-}
-/* line 291, ../scss/index.scss */
+/* line 295, ../scss/index.scss */
 #update-left .restaurant {
   border-color: #3f51b5 !important;
 }
-/* line 295, ../scss/index.scss */
+/* line 299, ../scss/index.scss */
 #update-left .btn-visita button {
   background-color: #3F51B5 !important;
 }
-/* line 297, ../scss/index.scss */
+/* line 301, ../scss/index.scss */
 #update-left .btn-visita button:hover {
   background-color: #303F9F !important;
 }
 
-/* line 303, ../scss/index.scss */
-#update-right {
-  padding-left: 20px;
-}
-/* line 305, ../scss/index.scss */
+/* line 308, ../scss/index.scss */
 #update-right .restaurant {
   border-color: #00796B !important;
 }
 
 @media (max-width: 767px) {
-  /* line 311, ../scss/index.scss */
+  /* line 314, ../scss/index.scss */
   #update-left {
     padding-right: 0px;
   }
 
-  /* line 314, ../scss/index.scss */
+  /* line 317, ../scss/index.scss */
   #update-right {
     padding-left: 0px;
   }
@@ -431,7 +429,7 @@ h2{font-size: 30px; font-weight: 300; color:#444; margin: 30px 0}
 h3{font-size: 20px; font-weight: 400; margin: 20px 0;}
 h4{font-size:18px; font-weight: 400}
 */
-/* line 356, ../scss/index.scss */
+/* line 359, ../scss/index.scss */
 .hide-this {
   display: none;
 }

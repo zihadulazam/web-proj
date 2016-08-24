@@ -1,43 +1,4 @@
 
-$(function() {
-    $( "#nomeRisto" ).autocomplete({
-        max:1,
-        source:function(request,response){
-            $.ajax({
-                type:"GET",
-                url:"../eatbit/NameAutocompleteServlet",
-                data:{keys:request.term},
-                success: function(data) {
-                    response($.map( data, function( item ) {
-                        return {
-                            value: item
-                        }
-                    }));
-                },
-                dataType: "json"//set to JSON  
-            });   
-        }
-    });
-    $( "#locationRisto" ).autocomplete({
-        max:1,
-        source:function(request,response){
-            $.ajax({
-                type:"GET",
-                url:"../eatbit/LocationAutoCompleteServlet",
-                data:{keys:request.term},
-                success: function(data) {
-                    response($.map( data, function( item ) {
-                        return {
-                            value: item
-                        }
-                    }));
-                },
-                dataType: "json"//set to JSON  
-            });   
-        }
-    }); 
-  });
-  
   //vicino a me checkbox
   jQuery(document).ready(function ($) {
       $("#vicino_a_me").change(function() {
