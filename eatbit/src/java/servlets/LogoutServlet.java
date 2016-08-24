@@ -31,6 +31,8 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute("user");
+            session.setAttribute("user", null);
+            session.setMaxInactiveInterval(1);
             session.invalidate();
         }
         RequestDispatcher rd = request.getRequestDispatcher("/");

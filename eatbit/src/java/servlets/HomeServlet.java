@@ -1,6 +1,7 @@
 package servlets;
 
 import database.DbManager;
+import database.User;
 import database.contexts.RestaurantContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
