@@ -56,8 +56,7 @@ public class AddReviewServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
