@@ -113,8 +113,6 @@
                                 <input type="hidden" id="city" name="city">
                                 <input type="hidden" id="province" name="province">
                                 <input type="hidden" id="state" name="state">
-                                <input type="hidden" id="lat" name="latitude">
-                                <input type="hidden" id="lon" name="longitude">
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-next">Successivo</button>
                                 </div>
@@ -132,13 +130,13 @@
                                             </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <c:forEach var="cucine" items="${cuisines}" begin="7" end="12">
+                                            <c:forEach var="cucine" items="${cuisines}" begin="7" end="13">
                                                 <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
                                                 <br />
                                             </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                             <c:forEach var="cucine" items="${cuisines}" begin="7">
+                                             <c:forEach var="cucine" items="${cuisines}" begin="14" end="20">
                                                 <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
                                                 <br />
                                             </c:forEach>
@@ -829,6 +827,8 @@
                                 <input type="hidden" id="orarioV" name="hour">
                                 <input type="hidden" id="orarioS" name="hour">
                                 <input type="hidden" id="orarioD" name="hour">
+                                <input name="longitude" type="hidden" id="longitude" />
+                                <input name="latitude" type="hidden" id="latitude" />
 
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>

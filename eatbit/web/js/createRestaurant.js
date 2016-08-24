@@ -170,8 +170,8 @@ $(document).ready(function(){
             document.getElementById("city").value = city;
             document.getElementById("province").value = province;
             document.getElementById("state").value = country;
-            document.getElementById("lat").value = lat;
-            document.getElementById("lon").value = lon;   
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lon;   
         }
 	});
 
