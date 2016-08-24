@@ -61,8 +61,7 @@ public class AddRestaurantServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
@@ -83,7 +82,38 @@ public class AddRestaurantServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out= response.getWriter();
+        
+        
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
         //prendo richiesta multipart
         MultipartRequest multi = new MultipartRequest(request,
                     dirName, 
@@ -146,8 +176,12 @@ public class AddRestaurantServlet extends HttpServlet
                 ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
                 ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
                 ||sMax==null||sClaim==null||sPhoto_description==null
-                ||!files.hasMoreElements())
-            out.write("-1");
+                ||!files.hasMoreElements()){
+            request.setAttribute("title", "Risultato Operazione:");
+            request.setAttribute("status", "danger");
+            request.setAttribute("description", "Errore: Mancano i parametri");
+            request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
+        }
         else
         {
             //prendo foto e rinonimo per evitare collisioni di nomi
@@ -194,7 +228,10 @@ public class AddRestaurantServlet extends HttpServlet
                     photo.setName(name);
                     photo.setDescription(sPhoto_description);
                     manager.addPhoto(photo);
-                    out.write("1");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "ok");
+                    request.setAttribute("description", "Successo: Il tuo Ristorante è stato inserito con successo.");
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
             }
             catch(NumberFormatException | SQLException e)
@@ -202,41 +239,13 @@ public class AddRestaurantServlet extends HttpServlet
                 //cancello foto da filesystem in caso di eccezione
                 FileDeleter.deleteFile(newPath);
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-                out.write("0");
+                //request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Errore: "+e.toString()+" "+e);
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }
-        
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
     }
 
     /**

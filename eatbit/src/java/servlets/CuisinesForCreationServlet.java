@@ -26,7 +26,7 @@ public class CuisinesForCreationServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
@@ -46,7 +46,7 @@ public class CuisinesForCreationServlet extends HttpServlet
         try
         {
             request.setAttribute("cuisines", manager.getAllCuisines());
-            request.getRequestDispatcher("/CreateRestaurant.jsp").forward(request, response);
+            request.getRequestDispatcher("/createRestaurant.jsp").forward(request, response);
         }
         catch(SQLException e)
         {
