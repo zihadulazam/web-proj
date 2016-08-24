@@ -816,6 +816,11 @@
                                 <div class="input-group">
                                     <input type="checkbox" name="claim"> Sono io il proprietario
                                 </div>
+                                <div class="form-group">
+                    			    <label class="sr-only" for="name">Testo Reclamo</label>
+                                    <input type="text" name="text_claim" placeholder="Testo Reclamo..." class="form-control" id="text_claim">
+                                </div>
+                                <br/>
                                 <br/>
                                 <input type="hidden" id="orarioL" name="hour">
                                 <input type="hidden" id="orarioM" name="hour">
