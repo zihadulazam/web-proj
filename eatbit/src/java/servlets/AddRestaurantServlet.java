@@ -144,7 +144,7 @@ public class AddRestaurantServlet extends HttpServlet
         String sMax=null;//deve essere numero, anche reale
         String sClaim=null;//deve essere numero intero
         //prendo i parametri
-        Enumeration params = multi.getParameterNames();            
+        Enumeration params = multi.getParameterNames();  
         while (params.hasMoreElements()) 
         {
             String name = (String)params.nextElement();
@@ -175,7 +175,7 @@ public class AddRestaurantServlet extends HttpServlet
         if(sDescription==null||sName==null||sUrl==null||sCuisines==null
                 ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
                 ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
-                ||sMax==null||sClaim==null||sPhoto_description==null
+                ||sMax==null||sPhoto_description==null
                 ||!files.hasMoreElements()){
             request.setAttribute("title", "Risultato Operazione:");
             request.setAttribute("status", "danger");
@@ -214,9 +214,9 @@ public class AddRestaurantServlet extends HttpServlet
                 ArrayList<HoursRange> hours=parseHours(sHours);
                 double minPrice=Double.parseDouble(sMin);
                 double maxPrice=Double.parseDouble(sMax);
-                int claim=Integer.parseInt(sClaim);
+                boolean isClaim=sClaim!=null;
                 int idRest=manager.addRestaurant(restaurant, sCuisines, coordinate,
-                        hours, sText_claim, minPrice, maxPrice, (claim==1));
+                        hours, sText_claim, minPrice, maxPrice, isClaim);
                 if(idRest==-1)//cancello foto se nn è andato a buon fine inserimento ristorante
                     FileDeleter.deleteFile(newPath);
                 else
@@ -274,16 +274,8 @@ public class AddRestaurantServlet extends HttpServlet
         for (String hour : hours)
         {
             //formato è 110:0018:30  [giorno][apertura][chiusura]
-            try
-            {
                 HoursRange tmp=new HoursRange(hour);
                 res.add(tmp);
-            }
-            catch(NumberFormatException | IndexOutOfBoundsException e)
-            {
-                //se parte una eccezione su una ora non faccio niente e vado
-                //avanti a parsare il resto
-            }
         }
         return res;
     }
