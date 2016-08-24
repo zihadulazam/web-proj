@@ -43,12 +43,15 @@ $(function() {
       $("#vicino_a_me").change(function() {
             if(this.checked) {
                 $("#locationRisto").val('');
-                $("#locationRisto").fadeOut(600 ,function(){getLocation();});
+                getLocation();
             }
             else{
+                $("#locationRisto").attr("disabled", false);
                 $("#locationRisto").fadeIn('slow');
                 $("#error-msg").css("display", "none");
                 $("#success-msg").css("display", "none");
+                $("#lat").val('');
+                $("#lon").val('');
             }
         });
   });
@@ -61,6 +64,8 @@ function getLocation() {
         $("#error-msg").text("Geolocation non supportato da questo browser.");
         $("#success-msg").css("display", "none");
         $("#error-msg").css("display", "block");
+        $("#vicino_a_me").attr("disabled", true);
+        $("#vicino_a_me").prop('checked', false);
     }
 }
 
@@ -69,7 +74,8 @@ function showPosition(position) {
     $("#lat").val(position.coords.latitude);
     $("#lon").val(position.coords.longitude);
     $("#error-msg").css("display", "none"); 
-    $("#success-msg").css("display", "block");
+    $("#locationRisto").attr("disabled", true);
+    $("#locationRisto").fadeOut(600,function(){$("#success-msg").css("display", "block");});
 }
 function error(err){
     if(err.code == 1) {
@@ -94,4 +100,6 @@ function error(err){
         $("#success-msg").css("display", "none");
         $("#error-msg").css("display", "block");       
     }
+    $("#vicino_a_me").attr("disabled", true);
+    $("#vicino_a_me").prop('checked', false);
 }

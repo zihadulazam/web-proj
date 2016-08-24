@@ -46,7 +46,7 @@ public class CuisinesForCreationServlet extends HttpServlet
         try
         {
             request.setAttribute("cuisines", manager.getAllCuisines());
-            request.getRequestDispatcher("/CreateRestaurant.jsp").forward(request, response);
+            request.getRequestDispatcher("/createRestaurant.jsp").forward(request, response);
         }
         catch(SQLException e)
         {
