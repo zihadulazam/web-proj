@@ -1703,7 +1703,7 @@ public class DbManager implements Serializable
      */
     public void addClaim(final int id_user, final int id_restaurant, final String userTextClaim, final int creationClaimBoth) throws SQLException
     {
-        try (PreparedStatement st1 = con.prepareStatement("SELECT FROM RESTAURANTS_REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
+        try (PreparedStatement st1 = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
                 PreparedStatement st2 = con.prepareStatement("INSERT INTO RESTAURANTS_REQUESTS VALUES(?,?,?,?,?)"))
         {
             st1.setInt(1, id_user);
@@ -2728,15 +2728,22 @@ public class DbManager implements Serializable
             Restaurant restaurant = getRestaurantById(id_restaurant);
             if (type != -1 && restaurant != null)
             {
-                if (type == 1 || type == 2)//se è un claim o creazione+claim setto l'owner
+                switch (type)
                 {
-                    valid.setInt(1, id_user);
-                }
-                else
-                {
-                    //se è solo creazione metto owner a -1 e setto il profilo per la ricerca fuzzy
-                    valid.setInt(1, -1);
-                    //setProfile(restaurant.getId(), restaurant.getName());
+                //se è claim setto l owner
+                    case 1:
+                        valid.setInt(1, id_user);
+                        break;
+                //se è claim+creazione faccio owner e profilo
+                    case 2:
+                        valid.setInt(1, id_user);
+                        setProfile(restaurant.getId(), restaurant.getName());
+                        break;
+                    default:
+                        //se è creazione setto owner a -1 e setto il profilo per la ricerca fuzzy
+                        valid.setInt(1, -1);
+                        setProfile(restaurant.getId(), restaurant.getName());
+                        break;
                 }
                 st.setInt(1, id_user);
                 st.setInt(2, id_restaurant);

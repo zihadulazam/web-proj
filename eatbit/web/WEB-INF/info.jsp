@@ -1,7 +1,7 @@
 <%-- 
-    Document   : CreateRestaurant
+    Document   : info.jsp
     Created on : 14-ago-2016, 19.13.22
-    Author     : Andrea
+    Author     : 
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
