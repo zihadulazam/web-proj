@@ -105,21 +105,15 @@
                                     <h5>Cucina:</h5>
                                     <div class="row">
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="cuisine" value="Americana"/> Americana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Asiatica"/> Asiatica
-                                            <br />
-                                            <input type="checkbox" name="cuisine" value="Africana"/> Africana
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Cinese"/> Cinese
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Japonese"/> Japonese
+                                            <input type="checkbox" name="cuisine" value="Giapponese"/> Japonese
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Sushi"/> Sushi
+                                            <input type="checkbox" name="cuisine" value="Indiana"/> Indiana
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="cuisine" value="Indiana"/> Indiana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Italiana"/> Italiana
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Pizza"/> Pizza
@@ -127,17 +121,15 @@
                                             <input type="checkbox" name="cuisine" value="Francese"/> Francese
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Spagnola"/> Spagnola
-                                            <br />
-                                            <input type="checkbox" name="cuisine" value="Pesce"/> Pesce
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="checkbox" name="cuisine" value="Carne"/> Carne
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Messicana"/> Messicana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Fast-Food"/> Fast-Food
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Vegetariana"/> Vegetariana
+                                            <br />
+                                            <input type="checkbox" name="cuisine" value="Pesce"/> Pesce
                                          </div>
                                     </div>
                                 </div>

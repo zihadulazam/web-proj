@@ -41,12 +41,8 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>
-        ModifyProfileServlet
-        </servlet-name>
-        <servlet-class>
-        servlets.ModifyProfileServlet
-        </servlet-class>
+        <servlet-name>ModifyProfileServlet</servlet-name>
+        <servlet-class>servlets.ModifyProfileServlet</servlet-class>
         <init-param>
             <param-name>
                 uploadDir
