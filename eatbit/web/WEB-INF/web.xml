@@ -95,6 +95,14 @@
         <servlet-name>about</servlet-name>
         <url-pattern>/about</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>passwordReset</servlet-name>
+        <jsp-file>/WEB-INF/passwordReset.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>passwordReset</servlet-name>
+        <url-pattern>/passwordReset</url-pattern>
+    </servlet-mapping>
     <error-page>
         <error-code>404</error-code>
         <location>/nothing_here</location>

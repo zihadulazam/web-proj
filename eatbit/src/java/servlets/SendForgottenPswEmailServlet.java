@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
 import database.DbManager;
@@ -19,27 +24,30 @@ import utility.EmailSender;
 import utility.IpFinder;
 
 /**
- *Servlet per mandare via email un token di cambio psw all'utente, risponderà
- * 1 in caso di successo,0 se non è stato possibile svolgere l'operazione a 
- * causa di eccezioni,-1 se manca il parametro necessario (id_user) o non è loggato
- * , -2 se id fornito non corrisponde all'id di User nella sessione.
+ *Servlet per permettere ad un utente di reimpostare la passowrd a partire dalla email.
+ * Parametri:
+ * email
+ * Risposta
+ * 1 la mail è stata spedita
+ * 0 vi è stata una eccezione
+ * -1 manca un parametro
+ * -2 questa email non corrisponde a nessun utente registrato
  * @author jacopo
  */
-@WebServlet(name = "SendPswVerificationEmailServlet", urlPatterns =
+@WebServlet(name = "SendForgottenPswEmailServlet", urlPatterns =
 {
-    "/SendPswVerificationEmailServlet"
+    "/SendForgottenPswEmailServlet"
 })
-public class SendPswVerificationEmailServlet extends HttpServlet
+public class SendForgottenPswEmailServlet extends HttpServlet
 {
-
-    private DbManager manager;
+     private DbManager manager;
 
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,34 +58,35 @@ public class SendPswVerificationEmailServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-        String stringId= request.getParameter("id_user");
-        User user = (User) request.getSession().getAttribute("user");
-        if (stringId!=null && user!=null) 
-        {
-            int id= Integer.parseInt(stringId);
-            if (id==user.getId()) 
+            throws ServletException, IOException
+    {
+            response.setContentType("text/plain");
+            PrintWriter out = response.getWriter();
+            String email= request.getParameter("email");
+            if (email!=null)
             {
                 try
                 {
-                    sendPasswordVerificationEmail(id,user.getEmail());
-                    out.write("1");
+                    User user= manager.getUserByEmail(email);
+                    if(user!=null)
+                    {
+                        sendPasswordVerificationEmail(user.getId(),user.getEmail());
+                        out.write("1");
+                    }
+                    else
+                        out.write("-2");
                 }
-                catch(ServletException | SocketException | UnknownHostException | MessagingException | SQLException ex)
+                catch (SQLException | SocketException | UnknownHostException | MessagingException ex)
                 {
-                    Logger.getLogger(SendPswVerificationEmailServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                    Logger.getLogger(SendForgottenPswEmailServlet.class.getName()).log(Level.SEVERE, null, ex);
                     out.write("0");
                 }
             }
-            else 
-                out.write("-2");
-        }
-        else
-            out.write("-1");
+            else
+                out.write("-1");
     }
-    
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -88,8 +97,9 @@ public class SendPswVerificationEmailServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            processRequest(request,response);
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
     }
 
     /**
@@ -102,20 +112,22 @@ public class SendPswVerificationEmailServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
-    
+
     /**
      * Manda una email ad un utente con un certo id.
      * @param id Id dell'utente.

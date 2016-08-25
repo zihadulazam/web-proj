@@ -1027,6 +1027,50 @@ public class DbManager implements Serializable
     }
 
     /**
+     * Recupera un utente a partire dalla sua email.
+     *
+     * @param email Email dell'utente.
+     * @return Uno user con la password rimossa, null se non esiste con
+     * quella email.
+     * @throws SQLException
+     */
+    public User getUserByEmail(final String email) throws SQLException
+    {
+        User user = null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=?"))
+        {
+            st.setString(1, email);
+            try (ResultSet rs = st.executeQuery())
+            {
+                con.commit();
+                if (rs.next())
+                {
+                    user = new User();
+                    user.setId(rs.getInt("ID"));
+                    user.setName(rs.getString("NAME"));
+                    user.setSurname(rs.getString("SURNAME"));
+                    user.setNickname(rs.getString("NICKNAME"));
+                    user.setEmail(rs.getString("EMAIL"));
+                    user.setPassword("placeholder");
+                    user.setAvatar_path(rs.getString("AVATAR_PATH"));
+                    user.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
+                    user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
+                    user.setType(rs.getInt("USERTYPE"));
+                    user.setVerified(rs.getBoolean("VERIFIED"));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return user;
+    }
+    
+    /**
      * Funzione per prendere una serie di photo segnalate e i loro contesti,
      * solitamente usato per l'admin. Un contesto è la foto più lo user che lha
      * postata. Una volta che un contesto è prelevato (restituito) non sarà
