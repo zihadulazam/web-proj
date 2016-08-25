@@ -240,9 +240,7 @@
                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getReviews_counter()}" /></span></p>
                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
-                                                    <c:forEach var="tipocucine" items="${restaurant.getCuisines()}">
-                                                        <span class="label label-danger tipo-cucine cucin"><c:out value="${tipocucine}"/></span>
-                                                    </c:forEach>
+                                                   
                                                 </p>
                                             </div>
                                         </div>

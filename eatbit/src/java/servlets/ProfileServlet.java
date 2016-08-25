@@ -64,10 +64,10 @@ public class ProfileServlet extends HttpServlet {
                 ArrayList<ReviewContext> listReviewNotification = null;
                 
                 //provo a interrogare il DB per ottenere le info                
-                ristorantiAttesa = manager.getAllRestaurantsRequests();
-                risposteConfermare = manager.getAllRepliesToBeConfirmed();
-                listPhotoNotification = manager.getAllReportedPhotos();
-                listReviewNotification = manager.getAllReportedReviews();
+                ristorantiAttesa = manager.getRestaurantsRequests(2);
+                risposteConfermare = manager.getRepliesToBeConfirmed(2);
+                listPhotoNotification = manager.getReportedPhotos(2);
+                listReviewNotification = manager.getReportedReviews(2);
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
@@ -93,6 +93,11 @@ public class ProfileServlet extends HttpServlet {
                 userContext = manager.getUserContext(user.getId());
                 listReview = userContext.getReviewContext();
                 listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
+                
+                for(Restaurant r: listRestaurants){
+                    
+                }
+                
                 listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
                 
                 response.setContentType("text/plain");
