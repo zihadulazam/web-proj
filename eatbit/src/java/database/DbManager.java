@@ -1690,13 +1690,12 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Metodo per inserire nel db un claim di un ristorante, nelle classi User e
-     * Restaurant passate basta che siano presenti gli id.
+     * Metodo per inserire nel db un claim di un ristorante.
      *
      * @param id_user Id dell'utente che fa la creazione/claim del ristorante.
      * @param id_restaurant Id del ristorante in questione.
      * @param userTextClaim Il testo che l'utente ha dato come giustificazione
-     * del claim, se esiste.
+     * del claim
      * @param creationClaimBoth Flag che dice se questa è una creazione, claim,
      * o entrambe di ristorante(0,1,2).
      * @throws SQLException
