@@ -100,10 +100,11 @@ public class ProfileServlet extends HttpServlet {
                 listRist = manager.getRestaurantsByIdOwner(user.getId());
                 listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
 
-                RestaurantContext c = manager.getRestaurantContext(listRist.get(0).getId());
-                RestaurantContext x = manager.getRestaurantContext(listRist.get(1).getId());
-                listRestaurants.add(x);listRestaurants.add(c);
-                out.println(c.getRestaurant().getName());
+                for(Restaurant r:listRist){
+                    RestaurantContext x = manager.getRestaurantContext(r.getId());
+                    out.println(x.getPhotos().get(0).getPath());
+                    listRestaurants.add(x);
+                }
                 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);

@@ -118,7 +118,7 @@
                                         <div class="container-fluid">
                                             <div class="row container-fluid">
                                                 <div class="col-md-2 comment-writer">
-                                                    <img src="img/avatar/avatar.png" class="img-circle"/>
+                                                    <img src="${user.getAvatar_path()}" class="img-circle"/>
                                                     <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                     <p class="comment-data">
                                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
@@ -220,7 +220,7 @@
                                     <div class="container-fluid restaurant">
                                         <div class="row container-fluid">
                                             <div class="col-md-4 restaurant-title">
-                                                <img src="${restaurant.getPhotos()[0].getPath()}" class="r-img img-circle" alt="restaurantFoto"/>
+                                                <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="restaurantFoto"/>
                                                 <h4><c:out value="${restaurant.getRestaurant().getName()}" /></h4>
                                                 <div class="row rating-stars">
                                                     <c:forEach var="i" begin="1" end="5">
