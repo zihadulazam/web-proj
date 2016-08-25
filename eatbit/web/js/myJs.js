@@ -230,6 +230,20 @@ function nonMiPiace(reviewId,likeType){
                         form.submit();
                     }
                 });
+
+                // footer: invia email validation
+                $("#send-email-form").validate({
+                    rules:{
+                        email:{
+                            required:true,
+                            email:true
+                        },
+                        text:'required'
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
             }
         }
         

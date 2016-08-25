@@ -17,10 +17,13 @@
 
 				<p>Contatta</p>
 
-				<form action="#" method="post">
-
-					<input type="text" name="sendEmail" placeholder="Email" />
-					<textarea name="message" placeholder="Message"></textarea>
+				<form action="../eatbit/ContactServlet" method="post" id="send-email-form">
+					<div class="form-group">
+						<input class="form-control" type="text" name="email" placeholder="Email" />
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" name="text" placeholder="Message"></textarea>
+					</div>
 					<button type="submit"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>  Invia</button>
 
 				</form>
