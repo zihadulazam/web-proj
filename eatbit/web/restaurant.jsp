@@ -193,8 +193,8 @@
             </div>
             <div class="collapse" id="collapseAddRecensione">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
-                        <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
+                    <form method="POST" id="add_review_form" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
+                        <input type="hidden" name="id_rest" id="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                         <div class="from-group">
                             <div class="row">
                                 <div class="col-sm-12 col-md-3">
@@ -271,7 +271,7 @@
                                         Cerca Photo&hellip; <input name="photo" name="foto" id="AddRecensione-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
                                     </span>
                                 </label>
-                                <input type="text" id="AddRecensione-cerca-photo-name" class="form-control" readonly>
+                                <input type="text" id="AddRecensione-cerca-photo-name" name="AddRecensione_cerca_photo_name" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -556,14 +556,13 @@
             </div>
             <div class="collapse" id="collapseAddClaim">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
-                        <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
+                    <form id="claim_form">
                         <div class="form-group">
                             <br/>
-                            <label class="rating-lb" for="claim_description" maxlength="32000">Descrizione Photo:</label>
+                            <label class="rating-lb" for="claim_description" maxlength="32000">Causa Segnalazione:</label>
                             <textarea class="form-control" rows="3" name="claim_text" id="claim_description"></textarea>
                         </div>
-                        <p id="btn-pubblica"><button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Reclama</button></p>
+                            <p id="btn-pubblica"><button class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Reclama</button></p>
                     </form>
                 </div>
             </div>

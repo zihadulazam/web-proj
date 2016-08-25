@@ -193,7 +193,7 @@ function shakeModal(){
                             required:true,
                             email:true
                         },
-                        regPassword:{
+                        password:{
                             required: true,
                             strongPassword: true
                         },
