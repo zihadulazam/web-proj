@@ -303,7 +303,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button  class="btn btn-primary fisso acceptReportedPhoto" value="${photoNotification.getPhoto().getId()}">Accept</button>
+                                                            <button id="AcceptReportPhoto" class="btn btn-primary fisso acceptReportedPhoto" value="${photoNotification.getPhoto().getId()}">Accept</button>
                                                         </div>       
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -313,7 +313,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button  class="btn btn-primary fisso declineReportedPhoto " value="${photoNotification.getPhoto().getId()}" >Decline</button>
+                                                            <button id="DeclineReportPhoto" class="btn btn-primary fisso declineReportedPhoto " value="${photoNotification.getPhoto().getId()}" >Decline</button>
                                                         </div>  
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -368,7 +368,7 @@
 
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  class=" right btn btn-primary fisso acceptReportedReview " value="${reviewNotification.getReview().getId()}">Accept</button>
+                                                            <button  id="AcceptReportedReview" class=" right btn btn-primary fisso acceptReportedReview " value="${reviewNotification.getReview().getId()}">Accept</button>
                                                         </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -378,7 +378,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  class=" right btn btn-primary fisso declineReportedReview" value="${reviewNotification.getReview().getId()}">Decline</button>
+                                                            <button id="DeclineReportedReview" class=" right btn btn-primary fisso declineReportedReview" value="${reviewNotification.getReview().getId()}">Decline</button>
                                                         </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>

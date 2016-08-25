@@ -75,6 +75,7 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    document.getElementById("DeclineReportPhoto").remove();
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            
@@ -102,6 +103,7 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    document.getElementById("AcceptReportPhoto").remove();
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            
@@ -115,7 +117,7 @@ $(document).ready(function() {
     });
     
          $(".acceptReportedReview").click(function(event) {
-        var id_review = $(this).val();
+        var id_review = document.getElementById("AcceptReportedReview").value;
         var element = $(this);
         
         $.ajax(
@@ -129,6 +131,7 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    document.getElementById("DeclineReportedReview").remove();
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            
@@ -142,12 +145,12 @@ $(document).ready(function() {
     });
     
          $(".declineReportedReview").click(function(event) {
-        var id_review = $(this).val();
+        var id_review = document.getElementById("DeclineReportedReview").value;
         var element = $(this);
         
         $.ajax(
         {
-            url : "../eatbit/RemovePhotoByAdminServlet",
+            url : "../eatbit/UnreportReviewByAdminServlet",
             type: "POST",
             data : {id_review:id_review},
             success:function(dati)  
@@ -156,6 +159,7 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    document.getElementById("AcceptReportedReview").remove();
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            

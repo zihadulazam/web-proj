@@ -14,7 +14,7 @@
         <servlet-name>AcceptRestaurantRequestByAdminServlet</servlet-name>
         <servlet-name>DenyReplyByAdminServlet</servlet-name>
         <servlet-name>DenyRestaurantRequestByAdminServlet</servlet-name>
-        
+        <servlet-name>GetAllAdmin</servlet-name>
         <servlet-name>RemovePhotoByAdminServlet</servlet-name>
         <servlet-name>RemoveReviewByAdminServlet</servlet-name>
         <servlet-name>UnreportPhotoByAdminServlet</servlet-name>
@@ -36,6 +36,7 @@
         <servlet-name>SendPswVerificationEmailServlet</servlet-name>
         <servlet-name>UserLikeDislikeReviewServlet</servlet-name>
         <servlet-name>UserVoteServlet</servlet-name>
+        <servlet-name>GetAllNotify</servlet-name>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>

@@ -318,7 +318,7 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}"  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
+                                                    <button  id="SegnalaSubito" class="btn btn-primary diventaRis " value="${photoNotification.getId()}"  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
                                                 </div>                                                        
                                             </div>
                                         </div>
