@@ -232,3 +232,47 @@ function shakeModal(){
 
 })(jQuery, window, document);
 
+ jQuery(document).ready(function ($) {
+     $("#privacy_accept").change(function() {
+            if(this.checked) {
+                 $("#btn-reg").attr("disabled", false);
+            }
+            else{
+                $("#btn-reg").attr("disabled", true);
+            }
+        });
+ });
+
+ function recuperPsw(){
+     var emailRP=$('#emailorNickname').val();
+     if(emailRP==""){
+         $('.error').addClass('alert alert-danger').html("Devi inserire Email");
+            shakeModal();
+     }
+     else{
+          $.ajax(
+            {
+                url : "../eatbit/SendForgottenPswEmailServlet",
+                type: "POST",
+                data : {email:emailRP},
+                success:function(data, textStatus, jqXHR) 
+                {
+                    if(data == "1"){
+                        alert("Abbiamo inviato un'email dove puoi recuperare la tua password. Coltrolla!!");
+                        location.reload();
+                    }
+                    if(data=="0")
+                        alert("Mi dispiace, recupero password al momento non è disponibile !!");
+                    if(data=="-1")
+                        alert("Mi dispiace, Mancano i Parametri");
+                    if(data=="-2")
+                        alert("Questa email non corrisponde a nessun utente registrato");
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    alert("Mi dispiace, recupero password al momento non è disponibile ");
+                }
+            });
+     }
+ }
+
