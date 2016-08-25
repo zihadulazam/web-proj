@@ -122,7 +122,7 @@
                                                     <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                     <p class="comment-data">
                                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                        <c:out value="${allComments.getReview().getDate_creation()}" />
+                                                        <c:out value="${allComments.getReview().getDate_creation().toLocaleString()}" />
                                                     </p>
                                                     <c:if test="${allComments.getPhoto()!=null}">
                                                         <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
