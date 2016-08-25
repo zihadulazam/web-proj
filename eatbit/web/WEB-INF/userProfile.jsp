@@ -220,7 +220,16 @@
                                     <div class="container-fluid restaurant">
                                         <div class="row container-fluid">
                                             <div class="col-md-4 restaurant-title">
-                                                <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="restaurantFoto"/>
+                                                
+                                                <c:choose>
+                                                    <c:when test="${restaurant.getPhotos().size() > 0}">
+                                                        <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="img/restaurant-default.png" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                    </c:otherwise>
+                                                </c:choose>                                                
+                                                
                                                 <h4><c:out value="${restaurant.getRestaurant().getName()}" /></h4>
                                                 <div class="row rating-stars">
                                                     <c:forEach var="i" begin="1" end="5">
