@@ -83,7 +83,6 @@ public class ProfileServlet extends HttpServlet {
 
                 
             }else{
-                out.println("utente normale");
                 //raccolgo dati per utente
                 ArrayList<ReviewContext> listReview = null;
                 ArrayList<PhotoNotification> listPhotoNotification = null;
@@ -99,7 +98,7 @@ public class ProfileServlet extends HttpServlet {
                 listReview = userContext.getReviewContext();
                 listRist = manager.getRestaurantsByIdOwner(user.getId());
                 listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
-
+                //creo l'array di contesti ristoranti per avere più info
                 for(Restaurant r:listRist){
                     RestaurantContext x = manager.getRestaurantContext(r.getId());
                     out.println(x.getPhotos().get(0).getPath());
