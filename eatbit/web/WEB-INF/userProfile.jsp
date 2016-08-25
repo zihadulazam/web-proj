@@ -167,7 +167,7 @@
                                                                             <div class="col-md-10">
                                                                                 <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
                                                                                 <p class="risposta-autore">Da: Proprietario</p>
-                                                                                <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
+                                                                                <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation().toLocaleString()}" /></p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -297,7 +297,7 @@
                                         <div class="alert alert-info notice notificaFoto" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                    &nbsp;<b><c:out value="${photoNotification.getUser().getName()}" /></b> ha caricato una foto su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
+                                                    &nbsp;<b>Nova Foto</b> caricata su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
                                                 </a>
                                             </div>
                                             
@@ -316,7 +316,7 @@
                                             <div class="row">
                                                 <div class ="col-md-10">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${photoNotification.getCreation()}"></c:out>
+                                                    <c:out value="${photoNotification.getCreation().toLocaleString()}"></c:out>
                                                 </div>
                                                 <div class ="col-md-2">   
                                                     <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più</button>
@@ -351,7 +351,7 @@
                                                 <div class ="col-md-10">                                                    
                                                     <div class="panel panel-primary comm">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
+                                                            <h3 class="panel-title">Hanno commentato:</h3>
                                                         </div>
                                                         <div class="panel-body">
                                                             <c:out value="${reviewNotification.getReview().getDescription()}" />
@@ -366,7 +366,7 @@
                                                 <div class ="col-md-10">
                                                     
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                    <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
                                                     
                                                 </div>
                                                 <div class ="col-md-2">

@@ -196,7 +196,7 @@
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                                <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -225,7 +225,7 @@
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReply().getDate_creation()}"></c:out>
+                                                                <c:out value="${reviewNotification.getReply().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -364,7 +364,7 @@
                                                         <div class ="col-md-9">
 
                                                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                            <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
 
                                                         </div>
                                                         <div class ="col-md-2">
