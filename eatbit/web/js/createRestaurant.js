@@ -233,12 +233,12 @@ $(document).ready(function(){
                
                           //formatto gli orari
                     var orarioLun = 1+LMH+":"+LMM+LPH+":"+LPM;
-                    var orarioMar = 1+MMH+":"+MMM+MPH+":"+MPM;
-                    var orarioMer = 1+MEMH+":"+MEMM+MEPH+":"+MEPM;
-                    var orarioGio = 1+GMH+":"+GMM+GPH+":"+GPM;
-                    var orarioVen = 1+VMH+":"+VMM+VPH+":"+VPM;
-                    var orarioSab = 1+SMH+":"+SMM+SPH+":"+SPM;
-                    var orarioDom = 1+DMH+":"+DMM+DPH+":"+DPM;
+                    var orarioMar = 2+MMH+":"+MMM+MPH+":"+MPM;
+                    var orarioMer = 3+MEMH+":"+MEMM+MEPH+":"+MEPM;
+                    var orarioGio = 4+GMH+":"+GMM+GPH+":"+GPM;
+                    var orarioVen = 5+VMH+":"+VMM+VPH+":"+VPM;
+                    var orarioSab = 6+SMH+":"+SMM+SPH+":"+SPM;
+                    var orarioDom = 7+DMH+":"+DMM+DPH+":"+DPM;
                
                alert("Orari: " + orarioLun + " " + orarioMar + " " 
                    + orarioMer +" " + orarioGio + " " + orarioVen
