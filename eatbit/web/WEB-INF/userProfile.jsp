@@ -7,12 +7,12 @@
 <%@page import="database.contexts.ReviewContext"%>
 <%@page import="database.ReviewNotification"%>
 <%@page import="database.PhotoNotification" %>
-<%@page import="database.Restaurant"%>
 
+<%@page import="database.contexts.RestaurantContext"%>
+<%@page import="java.util.ArrayList"%>
 
 <%@page language="java" session="true" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -209,7 +209,7 @@
                                         <div class ="col-md-10">
                                         </div>
                                         <div class ="col-md-2">
-                                            <a href="/eatbit/CuisinesForCreationServlet"  class="btn btn-primary diventaRis">Carica un Ristorante!</a>
+                                            <a href="/eatbit/CuisinesForCreationServlet"  class="btn btn-primary diventaRis fixCarica">Carica un Ristorante!</a>
                                         </div>
                                     </div>
                                 </div>
@@ -220,12 +220,12 @@
                                     <div class="container-fluid restaurant">
                                         <div class="row container-fluid">
                                             <div class="col-md-4 restaurant-title">
-                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
-                                                <h4><c:out value="${restaurant.getName()}" /></h4>
+                                                <img src="${restaurant.getPhotos()[0].getPath()}" class="r-img img-circle" alt="restaurantFoto"/>
+                                                <h4><c:out value="${restaurant.getRestaurant().getName()}" /></h4>
                                                 <div class="row rating-stars">
                                                     <c:forEach var="i" begin="1" end="5">
                                                         <c:choose>
-                                                            <c:when test="${restaurant.getGlobal_value()>=i}">
+                                                            <c:when test="${restaurant.getRestaurant().getGlobal_value()>=i}">
                                                                 <img src="img/star-full.png"/>
                                                             </c:when>
                                                             <c:otherwise>
@@ -236,11 +236,13 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-8 restaurant-body">
-                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Descrizione: </span><span class="info-text"><c:out value="${restaurant.getDescription()}" /></span></p>
-                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getReviews_counter()}" /></span></p>
-                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text">21</span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Descrizione: </span><span class="info-text"><c:out value="${restaurant.getRestaurant().getDescription()}" /></span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${restaurant.getRestaurant().getReviews_counter()}" /></span></p>
+                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${restaurant.getPriceRange().getName()}"/></span></p>
                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
-                                                   
+                                                   <c:forEach var="tipocucine" items="${restaurant.getCuisines()}">
+                                                        <span class="label label-danger tipo-cucine cucin"><c:out value="${tipocucine}"/></span>
+                                                    </c:forEach>
                                                 </p>
                                             </div>
                                         </div>
@@ -248,11 +250,11 @@
                                             <!-- va qua url del ristorante -->                                            
                                             <div class="btn-visita">
                                                 <form action="GetRestaurantContextForwardToJspServlet" method="GET">
-                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="id_restaurant"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Visita</button>            
+                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getRestaurant().getId()}" name="id_restaurant"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Visita</button>            
                                                 </form>
                                                 
                                                 <form action="GetRestaurantInfoServlet" method="POST">
-                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getId()}" name="restaurant_id"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
+                                                    <button class ="btn btn-success fixx" type="submit" value="${restaurant.getRestaurant().getId()}" name="restaurant_id"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
                                                 </form>
                                             </div>                                            
                                         </div>

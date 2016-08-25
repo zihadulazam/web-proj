@@ -9,8 +9,10 @@ import database.contexts.AttemptContext;
 import database.contexts.OwnUserContext;
 import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
+import database.contexts.RestaurantContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -51,6 +53,7 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
+            PrintWriter out = response.getWriter();
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");   
             
@@ -80,11 +83,13 @@ public class ProfileServlet extends HttpServlet {
 
                 
             }else{
+                out.println("utente normale");
                 //raccolgo dati per utente
                 ArrayList<ReviewContext> listReview = null;
                 ArrayList<PhotoNotification> listPhotoNotification = null;
                 ArrayList<ReviewNotification> listReviewNotification = null;
-                ArrayList<Restaurant> listRestaurants = null;
+                ArrayList<RestaurantContext> listRestaurants = new ArrayList<>();
+                ArrayList<Restaurant> listRist = null;
                 
                 OwnUserContext userContext = null;
                 
@@ -92,13 +97,13 @@ public class ProfileServlet extends HttpServlet {
                 listReviewNotification = manager.getUserReviewNotifications(user.getId(),4);
                 userContext = manager.getUserContext(user.getId());
                 listReview = userContext.getReviewContext();
-                listRestaurants = manager.getRestaurantsByIdOwner(user.getId());
-                
-                for(Restaurant r: listRestaurants){
-                    
-                }
-                
+                listRist = manager.getRestaurantsByIdOwner(user.getId());
                 listPhotoNotification = manager.getUserPhotoNotifications(user.getId(),4);
+
+                RestaurantContext c = manager.getRestaurantContext(listRist.get(0).getId());
+                RestaurantContext x = manager.getRestaurantContext(listRist.get(1).getId());
+                listRestaurants.add(x);listRestaurants.add(c);
+                out.println(c.getRestaurant().getName());
                 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
