@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,8 +16,8 @@ import utility.FileDeleter;
 /**
  * Servlet per permettere all'admin di rimuovere una review che era stata segnalata.
  * Rimuove la foto associata alla review dal filesystem.
- * Manderà come risposta 1 se la rimozione è andata a buon fine, 0 se l'utente
- * non aveva effettuato il login o se non era un admin.
+ * Manderà come risposta 1 se la rimozione è andata a buon fine, 0 se c'è stata 
+ * una eccezione, -1 se manca un parametro.
  * @author jacopo
  */
 @WebServlet(name = "RemoveReviewByAdminServlet", urlPatterns =
@@ -54,10 +53,8 @@ public class RemoveReviewByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId= request.getParameter("id_review");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringId!=null) {
+            if (stringId!=null) {
                 String photoPath = manager.removeReview(Integer.parseInt(stringId));
                 //cancello foto da filesystem
                 String path = dirName + photoPath.replace("img/photos/", "/");

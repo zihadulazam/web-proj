@@ -2,7 +2,6 @@ package servlets;
 
 import database.DbManager;
 import database.Photo;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ import utility.FileDeleter;
  * a una review viene rimossa in automatico anche la review grazie a delete on cascade.
  * Manderà come risposta 1 se la rimozione è andata a buon fine(n.b. se il metodo runna
  * e non trova niente da rimuovere manda cmq 1, richiedere di rimuovere foto non esistenti
- * manderà quindi 1, se il resto è correto), 0 se vi è stata * una eccezione,
+ * manderà quindi 1, se il resto è corretto), 0 se vi è stata * una eccezione,
  * -1 se manca un parametro.
  * @author jacopo
  */
@@ -59,10 +58,8 @@ public class RemovePhotoByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId =request.getParameter("id_photo");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringId!=null) 
+            if (stringId!=null) 
             {
                 Photo photo= manager.getPhotoById(Integer.parseInt(stringId));
                 //rimuovo associazione foto - risto da db

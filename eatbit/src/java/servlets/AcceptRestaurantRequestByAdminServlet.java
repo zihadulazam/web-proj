@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *Permette all'admin di accettare la richiesta di creazione o possesso di un ristorante
  * fatta da parte di un utente.
  * Manderà come risposta 1 se l'accettazione è andata a buon fine, 0 se c'è stata una
- * eccezione, -1 se l'utente (l'admin) non aveva effettuato il login o se non era un admin 
- * o se manca uno dei 2 parametri:
+ * eccezione, -1 se manca uno dei 2 parametri:
  * id_user: id dell'utente che fa la request
  * id_restaurant: restaurant relativo alla request.
  * @author jacopo
@@ -48,14 +46,12 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");
-            User user = (User) request.getSession().getAttribute("user");
             String stringIdRestaurant= request.getParameter("id_restaurant");
             String stringIdRequester= request.getParameter("id_user");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringIdRestaurant!=null && stringIdRequester!=null) {
+            if (stringIdRestaurant!=null && stringIdRequester!=null) {
                 manager.acceptRestaurantRequest(Integer.parseInt(stringIdRequester),Integer.parseInt(stringIdRestaurant));
                 out.write("1");
             }

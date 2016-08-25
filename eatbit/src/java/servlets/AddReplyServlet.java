@@ -49,13 +49,12 @@ public class AddReplyServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            
-            User user = (User) request.getSession().getAttribute("user");
             String description= request.getParameter("description");
             String stringIdRev= request.getParameter("id_review");
             //controllo che utente sia loggato in
-            if(user!=null && description!=null && stringIdRev!=null)
+            if(description!=null && stringIdRev!=null)
             {
+                User user = (User) request.getSession().getAttribute("user");
                 Reply reply = new Reply();
                 reply.setDescription(description);
                 reply.setDate_creation(null);

@@ -66,14 +66,6 @@ public class ModifyProfileServlet extends HttpServlet {
         User user = (User)session.getAttribute("user");
         //se non esiste una sessione aperta redirigo sulla pagina di login-->lo fa il filtro
         //faccio cmq un controllo
-        if (user == null) {
-            // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-            request.setAttribute("message", "Not LOGGED IN !");
-            //redirigo alla landingPage
-            RequestDispatcher rd = request.getRequestDispatcher("/index.html");           
-            rd.forward(request, response);
-        } 
-
         PrintWriter out = response.getWriter();
         //creo il realpath della directory di salvataggio avatar       
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avatar";

@@ -21,6 +21,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
+        <servlet-name>ClaimRestaurant</servlet-name>
         <servlet-name>AddPhotoToRestaurantServlet</servlet-name>
         <servlet-name>AddReplyServlet</servlet-name>
         <servlet-name>AddRestaurantServlet</servlet-name>

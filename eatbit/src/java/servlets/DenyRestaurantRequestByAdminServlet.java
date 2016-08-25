@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,9 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *Permette all'admin di negare la richiesta di creazione o possesso di un ristorante
  * fatta da parte di un utente.
- * Manderà come risposta 1 se il metodo è andato a buon fine, 0 se viè stata
- * una eccezione, -1 se l'utente (l'admin) non aveva effettuato il login o se
- * non era un admin o se manca uno dei parametri:
+ * Manderà come risposta 1 se il metodo è andato a buon fine, 0 se vi è stata
+ * una eccezione, -1  se manca uno dei parametri:
  * id_user: id dell'utente che fa la request
  * id_restaurant: restaurant relativo alla request.
  * @author jacopo
@@ -51,18 +49,17 @@ public class DenyRestaurantRequestByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringIdRequester= request.getParameter("id_user");
             String stringIdRest= request.getParameter("id_restaurant");
             //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringIdRequester!=null && stringIdRest!=null) {
+            if (stringIdRequester!=null && stringIdRest!=null) {
                 manager.denyRestaurantRequest(
                         Integer.parseInt(stringIdRequester),
                         Integer.parseInt(stringIdRest));
                 out.write("1");
             }
             else
-                out.write(""+stringIdRequester+"");
+                out.write("-1");
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(DenyRestaurantRequestByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");

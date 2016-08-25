@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *Permette all'admin di non accettare una reply ad una review da parte di un ristoratore, 
  * rimuovendola dal sistema.
  * Manderà come risposta 1 se la cancellazione è andata a buon fine, 0 se vi è stata
- * una eccezione, -1 se mancano parametri, l'utente non ha fatto login o l'utente
- * non è admin.
+ * una eccezione, -1 se mancano parametri.
  * @author jacopo
  */
 @WebServlet(name = "DenyReplyByAdminServlet", urlPatterns =
@@ -49,11 +47,8 @@ public class DenyReplyByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId = request.getParameter("id_reply");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-
-            if (user != null && user.getType()==2 && stringId!=null) {
+            if (stringId!=null) {
                 manager.unconfirmReply(Integer.parseInt(stringId));
                 out.write("1");
             }

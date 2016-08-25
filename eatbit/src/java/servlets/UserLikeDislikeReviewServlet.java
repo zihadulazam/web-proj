@@ -49,14 +49,14 @@ public class UserLikeDislikeReviewServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String revString= request.getParameter("id_review");
             String likeString= request.getParameter("like_type");
             
-            if (user != null && revString!=null && likeString!=null)
+            if (revString!=null && likeString!=null)
             {
+                User user = (User) request.getSession().getAttribute("user");
                 int review_id = Integer.parseInt(revString);
                 int like_type = Integer.parseInt(likeString);
                 //se il like non è 0 o 1 lo setto come like

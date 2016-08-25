@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *Servlet per permette all'admin di rimuovore una foto da quelle reportate (quindi
  * non sarà più considerata segnalata ma esisterà ancora).
  * Manderà come risposta 1 se il metodo di rimozione ha terminato, 0 se c'è stata
- * una eccezione, -1 se l'utente non aveva effettuato il login o se non era un admin 
- * o se il parametro manca.
+ * una eccezione, -1 se il parametro manca.
  * @author jacopo
  */
 @WebServlet(name = "UnreportPhotoByAdminServlet", urlPatterns =
@@ -49,10 +47,8 @@ public class UnreportPhotoByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId = request.getParameter("id_photo");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringId!=null) {
+            if (stringId!=null) {
                 manager.unreportPhoto(Integer.parseInt(stringId));
                 out.write("1");
             }

@@ -54,10 +54,10 @@ public class UserVoteServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String voteString= request.getParameter("vote");
             String restString= request.getParameter("id_restaurant");
-            if (user != null && voteString!=null && restString!=null) {
+            if (voteString!=null && restString!=null) {
+                User user = (User) request.getSession().getAttribute("user");
                 int id_rest = Integer.parseInt(restString);
                 int voto = Integer.parseInt(voteString);
                 voto = min(voto, 5);//pulisco il voto in caso di eventuali errori 

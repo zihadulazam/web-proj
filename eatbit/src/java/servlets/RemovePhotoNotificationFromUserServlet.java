@@ -48,17 +48,18 @@ public class RemovePhotoNotificationFromUserServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");   
         PrintWriter out = response.getWriter();
         try {
-            response.setContentType("text/plain");            
-            User user = (User) request.getSession().getAttribute("user");
-            if (user != null){ 
-                manager.removePhotoNotification(user.getId(),Integer.parseInt(request.getParameter("notifyId")));
+            String sId= request.getParameter("notifyId");
+            if(sId!=null)
+            {
+                User user = (User) request.getSession().getAttribute("user");
+                manager.removePhotoNotification(user.getId(),Integer.parseInt(sId));
                 out.write("1");
-            }else{
-                out.write("-1");
-                out.flush();
             }
+            else
+                out.write("-1");
                 
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(RemovePhotoNotificationFromUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);

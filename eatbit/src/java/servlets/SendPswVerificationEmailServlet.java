@@ -54,9 +54,9 @@ public class SendPswVerificationEmailServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         String stringId= request.getParameter("id_user");
-        User user = (User) request.getSession().getAttribute("user");
-        if (stringId!=null && user!=null) 
+        if (stringId!=null) 
         {
+            User user = (User) request.getSession().getAttribute("user");
             int id= Integer.parseInt(stringId);
             if (id==user.getId()) 
             {
