@@ -1,5 +1,6 @@
 package servlets;
 
+import database.User;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+        
         if (session != null) {
             session.removeAttribute("user");
             session.setAttribute("user", null);

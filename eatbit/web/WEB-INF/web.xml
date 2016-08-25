@@ -14,6 +14,7 @@
         <servlet-name>AcceptRestaurantRequestByAdminServlet</servlet-name>
         <servlet-name>DenyReplyByAdminServlet</servlet-name>
         <servlet-name>DenyRestaurantRequestByAdminServlet</servlet-name>
+        
         <servlet-name>RemovePhotoByAdminServlet</servlet-name>
         <servlet-name>RemoveReviewByAdminServlet</servlet-name>
         <servlet-name>UnreportPhotoByAdminServlet</servlet-name>
@@ -29,6 +30,7 @@
         <servlet-name>ModifyProfileServlet</servlet-name>
         <servlet-name>ModifyRestaurantServlet</servlet-name>
         <servlet-name>ProfileServlet</servlet-name>
+        <servlet-name>LogoutServlet</servlet-name>
         <servlet-name>RemovePhotoNotificationFromUserServlet</servlet-name>
         <servlet-name>RemoveReviewNotificationFromUserServlet</servlet-name>
         <servlet-name>SendPswVerificationEmailServlet</servlet-name>

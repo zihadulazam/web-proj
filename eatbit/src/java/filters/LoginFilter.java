@@ -53,47 +53,19 @@ public class LoginFilter implements Filter {
         
         // controllo se la sessione esiste e contiene un utente loggato
         // se non esiste o non conteiene un utente, ridirigo alla pagina iniziale di login
-        HttpSession session = req.getSession(false);
-        User user=(User)session.getAttribute("user");
-        if (session == null || user.getName() == null ||user.getId()==0) {
-            
+        HttpSession session = req.getSession(false);        
+        if (session == null) {            
             resp.sendRedirect(req.getContextPath());
         } else {
+            User user=(User)session.getAttribute("user");
             
-            
-            chain.doFilter(request, response);
+            if(user.getName() == null )//|| user.getId()==0)
+            {
+                resp.sendRedirect(req.getContextPath());
+            }else{                
+                chain.doFilter(request, response);
+                }
         }
-
-//        if (debug) {
-//            log("LoginFilter:doFilter()");
-//        }
-//        
-//        doBeforeProcessing(request, response);
-//        
-//        Throwable problem = null;
-//        try {
-//            chain.doFilter(request, response);
-//        } catch (Throwable t) {
-//            // If an exception is thrown somewhere down the filter chain,
-//            // we still want to execute our after processing, and then
-//            // rethrow the problem after that.
-//            problem = t;
-//            t.printStackTrace();
-//        }
-//        
-//        doAfterProcessing(request, response);
-//
-//        // If there was a problem, we want to rethrow it if it is
-//        // a known type, otherwise log it.
-//        if (problem != null) {
-//            if (problem instanceof ServletException) {
-//                throw (ServletException) problem;
-//            }
-//            if (problem instanceof IOException) {
-//                throw (IOException) problem;
-//            }
-//            sendProcessingError(problem, response);
-//        }
     }
 
     /**
