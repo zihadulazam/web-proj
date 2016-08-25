@@ -38,21 +38,43 @@
             <div class="container" id="main">
                 <div id="last-update">
                     <div id="info-box">
-                        <h1 align="justify"><strong>About EatBit</strong> <br> EatBit è il portale di ristoranti più piccolo al mondo, probabilmente. 
-            Permette agli utenti e a chi ha fame di cercare fra una manciata di ristoranti che potrebbero non esistere.
-            Il marchio eatBit rappresenta la più piccola community di mangiatori al mondo, con meno di 20 utenti registrati, e il suo
-            sito è attivo solo in italia.</h1>
+                        <form class="form-horizontal" action="${pageContext.request.contextPath}/VerifyPasswordServlet" method="post">
+                    <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Password reset</legend>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="password">La tua nuova password</label>
+                      <div class="col-md-4">
+                        <input id="password" name="password" placeholder="password" class="form-control input-md" required="" type="password">
+
+                      </div>
                     </div>
-                    <div id="updates">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-12 update">
-                                    <div class="horizontally-centered">
-                                        <img src="img/sede.png"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="passwordCheck">Scrivila di nuovo per sicurezza</label>
+                      <div class="col-md-4">
+                        <input id="passwordCheck" name="passwordCheck" placeholder="password" class="form-control input-md" required="" type="password">
+
+                      </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for=""></label>
+                      <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary">Invia</button>
+                      </div>
+                    </div>
+                    <!-- input nascosti presi da parametri, da mandare per verifica del token dell'utente -->
+                    <input type="hidden" name="id" value="${param.id}" />
+                    <input type="hidden" name="token" value="${param.token}"/>
+                    </fieldset>
+                    </form>
+
                     </div>
                 </div>
             </div>

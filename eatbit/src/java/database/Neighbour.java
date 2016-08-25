@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 
 /**
- *
+ *Oggetto che contiene latitudine, longitudine e nome di un ristorante, usato per rappresentare
+ * i ristoranti vicini  a quello ricercato per la geolocalizzazione.
  * @author jacopo
  */
 public class Neighbour implements Serializable

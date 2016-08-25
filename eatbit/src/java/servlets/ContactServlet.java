@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.MessagingException;
@@ -21,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import utility.EmailSender;
-import utility.IpFinder;
 
 /**
  *Usato per il form "contact" nel footer, che permette all'utente di mandare una
@@ -75,16 +65,26 @@ public class ContactServlet extends HttpServlet
                             + "The text is:\n"
                             + text;
                     EmailSender.sendEmail(ContactServlet.SENDTO, text, "contact");
-                    out.write("1");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "ok");
+                    request.setAttribute("description", "Successo: Il tuo messaggio è stato inviato..");
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 } 
             }
-            else
-                out.write("-1");
+            else{
+                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "warning");
+                request.setAttribute("description", "Ops: Mancano i Parametri.");
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
+            }
         }
         catch( MessagingException ex)
         {
              Logger.getLogger(ContactServlet.class.getName()).log(Level.SEVERE, null, ex);       
-             out.write("0");
+             request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Errore!!!");
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
         }
     }
     

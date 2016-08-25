@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -23,8 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * rendendola visibile.
  * Manderà come risposta 1 se l'accettazione è andata a buon fine (cioè il metodo
  * è terminato correttamente, ma può terminare correttamente anche se non esiste una reply
- * con quell'id), 0 se vi è stata una eccezione, -1 se manca un parametro, l'utente 
- * non è loggato o l'utente non è admin.
+ * con quell'id), 0 se vi è stata una eccezione, -1 se manca un parametro.
  * @author jacopo
  */
 @WebServlet(name = "AcceptReplyByAdminServlet", urlPatterns =
@@ -55,11 +49,10 @@ public class AcceptReplyByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId = request.getParameter("id_reply");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringId!=null) 
+            if (stringId!=null) 
             {
+                User user = (User) request.getSession().getAttribute("user");
                 manager.confirmReply(Integer.parseInt(stringId), user.getId());
                 out.write("1");
             }

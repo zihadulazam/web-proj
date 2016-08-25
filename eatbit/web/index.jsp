@@ -46,8 +46,15 @@
                     <div class="input-thumbnail thumbnail">
                         <form id="search-form" role="form" method="get" action="/eatbit/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
+                                <div class="checkbox text-right">
+                                        <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span><label><input type="checkbox" id="vicino_a_me">Vicino a me</label>
+                                        <div class="alert alert-danger text-center" id="error-msg" role="alert" style="display: none;"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></div>
+                                        <div class="alert alert-success text-center" id="success-msg" role="alert" style="display: none;"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></div>
+                                </div>
+                                <input type="hidden" id="lat" name="latitude">
+                                <input type="hidden" id="lon" name="longitude">
                                 <input type="text" class="form-control" id="locationRisto" name="luogo" placeholder="Dove?">
-                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del ristorante">
+                                <input type="text" class="sapce-top form-control typeahead" id="nomeRisto" name="name" placeholder="Nome del Ristorante / Tipo di Cucina">
                             </div>
                             <div class="jumbo-button-container">
                                 <button class="btn btn-default btn-lg btn-block" type="submit" aria-label="Left Align">
@@ -169,7 +176,7 @@
                             <div class="row" >
                                 <!-- top 5 restaurant -->
                                 <div id="second-update-row">
-                                    <div class="col-md-6 update">
+                                    <div class="col-md-12 update">
                                         <div id="update-left">
                                             <div class="update-head-img horizontally-centered">
                                                 <h2>Top 5 per voto</h2>
@@ -199,9 +206,9 @@
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Indirizzo: </span><span class="info-text"><c:out value="${topRatedRisto.getCoordinate().getAddress()}" />, <c:out value="${topRatedRisto.getCoordinate().getCity()}" />, <c:out value="${topRatedRisto.getCoordinate().getState()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-edit" aria-hidden="true"></span> Numero Recensioni: </span><span class="info-text"><c:out value="${topRatedRisto.getRestaurant().getReviews_counter()}" /></span></p>
                                                                 <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"></span> Prezzo: </span><span class="info-text"><c:out value="${topRatedRisto.getPriceRange().getMin()}"/>€ - <c:out value="${topRatedRisto.getPriceRange().getMax()}" />€</span></p>
-                                                                <p class="info-row"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
+                                                                <p class="info-row cucin"><span class="info-lable"><span class="glyphicon glyphicon glyphicon-apple" aria-hidden="true"></span> Cucina: </span>
                                                                     <c:forEach var="tipocucine" items="${topRatedRisto.getCuisines()}">
-                                                                        <span class="label label-danger tipo-cucine"><c:out value="${tipocucine}"/></span>
+                                                                        <span class="label label-danger tipo-cucine cucin"><c:out value="${tipocucine}"/></span>
                                                                     </c:forEach>
                                                                 </p>
                                                             </div>
@@ -216,8 +223,10 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row" >
                                 <!-- top 5 per recensioni -->
-                                <div class="col-md-6 update">
+                                <div class="col-md-12 update">
                                     <div id="update-right">
                                         <div class="update-head-img horizontally-centered">
                                             <h2>Top 5 per # recensioni</h2>
@@ -275,6 +284,9 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
+        
+        <!-- index.js -->
+        <script src="js/index.js"></script>
         
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>

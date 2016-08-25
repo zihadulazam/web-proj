@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
-import database.Restaurant;
-import database.Review;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -59,17 +50,17 @@ public class VerifyUserServlet extends HttpServlet
                 //se la verifica è andata a buon fine passo il controllo a una jsp che conferma il successo
                 //altrimenti a una jsp che comunica il fallimento della verifica
                 //n.b. i nomi success.jsp e failure.jsp sono semplicemente placeholder
-                if (manager.verifyUser(id, token)) {
-                    request.getRequestDispatcher("/success").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/failure").forward(request, response);
+                if (manager.verifyUser(id, token)) {//token corrisponde a utente
+                    request.getRequestDispatcher("/WEB-INF/success.jsp").forward(request, response);
+                } else {//token nn corrisponde a utente
+                    request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
                 }
             }
-            else
-                request.getRequestDispatcher("/failure").forward(request, response);
+            else//missing param
+                request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

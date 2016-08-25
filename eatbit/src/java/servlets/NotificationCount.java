@@ -6,13 +6,10 @@
 package servlets;
 
 import database.DbManager;
-import database.Reply;
 import database.User;
-import database.contexts.RestaurantContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,24 +19,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *Servlet per il contatore di notifiche dell header, ritorna un numero pari
+ * alla somma di notifiche di foto e di review che sono legate all account
+ * dell'utente, ritorna 0 anche in caso di eccezione, per evitare che l'utente
+ * abbia a che fare con risposte di errore tipo -1.
  * @author jacopo
  */
-@WebServlet(name = "TestSearchServlet", urlPatterns =
+@WebServlet(name = "NotificationCount", urlPatterns =
 {
-    "/TestSearchServlet"
+    "/NotificationCount"
 })
-public class TestSearchServlet extends HttpServlet
+public class NotificationCount extends HttpServlet
 {
 
     private DbManager manager;
-
+    
     @Override
     public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,29 +49,20 @@ public class TestSearchServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
-        String location= request.getParameter("location");
-        String name= request.getParameter("name");
-        if(location==null)
-            System.out.println("nullocation");
-        else
-            System.out.println(location);
-        if(name==null)
-            System.out.println("nullname");
-        else
-            System.out.println(name);
-        
         try
         {
-            ArrayList<RestaurantContext> res= manager.searchRestaurant(location, name);
-            for (RestaurantContext context : res)
-                out.write(context.getRestaurant().getName()+"\n");
+            int id= ((User)request.getSession().getAttribute("user")).getId();
+            int fCount= manager.getUserPhotoNotificationsCount(id);
+            int rCount= manager.getUserReviewNotificationsCount(id);
+            out.write(fCount+rCount);
         }
         catch (SQLException ex)
         {
-            Logger.getLogger(TestSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NotificationCount.class.getName()).log(Level.SEVERE, null, ex);
             out.write("0");
         }
     }
@@ -88,8 +78,9 @@ public class TestSearchServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request,response);
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
     }
 
     /**
@@ -102,8 +93,9 @@ public class TestSearchServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request,response);
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
     }
 
     /**
@@ -112,7 +104,8 @@ public class TestSearchServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

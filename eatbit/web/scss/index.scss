@@ -25,8 +25,23 @@
         padding: 15px 15px;
         min-width: 270px; 
         margin-bottom: 0px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: 300;
         .jumbo-textbox-container{
-            
+            .checkbox{
+                font-weight: bolder;
+                color: #fff;
+                font-size: 16px;
+                margin-top: 0px;
+                .glyphicon{
+                    margin-right: 5px;
+                    font-size: 18px;
+                }
+                #error-msg, #susscess-msg{
+                    font-size: 15px;
+                }
+            }
             margin-bottom: 0px;
             .sapce-top{
                 margin-top: 8px;
@@ -249,9 +264,14 @@
 }
 .info-text{
     font-size: 15px;
+    line-height: 20px;
 }
 .tipo-cucine{
     font-size:16px;
+
+}
+.cucin{
+    line-height: 1.7;
 }
 .btn-visita{
     text-align: right;
@@ -272,7 +292,6 @@
 }
 
 #update-left{
-    padding-right: 20px;
     .restaurant{
         border-color: $eatbit-blue  !important;
     }
@@ -286,7 +305,6 @@
     }
 }
 #update-right{
-    padding-left: 20px;
     .restaurant{
         border-color: #00796B !important;
     }

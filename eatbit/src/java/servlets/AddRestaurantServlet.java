@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -66,8 +61,7 @@ public class AddRestaurantServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
@@ -88,7 +82,38 @@ public class AddRestaurantServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out= response.getWriter();
+        
+        
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
         //prendo richiesta multipart
         MultipartRequest multi = new MultipartRequest(request,
                     dirName, 
@@ -119,7 +144,7 @@ public class AddRestaurantServlet extends HttpServlet
         String sMax=null;//deve essere numero, anche reale
         String sClaim=null;//deve essere numero intero
         //prendo i parametri
-        Enumeration params = multi.getParameterNames();            
+        Enumeration params = multi.getParameterNames();  
         while (params.hasMoreElements()) 
         {
             String name = (String)params.nextElement();
@@ -150,9 +175,13 @@ public class AddRestaurantServlet extends HttpServlet
         if(sDescription==null||sName==null||sUrl==null||sCuisines==null
                 ||sAddress==null||sCity==null||sProvince==null||sState==null||sLatitude==null
                 ||sLongitude==null||sHours==null||sText_claim==null||sMin==null
-                ||sMax==null||sClaim==null||sPhoto_description==null
-                ||!files.hasMoreElements())
-            out.write("-1");
+                ||sMax==null||sPhoto_description==null
+                ||!files.hasMoreElements()){
+            request.setAttribute("title", "Risultato Operazione:");
+            request.setAttribute("status", "danger");
+            request.setAttribute("description", "Errore: Mancano i parametri");
+            request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
+        }
         else
         {
             //prendo foto e rinonimo per evitare collisioni di nomi
@@ -185,9 +214,9 @@ public class AddRestaurantServlet extends HttpServlet
                 ArrayList<HoursRange> hours=parseHours(sHours);
                 double minPrice=Double.parseDouble(sMin);
                 double maxPrice=Double.parseDouble(sMax);
-                int claim=Integer.parseInt(sClaim);
+                boolean isClaim=sClaim!=null;
                 int idRest=manager.addRestaurant(restaurant, sCuisines, coordinate,
-                        hours, sText_claim, minPrice, maxPrice, (claim==1));
+                        hours, sText_claim, minPrice, maxPrice, isClaim);
                 if(idRest==-1)//cancello foto se nn è andato a buon fine inserimento ristorante
                     FileDeleter.deleteFile(newPath);
                 else
@@ -199,7 +228,10 @@ public class AddRestaurantServlet extends HttpServlet
                     photo.setName(name);
                     photo.setDescription(sPhoto_description);
                     manager.addPhoto(photo);
-                    out.write("1");
+                    request.setAttribute("title", "Risultato Operazione:");
+                    request.setAttribute("status", "ok");
+                    request.setAttribute("description", "Successo: Il tuo Ristorante è stato inserito con successo.");
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
             }
             catch(NumberFormatException | SQLException e)
@@ -207,41 +239,13 @@ public class AddRestaurantServlet extends HttpServlet
                 //cancello foto da filesystem in caso di eccezione
                 FileDeleter.deleteFile(newPath);
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-                out.write("0");
+                //request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Errore: "+e.toString()+" "+e);
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }
-        
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        processRequest(request, response);
     }
 
     /**
@@ -270,16 +274,8 @@ public class AddRestaurantServlet extends HttpServlet
         for (String hour : hours)
         {
             //formato è 110:0018:30  [giorno][apertura][chiusura]
-            try
-            {
                 HoursRange tmp=new HoursRange(hour);
                 res.add(tmp);
-            }
-            catch(NumberFormatException | IndexOutOfBoundsException e)
-            {
-                //se parte una eccezione su una ora non faccio niente e vado
-                //avanti a parsare il resto
-            }
         }
         return res;
     }

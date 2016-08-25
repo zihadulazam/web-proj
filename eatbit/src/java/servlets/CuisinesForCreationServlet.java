@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +26,7 @@ public class CuisinesForCreationServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
     }
@@ -57,7 +51,7 @@ public class CuisinesForCreationServlet extends HttpServlet
         catch(SQLException e)
         {
             Logger.getLogger(CuisinesForCreationServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         
     }

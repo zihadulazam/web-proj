@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
-import database.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *Servlet per permette all'admin di rimuovore una review da quelle reportate (quindi
  * non sarà più considerata segnalata ma esisterà ancora).
  * Manderà come risposta 1 se il metodo ha terminato, 0 se vi è stata una
- * eccezione, -1 se l'utente non aveva effettuato il login o se non era un admin
- * o se manca il parametro.
+ * eccezione, -1 se manca il parametro.
  * @author jacopo
  */
 @WebServlet(name = "UnreportReviewByAdminServlet", urlPatterns =
@@ -54,10 +47,8 @@ public class UnreportReviewByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            User user = (User) request.getSession().getAttribute("user");
             String stringId= request.getParameter("id_review");
-            //verifico che admin sia loggato e che sia effettivamente un utente di tipo admin
-            if (user != null && user.getType()==2 && stringId!=null) {
+            if (stringId!=null) {
                 manager.unreportReview(Integer.parseInt(stringId));
                 out.write("1");
             }

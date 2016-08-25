@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import utility.BCrypt;
@@ -31,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static java.lang.Math.abs;
 import java.sql.Blob;
 import java.util.Collections;
 import java.util.UUID;
@@ -1033,6 +1027,50 @@ public class DbManager implements Serializable
     }
 
     /**
+     * Recupera un utente a partire dalla sua email.
+     *
+     * @param email Email dell'utente.
+     * @return Uno user con la password rimossa, null se non esiste con
+     * quella email.
+     * @throws SQLException
+     */
+    public User getUserByEmail(final String email) throws SQLException
+    {
+        User user = null;
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=?"))
+        {
+            st.setString(1, email);
+            try (ResultSet rs = st.executeQuery())
+            {
+                con.commit();
+                if (rs.next())
+                {
+                    user = new User();
+                    user.setId(rs.getInt("ID"));
+                    user.setName(rs.getString("NAME"));
+                    user.setSurname(rs.getString("SURNAME"));
+                    user.setNickname(rs.getString("NICKNAME"));
+                    user.setEmail(rs.getString("EMAIL"));
+                    user.setPassword("placeholder");
+                    user.setAvatar_path(rs.getString("AVATAR_PATH"));
+                    user.setReviews_counter(rs.getInt("REVIEWS_COUNTER"));
+                    user.setReviews_positive(rs.getInt("REVIEWS_POSITIVE"));
+                    user.setReviews_negative(rs.getInt("REVIEWS_NEGATIVE"));
+                    user.setType(rs.getInt("USERTYPE"));
+                    user.setVerified(rs.getBoolean("VERIFIED"));
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+        return user;
+    }
+    
+    /**
      * Funzione per prendere una serie di photo segnalate e i loro contesti,
      * solitamente usato per l'admin. Un contesto è la foto più lo user che lha
      * postata. Una volta che un contesto è prelevato (restituito) non sarà
@@ -1696,20 +1734,19 @@ public class DbManager implements Serializable
     }
 
     /**
-     * Metodo per inserire nel db un claim di un ristorante, nelle classi User e
-     * Restaurant passate basta che siano presenti gli id.
+     * Metodo per inserire nel db un claim di un ristorante.
      *
      * @param id_user Id dell'utente che fa la creazione/claim del ristorante.
      * @param id_restaurant Id del ristorante in questione.
      * @param userTextClaim Il testo che l'utente ha dato come giustificazione
-     * del claim, se esiste.
+     * del claim
      * @param creationClaimBoth Flag che dice se questa è una creazione, claim,
      * o entrambe di ristorante(0,1,2).
      * @throws SQLException
      */
     public void addClaim(final int id_user, final int id_restaurant, final String userTextClaim, final int creationClaimBoth) throws SQLException
     {
-        try (PreparedStatement st1 = con.prepareStatement("SELECT FROM RESTAURANTS_REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
+        try (PreparedStatement st1 = con.prepareStatement("SELECT * FROM RESTAURANTS_REQUESTS WHERE ID_USER=? AND ID_RESTAURANT=?");
                 PreparedStatement st2 = con.prepareStatement("INSERT INTO RESTAURANTS_REQUESTS VALUES(?,?,?,?,?)"))
         {
             st1.setInt(1, id_user);
@@ -2223,7 +2260,7 @@ public class DbManager implements Serializable
     private int findCuisine(final String cuisine) throws SQLException
     {
         int res = -1;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE uppercase(NAME)=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM CUISINES WHERE upper(NAME)=?"))
         {
             st.setString(1, cuisine.toUpperCase());
             try (ResultSet rs = st.executeQuery())
@@ -2734,15 +2771,22 @@ public class DbManager implements Serializable
             Restaurant restaurant = getRestaurantById(id_restaurant);
             if (type != -1 && restaurant != null)
             {
-                if (type == 1 || type == 2)//se è un claim o creazione+claim setto l'owner
+                switch (type)
                 {
-                    valid.setInt(1, id_user);
-                }
-                else
-                {
-                    //se è solo creazione metto owner a -1 e setto il profilo per la ricerca fuzzy
-                    valid.setInt(1, -1);
-                    //setProfile(restaurant.getId(), restaurant.getName());
+                //se è claim setto l owner
+                    case 1:
+                        valid.setInt(1, id_user);
+                        break;
+                //se è claim+creazione faccio owner e profilo
+                    case 2:
+                        valid.setInt(1, id_user);
+                        setProfile(restaurant.getId(), restaurant.getName());
+                        break;
+                    default:
+                        //se è creazione setto owner a -1 e setto il profilo per la ricerca fuzzy
+                        valid.setInt(1, -1);
+                        setProfile(restaurant.getId(), restaurant.getName());
+                        break;
                 }
                 st.setInt(1, id_user);
                 st.setInt(2, id_restaurant);
@@ -2858,16 +2902,12 @@ public class DbManager implements Serializable
      */
     private void removeRestaurantHourRange(final int id_restaurant) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM "
-                + "OPENING_HOURS_RANGE_RESTAURANT WHERE ID_RESTAURANT=?");
-                PreparedStatement st1 = con.prepareStatement("DELETE FROM "
+        try(PreparedStatement st1 = con.prepareStatement("DELETE FROM "
                         + "OPENING_HOURS_RANGES WHERE ID IN "
                         + "(SELECT ID_OPENING_HOURS_RANGE FROM OPENING_HOURS_RANGE_RESTAURANT WHERE ID_RESTAURANT=?)"))
         {
             st1.setInt(1, id_restaurant);
-            st2.setInt(1, id_restaurant);
             st1.executeUpdate();
-            st2.executeUpdate();
         }
         catch (SQLException ex)
         {
@@ -2890,6 +2930,7 @@ public class DbManager implements Serializable
                 + "RESTAURANT_CUISINE WHERE ID_RESTAURANT=?"))
         {
             st.setInt(1, id_restaurant);
+            st.executeUpdate();
         }
         catch (SQLException ex)
         {
@@ -2907,16 +2948,12 @@ public class DbManager implements Serializable
      */
     private void removeRestaurantCoordinate(final int id_restaurant) throws SQLException
     {
-        try (PreparedStatement st2 = con.prepareStatement("DELETE FROM "
-                + "RESTAURANT_COORDINATE WHERE ID_RESTAURANT=?");
-                PreparedStatement st1 = con.prepareStatement("DELETE FROM "
+        try (PreparedStatement st1 = con.prepareStatement("DELETE FROM "
                         + "COORDINATES WHERE ID IN "
                         + "(SELECT ID_COORDINATE FROM RESTAURANT_COORDINATE WHERE ID_RESTAURANT=?)"))
         {
             st1.setInt(1, id_restaurant);
-            st2.setInt(1, id_restaurant);
             st1.executeUpdate();
-            st2.executeUpdate();
         }
         catch (SQLException ex)
         {
@@ -3136,8 +3173,10 @@ public class DbManager implements Serializable
         {
             return res;
         }
-        try (PreparedStatement st = con.prepareStatement("SELECT NAME FROM RESTAURANTS WHERE"
-                + " upper(NAME) like upper(?) ESCAPE '!' AND VALIDATED=TRUE FETCH FIRST 5 ROWS ONLY"))
+        try (PreparedStatement st = con.prepareStatement("(SELECT NAME FROM CUISINES "
+                + "WHERE upper(NAME) like upper(?) ESCAPE '!' FETCH FIRST 5 ROWS ONLY) "
+                + "UNION (SELECT NAME FROM RESTAURANTS WHERE upper(NAME) like upper(?) "
+                + "ESCAPE '!' AND VALIDATED=TRUE FETCH FIRST 5 ROWS ONLY)"))
         {
             term = term
                     .replace("!", "!!")
@@ -3145,11 +3184,12 @@ public class DbManager implements Serializable
                     .replace("_", "!_")
                     .replace("[", "![");
             st.setString(1, term + "%");
+            st.setString(2, term + "%");
             try (ResultSet rs = st.executeQuery())
             {
                 while (rs.next())
                 {
-                    res.add(rs.getString("NAME"));
+                    res.add(rs.getString("NAME").toLowerCase());
                 }
             }
             con.commit();
@@ -5007,7 +5047,7 @@ public class DbManager implements Serializable
     {
         ArrayList<Integer> res= new ArrayList<>();
         try (PreparedStatement st = con.prepareStatement("SELECT RDIST.ID FROM "
-                + "(SELECT R.ID FROM (SELECT C.ID FROM "
+                + "(SELECT R.ID, GLOBAL_VALUE FROM (SELECT C.ID FROM "
                 + "COORDINATES C WHERE (12742*ASIN(SQRT(0.5 - COS((? - C.LATITUDE) "
                 + "* 0.017453292519943295)/2 + COS(C.LATITUDE * 0.017453292519943295) "
                 + "* COS(? * 0.017453292519943295) * (1- COS((? - C.LONGITUDE) * 0.017453292519943295))/2))) "

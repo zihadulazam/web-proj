@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -149,7 +144,7 @@ public class RegisterUserServlet extends HttpServlet {
                         +":8084/eatbit/verify?token="
                         + token
                         + "&id=" + Integer.toString(id);
-                EmailSender.sendEmail(email, begin+t3, "user verification");
+                EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3, "user verification");
             }
     }
 }

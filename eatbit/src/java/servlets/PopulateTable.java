@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -57,12 +52,18 @@ public class PopulateTable extends HttpServlet {
             String name =request.getParameter("name");
             String sLongitude= request.getParameter("longitude");
             String sLatitude= request.getParameter("latitude");
+            //controlli necessari in quanto le barre dalla home potrebbero mandare
+            //longitude o latitude come stringhe vuote, mentre la barra dell header non li manda proprio
             if("".equals(location))
                 location=null;
             if("".equals(name))
                name=null;
+            if(sLongitude==null)
+                sLongitude="";
+            if(sLatitude==null)
+                sLatitude="";    
             //se longitude o latitude non sono specificate non è una ricerca nelle vicinanze dell'utente
-            if(sLongitude==null||sLatitude==null)
+            if("".equals(sLongitude)||"".equals(sLatitude))
                 list=manager.searchRestaurant(location, name);
             else
             {
@@ -71,11 +72,11 @@ public class PopulateTable extends HttpServlet {
                 list=manager.searchRestaurantNear(longitude, latitude,DISTANCESEARCHINKM, name);
             }
             request.setAttribute("list", list);
-            request.getRequestDispatcher("/DataTable.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/DataTable.jsp").forward(request, response);
             
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(PopulateTable.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }  
     }
 

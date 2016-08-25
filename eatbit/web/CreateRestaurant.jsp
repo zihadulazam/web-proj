@@ -30,13 +30,6 @@
         <link rel="stylesheet" href="css/form-elements.css">
         <link rel="stylesheet" href="css/createRestaurant.css">
 
-        <!-- Favicon and touch icons -->
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        
     </head>
     <body>
         <!-- include navbar hear -->
@@ -60,7 +53,7 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 form-box">
-                    	<form role="form" action="" method="post" class="f1">
+                    	<form role="form" action="../eatbit/AddRestaurantServlet" method="post" class="f1" enctype="multipart/form-data">
 
                     		<h3>Crea Ristorante</h3>
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
@@ -96,7 +89,7 @@
                                 <div class="form-group">
                                     <label class="sr-only" for="web_site">Sito Web</label>
                                     <div class="input-group">
-                                        <input type="text" name="web_site" placeholder="Sito Web..." class="form-control" id="web_site">
+                                        <input type="text" name="url" placeholder="Sito Web..." class="form-control" id="web_site">
                                         <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
                                     </div>
                                     
@@ -104,11 +97,15 @@
                                 <div class="form-group">
                                     <label class="sr-only" for="address">Indirizzo</label>
                                     <div class="input-group">
-                                        <input type="text" name="address" placeholder="Indririzzo..." class="form-control" id="address">
+                                        <input type="text"  placeholder="Indririzzo..." class="form-control" id="address">
                                         <span class="input-group-addon"><span class="fa fa-map-marker" aria-hidden="true"></span></span>
                                     </div>
                                     <label id="lblresult"></label>
                                 </div>
+                                <input type="hidden" id="location" name="address">
+                                <input type="hidden" id="city" name="city">
+                                <input type="hidden" id="province" name="province">
+                                <input type="hidden" id="state" name="state">
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-next">Successivo</button>
                                 </div>
@@ -120,50 +117,45 @@
                                     <h5>Cucina:</h5>
                                     <div class="row">
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="americana" value="Americana"/> Americana
-                                            <br />
-                                            <input type="checkbox" name="asiatica" value="Asiatica"/> Asiatica
-                                            <br />
-                                            <input type="checkbox" name="africana" value="Africana"/> Africana
-                                            <br />
-                                            <input type="checkbox" name="cinese" value="Cinese"/> Cinese
-                                            <br />
-                                            <input type="checkbox" name="japonese" value="Japonese"/> Japonese
-                                            <br />
-                                            <input type="checkbox" name="sushi" value="Sushi"/> Sushi
+                                            <c:forEach var="cucine" items="${cuisines}" begin="0" end="6">
+                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <br />
+                                            </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="indiana" value="Indiana"/> Indiana
-                                            <br />
-                                            <input type="checkbox" name="italiana" value="Italiana"/> Italiana
-                                            <br />
-                                            <input type="checkbox" name="pizza" value="Pizza"/> Pizza
-                                            <br />
-                                            <input type="checkbox" name="francese" value="Francese"/> Francese
-                                            <br />
-                                            <input type="checkbox" name="spagnola" value="Spagnola"/> Spagnola
-                                            <br />
-                                            <input type="checkbox" name="pesce" value="Pesce"/> Pesce
+                                            <c:forEach var="cucine" items="${cuisines}" begin="7" end="13">
+                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <br />
+                                            </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="carne" value="Carne"/> Carne
-                                            <br />
-                                            <input type="checkbox" name="messicana" value="Messicana"/> Messicana
-                                            <br />
-                                            <input type="checkbox" name="fastfood" value="Fast-Food"/> Fast-Food
-                                            <br />
-                                            <input type="checkbox" name="vegetariana" value="Vegetariana"/> Vegetariana
+                                             <c:forEach var="cucine" items="${cuisines}" begin="14" end="20">
+                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <br />
+                                            </c:forEach>
                                          </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <h5>Fascia Prezzo:</h5>
                                     <div class="input-group">
-                                        <input type="text" name="prezzo_min" placeholder="Prezzo Min..." class="form-control" id="prezzo_min">
+                                        <select class="form-control" name="min" class="form-control" id="prezzo_min">
+                                            <option>Prezzo Min</option>
+                                            <c:forEach var="i" begin="1" end="1000">
+                                                <option><c:out value="${i}"/></option>
+                                            </c:forEach>
+                                        </select>
                                         <span class="input-group-addon">€</span>
                                     </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" name="prezzo_max" placeholder="Prezzo Max..." class="form-control" id="prezzo_max">
+                                         <select class="form-control" name="max" class="form-control" id="prezzo_max">
+                                            <option>Prezzo Max</option>
+                                            <c:forEach var="i" begin="1" end="1000">
+                                                <option><c:out value="${i}"/></option>
+                                            </c:forEach>
+                                        </select>
                                         <span class="input-group-addon">€</span>
                                     </div>
                                 </div>
@@ -178,6 +170,11 @@
                                         <input type="text" id="Add-photo-name" class="form-control" readonly>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="description">Descrizione Photo</label>
+                                    <textarea name="photo_description" placeholder="Descrizione..." 
+                                    	                 class="form-control" id="photo_description"></textarea>
+                                </div>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
                                     <button type="button" class="btn btn-next">Successivo</button>
@@ -185,7 +182,7 @@
                             </fieldset>
 
                             <fieldset>
-                                <h4>Orario d'apertura (Da Finire):</h4>
+                                <h4>Orario d'apertura:</h4>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
                                         <h5>Giorno</h5>
@@ -204,7 +201,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="LunMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -224,7 +221,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="LunMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -245,7 +242,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="LunPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -265,7 +262,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="LunPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -291,7 +288,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MarMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -311,7 +308,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MarMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -332,7 +329,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MarPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -352,7 +349,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MarPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -378,7 +375,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MerMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -398,7 +395,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MerMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -419,7 +416,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MerPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -439,7 +436,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="MerPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -465,7 +462,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="GioMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -485,7 +482,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="GioMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -506,7 +503,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="GioPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -526,7 +523,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="GioPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -552,7 +549,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="VenMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -572,7 +569,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="VenMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -593,7 +590,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="VenPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -613,7 +610,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="VenPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -639,7 +636,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="SabMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -659,7 +656,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="SabMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -680,7 +677,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="SabPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -700,7 +697,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="SabPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -726,7 +723,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="DomMatH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -746,7 +743,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="DomMatM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -767,7 +764,7 @@
                                     <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="DomPomH">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -787,7 +784,7 @@
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
-                                            <select class="form-control" id="sel1">
+                                            <select class="form-control" id="DomPomM">
                                                 <option>--</option>
                                                 <option>00</option>
                                                 <option>01</option>
@@ -807,7 +804,25 @@
                                     </div>
                                 </div>
                                 <br/>
+                                <div class="input-group">
+                                    <input type="checkbox" name="claim"> Sono io il proprietario
+                                </div>
+                                <div class="form-group">
+                    			    <label class="sr-only" for="name">Testo Reclamo</label>
+                                    <input type="text" name="text_claim" placeholder="Testo Reclamo..." class="form-control" id="text_claim">
+                                </div>
                                 <br/>
+                                <br/>
+                                <input type="hidden" id="orarioL" name="hour">
+                                <input type="hidden" id="orarioM" name="hour">
+                                <input type="hidden" id="orarioMe" name="hour">
+                                <input type="hidden" id="orarioG" name="hour">
+                                <input type="hidden" id="orarioV" name="hour">
+                                <input type="hidden" id="orarioS" name="hour">
+                                <input type="hidden" id="orarioD" name="hour">
+                                <input name="longitude" type="hidden" id="longitude" />
+                                <input name="latitude" type="hidden" id="latitude" />
+
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
                                     <button type="submit" class="btn btn-submit">Fine</button>

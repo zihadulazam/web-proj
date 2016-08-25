@@ -33,12 +33,6 @@
         <link rel="stylesheet" href="css/form-elements.css">
         <link rel="stylesheet" href="css/createRestaurant.css">
 
-        <!-- Favicon and touch icons -->
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         
     </head>
     <body>
@@ -63,7 +57,7 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
-                    	<form id="formModifica" action="${pageContext.request.contextPath}/ModifyRestaurantServletBackup" method="post" class="f1">
+                    	<form id="formModifica" action="${pageContext.request.contextPath}/ModifyRestaurantServlet" method="post" class="f1">
                                 
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
                     		
@@ -105,21 +99,15 @@
                                     <h5>Cucina:</h5>
                                     <div class="row">
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="cuisine" value="Americana"/> Americana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Asiatica"/> Asiatica
-                                            <br />
-                                            <input type="checkbox" name="cuisine" value="Africana"/> Africana
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Cinese"/> Cinese
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Japonese"/> Japonese
+                                            <input type="checkbox" name="cuisine" value="Giapponese"/> Japonese
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Sushi"/> Sushi
+                                            <input type="checkbox" name="cuisine" value="Indiana"/> Indiana
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                            <input type="checkbox" name="cuisine" value="Indiana"/> Indiana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Italiana"/> Italiana
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Pizza"/> Pizza
@@ -127,17 +115,15 @@
                                             <input type="checkbox" name="cuisine" value="Francese"/> Francese
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Spagnola"/> Spagnola
-                                            <br />
-                                            <input type="checkbox" name="cuisine" value="Pesce"/> Pesce
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <input type="checkbox" name="cuisine" value="Carne"/> Carne
                                             <br />
-                                            <input type="checkbox" name="cuisine" value="Messicana"/> Messicana
-                                            <br />
                                             <input type="checkbox" name="cuisine" value="Fast-Food"/> Fast-Food
                                             <br />
                                             <input type="checkbox" name="cuisine" value="Vegetariana"/> Vegetariana
+                                            <br />
+                                            <input type="checkbox" name="cuisine" value="Pesce"/> Pesce
                                          </div>
                                     </div>
                                 </div>

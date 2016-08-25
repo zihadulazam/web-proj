@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database.contexts;
 
 import database.Photo;
@@ -14,7 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- *
+ *Contiene le informazioni necessarie per il profilo dell'utente, ha tutto quello
+ * che l'utente ha inserito e le notifiche a lui destinate.
  * @author jacopo
  */
 public class OwnUserContext implements Serializable

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -56,31 +51,31 @@ public class SendPswVerificationEmailServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
         String stringId= request.getParameter("id_user");
-            response.setContentType("text/plain");
-            PrintWriter out = response.getWriter();
+        if (stringId!=null) 
+        {
             User user = (User) request.getSession().getAttribute("user");
-            if (stringId!=null && user!=null) 
+            int id= Integer.parseInt(stringId);
+            if (id==user.getId()) 
             {
-                int id= Integer.parseInt(stringId);
-                if (id==user.getId()) 
+                try
                 {
-                    try
-                    {
-                        sendPasswordVerificationEmail(id,user.getEmail());
-                        out.write("1");
-                    }
-                    catch(ServletException | SocketException | UnknownHostException | MessagingException | SQLException ex)
-                    {
-                        Logger.getLogger(SendPswVerificationEmailServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-                        out.write("0");
-                    }
+                    sendPasswordVerificationEmail(id,user.getEmail());
+                    out.write("1");
                 }
-                else 
-                    out.write("-2");
+                catch(ServletException | SocketException | UnknownHostException | MessagingException | SQLException ex)
+                {
+                    Logger.getLogger(SendPswVerificationEmailServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                    out.write("0");
+                }
             }
-            else
-                out.write("-1");
+            else 
+                out.write("-2");
+        }
+        else
+            out.write("-1");
     }
     
     /**
@@ -134,7 +129,7 @@ public class SendPswVerificationEmailServlet extends HttpServlet
     private void sendPasswordVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException
     {
             String token = manager.addToUsersToChangePassword(id);
-            String jsp= "changePassword.jsp";
+            String jsp= "passwordReset";
             /*3 modi di avere ip: localhost, pubblico, ip locale
             mando la mail con ip settato a localhost, la verifica funzionerà
             solo dalla stessa macchina*/
@@ -164,6 +159,6 @@ public class SendPswVerificationEmailServlet extends HttpServlet
                     + "?token="
                     + token
                     + "&id=" + Integer.toString(id);
-            EmailSender.sendEmail(email, begin+t3, "password change verification");
+            EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3, "password change verification");
     }
 }

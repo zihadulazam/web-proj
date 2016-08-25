@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>filters.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>LoginAdminFilter</filter-name>
+        <filter-class>filters.LoginAdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginAdminFilter</filter-name>
+        <servlet-name>AcceptReplyByAdminServlet</servlet-name>
+        <servlet-name>AcceptRestaurantRequestByAdminServlet</servlet-name>
+        <servlet-name>DenyReplyByAdminServlet</servlet-name>
+        <servlet-name>DenyRestaurantRequestByAdminServlet</servlet-name>
+        
+        <servlet-name>RemovePhotoByAdminServlet</servlet-name>
+        <servlet-name>RemoveReviewByAdminServlet</servlet-name>
+        <servlet-name>UnreportPhotoByAdminServlet</servlet-name>
+        <servlet-name>UnreportReviewByAdminServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <servlet-name>ClaimRestaurant</servlet-name>
+        <servlet-name>AddPhotoToRestaurantServlet</servlet-name>
+        <servlet-name>AddReplyServlet</servlet-name>
+        <servlet-name>AddRestaurantServlet</servlet-name>
+        <servlet-name>AddReviewServlet</servlet-name>
+        <servlet-name>ModifyProfileServlet</servlet-name>
+        <servlet-name>ModifyRestaurantServlet</servlet-name>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-name>RemovePhotoNotificationFromUserServlet</servlet-name>
+        <servlet-name>RemoveReviewNotificationFromUserServlet</servlet-name>
+        <servlet-name>SendPswVerificationEmailServlet</servlet-name>
+        <servlet-name>UserLikeDislikeReviewServlet</servlet-name>
+        <servlet-name>UserVoteServlet</servlet-name>
+    </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
         <listener-class>listeners.ContextListener</listener-class>
     </listener>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <context-param>
+        <param-name>dburl</param-name>
+        <param-value>jdbc:derby://localhost:1527/eatbitDB;user=eatbitDB;password=password;</param-value>
+    </context-param>
+    <context-param>
+        <param-name>uploadPhotosDir</param-name>
+        <param-value>/img/photos</param-value>
+    </context-param>
     <servlet>
         <servlet-name>LocationAutocompleteServlet</servlet-name>
         <servlet-class>servlets.LocationAutocompleteServlet</servlet-class>
@@ -20,77 +70,55 @@
         <servlet-name>VerifyPasswordServlet</servlet-name>
         <url-pattern>/VerifyPasswordServlet</url-pattern>
     </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
-    <context-param>
-        <param-name>dburl</param-name>
-        <param-value>jdbc:derby://localhost:1527/eatbitDB;user=eatbitDB;password=password;</param-value>
-    </context-param>
-    <context-param>
-        <param-name>uploadPhotosDir</param-name>
-        <param-value>/img/photos</param-value>
-    </context-param>
     <servlet>
-        <servlet-name>
-        ModifyProfileServlet
-      </servlet-name>
-        <servlet-class>
-        servlets.ModifyProfileServlet
-      </servlet-class>
+        <servlet-name>ModifyProfileServlet</servlet-name>
+        <servlet-class>servlets.ModifyProfileServlet</servlet-class>
         <init-param>
             <param-name>
-        uploadDir
-      </param-name>
+                uploadDir
+            </param-name>
             <param-value>
-        /img/avatar
-      </param-value>
+                /img/avatar
+            </param-value>
         </init-param>
     </servlet>
     <servlet>
-  <servlet-name>nothing_here</servlet-name>
-    <jsp-file>/nothingHere.jsp</jsp-file>
+        <servlet-name>nothing_here</servlet-name>
+        <jsp-file>/WEB-INF/nothingHere.jsp</jsp-file>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>nothing_here</servlet-name>
+        <url-pattern>/nothing_here</url-pattern>
+    </servlet-mapping>
     <servlet>
-  <servlet-name>success</servlet-name>
-    <jsp-file>/success.jsp</jsp-file>
+        <servlet-name>about</servlet-name>
+        <jsp-file>/WEB-INF/About.jsp</jsp-file>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>about</servlet-name>
+        <url-pattern>/about</url-pattern>
+    </servlet-mapping>
     <servlet>
-  <servlet-name>failure</servlet-name>
-    <jsp-file>/failure.jsp</jsp-file>
+        <servlet-name>passwordReset</servlet-name>
+        <jsp-file>/WEB-INF/passwordReset.jsp</jsp-file>
     </servlet>
-    <servlet>
-    <servlet-name>error</servlet-name>
-    <jsp-file>/error.jsp</jsp-file>
-    </servlet>
-    <servlet>
-    <servlet-name>about</servlet-name>
-    <jsp-file>/About.jsp</jsp-file>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>passwordReset</servlet-name>
+        <url-pattern>/passwordReset</url-pattern>
+    </servlet-mapping>
     <error-page>
-    <error-code>404</error-code>
-    <location>/nothing_here</location>
-</error-page>
-<servlet-mapping>
-    <servlet-name>about</servlet-name>
-    <url-pattern>/about</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>error</servlet-name>
-    <url-pattern>/error</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>success</servlet-name>
-    <url-pattern>/success</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>failure</servlet-name>
-    <url-pattern>/failure</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>nothing_here</servlet-name>
-    <url-pattern>/nothing_here</url-pattern>
-</servlet-mapping>
+        <error-code>404</error-code>
+        <location>/nothing_here</location>
+    </error-page>
+    <servlet>
+        <servlet-name>privacy</servlet-name>
+        <jsp-file>/WEB-INF/Privacy.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>privacy</servlet-name>
+        <url-pattern>/privacy</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 </web-app>

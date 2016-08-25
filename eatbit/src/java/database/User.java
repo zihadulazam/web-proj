@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import java.io.Serializable;
 
 /**
- *
+ *Oggetto utente, rispecchia la tabella USER.
+ * verified = 0 indica che è un utente normale
+ * verified = 1 indica che è un utente ristoratore
+ * verified = 2 indica che è un amministratore
+ * il path all'avatar è un path relativo
  * @author jacopo
  */
 public class User implements Serializable

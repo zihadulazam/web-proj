@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -61,8 +56,7 @@ public class AddReviewServlet extends HttpServlet
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
@@ -160,7 +154,7 @@ public class AddReviewServlet extends HttpServlet
             request.setAttribute("title", "Risultato Operazione:");
             request.setAttribute("status", "danger");
             request.setAttribute("description", "Errore: Mancano i parametri");
-            request.getRequestDispatcher("/info.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
         }
         else
         {
@@ -195,7 +189,7 @@ public class AddReviewServlet extends HttpServlet
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "Errore: Ristorante non esiste.");
-                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
                 else
                 {
@@ -218,20 +212,20 @@ public class AddReviewServlet extends HttpServlet
                         case -2:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
                                     request.setAttribute("description", "Ops: Hai già fatto una recensione a questo ristorante nelle ultime 24h.");
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //l'utente ristoratore sta cercando di recensire il proprio ristorante
                         case -3:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
                                     request.setAttribute("description", "Ops: Il proprietario non può fare recensione.");
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //successo
                         default:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "ok");
                                     request.setAttribute("description", "Successo: Il tuo recensione è stato inserito con successo.");
                                     manager.notifyReview(Integer.parseInt(sId_rest), id_review);
-                                    request.getRequestDispatcher("/info.jsp").forward(request, response);
+                                    request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                     }
                 }
             }
@@ -248,7 +242,7 @@ public class AddReviewServlet extends HttpServlet
                 request.setAttribute("title", "Risultato Operazione:");
                 request.setAttribute("status", "danger");
                 request.setAttribute("description", "Errore!!!");
-                request.getRequestDispatcher("/info.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }
     }

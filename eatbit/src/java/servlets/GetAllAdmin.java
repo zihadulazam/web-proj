@@ -1,20 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
-import database.PhotoNotification;
-import database.ReviewNotification;
 import database.User;
 import database.contexts.AttemptContext;
 import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -84,12 +76,12 @@ public class GetAllAdmin extends HttpServlet {
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("reviewSegnalate", listReviewNotification);
             
-            request.getRequestDispatcher("/allAdminNotify.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/allAdminNotify.jsp").forward(request, response);
             
         }catch(ServletException | IOException | SQLException ex){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.setAttribute("error1", "Errore interno");
-            request.getRequestDispatcher("/errorModifyRest.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/errorModifyRest.jsp").forward(request, response);
         }
     }
 

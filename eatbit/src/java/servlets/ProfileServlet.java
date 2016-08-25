@@ -1,4 +1,3 @@
-
 package servlets;
 
 import database.DbManager;
@@ -55,13 +54,6 @@ public class ProfileServlet extends HttpServlet {
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");   
             
-            if (user == null) {
-                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-                request.setAttribute("message", "Not LOGGED IN !");
-                //redirigo alla landingPage
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-            }
             int type = user.getType();
             session.setAttribute("user", user);
             if (type==2){
@@ -84,7 +76,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("reviewSegnalate", listReviewNotification);
                 //response.getWriter().println(listPhotoNotification.size());
                 //response.getWriter().println(listReviewNotification.size());
-                request.getRequestDispatcher("/adminProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/adminProfile.jsp").forward(request, response);
 
                 
             }else{
@@ -109,12 +101,12 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("listReview", listReview);
                 request.setAttribute("listRestaurants", listRestaurants);                
                 
-                request.getRequestDispatcher("/userProfile.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/userProfile.jsp").forward(request, response);
 
             }
         } catch (SQLException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         
     }

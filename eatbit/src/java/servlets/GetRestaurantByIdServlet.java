@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -17,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- *
+ *Restituisce un ristorante a partire dall'ID in formato JSON.
  * @author jacopo
  */
 @WebServlet(name = "GetRestaurantByIdServlet", urlPatterns = {"/GetRestaurantByIdServlet"})
@@ -48,7 +43,7 @@ public class GetRestaurantByIdServlet extends HttpServlet {
             response.getWriter().write(manager.getRestaurantById(id_restaurant).toJSONObject().toJSONString());
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(GetRestaurantByIdServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

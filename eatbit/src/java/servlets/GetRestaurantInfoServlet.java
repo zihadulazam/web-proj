@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -70,11 +65,11 @@ public class GetRestaurantInfoServlet extends HttpServlet {
             //aggiungo il ristorante alla richiesta
             request.setAttribute("restaurant", restaurant);
             //dirigo verso la pagina di modifica del ristorante
-            request.getRequestDispatcher("/modifyRestaurant.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/modifyRestaurant.jsp").forward(request, response);
             
         }catch(ServletException | IOException | SQLException e){
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
         
     }

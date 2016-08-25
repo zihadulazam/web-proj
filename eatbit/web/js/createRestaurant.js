@@ -51,7 +51,7 @@ jQuery(document).ready(function() {
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
     	
     	// fields validation
-    	parent_fieldset.find('#name, #description, #web_site, #address, #prezzo_min, #prezzo_max, #Add-photo-name').each(function() {
+    	parent_fieldset.find('#name, #description, #web_site, #address, #prezzo_min, #prezzo_max, #Add-photo-name, #photo_description').each(function() {
     		if( $(this).val() == "" ) {
     			$(this).addClass('input-error');
     			next_step = false;
@@ -127,8 +127,8 @@ $(document).ready(function(){
 $(document).ready(function(){
         var places;
         var location;
-        var lat;
-        var lon;
+        var lat=" ";
+        var lon=" ";
         var via;
         var num;
         var city;
@@ -161,20 +161,17 @@ $(document).ready(function(){
 
 		}
 		via+=" "+num;
-		alert(location+" "+lat+" "+lon+" "+via+" "+city+" "+province+" "+country);
-                //passo le coordinate al server
-                document.getElementById("location").value = location;
-                document.getElementById("city").value = city;
-                document.getElementById("province").value = province;
-                document.getElementById("state").value = country;
-                document.getElementById("latitude").value = lat;
-                document.getElementById("longitude").value = lon;   
-
-
-	
-    
-
-                
+        if(lat==" "|| lon==" ")
+            alert("errore Indirizzo");
+        else{
+            //passo le coordinate al server
+            document.getElementById("location").value = via;
+            document.getElementById("city").value = city;
+            document.getElementById("province").value = province;
+            document.getElementById("state").value = country;
+            document.getElementById("latitude").value = lat;
+            document.getElementById("longitude").value = lon;   
+        }
 	});
 
 
@@ -232,25 +229,29 @@ $(document).ready(function(){
                    && (DMH != "--") && (DMM != "--") && (DPH != "--") && (DPM != "--")) {
                
                           //formatto gli orari
-                    var orarioLun = 1+LMH+":"+LMM+LPH+":"+LPM;
-                    var orarioMar = 2+MMH+":"+MMM+MPH+":"+MPM;
-                    var orarioMer = 3+MEMH+":"+MEMM+MEPH+":"+MEPM;
-                    var orarioGio = 4+GMH+":"+GMM+GPH+":"+GPM;
-                    var orarioVen = 5+VMH+":"+VMM+VPH+":"+VPM;
-                    var orarioSab = 6+SMH+":"+SMM+SPH+":"+SPM;
-                    var orarioDom = 7+DMH+":"+DMM+DPH+":"+DPM;
+
+                    var orarioLun = "1"+LMH+":"+LMM+LPH+":"+LPM;
+                    var orarioMar = "2"+MMH+":"+MMM+MPH+":"+MPM;
+                    var orarioMer = "3"+MEMH+":"+MEMM+MEPH+":"+MEPM;
+                    var orarioGio = "4"+GMH+":"+GMM+GPH+":"+GPM;
+                    var orarioVen = "5"+VMH+":"+VMM+VPH+":"+VPM;
+                    var orarioSab = "6"+SMH+":"+SMM+SPH+":"+SPM;
+                    var orarioDom = "7"+DMH+":"+DMM+DPH+":"+DPM;
+                    
+                    
                
-               alert("Orari: " + orarioLun + " " + orarioMar + " " 
-                   + orarioMer +" " + orarioGio + " " + orarioVen
-                   + " " + orarioSab + " " + orarioDom );
+                alert("Orari: " + orarioLun + " " + orarioMar + " " 
+                    + orarioMer +" " + orarioGio + " " + orarioVen
+                    + " " + orarioSab + " " + orarioDom );
+
            
                     document.getElementById("orarioL").value = orarioLun;
-                     document.getElementById("orarioM").value = orarioMar;
-                     document.getElementById("orarioMe").value = orarioMer;
-                     document.getElementById("orarioG").value = orarioGio;
-                     document.getElementById("orarioV").value = orarioVen;
-                     document.getElementById("orarioS").value = orarioSab;   
-                     document.getElementById("orarioD").value = orarioDom; 
+                    document.getElementById("orarioM").value = orarioMar;
+                    document.getElementById("orarioMe").value = orarioMer;
+                    document.getElementById("orarioG").value = orarioGio;
+                    document.getElementById("orarioV").value = orarioVen;
+                    document.getElementById("orarioS").value = orarioSab;   
+                    document.getElementById("orarioD").value = orarioDom; 
                  }
            
        });

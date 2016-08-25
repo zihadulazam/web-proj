@@ -184,15 +184,92 @@ function addRistoVote(restaurantId){
     });
 }
 
-////add restaurant review
-function addRistoReview(){
-    var valutazioneGlobale=$('#valutazioneGlobaleValue').val();
-    var cibo=$('#ciboValue').val();
-    var servizio=$('#servizioValue').val();
-    var atmosfera=$('#atmosferaValue').val();
-    var prezzo=$('#prezzoValue').val();
-    var title=$('#recensione-title').val();
-    var descrizione=$('#comment').val();
-    var photo_description=$('#photo_description').val();
-    alert(title);
+//add restaurant vote
+function claimRisto(){
+    var restaurantId=$('#id_rest').val();
+    var text=$('#claim_description').val();
+     $.ajax(
+    {
+        url : "../eatbit/ClaimRestaurant",
+        type: "POST",
+        data : {id_rest:restaurantId, text_claim:text},
+        success:function(data, textStatus, jqXHR) 
+        {
+            if(data == "1"){
+                alert("Abbiamo ricevuto la sua segnalazione, a breve riceverà un'email con l'esito.");
+                location.reload();
+            }
+            if(data=="0")
+                alert("Mi dispiace, segnalazione al momento non è disponibile !!");
+            if(data=="-1")
+                alert("Mi dispiace, Mancano i Parametri");
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            alert("Mi dispiace, segnalazione al momento non è disponibile");
+        }
+    });
 }
+
+//controllo claim_Risto
+(function($,W,D)
+    {
+        var JQUERY4U = {};
+
+        JQUERY4U.UTIL =
+        {
+            setupFormValidation: function()
+            {
+                //set error action
+               $.validator.setDefaults({
+                    errorElement: 'div',
+                    errorClass: 'help-block',
+                    highlight: function(element) {
+                    $(element)
+                        .closest('.form-group')
+                        .addClass('has-error');
+                    },
+                    unhighlight: function(element) {
+                    $(element)
+                        .closest('.form-group')
+                        .removeClass('has-error');
+                    },
+                    errorPlacement: function (error, element) {
+                        return true;
+                    }
+                });
+
+                // Claim validation
+                $("#claim_form").validate({
+                    rules:{
+                         claim_text:'required'
+                    },
+                    messages:{
+                        claim_text:'*Campo obligatorio'
+                    },
+                    submitHandler: function() {
+                        claimRisto();
+                    }
+                });
+
+                // Review validation
+                $("#add_review_form").validate({
+                    rules:{
+                         name:'required',
+                         description:'required',
+                         AddRecensione_cerca_photo_name:'required',
+                         photo_description:'required'
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
+            }
+        }
+        
+        //dopo il document load
+        $(D).ready(function($) {
+            JQUERY4U.UTIL.setupFormValidation();
+        });
+
+})(jQuery, window, document);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import database.DbManager;
@@ -57,39 +52,32 @@ public class VerifyPasswordServlet extends HttpServlet
         try {
             String stringId= request.getParameter("id");
             String token = request.getParameter("token");
-            String newPassword= request.getParameter("new_password");
-            if (stringId != null && token != null && newPassword!=null)
+            String newPassword= request.getParameter("password");
+            if (stringId != null && stringId.compareTo("null")!=0 && token != null && newPassword!=null)
             {
                 int id= Integer.parseInt(stringId);
                 
                 //recupero lo user per avere l'email
-                User user1= manager.getUserById(id);
+                User user= manager.getUserById(id);
                 //se non esiste utente con quell'id mando a failure
-                if(user1==null)
-                    response.getWriter().write("-4");
-                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                if(user==null)//non esiste utente con quell id
+                    request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
                 
                 //l'utente esiste, controllo che il token sia valido
                 //cambio la password e mando a success se è valido, altrimenti a failure
                 if (manager.verifyPasswordChangeToken(id, token)) 
                 {
                     manager.modifyUserPassword(id, newPassword);
-                    response.getWriter().write("1");
-                   
-                    //request.getRequestDispatcher("/success.jsp").forward(request, response);
+                    request.getRequestDispatcher("/home").forward(request, response);
                 } 
                 else 
-                    response.getWriter().write("-2");
-                    //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
             }
-            else
-                response.getWriter().write("-1");
-            //else
-                //request.getRequestDispatcher("/failure.jsp").forward(request, response);
+            else//missing param
+                request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(VerifyUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            response.getWriter().write("0");
-            //request.getRequestDispatcher("/error.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
         }
     }
 

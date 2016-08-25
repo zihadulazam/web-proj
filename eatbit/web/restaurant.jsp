@@ -193,8 +193,8 @@
             </div>
             <div class="collapse" id="collapseAddRecensione">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
-                        <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
+                    <form method="POST" id="add_review_form" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
+                        <input type="hidden" name="id_rest" id="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                         <div class="from-group">
                             <div class="row">
                                 <div class="col-sm-12 col-md-3">
@@ -271,7 +271,7 @@
                                         Cerca Photo&hellip; <input name="photo" name="foto" id="AddRecensione-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
                                     </span>
                                 </label>
-                                <input type="text" id="AddRecensione-cerca-photo-name" class="form-control" readonly>
+                                <input type="text" id="AddRecensione-cerca-photo-name" name="AddRecensione_cerca_photo_name" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="form-group">
@@ -495,13 +495,11 @@
             <hr/>
             <div class="row" id="cucina">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <h4 class="dettagli-lable">Cucina:</h4>
+                    <h4 class="dettagli-lable">Descrizione:</h4>
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <p class="tipi-di-cucina">
-                        <c:forEach var="tipocucine" items="${restaurant_context.getCuisines()}">
-                            <span class="label label-primary"><c:out value="${tipocucine}"/></span>
-                        </c:forEach>
+                        <c:out value="${restaurant_context.getRestaurant().getDescription()}"/>
                     </p>
                 </div>
             </div>
@@ -517,7 +515,7 @@
                     <p>Giovedì</p><hr/>
                     <p>Venerdì</p><hr/>
                     <p>Sabato</p><hr/>
-                    <p>Domenica</p>
+                    <p>Domenica</p><hr/>
                 </div>
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                     <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
@@ -536,6 +534,39 @@
             </div>
         </div>
         <!-------------------END Dettagli ----------------->
+
+        <!--------------------Claim Restaurant ------------>
+        <div class="container" id="button-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p id="button-rec-foto">
+                        <button type="button" class="btn btn-danger btn-lg btn-config" 
+                            <c:choose>
+                                <c:when test="${sessionScope.user.getNickname()==null}">
+                                    onclick="primaFaiLogin()"
+                                 </c:when>
+                                 <c:otherwise>
+                                    data-toggle="collapse" data-target="#collapseAddClaim" aria-expanded="false" aria-controls="collapseAddClaim"
+                                </c:otherwise>
+                            </c:choose>
+                            ><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Sono io il Proprietario!
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <div class="collapse" id="collapseAddClaim">
+                <div class="well">
+                    <form id="claim_form">
+                        <div class="form-group">
+                            <br/>
+                            <label class="rating-lb" for="claim_description" maxlength="32000">Causa Segnalazione:</label>
+                            <textarea class="form-control" rows="3" name="claim_text" id="claim_description"></textarea>
+                        </div>
+                            <p id="btn-pubblica"><button class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Reclama</button></p>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <!-- end Main container -->
         
