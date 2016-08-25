@@ -13,6 +13,7 @@ $(document).ready(function() {
                 if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    document.getElementById("SegnalaSubito").remove();
                 }
                 else{
                     alert("Chiamata fallita!!!");            

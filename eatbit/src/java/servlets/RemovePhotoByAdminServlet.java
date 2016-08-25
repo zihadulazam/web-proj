@@ -59,6 +59,7 @@ public class RemovePhotoByAdminServlet extends HttpServlet
         PrintWriter out = response.getWriter();
         try {
             String stringId =request.getParameter("id_photo");
+            System.out.println(stringId);
             if (stringId!=null) 
             {
                 Photo photo= manager.getPhotoById(Integer.parseInt(stringId));

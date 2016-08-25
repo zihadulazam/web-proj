@@ -51,9 +51,10 @@ public class RemoveReviewByAdminServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();        
         try {
             String stringId= request.getParameter("id_review");
+            
             if (stringId!=null) {
                 String photoPath = manager.removeReview(Integer.parseInt(stringId));
                 //cancello foto da filesystem
