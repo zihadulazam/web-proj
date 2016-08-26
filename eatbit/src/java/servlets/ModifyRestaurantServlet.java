@@ -143,10 +143,14 @@ public class ModifyRestaurantServlet extends HttpServlet
                 manager.modifyRestaurant(restaurant, sCuisines, coordinate, hours, min,max);
                 out.write("1");
             }
-            catch(NumberFormatException | SQLException e)
+            catch(NumberFormatException e)
             {
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
+            }
+            catch(SQLException e)
+            {
+                out.write("-5");
             }
         }
     }

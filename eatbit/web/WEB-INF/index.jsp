@@ -192,7 +192,14 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="" class="r-img img-circle"/>
+                                                                <c:choose>
+                                                                    <c:when test="${topRatedRisto.getPhotos().size()>0}">
+                                                                        <img src="<c:out value="${topRatedRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                                 <h4><c:out value="${topRatedRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -242,7 +249,14 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="" class="r-img img-circle"/>
+                                                                <c:choose>
+                                                                    <c:when test="${topReviewRisto.getPhotos().size()>0}">
+                                                                        <img src="<c:out value="${topReviewRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                    </c:otherwise>
+                                                                </c:choose>
                                                                 <h4><c:out value="${topReviewRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">

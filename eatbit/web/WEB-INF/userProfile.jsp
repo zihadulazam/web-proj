@@ -383,7 +383,7 @@
                                                 </div>
                                                 <div class ="col-md-2">
                                                     <c:choose>
-                                                        <c:when test="${reviewNotification.isHavereply()==true}">
+                                                        <c:when test="${reviewNotification.isHavereply()==false}">
                                                         <form action="GetReplyInfo" method="POST">
                                                             <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
                                                         </form>
