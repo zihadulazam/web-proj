@@ -187,6 +187,7 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    alert("Andata a buon Fine!!!  Codice = "+ dati);   
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            
@@ -200,20 +201,21 @@ $(document).ready(function() {
     });
     
     $(".declineReply").click(function(event) {
-        var id_review = $(this).val();
+        var id_reply = $(this).val();
         var element = $(this).parent().parent();
         
         $.ajax(
         {
             url : "../eatbit/DenyReplyByAdminServlet",
             type: "POST",
-            data : {string_id:id_review},
+            data : {id_reply:id_reply},
             success:function(dati)  
             {
                 //data: return data from server
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    alert("Andata a buon Fine!!!  Codice = "+ dati); 
                 }
                 else{
                     alert("Chiamata fallita!!!  Codice = "+ dati);            
