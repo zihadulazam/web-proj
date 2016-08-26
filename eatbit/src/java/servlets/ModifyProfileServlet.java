@@ -124,16 +124,19 @@ public class ModifyProfileServlet extends HttpServlet {
                     File f2 = new File(photoPath);
                     f.renameTo(f2);    
                     
-                    //CANCELLO FOTO VECCHIA
-                    String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "/");
-                    out.println("old_avatar_path :" + oldAvatarPath);   
-                    boolean success = FileDeleter.deleteFile(oldAvatarPath);
-                    if(success){
-                        out.println("file vecchio cancellato ");  
-                    }else{
+                    //CANCELLO FOTO VECCHIA se è diversa dall'avatar di default
+                    if(user.getAvatar_path().compareTo("img/avatar/avatar.png")!=0)
+                    {
+                        String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "/");
+                        out.println("old_avatar_path :" + oldAvatarPath);   
+                        boolean success = FileDeleter.deleteFile(oldAvatarPath);
+                        if(success){
+                            out.println("file vecchio cancellato ");  
+                        }else{
                         out.println("non sono riuscito a cancellare il file ");  
-                    }
+                        }
                     out.println("delete = " + success );    
+                    }
                     //CAMBIO FOTO UTENTE
                     manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
                     user.setAvatar_path("img/avatar/"+r);

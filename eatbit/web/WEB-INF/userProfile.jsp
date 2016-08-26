@@ -43,6 +43,10 @@
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+        
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
                 
@@ -70,7 +74,7 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${listReview.size()}"/> </p>
                               <p>
-                                <form action="CreateRestaurant.jsp" method="get">
+                                <form action="restaurant_setup" method="get">
                                     <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
                                 </form>
                               <hr>

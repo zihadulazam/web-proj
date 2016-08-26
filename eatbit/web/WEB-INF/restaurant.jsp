@@ -43,6 +43,24 @@
         <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
         
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <script type="text/javascript">
+            var myLat=<c:out value="${restaurant_context.getCoordinate().getLatitude()}"/>;
+            var myLon=<c:out value="${restaurant_context.getCoordinate().getLongitude()}"/>;
+            var myRistoName="<c:out value="${restaurant_context.getRestaurant().getName()}"/>";
+            var viciniLat=new Array();
+            var viciniLon=new Array();
+            var viciniName=new Array();
+            var i=0;
+            <c:forEach var="my_vicini" items="${vicini}">
+                viciniLat[i]=<c:out value="${my_vicini.getLatitude()}"/>;
+                viciniLon[i]=<c:out value="${my_vicini.getLongitude()}"/>;
+                viciniName[i]="<c:out value="${my_vicini.getName()}"/>";
+                i++;
+            </c:forEach>
+        </script>
     </head>
     <body>
         <!-- include navbar hear -->

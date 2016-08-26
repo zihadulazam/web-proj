@@ -49,16 +49,7 @@ public class GetReplyInfo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             HttpSession session = request.getSession();
-            User user = (User)session.getAttribute("user"); 
             int id_review = Integer.parseInt(request.getParameter("id_review"));
-            
-            if (user == null) {
-                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-                request.setAttribute("message", "Not LOGGED IN !");
-                //redirigo alla landingPage
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-            }
             
             ReviewContext review = manager.getReviewContext(id_review);
             //response.getWriter().println(review.getRestaurantName());

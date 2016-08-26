@@ -55,7 +55,6 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li><a href="#">Mio Ristoranti</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a href="" onclick="logoutAjax();"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
                             </ul>

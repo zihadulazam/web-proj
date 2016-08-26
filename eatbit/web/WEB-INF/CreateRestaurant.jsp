@@ -29,6 +29,10 @@
         <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/form-elements.css">
         <link rel="stylesheet" href="css/createRestaurant.css">
+        
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 
     </head>
     <body>
