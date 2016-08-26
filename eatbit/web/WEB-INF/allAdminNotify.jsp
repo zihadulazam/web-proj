@@ -1,7 +1,7 @@
 <%-- 
     Document   : allAdmin
     Created on : Aug 21, 2016, 6:20:15 PM
-    Author     : andrei
+    Author     : mario
 --%>
 <%@page language="java" session="true" %>
 <%@page import="database.contexts.AttemptContext"%>

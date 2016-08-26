@@ -868,7 +868,7 @@ public class DbManager implements Serializable
     private Reply getReplyById(final int id_reply) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=? AND VALIDATED=TRUE"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=?"))
         {
             st.setInt(1, id_reply);
             try (ResultSet rs = st.executeQuery())
@@ -2653,7 +2653,6 @@ public class DbManager implements Serializable
      */
     public void unconfirmReply(final int id_reply) throws SQLException
     {
-        ReplyContext context = getReplyContext(id_reply);
         try (PreparedStatement rm1 = con.prepareStatement("DELETE FROM REPLIES_TO_BE_CONFIRMED WHERE ID=?");
                 PreparedStatement rm2 = con.prepareStatement("DELETE FROM REPLIES WHERE ID=?"))
         {
@@ -2682,7 +2681,6 @@ public class DbManager implements Serializable
      */
     public void confirmReply(final int id_reply, final int id_admin) throws SQLException
     {
-        ReplyContext context = getReplyContext(id_reply);
         try (PreparedStatement rm1 = con.prepareStatement("DELETE FROM REPLIES_TO_BE_CONFIRMED WHERE ID=?");
                 PreparedStatement up1 = con.prepareStatement("UPDATE REPLIES SET DATE_VALIDATION=?,VALIDATED=TRUE,ID_VALIDATOR=? WHERE ID=?"))
         {

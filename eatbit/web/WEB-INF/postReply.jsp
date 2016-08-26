@@ -156,43 +156,6 @@
         
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                    function Go_Reply() {
-
-                        var id_review = document.getElementById("id_review").value;
-                        var description = document.getElementById("reply_text").text;
-                        alert(id_review + " " + description);
-
-
-                        $.ajax(
-                        {
-                            url : "../eatbit/AddReplyServlet",
-                            type: "POST",
-                            data : {id_review:id_review,description:description},
-                            success:function(dati)  
-                            {
-                                //data: return data from server
-                                if (dati == "1"){
-                                    //window.location.replace("/home");
-                                    alert("Risposta pubblicata!!!  Codice: "+dati);  
-                                }else if(dati == "0"){
-                                    alert("Errore Server!!! - Exception thrown!!  Codice: "+dati);        
-                                }else if(dati == "-1"){
-                                    alert("Manca la descrizione!!!!  Codice: "+dati);        
-                                }else if(dati == "-2"){
-                                    alert("Non ti é permesso rispondere a questo commento!!!   Codice: "+dati);        
-                                }
-                            },
-                            error: function() 
-                            {
-                                alert("Errore Server!!!");     
-                            }
-                                    });
-                    }
-
-
-                });
-        </script>
+        
     </body>
 </html>

@@ -140,7 +140,6 @@
                                                 <option><c:out value="${i}"/></option>
                                             </c:forEach>
                                         </select>
-                                        <span class="input-group-addon">€</span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -151,7 +150,6 @@
                                                 <option><c:out value="${i}"/></option>
                                             </c:forEach>
                                         </select>
-                                        <span class="input-group-addon">€</span>
                                     </div>
                                 </div>
                                 <div class="f1-buttons">
