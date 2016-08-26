@@ -11,7 +11,6 @@
 <%@page import="database.Restaurant"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -42,12 +41,18 @@
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>   
     </head>
     <body>
-        <h2>Profilo Privato</h2>
+        
+        <!-- include navbar hear -->
+        <!--BARRA-->
+        <%@include file="components/navbar-second.jsp"%>
+        
+        <div class="container">
+                <h2>Profilo Privato</h2>
                 <ul class="nav nav-pills restaurant">
                     <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${ristorantiAttesa.size()}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${risposteConfermare.size()}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${listPhotoNotification.size()+reviewSegnalate.size()}"/> </span></a></li>
-                    <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
+                    
                 </ul>
 
                 <div class="tab-content">     
@@ -97,7 +102,7 @@
                                             <div class ="col-md-8">
                                             </div>
                                             <div class ="col-md-2">
-                                                <input type="text" disabled value="${rA.getUser().getId()}" class="hide">
+                                                <input id="valore" class="hidden" value="${rA.getUser().getId()}"/> 
                                                 <button  class="btn btn-primary acceptRestaurantAttempt" value="${rA.getRestaurant().getId()}">Accept</button>
                                             </div>
 
@@ -126,7 +131,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach items="${risposteConfermare}" var="reviewNotification">
+                                    <c:forEach items="${risposteConfermare}" var="RC">
                                         <div class="alert alert-info notice  notificaRecensione" role="alert">
                                             <div class ="row">
                                                 <a href="#">
@@ -145,16 +150,16 @@
                                                 <div class ="col-md-12">                                                    
                                                     <div class="panel panel-primary comm">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
+                                                            <h3 class="panel-title"><c:out value="${RC.getUser().getName()}" /> ha commentato:</h3>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <c:out value="${reviewNotification.getReview().getDescription()}" />
+                                                            <c:out value="${RC.getReview().getDescription()}" />
                                                         </div>
                                                         <div class ="row dx">
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                                <c:out value="${RC.getReview().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -177,13 +182,13 @@
                                                             <h3 class="panel-title">Il proprietario ha risposto:</h3>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <c:out value="${reviewNotification.getReply().getDescription()}" />
+                                                            <c:out value="${RC.getReply().getDescription()}" />
                                                         </div>   
                                                         <div class ="row dx">
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReply().getDate_creation()}"></c:out>
+                                                                <c:out value="${RC.getReply().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -196,10 +201,10 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " value="${reviewNotification.getReview().getId()}">Accept</button>
+                                                    <button  class=" right btn btn-primary fisso acceptReply " value="${RC.getReview().getId()}">Accept</button>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" value="${reviewNotification.getReview().getId()}">Decline</button>
+                                                    <button  class=" right btn btn-primary fisso declineReply" value="${RC.getReview().getId()}">Decline</button>
                                                 </div>
                                             </div>
 
@@ -261,7 +266,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button  class="btn btn-primary fisso acceptReportedPhoto" value="${photoNotification.getPhoto().getId()}">Accept</button>
+                                                            <button id="AcceptReportPhoto" class="btn btn-primary fisso acceptReportedPhoto" value="${photoNotification.getPhoto().getId()}">Accept</button>
                                                         </div>       
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -271,7 +276,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button  class="btn btn-primary fisso declineReportedPhoto " value="${photoNotification.getPhoto().getId()}" >Decline</button>
+                                                            <button id="DeclineReportPhoto" class="btn btn-primary fisso declineReportedPhoto " value="${photoNotification.getPhoto().getId()}" >Decline</button>
                                                         </div>  
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -322,11 +327,11 @@
                                                         <div class ="col-md-9">
 
                                                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                            <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
 
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  class=" right btn btn-primary fisso acceptReportedReview " value="${reviewNotification.getReview().getId()}">Accept</button>
+                                                            <button  id="AcceptReportedReview" class=" right btn btn-primary fisso acceptReportedReview " value="${reviewNotification.getReview().getId()}">Accept</button>
                                                         </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -336,7 +341,7 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  class=" right btn btn-primary fisso declineReportedReview" value="${reviewNotification.getReview().getId()}">Decline</button>
+                                                            <button id="DeclineReportedReview" class=" right btn btn-primary fisso declineReportedReview" value="${reviewNotification.getReview().getId()}">Decline</button>
                                                         </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>
@@ -347,95 +352,35 @@
                                     </c:choose>
                                 </div>      
                                 
-                                <div class="row">
-                                        <div class="col-md-9">                                           
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
-                                        </div>
-                                    <div class="col-md-2"></div>
-                                </div>
                                 
                             </c:otherwise>      
                         </c:choose>
                         </div>
                     </div>
                     
-                    <!--MENU 4-->
-                    <div id="menu4" class="tab-pane fade">
-                        
-                        <div class="row">       
-                            <FORM enctype='multipart/form-data' method='POST' action='ModifyProfileServlet'>
-                            <ul class="list-group modifica restaurant">
-                                
-                                <li class="list-group-item">
-                                    <div class='left'>
-                                        Nome
-                                    </div>
-                                    <div class='right'>
-                                        <input name="name" type="text" class="form-control" value="${user.getName()}" aria-describedby="basic-addon1">
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class='left'>
-                                        Cognome
-                                    </div>
-                                    <div class='right'>
-                                        <input name="surname" type="text" class="form-control" value="${user.getSurname()}" aria-describedby="basic-addon1">
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class='left'>
-                                        Email
-                                    </div>
-                                    <div class='right'>
-                                        <input type="text" class="form-control" disabled placeholder="${user.getEmail()}" aria-describedby="basic-addon1">
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class='left'>
-                                        Password
-                                    </div>
-                                    <div class='right'>
-                                        <input type="text" class="form-control" disabled placeholder="*******" aria-describedby="basic-addon1">
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class='left'>
-                                        Cambia Avatar
-                                        <div class="input-group">
-                                            <label class="input-group-btn">
-                                                <span class="btn btn-default">
-                                                    Cerca File&hellip; <input name="avatar" type="file" style="display: none;" multiple>
-                                                </span>
-                                            </label>
-                                            <input type="text" class="form-control" readonly>
-                                        </div>
-                                    </div>
-                                </li>
-                                
-                                <li class="list-group-item">
-                                    <div class="right">
-                                        <p><button class="btn btn-primary fixx" type="submit" role="button">Salva Modifiche</button></p>
-                                    </div>
-                                    
-                                </li>
-                            </ul>   
-                           </form>
-                                    <form action="/" method="POST">
-                                        <div class="right">
-                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
-                                        </div>
-                                    </form>
-                        </div>
-                                    
-                        
-                    </div>
 
-                </div>
+                </div> 
+        </div>
+              
+                           
+                                            
+         <!-- included modal hear -->
+        <%@include file="components/log-reg-modal.jsp"%>
+                
+        <!--footer-->
+        <%@include file="components/footer.html"%>
+                        
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+        
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
+        
+        <!-- Admin JS-->
+        <script type="text/javascript" src="js/adminProfile.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+                    
     </body>
 </html>

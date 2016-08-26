@@ -1662,11 +1662,13 @@ public class DbManager implements Serializable
         //se esiste già una reply da parte del ristoratore per questa review ritorna falso, altrimenti procedi
         if (replyForReviewExist(reply.getId_review()))
         {
+            System.out.println(100);
             return false;
         }
         //se il proprietario della reply è diverso da quello del ristorante ritorna falso, altrimenti procedi
         if (getRestaurantById(getReviewById(reply.getId_review()).getId_restaurant()).getId_owner() != reply.getId_owner())
         {
+            System.out.println(200);
             return false;
         }
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPLIES(DESCRIPTION,DATE_CREATION,ID_REVIEW,ID_OWNER"

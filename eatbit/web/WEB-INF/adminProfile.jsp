@@ -76,7 +76,7 @@
 
                                 <div class="btn-group">
                                     
-                                    <form action="GetAllAdmiin" method="POST">
+                                    <form action="GetAllAdmin" method="POST">
                                             <button class="btn btn-primary " type="submit" role="button">Vedi tutte le notifiche</button>
                                     </form>
                                 </div>

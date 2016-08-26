@@ -103,13 +103,12 @@
                                                 </div>
                                                 <div class="col-md-10">
                                                     <p class="risposta-text">
-                                                    
-                                                        <textarea id="reply_text" name="reply_text" style="color:black; text-align: left;" rows="4" cols="50">Scrivi qui il tuo messaggio</textarea>
-                                                        <input type="hidden" id="id_review" value="${review.getReview().getId()}" />
+                                                    <form action="../eatbit/AddReplyServlet" method="POST">
+                                                        <textarea name="reply_text" style="color:black; text-align: left;" rows="4" cols="50">Scrivi qui il tuo messaggio</textarea>
+                                                        <input type="hidden" name="id_review" value="${review.getReview().getId()}" />
                                                         <br>
-                                                        <button type="button" id="go_reply" class="btn btn-primary " onclick="Go_Reply()" value="${reviewNotification.getReview().getId()}">Pubblica Risposta</button>
-                                                   
-                                                    
+                                                        <button  type="submit"  class="btn btn-primary go_reply">Pubblica Risposta</button>
+                                                    </form>                                                    
                                                     <p class="risposta-autore">Da: Proprietario</p>
                                                 </div>
                                             </div>
