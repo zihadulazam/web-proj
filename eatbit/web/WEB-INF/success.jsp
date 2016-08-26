@@ -30,7 +30,7 @@
     </head>
     <body>
         <!-- include navbar hear -->
-        <%@include file="components/navbar-index.jsp"%>
+        <%@include file="components/navbar-second.jsp"%>
         
         <!-- Main Content -->
             
