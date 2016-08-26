@@ -1,10 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isErrorPage="true" %>
 
 
 <html lang="it">
     <head>
-        <title>eatBit | Home</title>
+        <title>eatBit | error</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
@@ -16,10 +17,7 @@
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
 
-         <!-- single img Viewer css-->
-        <link rel="stylesheet" href="css/lightbox.min.css">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -41,22 +39,14 @@
             
          
             <div class="container" id="main">
-                <div id="last-update">
-                    <div id="info-box">
-                                <h1>Si è verificato un errore, ci dispiace.</h1>
-                    </div>
-                    <div id="updates">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-12 update">
-                                    <div class="horizontally-centered">
-                                        <img src="img/sorry.jpg"/>
-                                    </div>
-                                </div>
+                    <h1>Si è verificato un errore, ci dispiace.</h1>
+                    <div class="row">
+                        <div class="col-md-12 update">
+                            <div class="horizontally-centered">
+                                <img style="margin-left:auto;margin-right:auto;" class="img-responsive" alt="Responsive image" src="img/sorry.jpg"/>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         <!-- end Main container -->
         
@@ -66,7 +56,5 @@
         <!-- footer -->
         <%@include file="components/footer.html"%>
         
-        <!-- Single image viewer js -->
-        <script src="js/lightbox.min.js"></script>
     </body>
 </html>

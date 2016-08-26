@@ -1,15 +1,17 @@
 @import "components/_navbar-default.scss";
 @import "components/_login-register.scss";
 
-body{
+html,body{
 	min-height: 100%;
 }
 
 /*
     //footer css
 */
-
 .footer-distributed{
+	position: relative;
+  clear:both;
+  padding-top:20px;
 	background-color: #292c2f;
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
 	box-sizing: border-box;
@@ -20,6 +22,7 @@ body{
 	padding: 50px 60px 40px;
 	margin-top: 80px;
 	overflow: hidden;
+	position: relative;
 }
 
 /* Footer left */
