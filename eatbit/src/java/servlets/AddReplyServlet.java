@@ -62,7 +62,7 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setDate_creation(null);
                 reply.setId_review(Integer.parseInt(stringIdRev));
                 reply.setId_owner(8);
-                //reply.setId_owner(user.getId());
+                reply.setId_owner(user.getId());
                 reply.setDate_validation(null);
                 reply.setId_validator(-1);
                 reply.setValidated(false);

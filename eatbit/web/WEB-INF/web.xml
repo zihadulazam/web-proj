@@ -30,6 +30,8 @@
         <servlet-name>ModifyProfileServlet</servlet-name>
         <servlet-name>ModifyRestaurantServlet</servlet-name>
         <servlet-name>ProfileServlet</servlet-name>
+        <servlet-name>GetAllNotify</servlet-name>
+        <servlet-name>GetRestaurantInfoServlet</servlet-name>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-name>RemovePhotoNotificationFromUserServlet</servlet-name>
         <servlet-name>RemoveReviewNotificationFromUserServlet</servlet-name>

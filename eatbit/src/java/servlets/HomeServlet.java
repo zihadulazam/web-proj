@@ -50,7 +50,7 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("top5RestByValue", top5RestContextsByValue);
             request.setAttribute("top5RestByReviews", top5RestContextsByReviews);
             request.setAttribute("last5Reviews", last5ReviewsContexts);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);

@@ -70,7 +70,7 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${listReview.size()}"/> </p>
                               <p>
-                                <form action="CreateRestaurant.jsp" method="get">
+                                <form action="restaurant_setup" method="get">
                                     <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
                                 </form>
                               <hr>
