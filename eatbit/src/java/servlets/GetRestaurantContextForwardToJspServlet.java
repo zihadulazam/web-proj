@@ -105,7 +105,7 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
             qrUrl ="data:image/png;base64," + Base64.encodeBase64String(bytes);
             //fine generazione QR
             
-            manager.getRestaurantNeighbourhood(id_restaurant, 10);
+            request.setAttribute("vicini",manager.getRestaurantNeighbourhood(id_restaurant, 10));
             request.setAttribute("restaurant_context", manager.getRestaurantContext(id_restaurant));
             request.setAttribute("qr_url", qrUrl);
             request.getRequestDispatcher("/WEB-INF/restaurant.jsp").forward(request, response);
