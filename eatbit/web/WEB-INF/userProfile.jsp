@@ -49,7 +49,8 @@
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
-                
+         <c:set var="req" value="${pageContext.request}" />
+         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />       
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
@@ -74,7 +75,7 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${listReview.size()}"/> </p>
                               <p>
-                                <form action="restaurant_setup" method="get">
+                                <form action="${baseURL}/restaurant_setup" method="get">
                                     <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
                                 </form>
                               <hr>
@@ -213,7 +214,7 @@
                                         <div class ="col-md-10">
                                         </div>
                                         <div class ="col-md-2">
-                                            <a href="/eatbit/CuisinesForCreationServlet"  class="btn btn-primary diventaRis fixCarica">Carica un Ristorante!</a>
+                                            <a href="${baseURL}/restaurant_setup"  class="btn btn-primary diventaRis fixCarica">Carica un Ristorante!</a>
                                         </div>
                                     </div>
                                 </div>
@@ -262,11 +263,11 @@
                                         <div class="row container-fluid">
                                             <!-- va qua url del ristorante -->                                            
                                             <div class="btn-visita">
-                                                <form action="GetRestaurantContextForwardToJspServlet" method="GET">
+                                                <form action="${baseURL}/GetRestaurantContextForwardToJspServlet" method="GET">
                                                     <button class ="btn btn-success fixx" type="submit" value="${restaurant.getRestaurant().getId()}" name="id_restaurant"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Visita</button>            
                                                 </form>
                                                 
-                                                <form action="GetRestaurantInfoServlet" method="POST">
+                                                <form action="${baseURL}/GetRestaurantInfoServlet" method="POST">
                                                     <button class ="btn btn-success fixx" type="submit" value="${restaurant.getRestaurant().getId()}" name="restaurant_id"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Modifica</button>            
                                                 </form>
                                             </div>                                            
@@ -382,16 +383,9 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <c:choose>
-                                                        <c:when test="${reviewNotification.isHavereply()==false}">
-                                                        <form action="GetReplyInfo" method="POST">
+                                                        <form action="${baseURL}/GetReplyInfo" method="POST">
                                                             <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
-                                                        </form>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <button type="button" disabled class=" right btn btn-primary diventaRis rispRecensione" >Già risposto</button>
-                                                        </c:otherwise>                                                        
-                                                    </c:choose>                                                    
+                                                        </form>                                           
                                                 </div>
                                             </div>
                                         </div>
@@ -402,7 +396,7 @@
                                         <div class="col-md-9">                                           
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="GetAllNotify" class="btn btn-primary">Vedi tutte le notifiche!</a>
+                                            <a href="${baseURL}/GetAllNotify" class="btn btn-primary">Vedi tutte le notifiche!</a>
                                         </div>
                                     <div class="col-md-2"></div>
                                 </div>
@@ -460,7 +454,7 @@
                                         <div class="input-group">
                                             <label class="input-group-btn">
                                                 <span class="btn btn-default">
-                                                    Cerca File&hellip; <input name="avatar" type="file" style="display: none;" multiple>
+                                                    Cerca File&hellip; <input name="avatar" type="file" multiple>
                                                 </span>
                                             </label>
                                             <input type="text" class="form-control" readonly>
@@ -476,9 +470,9 @@
                                 </li>
                             </ul>   
                            </form>
-                                    <form action="/" method="POST">
+                                    <form action="#" method="POST">
                                         <div class="right">
-                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
+                                            <p><button  onclick="mostraMsg()" class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
                                         </div>
                                     </form>
                         </div>
