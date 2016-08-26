@@ -42,7 +42,7 @@
             <div class="container" id="main">
                 <div id="last-update">
                     <div id="info-box">
-                        <form class="form-horizontal" action="${pageContext.request.contextPath}/VerifyPasswordServlet" method="post">
+                        <form class="form-horizontal" action="${pageContext.request.contextPath}/VerifyPasswordServlet" method="post" id="reset-form">
                     <fieldset>
 
                     <!-- Form Name -->
@@ -90,7 +90,7 @@
         <!-- footer -->
         <%@include file="components/footer.html"%>
         
-        <!-- Single image viewer js -->
-        <script src="js/lightbox.min.js"></script>
+        <!-- PasswordReset Check js -->
+        <script src="js/passwordReset.js"></script>
     </body>
 </html>

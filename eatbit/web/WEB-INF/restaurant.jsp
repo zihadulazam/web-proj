@@ -559,17 +559,25 @@
             <div class="row">
                 <div class="col-md-12">
                     <p id="button-rec-foto">
-                        <button type="button" class="btn btn-danger btn-lg btn-config" 
-                            <c:choose>
-                                <c:when test="${sessionScope.user.getNickname()==null}">
-                                    onclick="primaFaiLogin()"
-                                 </c:when>
-                                 <c:otherwise>
-                                    data-toggle="collapse" data-target="#collapseAddClaim" aria-expanded="false" aria-controls="collapseAddClaim"
-                                </c:otherwise>
-                            </c:choose>
-                            ><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Sono io il Proprietario!
-                        </button>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.getId()==restaurant_context.getOwner().getId() && sessionScope.user.getNickname()!=null}">
+                                <a type="button" class="btn btn-primary btn-lg btn-config" href="../eatbit/GetRestaurantInfoServlet?restaurant_id=<c:out value="${restaurant_context.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Modifica Ristorante
+                                </a> 
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="btn btn-danger btn-lg btn-config" 
+                                    <c:choose>
+                                        <c:when test="${sessionScope.user.getNickname()==null}">
+                                            onclick="primaFaiLogin()"
+                                        </c:when>
+                                        <c:otherwise>
+                                            data-toggle="collapse" data-target="#collapseAddClaim" aria-expanded="false" aria-controls="collapseAddClaim"
+                                        </c:otherwise>
+                                    </c:choose>
+                                    ><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Sono io il Proprietario!
+                                </button>
+                            </c:otherwise>
+                        </c:choose>
                     </p>
                 </div>
             </div>
