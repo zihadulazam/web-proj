@@ -868,7 +868,7 @@ public class DbManager implements Serializable
     private Reply getReplyById(final int id_reply) throws SQLException
     {
         Reply reply = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=? AND VALIDATED=FALSE"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM REPLIES WHERE ID=? AND VALIDATED=TRUE"))
         {
             st.setInt(1, id_reply);
             try (ResultSet rs = st.executeQuery())
