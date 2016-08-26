@@ -118,23 +118,23 @@
                             <fieldset>
                                 <h4>Tipi di cucina, Prezzo e Photo:</h4>
                                 <div class="form-group">
-                                    <h5>Cucina:</h5>
+                                    <h5>Cucina: <span class="text-primary" id="num-cucine">(Massimo 3)</span></h5>
                                     <div class="row">
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <c:forEach var="cucine" items="${cuisines}" begin="0" end="6">
-                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <input type="checkbox" class="my-cuisine" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
                                                 <br />
                                             </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <c:forEach var="cucine" items="${cuisines}" begin="7" end="13">
-                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <input type="checkbox" class="my-cuisine" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
                                                 <br />
                                             </c:forEach>
                                          </div>
                                          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                              <c:forEach var="cucine" items="${cuisines}" begin="14" end="20">
-                                                <input type="checkbox" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
+                                                <input type="checkbox" class="my-cuisine" name="cuisine" value="<c:out value="${cucine}"/>"/> <c:out value="${cucine}"/>
                                                 <br />
                                             </c:forEach>
                                          </div>
