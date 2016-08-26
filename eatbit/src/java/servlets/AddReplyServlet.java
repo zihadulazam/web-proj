@@ -69,6 +69,11 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setId_validator(-1);
                 reply.setValidated(false);
                 out.write(manager.addReply(reply)?"1":"-2");
+                manager.unreportReview(Integer.parseInt(stringIdRev));
+                request.setAttribute("titolo", "Pubblicazione risposta");
+                request.setAttribute("status", "ok");
+                request.setAttribute("description", "Pubblicazione andata a buon fine");
+                request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
             }
             else
                 out.write("-1");

@@ -105,6 +105,14 @@ public class ProfileServlet extends HttpServlet {
                     listRestaurants.add(x);
                 }
                 
+                for(ReviewNotification Rn:listReviewNotification){
+                    ReviewContext Rc=manager.getReviewContext(Rn.getId());
+                    if(Rc.getReply()!=null)
+                    {
+                        Rn.setHavereply(true);
+                    }                        
+                }
+                
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("listReviewNotification", listReviewNotification);
