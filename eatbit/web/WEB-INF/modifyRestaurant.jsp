@@ -134,11 +134,23 @@
                                 <div class="form-group">
                                     <h5>Fascia Prezzo:</h5>
                                     <div class="input-group">
-                                        <input value="${restaurant.getPriceRange().getMin()}" type="text" name="prezzo_min" placeholder="Prezzo Min..." class="form-control" id="prezzo_min">
+                                        <select class="form-control" name="min" class="form-control" id="prezzo_min">
+                                            <option>Prezzo Min</option>
+                                            <c:forEach var="i" begin="1" end="1000">
+                                                <option><c:out value="${i}"/></option>
+                                            </c:forEach>
+                                        </select>
                                         <span class="input-group-addon">€</span>
                                     </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="input-group">
-                                        <input value = "${restaurant.getPriceRange().getMax()}" type="text" name="prezzo_max" placeholder="Prezzo Max..." class="form-control" id="prezzo_max">
+                                         <select class="form-control" name="max" class="form-control" id="prezzo_max">
+                                            <option>Prezzo Max</option>
+                                            <c:forEach var="i" begin="1" end="1000">
+                                                <option><c:out value="${i}"/></option>
+                                            </c:forEach>
+                                        </select>
                                         <span class="input-group-addon">€</span>
                                     </div>
                                 </div>

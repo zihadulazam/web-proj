@@ -2,6 +2,7 @@ package servlets;
 
 import database.DbManager;
 import database.PhotoNotification;
+import database.Reply;
 import database.Restaurant;
 import database.ReviewNotification;
 import database.User;
@@ -107,13 +108,15 @@ public class ProfileServlet extends HttpServlet {
                     listRestaurants.add(x);
                 }
                 
-                for(ReviewNotification Rn:listReviewNotification){
-                    ReviewContext Rc=manager.getReviewContext(Rn.getId());
-                    if(Rc.getReply()!=null)
-                    {
-                        Rn.setHavereply(true);
-                    }                        
-                }
+//                for(ReviewNotification Rn:listReviewNotification){
+//                    ReviewContext Rc=manager.getReviewContext(Rn.getId());
+//                    out.println(Rn.isHavereply());
+//                    if(Rc.getReply() !=null)
+//                    {
+//                        out.println("CIAo");
+//                        Rn.setHavereply(true);
+//                    }                     
+//                }
                 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
