@@ -16,7 +16,7 @@ public class ReviewNotification implements Serializable
     private Review review;
     private String restaurant_name;
     private Timestamp creation;
-    private boolean haveReply;
+    private boolean havereply =false;
 
     public ReviewNotification()
     {
@@ -77,16 +77,16 @@ public class ReviewNotification implements Serializable
     }
 
     /**
-     * @return the haveReply
+     * @return the havereply
      */
-    public boolean isHaveReply() {
-        return haveReply;
+    public boolean isHavereply() {
+        return havereply;
     }
 
     /**
-     * @param haveReply the haveReply to set
+     * @param havereply the havereply to set
      */
-    public void setHaveReply(boolean haveReply) {
-        this.haveReply = haveReply;
+    public void setHavereply(boolean havereply) {
+        this.havereply = havereply;
     }
 }

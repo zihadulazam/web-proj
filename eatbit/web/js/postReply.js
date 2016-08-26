@@ -1,7 +1,8 @@
 
 
 $(document).ready(function() {
-    $(".go_reply").click(function(event) {
+    function Go_Reply() {
+        
         var id_review = document.getElementById("id_review").value;
         var description = document.getElementById("reply_text").value;
         alert(id_review + " " + description);
@@ -31,7 +32,7 @@ $(document).ready(function() {
                 alert("Errore Server!!!");     
             }
                     });
-    });
+    }
     
     
 });

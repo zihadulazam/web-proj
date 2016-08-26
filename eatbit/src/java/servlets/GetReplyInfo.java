@@ -51,7 +51,7 @@ public class GetReplyInfo extends HttpServlet {
             HttpSession session = request.getSession();
             int id_review = Integer.parseInt(request.getParameter("id_review"));
             
-            ReviewContext review = manager.getReviewContext(id_review);
+            ReviewContext review = manager.getReviewContext(id_review);            
             //response.getWriter().println(review.getRestaurantName());
             request.setAttribute("review", review);
             request.getRequestDispatcher("/WEB-INF/postReply.jsp").forward(request, response);
