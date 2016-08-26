@@ -79,7 +79,6 @@ public class AddReplyServlet extends HttpServlet {
                     request.setAttribute("status", "danger");
                     request.setAttribute("description", "non sei proprietario di questo ristorante o hai già pubblicato una risposta");
                 }
-
                 out.println(msg);
                 
             }
