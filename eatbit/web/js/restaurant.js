@@ -103,13 +103,12 @@
 
 
 //google map JS
-
 var map;
 var marker;
-var marker2;
+var marker2=new Array();
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 45.889214, lng: 10.84307},
+        center: {lat: myLat, lng: myLon},
         zoom: 15,
         fullscreenControl: true,
         mapTypeControl: true,
@@ -117,45 +116,43 @@ function initMap() {
             style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
         }
     });
-    var myLatLng = {lat: 45.889214, lng: 10.84307};
-    var myLatLng2 = {lat: 45.889620, lng: 10.84507};
-    var image ='img/restaurant/map-pin.png';
+    var myLatLng = {lat: myLat, lng: myLon};
+    var image1 ='img/restaurant/map-pin-risto.png';
+    var image2 ='img/restaurant/map-pin.png';
 
     marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        title: 'Restaurant Name',
-        icon: image
-    });
-    marker.addListener('click', function() {
-        toggleBounce();
+        title: myRistoName,
+        icon: image1
     });
 
-    marker2 = new google.maps.Marker({
-        position: myLatLng2,
+    var infowindow = new google.maps.InfoWindow();
+    var marker, i;
+    i=0;
+    google.maps.event.addListener(marker, 'click', (function(marker) {
+        return function() {
+          infowindow.setContent(myRistoName);
+          infowindow.open(map, marker);
+        }
+      })(marker));
+
+    for (i = 1; i < viciniLat.length; i++) {  
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(viciniLat[i], viciniLon[i]),
         map: map,
-        title: 'Restaurant Name',
-        icon: image
-    });
-    marker2.addListener('click', function() {
-        toggleBounce2();
-    });
+        icon: image2
+      });
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(viciniName[i]);
+          infowindow.open(map, marker);
+        }
+      })(marker, i));
+    }
 }
 
-function toggleBounce() {
-  if (marker.getAnimation() !== null) {
-    marker.setAnimation(null);
-  } else {
-    marker.setAnimation(google.maps.Animation.BOUNCE);
-  }
-}
-function toggleBounce2() {
-  if (marker2.getAnimation() !== null) {
-    marker2.setAnimation(null);
-  } else {
-    marker2.setAnimation(google.maps.Animation.BOUNCE);
-  }
-}
 
 
 //add restaurant vote
