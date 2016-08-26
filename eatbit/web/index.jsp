@@ -87,19 +87,20 @@
                                                 <div class="container-fluid">
                                                     <div class="row container-fluid">
                                                         <div class="col-md-2 comment-writer">
-                                                            <img src="img/avatar/avatar.png" class="img-circle"/>
+                                                            <img src="<c:out value="${lastComment.getUser().getAvatar_path()}" />" class="img-circle"/>
                                                             <h5><c:out value="${lastComment.getUser().getNickname()}" /></h5>
                                                             <p class="comment-data">
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${lastComment.getReview().getDate_creation()}" />
+                                                                <c:out value="${lastComment.getReview().getDate_creation().getDate()}" />-<c:out value="${lastComment.getReview().getDate_creation().getMonth()}" />-<c:out value="${lastComment.getReview().getDate_creation().getYear()+1900}" /> <c:out value="${lastComment.getReview().getDate_creation().getHours()}" />:<c:out value="${lastComment.getReview().getDate_creation().getMinutes()}" />
                                                             </p>
                                                             <c:if test="${lastComment.getPhoto()!=null}">
                                                                 <a class="thumbnail" href="<c:out value="${lastComment.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                     <img src="<c:out value="${lastComment.getPhoto().getPath()}" />">
                                                                 </a>
+                                                                <!--
                                                                 <div class="text-center">
                                                                     <a class="btn-segnala-photo-recensione popov" href="" id="<c:out value="${lastComment.getPhoto().getId()}"/>"  onclick="segnalaPhoto(this.id); return false;">Segnala Photo!</a>
-                                                                </div>
+                                                                </div>-->
                                                             </c:if>
                                                         </div>
                                                         <div class="col-md-10 comment-content">
@@ -160,7 +161,7 @@
                                                                                 onclick="nonMiPiace(<c:out value="${lastComment.getReview().getId()}"></c:out>,0)"
                                                                                 id="btn-nonmipiace-<c:out value="${lastComment.getReview().getId()}"></c:out>"
                                                                                 ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getDislikes()}" /></span></span></button>
-                                                                        <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
+                                                                        <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -187,7 +188,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                <img src="<c:out value="${topRatedRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
                                                                 <h4><c:out value="${topRatedRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -215,7 +216,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><a type="button" class="btn btn-primary" href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
+                                                            <div class="btn-visita"><a type="button" class="btn btn-primary" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
                                                         </div>
                                                     </div>
                                                 </c:forEach>
@@ -237,7 +238,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                <img src="<c:out value="${topReviewRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
                                                                 <h4><c:out value="${topReviewRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -265,7 +266,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><a type="button" class="btn btn-success" href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topReviewRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
+                                                            <div class="btn-visita"><a type="button" class="btn btn-success" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topReviewRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
                                                         </div>
                                                     </div> <!-- fine primo elemento -->
                                                 </c:forEach>

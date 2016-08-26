@@ -328,19 +328,20 @@
                                     <div class="container-fluid">
                                         <div class="row container-fluid">
                                             <div class="col-md-2 comment-writer">
-                                                <img src="img/avatar/avatar.png" class="img-circle"/>
+                                                <img src="<c:out value="${lastComment.getUser().getAvatar_path()}" />" class="img-circle"/>
                                                 <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                 <p class="comment-data">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${allComments.getReview().getDate_creation()}" />
+                                                    <c:out value="${lastComment.getReview().getDate_creation().getDate()}" />-<c:out value="${lastComment.getReview().getDate_creation().getMonth()}" />-<c:out value="${lastComment.getReview().getDate_creation().getYear()+1900}" /> <c:out value="${lastComment.getReview().getDate_creation().getHours()}" />:<c:out value="${lastComment.getReview().getDate_creation().getMinutes()}" />
                                                 </p>
                                                 <c:if test="${allComments.getPhoto()!=null}">
                                                     <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
                                                         <img src="<c:out value="${allComments.getPhoto().getPath()}" />">
                                                     </a>
+                                                    <!--
                                                     <div class="text-center">
                                                         <a class="btn-segnala-photo-recensione popov" href="" id="<c:out value="${lastComment.getPhoto().getId()}"/>"  onclick="segnalaPhoto(this.id); return false;">Segnala Photo!</a>
-                                                    </div>
+                                                    </div>-->
                                                 </c:if>
                                             </div>
                                             <div class="col-md-10 comment-content">
