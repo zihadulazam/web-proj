@@ -292,6 +292,7 @@
         
         <!-- index.js -->
         <script src="js/index.js"></script>
+        <script src="js/login-register.js"></script>
         
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>
