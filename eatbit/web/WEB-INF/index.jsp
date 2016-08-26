@@ -192,7 +192,11 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
+<<<<<<< HEAD
                                                                 <img src="" class="r-img img-circle"/>
+=======
+                                                               <!-- <img src="" class="r-img img-circle"/>-->
+>>>>>>> f47a14d7e8c88c4ecb2dec8cc3d682c761d28885
                                                                 <h4><c:out value="${topRatedRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -242,7 +246,11 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
+<<<<<<< HEAD
                                                                 <img src="" class="r-img img-circle"/>
+=======
+                                                               <!-- <img src="" class="r-img img-circle"/>-->
+>>>>>>> f47a14d7e8c88c4ecb2dec8cc3d682c761d28885
                                                                 <h4><c:out value="${topReviewRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
