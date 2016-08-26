@@ -1,4 +1,4 @@
-
+var cuisine_counter=3;
 function scroll_to_class(element_class, removed_height) {
 	var scroll_to = $(element_class).offset().top - removed_height;
 	if($(window).scrollTop() != scroll_to) {
@@ -51,8 +51,8 @@ jQuery(document).ready(function() {
     	var progress_line = $(this).parents('.f1').find('.f1-progress-line');
     	
     	// fields validation
-    	parent_fieldset.find('#name, #description, #web_site, #address, #prezzo_min, #prezzo_max, #Add-photo-name, #photo_description').each(function() {
-    		if( $(this).val() == "") {
+    	parent_fieldset.find('#name, #description, #web_site, #prezzo_min, #prezzo_max, #Add-photo-name, #photo_description, #Add-photo-name, #photo_description').each(function() {
+    		if( $(this).val() =="") {
     			$(this).addClass('input-error');
     			next_step = false;
     		}
@@ -60,48 +60,13 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
-        if( $("#location").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
-        if( $("#city").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
-        if( $("#province").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
-        if( $("#state").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
-        if( $("#longitude").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
-        if( $("#latitude").val() == " ") {
-            $("#address").addClass('input-error');
-            next_step = false;
-        }
-        else {
-            $(this).removeClass('input-error');
-        }
+        parent_fieldset.find('#location,#city,#province,#state,#longitude,#latitude, #address').each(function() {
+    		if( $(this).val() == " ") {
+                $('#address').addClass('input-error');
+                next_step = false;
+            }
+    	});
+        
     	// fields validation
     	
     	if( next_step ) {
@@ -141,8 +106,8 @@ jQuery(document).ready(function() {
     $('.f1').on('submit', function(e) {
     	
     	// fields validation
-    	$(this).find('input[type="text"], input[type="password"], textarea').each(function() {
-    		if( $(this).val() == "" ) {
+    	$(this).find('#testo_claim').each(function() {
+    		if( $(this).val() == "" && $("#claim-checkbox").prop('checked') == true ) {
     			e.preventDefault();
     			$(this).addClass('input-error');
     		}
@@ -165,15 +130,48 @@ $(document).ready(function(){
     });
 
     $(".my-cuisine").change(function() {
-            if(this.checked) {
-                $("#num-cucine").text('checked');
+        if(this.checked) {
+            cuisine_counter--;
+            $("#num-cucine").text("(Massimo "+cuisine_counter+")");
+            if(cuisine_counter<=0){
+                $('.my-cuisine:not(:checked)').attr('disabled', 'disabled');
             }
-            else{
-                $("#num-cucine").text('Unchecked');
+        }
+        else{
+            cuisine_counter++;
+            $("#num-cucine").text("(Massimo "+cuisine_counter+")");
+            if(cuisine_counter>0){
+                $('.my-cuisine').removeAttr('disabled');
             }
-        });
-
+        }
+        if(cuisine_counter==3 || $("#prezzo_min").val()=='Prezzo Min' || $("#prezzo_max").val()=='Prezzo Max' || (parseInt($("#prezzo_max").val())<parseInt($("#prezzo_min").val()))){
+            $('#btn-next-sec').attr('disabled', 'disabled');
+        }
+        else{
+            $('#btn-next-sec').removeAttr('disabled');
+        }
+    });
+    $("#prezzo_min").change(function() {
+        if(cuisine_counter==3 || $("#prezzo_min").val()=='Prezzo Min' || $("#prezzo_max").val()=='Prezzo Max' || (parseInt($("#prezzo_max").val())<parseInt($("#prezzo_min").val()))){
+            $('#btn-next-sec').attr('disabled', 'disabled');
+        }
+        else{
+            $('#btn-next-sec').removeAttr('disabled');
+        }
+    });
+    $("#prezzo_max").change(function() {
+        if(cuisine_counter==3 || $("#prezzo_min").val()=='Prezzo Min' || $("#prezzo_max").val()=='Prezzo Max' || (parseInt($("#prezzo_max").val())<parseInt($("#prezzo_min").val()))){
+            $('#btn-next-sec').attr('disabled', 'disabled');
+        }
+        else{
+            $('#btn-next-sec').removeAttr('disabled');
+        }
+    });
 });
+
+function disableCheckBoxs(){
+
+}
 
 
 $(document).ready(function(){
@@ -292,9 +290,7 @@ $(document).ready(function(){
                     
                     
                
-                alert("Orari: " + orarioLun + " " + orarioMar + " " 
-                    + orarioMer +" " + orarioGio + " " + orarioVen
-                    + " " + orarioSab + " " + orarioDom );
+                    $('#btn-fine').removeAttr('disabled');
 
            
                     document.getElementById("orarioL").value = orarioLun;
@@ -304,6 +300,9 @@ $(document).ready(function(){
                     document.getElementById("orarioV").value = orarioVen;
                     document.getElementById("orarioS").value = orarioSab;   
                     document.getElementById("orarioD").value = orarioDom; 
+                 }
+                 else{
+                     $('#btn-fine').attr('disabled', 'disabled');
                  }
            
        });
