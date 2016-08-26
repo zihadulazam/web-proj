@@ -42,8 +42,8 @@
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>               
-
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+        <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
         
     </head>
     <body>
@@ -499,5 +499,6 @@
         
         <!-- Admin JS-->
         <script type="text/javascript" src="js/adminProfile.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
     </body>
 </html>

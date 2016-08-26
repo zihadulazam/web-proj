@@ -378,7 +378,11 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi subito</button>
+                                                    
+                                                    <form action="GetReplyInfo" method="POST">
+                                                        <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
+                                                    </form>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -484,6 +488,7 @@
         
         <!-- UserProfile JS-->
         <script type="text/javascript" src="js/userProfile.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
 
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>

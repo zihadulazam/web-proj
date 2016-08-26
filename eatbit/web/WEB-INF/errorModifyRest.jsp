@@ -21,7 +21,7 @@
             -<h3><c:out value="${errore3}" /></h3><br>
             -<h3><c:out value="${errore4}" /></h3><br>
             
-            <a class="btn btn-submit" href="/ProfileServlet">
+            <a class="btn btn-submit" href="${pageContext.request.contextPath}/ProfileServlet">
                 Torna Indietro
             </a>
     </body>
