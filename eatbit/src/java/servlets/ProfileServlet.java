@@ -68,7 +68,7 @@ public class ProfileServlet extends HttpServlet {
                 
                 //provo a interrogare il DB per ottenere le info                
                 ristorantiAttesa = manager.getRestaurantsRequests(2);
-                risposteConfermare = manager.getRepliesToBeConfirmed(2);
+                risposteConfermare = manager.getAllRepliesToBeConfirmed();
                 listPhotoNotification = manager.getReportedPhotos(2);
                 listReviewNotification = manager.getReportedReviews(2);
 
@@ -77,8 +77,10 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("risposteConfermare", risposteConfermare);
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("reviewSegnalate", listReviewNotification);
-                //response.getWriter().println(listPhotoNotification.size());
-                //response.getWriter().println(listReviewNotification.size());
+                
+                //response.getWriter().println(risposteConfermare.get(0).getUser().getName());
+                //response.getWriter().println(risposteConfermare.get(0).getReview().getDescription());
+                //response.getWriter().println(risposteConfermare.get(0).getReply().getDescription());
                 request.getRequestDispatcher("/WEB-INF/adminProfile.jsp").forward(request, response);
 
                 
