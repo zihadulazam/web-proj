@@ -1,6 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
 <html>
     <head>
         
@@ -19,11 +18,11 @@
         <!-- Bootstrap -->
         <link href="css/jquery-ui.css" rel="stylesheet">
         
-        
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
         <link href="css/datatable.css" rel="stylesheet">
-        
+        <link href="css/index.css" rel="stylesheet">
+
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -39,6 +38,37 @@
         <%@include file="components/navbar-second.jsp"%>
         
         <!-- Main Content --> 
+        <c:choose>
+            <c:when test="${list.isEmpty()}">
+                <div class="container" id="main" >
+                <div id="last-update">
+                    <div id="info-box">
+                        <h1 align="justify">
+                            <strong>Non sono stati trovati risultati per la tua ricerca!</strong> Sembra che non ci siano ristoranti nel posto che stavi cercando
+                                o con quel nome o cucina, ti invitiamo a riprovare.<br>
+                                Ricordati che nella <strong><a href="home">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
+                                Suggerimenti di cucine:
+                                <ul>
+                                  <li>asiatica</li>
+                                  <li>carne</li>
+                                  <li>cinese</li>
+                                  <li>fast-food</li>
+                                  <li>francese</li>
+                                  <li>giapponese</li>
+                                  <li>indiana</li>
+                                  <li>italiana</li>
+                                  <li>pesce</li>
+                                  <li>pizza</li>
+                                  <li>spagnola</li>
+                                  <li>vegetariana</li>
+                                </ul> 
+                           </h1>
+                            <h2 align="justify">
+                    </div>
+                </div>
+            </div>
+            </c:when>
+        <c:otherwise>
         <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px; ">
             <div class="row">
                 <div class="col-sm-3"> 
@@ -217,6 +247,8 @@
                 </tbody>
             </table>
         </div>
+           </c:otherwise>
+        </c:choose> 
         <!-- end Main container -->  
         
         <!-- include modal hear -->
