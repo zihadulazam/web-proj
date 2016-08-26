@@ -26,6 +26,10 @@
         <!-- creat Restaurant liks -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         
+        
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
         <!-- include navbar hear -->

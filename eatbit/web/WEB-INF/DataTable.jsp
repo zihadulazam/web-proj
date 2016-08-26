@@ -9,9 +9,9 @@
 
 	<title>Eatbit | Search</title>
         
-        <!-- ico-->
-        <link rel="icon" href="../eatbit/img/favicon.ico" type="image/x-icon">
-        <link rel="shortcut icon" href="../eatbit/img/favicon.ico" type="image/x-icon">
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
