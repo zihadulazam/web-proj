@@ -230,7 +230,7 @@
                                                         <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="img/restaurant-default.png" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                        <img src="img/restaurant-default.png" class="r-img img-circle" />
                                                     </c:otherwise>
                                                 </c:choose>                                                
                                                 
@@ -382,11 +382,16 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    
-                                                    <form action="GetReplyInfo" method="POST">
-                                                        <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
-                                                    </form>
-                                                    
+                                                    <c:choose>
+                                                        <c:when test="${reviewNotification.isHavereply()==true}">
+                                                        <form action="GetReplyInfo" method="POST">
+                                                            <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
+                                                        </form>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <button type="button" disabled class=" right btn btn-primary diventaRis rispRecensione" >Già risposto</button>
+                                                        </c:otherwise>                                                        
+                                                    </c:choose>                                                    
                                                 </div>
                                             </div>
                                         </div>

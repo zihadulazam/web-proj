@@ -1,9 +1,10 @@
 
 
 $(document).ready(function() {
-    $(".go_reply").click(function(event) {
-        var id_review = $('#id_review').val();
-        var description = $('#reply_text').val();
+    function Go_Reply() {
+        
+        var id_review = document.getElementById("id_review").value;
+        var description = document.getElementById("reply_text").value;
         alert(id_review + " " + description);
         
         
@@ -17,12 +18,12 @@ $(document).ready(function() {
                 //data: return data from server
                 if (dati == "1"){
                     //window.location.replace("/home");
-                    alert("Ridpodts pubblicsts!!!  Codice: "+dati);  
-                }else if(dati == 0){
+                    alert("Risposta pubblicata!!!  Codice: "+dati);  
+                }else if(dati == "0"){
                     alert("Errore Server!!! - Exception thrown!!  Codice: "+dati);        
-                }else if(dati == -1){
+                }else if(dati == "-1"){
                     alert("Manca la descrizione!!!!  Codice: "+dati);        
-                }else if(dati == -2){
+                }else if(dati == "-2"){
                     alert("Non ti é permesso rispondere a questo commento!!!   Codice: "+dati);        
                 }
             },
@@ -31,7 +32,7 @@ $(document).ready(function() {
                 alert("Errore Server!!!");     
             }
                     });
-    });
+    }
     
     
 });

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@page import="java.util.ArrayList"%>
 
 <html lang="it">
     <head>
@@ -192,7 +192,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="<c:out value="${topRatedRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                <img src="" class="r-img img-circle"/>
                                                                 <h4><c:out value="${topRatedRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -242,7 +242,7 @@
                                                     <div class="container-fluid restaurant">
                                                         <div class="row container-fluid">
                                                             <div class="col-md-4 restaurant-title">
-                                                                <img src="<c:out value="${topReviewRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                <img src="" class="r-img img-circle"/>
                                                                 <h4><c:out value="${topReviewRisto.getRestaurant().getName()}" /></h4>
                                                                 <div class="row rating-stars">
                                                                     <c:forEach var="i" begin="1" end="5">
@@ -292,6 +292,7 @@
         
         <!-- index.js -->
         <script src="js/index.js"></script>
+        <script src="js/login-register.js"></script>
         
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>

@@ -50,8 +50,10 @@ public class AddReplyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             
-            String description= request.getParameter("description");
-            String stringIdRev= request.getParameter("id_review");          
+            String description= request.getParameter("reply_text");
+            String stringIdRev= request.getParameter("id_review");    
+            
+            out.println(description + " " + stringIdRev);
 
             //controllo che utente sia loggato in
             if(description!=null && stringIdRev!=null)
@@ -67,6 +69,11 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setId_validator(-1);
                 reply.setValidated(false);
                 out.write(manager.addReply(reply)?"1":"-2");
+                manager.unreportReview(Integer.parseInt(stringIdRev));
+                request.setAttribute("titolo", "Pubblicazione risposta");
+                request.setAttribute("status", "ok");
+                request.setAttribute("description", "Pubblicazione andata a buon fine");
+                request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
             }
             else
                 out.write("-1");
