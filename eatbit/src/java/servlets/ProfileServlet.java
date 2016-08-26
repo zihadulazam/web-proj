@@ -101,7 +101,7 @@ public class ProfileServlet extends HttpServlet {
                 //creo l'array di contesti ristoranti per avere più info
                 for(Restaurant r:listRist){
                     RestaurantContext x = manager.getRestaurantContext(r.getId());
-                    out.println(x.getPhotos().get(0).getPath());
+                   // out.println(x.getPhotos().get(0).getPath());
                     listRestaurants.add(x);
                 }
                 

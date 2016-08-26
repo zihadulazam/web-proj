@@ -230,7 +230,7 @@
                                                         <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="img/restaurant-default.png" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                        <img src="img/restaurant-default.png" class="r-img img-circle" />
                                                     </c:otherwise>
                                                 </c:choose>                                                
                                                 
