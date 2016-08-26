@@ -69,139 +69,142 @@
             </div>
             </c:when>
         <c:otherwise>
-        <div class="container contenitori-blocco" id="ristoranti-container" style="margin-top: 10px; ">
+        <div class="container contenitori-blocco">
             <div class="row">
-                <div class="col-sm-3"> 
-                  <input type="checkbox" name="cucina" value="ASIATICA" >ASIATICA
-                  </div>
-                  <div class="col-sm-3"> 
-                  <input type="checkbox" name="cucina" value="CARNE" >CARNE
-                  </div>
-                  <div class="col-sm-3"> 
-                  <input type="checkbox" name="cucina" value="CINESE" >CINESE
-                  </div>
-                  <div class="col-sm-3"> 
-                  <input type="checkbox" name="cucina" value="FAST-FOOD" >FAST-FOOD
-                  </div>
-                </div>
-            <div class="row">
-                <div class="col-sm-3">         
-                  <input type="checkbox" name="cucina" value="FRANCESE" >FRANCESE
-                  </div>
-                  <div class="col-sm-3">   
-                  <input type="checkbox" name="cucina" value="GIAPPONESE" >GIAPPONESE
-                  </div>
-                  <div class="col-sm-3">   
-                  <input type="checkbox" name="cucina" value="INDIANA" >INDIANA
-                  </div>
-                  <div class="col-sm-3">   
-                  <input type="checkbox" name="cucina" value="ITALIANA" >ITALIANA
-                  </div>
-            </div>
-            <div class="row" width="100%">
-                <div class="col-sm-3">    
-                  <input type="checkbox" name="cucina" value="PESCE" >PESCE
-                </div>
-                <div class="col-sm-3">   
-                  <input type="checkbox" name="cucina" value="PIZZA" >PIZZA
-                </div>
-                <div class="col-sm-3">     
-                  <input type="checkbox" name="cucina" value="SPAGNOLA" >SPAGNOLA
-                </div>
-                <div class="col-sm-3">     
-                  <input type="checkbox" name="cucina" value="SUSHI" >VEGETARIANA
-                </div>
-            </div> 
-            <div class="row">
-                <div class="col-sm-8">     
-                      <input id="prezzo" type="radio" name="prezzo" value="BASSO" >BASSO
-                      <input id="prezzo" type="radio" name="prezzo" value="MEDIO" >MEDIO
-                      <input id="prezzo" type="radio" name="prezzo" value="ALTO" >ALTO
-                      <input id="prezzo" type="radio" name="prezzo" value="DI LUSSO" >DI LUSSO
-                </div>
-                <div class="col-sm-4">
-                    
-                    <button id="filtra" type="button" class="btn btn-success">FILTRA</button>
-                    <button id="reset" type="button" class="btn btn-info">RESET</button>
+                <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-default btn-config" data-toggle="collapse" data-target="#collapseAddClaim" aria-expanded="false" aria-controls="collapseAddClaim"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span> Filtri
+                        </button>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">     
-                    <button id="ORDINAASC" type="button" class="btn btn-secondary">ORDINA PER PREZZO(BASSO A ALTO)</button>
-                    <button id="ORDINADESC" type="button" class="btn btn-secondary">ORDINA PER PREZZO(ALTO A BASSO)</button>
-                    <button id="ORDERVOTE" type="button" class="btn btn-secondary">ORDINA PER MIGLIOR VOTO</button>
-                    <button id="ALPHA" type="button" class="btn btn-secondary">ALFABETICO</button>
+            <div class="collapse" id="collapseAddClaim">
+                <div class="well">
+                    <h4>Tipo di cucina:</h4>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="ASIATICA"> Asiatica
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="CARNE" > Carne
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="CINESE" > Cinese
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="FAST-FOOD" > Fast-food
+                        </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-xs-6">          
+                        <input type="checkbox" name="cucina" value="FRANCESE" > Francese
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="GIAPPONESE" > Giapponese
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="INDIANA" > Indiana
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="ITALIANA" > Italiana
+                        </div>
+                    </div>
+                    <div class="row" width="100%">
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="PESCE" > Pesce
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="PIZZA" > Pizza
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="SPAGNOLA" > Spagnola
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-6"> 
+                        <input type="checkbox" name="cucina" value="SUSHI" > Vegetariana
+                        </div>
+                    </div>
+                    <hr/>
+                    <h4>Prezzo:</h4>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-8 col-xs-12"> 
+                            <input id="prezzo" type="radio" name="prezzo" value="BASSO" > Basso
+                            <input id="prezzo" type="radio" name="prezzo" value="MEDIO" > Medio
+                            <input id="prezzo" type="radio" name="prezzo" value="ALTO" > Alto
+                            <input id="prezzo" type="radio" name="prezzo" value="DI LUSSO" > Di Lusso
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-xs-12 text-center"> 
+                            
+                            <button id="filtra" type="button" class="btn btn-success btn-ordina-per"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filtra</button>
+                            <button id="reset" type="button" class="btn btn-info btn-ordina-per"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <h4>Ordina per:</h4>
+             <div id="ordina-per">
+                 <div class="row">
+                     <div class="col-sm-8 col-md-8 col-xs-12 text-center btn-ordina-per">
+                         <div class="row">
+                            <div class="col-sm-6 col-md-3 col-xs-12 text-center btn-ordina-per">     
+                                <button id="ORDINAASC" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span> Prezzo Crescente</button>
+                            </div>
+                            <div class="col-sm-6 col-md-3 col-xs-12 text-center btn-ordina-per">     
+                                <button id="ORDINADESC" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span> Prezzo Derescente</button>
+                            </div>
+                            <div class="col-sm-6 col-md-3 col-xs-12 text-center btn-ordina-per">     
+                                <button id="ORDERVOTE" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Miglior Voto</button>
+                            </div>
+                            <div class="col-sm-6 col-md-3 col-xs-12 text-center btn-ordina-per">     
+                                <button id="ALPHA" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-sort-by-alphabet" aria-hidden="true"></span> Alfabetico</button>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-4 col-md-4 col-xs-12 text-center btn-ordina-per"></div>
+                 </div>
+             </div>
             <table id="tabella-ristoranti" class="col-sm-12" >
                 <tbody >                    
                     <c:forEach var="i" items="${list}">
                         <tr >
                             <!-- Prima colonna-->
-                            <td class="col-sm-3 sorting_1 " style="padding-right: 0px; padding-left: 0px;" >  
-                                <div class=" container-left">
-                                    <div class="row">
-                                    <div class="container-fluid">
-                                        <div class="container-writer">
-                                            <c:choose>
-                                                    <c:when test="${i.getPhotos().size()>0}">
-                                                        <img src="<c:out value="${i.getPhotos().get(0).getPath()}"/>"/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="img/restaurant-default.png" class="img-circle"/>
-                                                    </c:otherwise>
-                                                </c:choose>  
-                                        </div>
-                                        
-                                    </div>
-                                    </div>
-                                </div>
+                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px; padding-left: 0px;" >
+                                <c:choose>
+                                    <c:when test="${i.getPhotos().size()>0}">
+                                        <img class="prof-img" src="<c:out value="${i.getPhotos().get(0).getPath()}"/>"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img class="prof-img" src="img/restaurant-default.png" class="img-circle"/>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             <!-- Seconda colonna-->
-                            <td class="col-sm-3 sorting_1" style="padding-right: 0px;padding-left: 0px;" >
-                                <div class="container-center "align="left>  
-                                    <div class="container-fluid">
-                                        <div class="container-writer">
-                                            <h4 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h4>                                            
-                                            <h5>Recensioni:<c:out value="${i.getRestaurant().getReviews_counter()}"/></h5>
-                                            <h5>Posizione:<c:out value="${i.getCityPosition()}"/></h5>
-                                            <c:forEach var="j" begin="1" end="5"> <!-- Quante stelle ha il ristorante-->
-                                                <c:choose>
-                                                    <c:when test="${i.getRestaurant().getGlobal_value()>=j}">
-                                                        <img src="img/star-full.png" style="max-width:20px; max-height:20px;border:0;"align="left"/>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <img src="img/star-empty.png" style="max-width:20px; max-height:20px;border:0;"align="left"/>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>         
-                                               
-                                        </div>
-                                    </div>
-                                </div>
+                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
+                                <a class="link-nome" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"/>"><h4 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h4></a>                                            
+                                <h5><strong>Recensioni: </strong><c:out value="${i.getRestaurant().getReviews_counter()}"/></h5>
+                                <h5><strong>Posizione: </strong><c:out value="${i.getCityPosition()}"/></h5>
+                                <div class="rating-stars text-center">
+                                    <c:forEach var="j" begin="1" end="5"> <!-- Quante stelle ha il ristorante-->
+                                        <c:choose>
+                                            <c:when test="${i.getRestaurant().getGlobal_value()>=j}">
+                                                <img src="img/star-full.png" style="max-width:20px; max-height:20px;border:0;"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="img/star-empty.png" style="max-width:20px; max-height:20px;border:0;"/>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </div> 
                             </td>
                             <!-- terza colonna-->
-                            <td class="col-sm-4 sorting_1" style="padding-right: 0px;padding-left: 0px;" >
-                                <div class="container-center "align="left>  
-                                    <div class="container-fluid">
-                                        <div class="container-writer">
-                                            <h4><c:out value="${i.getCoordinate().getAddress()}"/></h4>
-                                            <h4>Prezzo: <c:out value="${i.getPriceRange().getName()}"/></h4>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
+                                    <h5><c:out value="${i.getCoordinate().getAddress()}"/></h5>
+                                    <h5><strong>Prezzo: </strong><c:out value="${i.getPriceRange().getName()}"/></h5>
                             </td>
                             <!-- quarta colonna-->
-                            <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
-                                <div class="container-right">  
-                                    <div class="container-fluid">
-                                        <div class="container-writer">                                            
-                                            <c:forEach var="k" items="${i.getCuisines()}">
-                                                <p class="label-default" align="left"><c:out value="${k}"/></p>
-                                            </c:forEach>                                            
-                                        </div>
+                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;">                                          
+                                    <div class="cucine">                                            
+                                        <c:forEach var="k" items="${i.getCuisines()}">
+                                            <p><span class="label label-info"><c:out value="${k}"/></span></p>
+                                        </c:forEach>
                                     </div>
-                                </div>
                             </td>
                             <!-- QUINTA, contiene NOME prezzo per ricerca-->
                             <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
@@ -243,6 +246,7 @@
                                     </div>
                                 </div>
                             </td>
+                        </tr>
                     </c:forEach>
                 </tbody>
             </table>

@@ -1,8 +1,8 @@
+<%@ page errorPage="error.jsp" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.io.*,java.util.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <%
    Date dNow = new Date( );
    SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");

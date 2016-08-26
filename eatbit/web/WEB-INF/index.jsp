@@ -194,10 +194,10 @@
                                                             <div class="col-md-4 restaurant-title">
                                                                 <c:choose>
                                                                     <c:when test="${topRatedRisto.getPhotos().size()>0}">
-                                                                        <img src="<c:out value="${topRatedRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                        <img src="<c:out value="${topRatedRisto.getPhotos().get(0).getPath()}" />" class="r-img"/>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                        <img src="img/restaurant-default.png" class="r-img"/>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                                 <h4><c:out value="${topRatedRisto.getRestaurant().getName()}" /></h4>
@@ -251,10 +251,10 @@
                                                             <div class="col-md-4 restaurant-title">
                                                                 <c:choose>
                                                                     <c:when test="${topReviewRisto.getPhotos().size()>0}">
-                                                                        <img src="<c:out value="${topReviewRisto.getPhotos().get(0).getPath()}" />" class="r-img img-circle"/>
+                                                                        <img src="<c:out value="${topReviewRisto.getPhotos().get(0).getPath()}" />" class="r-img"/>
                                                                     </c:when>
                                                                     <c:otherwise>
-                                                                        <img src="img/restaurant-default.png" class="r-img img-circle"/>
+                                                                        <img src="img/restaurant-default.png" class="r-img"/>
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                                 <h4><c:out value="${topReviewRisto.getRestaurant().getName()}" /></h4>

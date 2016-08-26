@@ -16,10 +16,7 @@
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
 
-         <!-- single img Viewer css-->
-        <link rel="stylesheet" href="css/lightbox.min.css">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -35,7 +32,7 @@
     </head>
     <body>
         <!-- include navbar hear -->
-        <%@include file="components/navbar-index.jsp"%>
+        <%@include file="components/navbar-second.jsp"%>
         
         <!-- Main Content -->
             
@@ -45,7 +42,7 @@
                     <div id="info-box">
                         <h1 align="justify">
                             <strong>Informativa sulla privacy</strong><br></h1>
-                            <h2 align="justify">
+                            <p align="justify" class="lead">
 EatBit ("eatBit", "il sito", "il portale", "il sito web") è un servizio online che offre agli utenti ("utenti") consigli relativi a ristoranti. Il sito web, i componenti per dispositivi mobili e le applicazioni correlate (insieme indicati come il "portale") fanno parte di EatBit povo corporation.
 <br>
 Effettuando l'accesso al portale e utilizzando i servizi a disposizione, l'utente dichiara di aver letto e compreso la presente Informativa sulla privacy e le disposizioni in materia di raccolta e trattamento delle informazioni ivi incluse.
@@ -87,7 +84,7 @@ Per qualsiasi chiarimento potete contattarci utilizzando l'area di testo in fond
                             
                             
                             
-                        </h2>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -99,7 +96,5 @@ Per qualsiasi chiarimento potete contattarci utilizzando l'area di testo in fond
         <!-- footer -->
         <%@include file="components/footer.html"%>
         
-        <!-- Single image viewer js -->
-        <script src="js/lightbox.min.js"></script>
     </body>
 </html>

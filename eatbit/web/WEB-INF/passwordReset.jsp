@@ -4,22 +4,19 @@
 
 <html lang="it">
     <head>
-        <title>eatBit | Home</title>
+        <title>eatBit | Recupera Password</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
         
-        <!-- Bootstrap -->
+        <!-- AutoComplete -->
         <link href="css/jquery-ui.css" rel="stylesheet">
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
 
-         <!-- single img Viewer css-->
-        <link rel="stylesheet" href="css/lightbox.min.css">
         
         <!-- google font link -->
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
@@ -34,7 +31,7 @@
     </head>
     <body>
         <!-- include navbar hear -->
-        <%@include file="components/navbar-index.jsp"%>
+        <%@include file="components/navbar-second.jsp"%>
         
         <!-- Main Content -->
             

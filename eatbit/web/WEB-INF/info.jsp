@@ -35,30 +35,32 @@
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
 
-        <div class="jumbotron">
-            <div class="container text-center">
-                <h1><c:out value="${titolo}"/></h1>
-                <c:choose>
-                    <c:when test="${status=='ok'}">
-                        <div class="alert alert-success" role="alert">
-                            <p>
-                                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-                    </c:when>
-                    <c:when test="${status=='warning'}">
-                        <div class="alert alert-warning" role="alert">
-                            <p>
-                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    </c:when>
-                    <c:when test="${status=='danger'}">
-                        <div class="alert alert-danger" role="alert">
-                            <p>
-                                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                    </c:when>
-                </c:choose>
-                            <c:out value="${description}"/>
-                        </p>
-                    </div>
-                <p><a class="btn btn-primary btn-lg" href="/eatbit/home" role="button">Home</a></p>
+        <div class="container" style="height: 100%;min-height: 100%;">
+            <div class="jumbotron">
+                <div class="container text-center">
+                    <h1><c:out value="${titolo}"/></h1>
+                    <c:choose>
+                        <c:when test="${status=='ok'}">
+                            <div class="alert alert-success" role="alert">
+                                <p>
+                                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                        </c:when>
+                        <c:when test="${status=='warning'}">
+                            <div class="alert alert-warning" role="alert">
+                                <p>
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        </c:when>
+                        <c:when test="${status=='danger'}">
+                            <div class="alert alert-danger" role="alert">
+                                <p>
+                                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                        </c:when>
+                    </c:choose>
+                                <c:out value="${description}"/>
+                            </p>
+                        </div>
+                    <p><a class="btn btn-primary btn-lg" href="/eatbit/home" role="button">Home</a></p>
+                </div>
             </div>
         </div>
          <!-- include modal hear -->

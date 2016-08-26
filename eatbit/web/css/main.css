@@ -537,17 +537,20 @@
 }
 
 /* line 4, ../scss/main.scss */
-body {
+html, body {
   min-height: 100%;
 }
 
 /*
     //footer css
 */
-/* line 12, ../scss/main.scss */
+/* line 11, ../scss/main.scss */
 .footer-distributed {
+  position: relative;
+  clear: both;
+  padding-top: 20px;
   background-color: #292c2f;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0);
   box-sizing: border-box;
   width: 100%;
   font: bold 16px sans-serif;
@@ -556,36 +559,37 @@ body {
   padding: 50px 60px 40px;
   margin-top: 80px;
   overflow: hidden;
+  position: relative;
 }
 
 /* Footer left */
-/* line 27, ../scss/main.scss */
+/* line 30, ../scss/main.scss */
 .footer-distributed .footer-left {
   float: left;
 }
 
 /* The company logo */
-/* line 33, ../scss/main.scss */
+/* line 36, ../scss/main.scss */
 .footer-distributed h3 {
   color: #ffffff;
   font: normal 36px 'Cookie', cursive;
   margin: 0 0 10px;
 }
 
-/* line 39, ../scss/main.scss */
+/* line 42, ../scss/main.scss */
 .footer-distributed h3 span {
   color: #5383d3;
 }
 
 /* Footer links */
-/* line 45, ../scss/main.scss */
+/* line 48, ../scss/main.scss */
 .footer-distributed .footer-links {
   color: #ffffff;
   margin: 0 0 10px;
   padding: 0;
 }
 
-/* line 51, ../scss/main.scss */
+/* line 54, ../scss/main.scss */
 .footer-distributed .footer-links a {
   display: inline-block;
   line-height: 1.8;
@@ -593,7 +597,7 @@ body {
   color: inherit;
 }
 
-/* line 58, ../scss/main.scss */
+/* line 61, ../scss/main.scss */
 .footer-distributed .footer-company-name {
   color: #8f9296;
   font-size: 14px;
@@ -602,12 +606,12 @@ body {
 }
 
 /* Footer social icons */
-/* line 67, ../scss/main.scss */
+/* line 70, ../scss/main.scss */
 .footer-distributed .footer-icons {
   margin-top: 40px;
 }
 
-/* line 71, ../scss/main.scss */
+/* line 74, ../scss/main.scss */
 .footer-distributed .footer-icons a {
   display: inline-block;
   width: 35px;
@@ -624,12 +628,12 @@ body {
 }
 
 /* Footer Right */
-/* line 90, ../scss/main.scss */
+/* line 93, ../scss/main.scss */
 .footer-distributed .footer-right {
   float: right;
 }
 
-/* line 94, ../scss/main.scss */
+/* line 97, ../scss/main.scss */
 .footer-distributed .footer-right p {
   display: inline-block;
   vertical-align: top;
@@ -638,19 +642,19 @@ body {
 }
 
 /* The contact form */
-/* line 103, ../scss/main.scss */
+/* line 106, ../scss/main.scss */
 .footer-distributed form {
   display: inline-block;
 }
 
-/* line 108, ../scss/main.scss */
+/* line 111, ../scss/main.scss */
 .footer-distributed form input,
 .footer-distributed form textarea {
   display: block;
   border-radius: 3px;
   box-sizing: border-box;
   background-color: #1f2022;
-  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0);
   border: none;
   resize: none;
   font: inherit;
@@ -661,35 +665,35 @@ body {
   padding: 18px;
 }
 
-/* line 126, ../scss/main.scss */
+/* line 129, ../scss/main.scss */
 .footer-distributed ::-webkit-input-placeholder {
   color: #5c666b;
 }
 
-/* line 130, ../scss/main.scss */
+/* line 133, ../scss/main.scss */
 .footer-distributed ::-moz-placeholder {
   color: #5c666b;
   opacity: 1;
 }
 
-/* line 135, ../scss/main.scss */
+/* line 138, ../scss/main.scss */
 .footer-distributed :-ms-input-placeholder {
   color: #5c666b;
 }
 
-/* line 140, ../scss/main.scss */
+/* line 143, ../scss/main.scss */
 .footer-distributed form input {
   height: 55px;
   margin-bottom: 15px;
 }
 
-/* line 145, ../scss/main.scss */
+/* line 148, ../scss/main.scss */
 .footer-distributed form textarea {
   height: 100px;
   margin-bottom: 20px;
 }
 
-/* line 150, ../scss/main.scss */
+/* line 153, ../scss/main.scss */
 .footer-distributed form button {
   border-radius: 3px;
   background-color: #33383b;
@@ -702,34 +706,34 @@ body {
 
 /* If you don't want the footer to be responsive, remove these media queries */
 @media (max-width: 1000px) {
-  /* line 164, ../scss/main.scss */
+  /* line 167, ../scss/main.scss */
   .footer-distributed {
     font: bold 14px sans-serif;
   }
 
-  /* line 168, ../scss/main.scss */
+  /* line 171, ../scss/main.scss */
   .footer-distributed .footer-company-name {
     font-size: 12px;
   }
 
-  /* line 173, ../scss/main.scss */
+  /* line 176, ../scss/main.scss */
   .footer-distributed form input,
   .footer-distributed form textarea {
     width: 250px;
   }
 
-  /* line 177, ../scss/main.scss */
+  /* line 180, ../scss/main.scss */
   .footer-distributed form button {
     padding: 10px 35px;
   }
 }
 @media (max-width: 800px) {
-  /* line 185, ../scss/main.scss */
+  /* line 188, ../scss/main.scss */
   .footer-distributed {
     padding: 30px;
   }
 
-  /* line 190, ../scss/main.scss */
+  /* line 193, ../scss/main.scss */
   .footer-distributed .footer-left,
   .footer-distributed .footer-right {
     float: none;
@@ -737,22 +741,22 @@ body {
     margin: 0 auto;
   }
 
-  /* line 196, ../scss/main.scss */
+  /* line 199, ../scss/main.scss */
   .footer-distributed .footer-left {
     margin-bottom: 40px;
   }
 
-  /* line 200, ../scss/main.scss */
+  /* line 203, ../scss/main.scss */
   .footer-distributed form {
     margin-top: 30px;
   }
 
-  /* line 204, ../scss/main.scss */
+  /* line 207, ../scss/main.scss */
   .footer-distributed form {
     display: block;
   }
 
-  /* line 208, ../scss/main.scss */
+  /* line 211, ../scss/main.scss */
   .footer-distributed form button {
     float: none;
   }
