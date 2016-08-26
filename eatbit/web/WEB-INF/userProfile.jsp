@@ -454,10 +454,9 @@
                                         <div class="input-group">
                                             <label class="input-group-btn">
                                                 <span class="btn btn-default">
-                                                    Cerca File&hellip; <input name="avatar" type="file" multiple>
+                                                    <input name="avatar" type="file" multiple>
                                                 </span>
                                             </label>
-                                            <input type="text" class="form-control" readonly>
                                         </div>
                                     </div>
                                 </li>
@@ -472,7 +471,7 @@
                            </form>
                                     <form action="#" method="POST">
                                         <div class="right">
-                                            <p><button  onclick="mostraMsg()" class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
+                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
                                         </div>
                                     </form>
                         </div>

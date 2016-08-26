@@ -51,6 +51,8 @@
         
     </head>
     <body>
+        <c:set var="req" value="${pageContext.request}" />
+         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />     
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
@@ -76,7 +78,7 @@
 
                                 <div class="btn-group">
                                     
-                                    <form action="GetAllAdmin" method="POST">
+                                    <form action="${baseURL}/GetAllAdmin" method="POST">
                                             <button class="btn btn-primary " type="submit" role="button">Vedi tutte le notifiche</button>
                                     </form>
                                 </div>
@@ -242,10 +244,10 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " value="${RC.getReview().getId()}">Accept</button>
+                                                    <button  class=" right btn btn-primary fisso acceptReply " id="AcceptReply" value="${RC.getReview().getId()}">Accept</button>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" value="${RC.getReview().getId()}">Decline</button>
+                                                    <button  class=" right btn btn-primary fisso declineReply" id="DeclineReply" value="${RC.getReview().getId()}">Decline</button>
                                                 </div>
                                             </div>
 
@@ -397,7 +399,7 @@
                                         <div class="col-md-9">                                           
                                         </div>
                                         <div class="col-md-2">
-                                            <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
+                                            <a href="${baseURL}/GetAllAdmin" class="btn btn-primary">Vedi tutte le notifiche!</a>
                                         </div>
                                     <div class="col-md-2"></div>
                                 </div>
@@ -411,7 +413,7 @@
                     <div id="menu4" class="tab-pane fade">
                         
                         <div class="row">       
-                            <FORM enctype='multipart/form-data' method='POST' action='ModifyProfileServlet'>
+                            <FORM enctype='multipart/form-data' method='POST' action='${baseURL}/ModifyProfileServlet'>
                             <ul class="list-group modifica restaurant">
                                 
                                 <li class="list-group-item">
@@ -456,10 +458,9 @@
                                         <div class="input-group">
                                             <label class="input-group-btn">
                                                 <span class="btn btn-default">
-                                                    Cerca File&hellip; <input name="avatar" type="file" style="display: none;" multiple>
+                                                     <input name="avatar" type="file" multiple>
                                                 </span>
                                             </label>
-                                            <input type="text" class="form-control" readonly>
                                         </div>
                                     </div>
                                 </li>
