@@ -170,9 +170,13 @@ function addRistoVote(restaurantId){
                 location.reload();
             }
             if(data=="-2")
-                alert("Mi dispiace, Non puoi votare il tuo ristorante !!");
-            if(data=="-1" || data=="0")
-                alert("Mi dispiace, votazione al momento non è disponibile");
+                alert("Mi dispiace, hai già votato o fatto una recensione in meno di 24h !!");
+            if(data=="0")
+                alert("Mi dispiace, votazione al momento non è disponibile !!");
+            if(data=="-1")
+                alert("Mi dispiace, Mancano i Parametri");
+            if(data=="-3")
+            alert("Mi dispiace, Non puoi votare il tuo ristorante !!");
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {

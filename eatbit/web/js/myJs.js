@@ -111,7 +111,7 @@ function miPiace(reviewId,likeType){
             {
                 $(btnMiPiaceId).prop("disabled",true);
                 $(btnNonMiPiaceId).prop("disabled",true);
-                alert("Non puoi votare i tuoi review !!");
+                alert("Mi dispiace, Non puoi votare i tuoi review !!");
             }
             if(data=="-1")
                 alert("Mi dispiace, votazione al momento non è disponibile");
