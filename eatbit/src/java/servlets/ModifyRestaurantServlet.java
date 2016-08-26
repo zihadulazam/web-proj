@@ -92,8 +92,9 @@ public class ModifyRestaurantServlet extends HttpServlet
         String orarioDom = request.getParameter("orarioD");
         
         //altre Stringhe
-        String sMin=request.getParameter("prezzo_min");//deve essere numero, anche reale
-        String sMax=request.getParameter("prezzo_max");//deve essere numero, anche reale
+        String sMin=request.getParameter("min");//deve essere numero, anche reale
+        String sMax=request.getParameter("max");//deve essere numero, anche reale
+        //out.println(sMax + " " + sMin);
 
         //controllo che siano presenti tutti i parametri necessari
         if(sDescription==null||sName==null||sUrl==null||sCuisines==null
@@ -142,15 +143,21 @@ public class ModifyRestaurantServlet extends HttpServlet
                 coordinate.setLongitude(Double.parseDouble(sLongitude));
                 manager.modifyRestaurant(restaurant, sCuisines, coordinate, hours, min,max);
                 out.write("1");
+                
+                request.setAttribute("titolo", "Successo");
+                request.setAttribute("status", "ok");
+                request.setAttribute("description", "Ristorante Modificato con Successo");
+                request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
             }
-            catch(NumberFormatException e)
+            catch(NumberFormatException | SQLException e)
             {
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 out.write("0");
-            }
-            catch(SQLException e)
-            {
-                out.write("-5");
+                
+                request.setAttribute("titolo", "Fallimento");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "Controlla i tuoi dati");
+                request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
             }
         }
     }

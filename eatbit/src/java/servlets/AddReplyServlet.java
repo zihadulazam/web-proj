@@ -68,20 +68,42 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setDate_validation(null);
                 reply.setId_validator(-1);
                 reply.setValidated(false);
-                out.write(manager.addReply(reply)?"1":"-2");
-                manager.unreportReview(Integer.parseInt(stringIdRev));
-                request.setAttribute("titolo", "Pubblicazione risposta");
-                request.setAttribute("status", "ok");
-                request.setAttribute("description", "Pubblicazione andata a buon fine");
-                request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
+                
+                String msg;
+                if (manager.addReply(reply)){
+                    msg = "1";
+                    request.setAttribute("titolo", "Pubblicazione risposta");
+                    request.setAttribute("status", "ok");
+                    request.setAttribute("description", "Pubblicazione andata a buon fine");
+                }else{
+                    msg="-2";
+                    request.setAttribute("titolo", "Errore");
+                    request.setAttribute("status", "danger");
+                    request.setAttribute("description", "non sei proprietario di questo ristorante o hai già pubblicato una risposta");
+                }
+
+                out.println(msg);
+                
             }
-            else
+            else{
                 out.write("-1");
+                request.setAttribute("titolo", "Errore");
+                request.setAttribute("status", "danger");
+                request.setAttribute("description", "controlla di essere loggato e di aver inserito i dati correttamente");
+                
+            }
+            request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
             out.flush();
+            
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AddReplyServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            request.setAttribute("titolo", "Errore");
+            request.setAttribute("status", "danger");
+            request.setAttribute("description", "Errore Server ci scusiamo per il disagio!");
             out.write("0");
+            request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
         }
+        
     }
 
     /**
