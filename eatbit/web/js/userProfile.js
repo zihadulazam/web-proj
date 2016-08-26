@@ -1,4 +1,9 @@
 $(document).ready(function() {
+    $(".cPwd").click(function(event) {
+        alert("Segui il link che abbiamo inviato alla tua casella postale per modificare la password");
+    });
+    
+    
     $(".removePhotoNot").click(function(event) {
         var notifyId = $(this).val();
         var element = $(this);

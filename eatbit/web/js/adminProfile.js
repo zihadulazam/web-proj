@@ -207,7 +207,7 @@ $(document).ready(function() {
         {
             url : "../eatbit/DenyReplyByAdminServlet",
             type: "POST",
-            data : {id_review:id_review},
+            data : {string_id:id_review},
             success:function(dati)  
             {
                 //data: return data from server

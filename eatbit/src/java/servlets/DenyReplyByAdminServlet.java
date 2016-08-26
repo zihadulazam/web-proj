@@ -53,7 +53,7 @@ public class DenyReplyByAdminServlet extends HttpServlet
                 out.write("1");
             }
             else
-                out.write(" string "+ stringId);
+                out.write("-1");
             out.flush();
                 
         } catch (NumberFormatException | SQLException ex) {
