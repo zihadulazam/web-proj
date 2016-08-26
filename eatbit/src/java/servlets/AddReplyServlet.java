@@ -49,8 +49,10 @@ public class AddReplyServlet extends HttpServlet {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
+            
             String description= request.getParameter("description");
-            String stringIdRev= request.getParameter("id_review");
+            String stringIdRev= request.getParameter("id_review");          
+
             //controllo che utente sia loggato in
             if(description!=null && stringIdRev!=null)
             {
@@ -59,7 +61,8 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setDescription(description);
                 reply.setDate_creation(null);
                 reply.setId_review(Integer.parseInt(stringIdRev));
-                reply.setId_owner(user.getId());
+                reply.setId_owner(8);
+                //reply.setId_owner(user.getId());
                 reply.setDate_validation(null);
                 reply.setId_validator(-1);
                 reply.setValidated(false);
@@ -84,4 +87,7 @@ public class AddReplyServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        doPost(request, response);
+    }
 }

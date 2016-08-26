@@ -168,7 +168,7 @@
                                     </div>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:forEach items="${risposteConfermare}" var="reviewNotification">
+                                    <c:forEach items="${risposteConfermare}" var="RC">
                                         <div class="alert alert-info notice  notificaRecensione" role="alert">
                                             <div class ="row">
                                                 <a href="#">
@@ -187,16 +187,16 @@
                                                 <div class ="col-md-12">                                                    
                                                     <div class="panel panel-primary comm">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
+                                                            <h3 class="panel-title"><c:out value="${RC.getUser().getName()}" /> ha commentato:</h3>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <c:out value="${reviewNotification.getReview().getDescription()}" />
+                                                            <c:out value="${RC.getReview().getDescription()}" />
                                                         </div>
                                                         <div class ="row dx">
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
+                                                                <c:out value="${RC.getReview().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -219,13 +219,13 @@
                                                             <h3 class="panel-title">Il proprietario ha risposto:</h3>
                                                         </div>
                                                         <div class="panel-body">
-                                                            <c:out value="${reviewNotification.getReply().getDescription()}" />
+                                                            <c:out value="${RC.getReply().getDescription()}" />
                                                         </div>   
                                                         <div class ="row dx">
                                                             <div class="col-md-12">
                                                                 &nbsp;
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                                <c:out value="${reviewNotification.getReply().getDate_creation().toLocaleString()}"></c:out>
+                                                                <c:out value="${RC.getReply().getDate_creation().toLocaleString()}"></c:out>
                                                             </div>
                                                             
                                                         </div>
@@ -238,10 +238,10 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " value="${reviewNotification.getReview().getId()}">Accept</button>
+                                                    <button  class=" right btn btn-primary fisso acceptReply " value="${RC.getReview().getId()}">Accept</button>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" value="${reviewNotification.getReview().getId()}">Decline</button>
+                                                    <button  class=" right btn btn-primary fisso declineReply" value="${RC.getReview().getId()}">Decline</button>
                                                 </div>
                                             </div>
 
