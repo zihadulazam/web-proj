@@ -49,14 +49,6 @@ public class GetRestaurantInfoServlet extends HttpServlet {
             //prendo la sessione
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");   
-            //verifico che l'utente sia loggato
-            if (user == null) {
-                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-                request.setAttribute("message", "Not LOGGED IN !");
-                //redirigo alla landingPage
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-            }
             //prendo l'ID del ristorante da modificare
             int id_restaurant = Integer.parseInt(request.getParameter("restaurant_id"));
             //raccolgo le informazioni

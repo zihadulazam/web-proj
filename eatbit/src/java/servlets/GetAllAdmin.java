@@ -1,7 +1,6 @@
 package servlets;
 
 import database.DbManager;
-import database.User;
 import database.contexts.AttemptContext;
 import database.contexts.PhotoContext;
 import database.contexts.ReplyContext;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,15 +46,6 @@ public class GetAllAdmin extends HttpServlet {
                response.setContentType("text/html;charset=UTF-8");
         try{
             HttpSession session = request.getSession();
-            User user = (User)session.getAttribute("user");   
-            
-            if (user == null) {
-                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-                request.setAttribute("message", "Not LOGGED IN !");
-                //redirigo alla landingPage
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-            }
             
            //raccolgo dati per l'admin
                 ArrayList<AttemptContext> ristorantiAttesa = null;

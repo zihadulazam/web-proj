@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "CuisinesForCreationServlet", urlPatterns =
 {
-    "/CuisinesForCreationServlet"
+    "/restaurant_setup"
 })
 public class CuisinesForCreationServlet extends HttpServlet
 {
@@ -46,7 +45,7 @@ public class CuisinesForCreationServlet extends HttpServlet
         try
         {
             request.setAttribute("cuisines", manager.getAllCuisines());
-            request.getRequestDispatcher("/CreateRestaurant.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/CreateRestaurant.jsp").forward(request, response);
         }
         catch(SQLException e)
         {

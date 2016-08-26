@@ -43,6 +43,9 @@
         <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Raleway:500' rel='stylesheet' type='text/css'>
         
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
         <!-- include navbar hear -->

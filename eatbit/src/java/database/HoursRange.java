@@ -2,7 +2,6 @@ package database;
 
 import java.io.Serializable;
 import java.sql.Time;
-import java.util.Calendar;
 
 /**
  *Bean per gli orari di un ristorante, day è un numero da 1 a 7 che indica il giorno, con 1

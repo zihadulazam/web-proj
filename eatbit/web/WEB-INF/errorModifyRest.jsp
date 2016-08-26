@@ -10,6 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
         <title>Errore </title>
     </head>
     <body>
@@ -21,7 +25,7 @@
             -<h3><c:out value="${errore3}" /></h3><br>
             -<h3><c:out value="${errore4}" /></h3><br>
             
-            <a class="btn btn-submit" href="/ProfileServlet">
+            <a class="btn btn-submit" href="${pageContext.request.contextPath}/ProfileServlet">
                 Torna Indietro
             </a>
     </body>

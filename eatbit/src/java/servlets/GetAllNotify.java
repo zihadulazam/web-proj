@@ -48,13 +48,6 @@ public class GetAllNotify extends HttpServlet {
             HttpSession session = request.getSession();
             User user = (User)session.getAttribute("user");   
             
-            if (user == null) {
-                // metto il messaggio di errore come attributo di Request, così nel JSP si vede il messaggio
-                request.setAttribute("message", "Not LOGGED IN !");
-                //redirigo alla landingPage
-                RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);
-            }
             
             ArrayList<PhotoNotification> listPhotoNotification = null;
             ArrayList<ReviewNotification> listReviewNotification = null;

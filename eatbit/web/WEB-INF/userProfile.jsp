@@ -43,6 +43,10 @@
         <link href='https://fonts.googleapis.com/css?family=Exo+2:400,800italic' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>
+        
+        <!-- icon-->
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
                 
@@ -70,7 +74,7 @@
                               <p><b>Reviews:</b>
                                   <br><c:out value="${listReview.size()}"/> </p>
                               <p>
-                                <form action="CreateRestaurant.jsp" method="get">
+                                <form action="restaurant_setup" method="get">
                                     <button class="btn btn-primary fixx" type="submit" role="button" onclick="">Carica un Ristorante</button>
                                 </form>
                               <hr>
@@ -122,7 +126,7 @@
                                                     <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                     <p class="comment-data">
                                                         <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                        <c:out value="${allComments.getReview().getDate_creation()}" />
+                                                        <c:out value="${allComments.getReview().getDate_creation().toLocaleString()}" />
                                                     </p>
                                                     <c:if test="${allComments.getPhoto()!=null}">
                                                         <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
@@ -167,7 +171,7 @@
                                                                             <div class="col-md-10">
                                                                                 <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
                                                                                 <p class="risposta-autore">Da: Proprietario</p>
-                                                                                <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
+                                                                                <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation().toLocaleString()}" /></p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -220,7 +224,16 @@
                                     <div class="container-fluid restaurant">
                                         <div class="row container-fluid">
                                             <div class="col-md-4 restaurant-title">
-                                                <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="restaurantFoto"/>
+                                                
+                                                <c:choose>
+                                                    <c:when test="${restaurant.getPhotos().size() > 0}">
+                                                        <img src="${restaurant.getPhotos().get(0).getPath()}" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="img/restaurant-default.png" class="r-img img-circle" alt="${restaurant.getPhotos().get(0).getPath()}"/>
+                                                    </c:otherwise>
+                                                </c:choose>                                                
+                                                
                                                 <h4><c:out value="${restaurant.getRestaurant().getName()}" /></h4>
                                                 <div class="row rating-stars">
                                                     <c:forEach var="i" begin="1" end="5">
@@ -288,7 +301,7 @@
                                         <div class="alert alert-info notice notificaFoto" role="alert">
                                             <div class ="row">
                                                 <a href="#">
-                                                    &nbsp;<b><c:out value="${photoNotification.getUser().getName()}" /></b> ha caricato una foto su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
+                                                    &nbsp;<b>Nova Foto</b> caricata su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
                                                 </a>
                                             </div>
                                             
@@ -307,7 +320,7 @@
                                             <div class="row">
                                                 <div class ="col-md-10">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${photoNotification.getCreation()}"></c:out>
+                                                    <c:out value="${photoNotification.getCreation().toLocaleString()}"></c:out>
                                                 </div>
                                                 <div class ="col-md-2">   
                                                     <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più</button>
@@ -342,7 +355,7 @@
                                                 <div class ="col-md-10">                                                    
                                                     <div class="panel panel-primary comm">
                                                         <div class="panel-heading">
-                                                            <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
+                                                            <h3 class="panel-title">Hanno commentato:</h3>
                                                         </div>
                                                         <div class="panel-body">
                                                             <c:out value="${reviewNotification.getReview().getDescription()}" />
@@ -357,7 +370,7 @@
                                                 <div class ="col-md-10">
                                                     
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${reviewNotification.getReview().getDate_creation()}"></c:out>
+                                                    <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
                                                     
                                                 </div>
                                                 <div class ="col-md-2">
@@ -369,7 +382,11 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi subito</button>
+                                                    
+                                                    <form action="GetReplyInfo" method="POST">
+                                                        <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
+                                                    </form>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -475,6 +492,7 @@
         
         <!-- UserProfile JS-->
         <script type="text/javascript" src="js/userProfile.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
 
         <!-- Single image viewer js -->
         <script src="js/lightbox.min.js"></script>

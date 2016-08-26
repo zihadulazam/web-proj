@@ -1,37 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
 import database.DbManager;
+import database.Review;
 import database.User;
-import database.contexts.RestaurantContext;
 import database.contexts.ReviewContext;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet che mette in request i 5 top ristoranti per voto, 5 per numero
- * recensioni e le ultime 5 review. Passa poi il controllo a /index.jsp.
  *
- * @author jacopo
+ * @author andrei
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "GetReplyInfo", urlPatterns = {"/GetReplyInfo"})
+public class GetReplyInfo extends HttpServlet {
 
-    private DbManager manager;
-
+        DbManager manager;
+    
     @Override
-    public void init() throws ServletException {
-        // inizializza il DBManager dagli attributi di Application
-        this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
+    public void init(){
+        // inizializza il DBManager 
+        this.manager = (DbManager)super.getServletContext().getAttribute("dbmanager");
     }
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,20 +46,28 @@ public class HomeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            ArrayList<RestaurantContext> top5RestContextsByValue = manager.getTop5RestaurantContextsByValue();
-            ArrayList<RestaurantContext> top5RestContextsByReviews = manager.getTop5RestaurantContextsByReviewsCounter();
-            ArrayList<ReviewContext> last5ReviewsContexts = manager.getLast5ReviewContexts();
-            request.setAttribute("top5RestByValue", top5RestContextsByValue);
-            request.setAttribute("top5RestByReviews", top5RestContextsByReviews);
-            request.setAttribute("last5Reviews", last5ReviewsContexts);
-            request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try{
+            HttpSession session = request.getSession();
+            int id_review = Integer.parseInt(request.getParameter("id_review"));
+            
+            ReviewContext review = manager.getReviewContext(id_review);
+            //response.getWriter().println(review.getRestaurantName());
+            request.setAttribute("review", review);
+            request.getRequestDispatcher("/WEB-INF/postReply.jsp").forward(request, response);
+            
+        }catch(ServletException | IOException ex){
+            Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            request.setAttribute("error1", "Errore con ID__REVIEW - Dati passati male");
+            request.getRequestDispatcher("/WEB-INF/errorModifyRest.jsp").forward(request, response);
+        }   catch (SQLException ex) {
+                Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            request.setAttribute("error1", "Errore SQL - Qualche problema interno durante l'ottenimento dei dati. Ci scusiamo!");
+            request.getRequestDispatcher("/WEB-INF/errorModifyRest.jsp").forward(request, response);
         }
     }
-    
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -84,7 +95,7 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *
