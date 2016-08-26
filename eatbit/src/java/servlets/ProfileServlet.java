@@ -79,10 +79,10 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
                 request.setAttribute("reviewSegnalate", listReviewNotification);
                 
-                //response.getWriter().println(risposteConfermare.get(0).getUser().getName());
-                //response.getWriter().println(risposteConfermare.get(0).getReview().getDescription());
-                //response.getWriter().println(risposteConfermare.get(0).getReply().getDescription());
-                request.getRequestDispatcher("/WEB-INF/adminProfile.jsp").forward(request, response);
+                response.getWriter().println(risposteConfermare.get(0).getUser().getName());
+                response.getWriter().println(risposteConfermare.get(0).getReview().getDescription());
+                response.getWriter().println(risposteConfermare.get(0).getReply().getDescription());
+                //request.getRequestDispatcher("/WEB-INF/adminProfile.jsp").forward(request, response);
 
                 
             }else{
@@ -107,16 +107,6 @@ public class ProfileServlet extends HttpServlet {
                    // out.println(x.getPhotos().get(0).getPath());
                     listRestaurants.add(x);
                 }
-                
-//                for(ReviewNotification Rn:listReviewNotification){
-//                    ReviewContext Rc=manager.getReviewContext(Rn.getId());
-//                    out.println(Rn.isHavereply());
-//                    if(Rc.getReply() !=null)
-//                    {
-//                        out.println("CIAo");
-//                        Rn.setHavereply(true);
-//                    }                     
-//                }
                 
                 response.setContentType("text/plain");
                 request.setAttribute("listPhotoNotification", listPhotoNotification);

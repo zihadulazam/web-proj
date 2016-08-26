@@ -52,8 +52,6 @@ public class AddReplyServlet extends HttpServlet {
             
             String description= request.getParameter("reply_text");
             String stringIdRev= request.getParameter("id_review");    
-            
-            out.println(description + " " + stringIdRev);
 
             //controllo che utente sia loggato in
             if(description!=null && stringIdRev!=null)
