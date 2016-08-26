@@ -261,6 +261,16 @@ function claimRisto(){
                         form.submit();
                     }
                 });
+                // Review foto
+                $("#add_foto_form").validate({
+                    rules:{
+                         AddFoto_cerca_photo_name:'required',
+                         photo_description:'required'
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
             }
         }
         

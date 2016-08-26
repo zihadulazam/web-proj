@@ -165,7 +165,7 @@
                     <c:forEach var="i" items="${list}">
                         <tr >
                             <!-- Prima colonna-->
-                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px; padding-left: 0px;" >
+                            <td class=" text-center sorting_1 comment" style="padding-right: 0px; padding-left: 0px;" >
                                 <c:choose>
                                     <c:when test="${i.getPhotos().size()>0}">
                                         <img class="prof-img" src="<c:out value="${i.getPhotos().get(0).getPath()}"/>"/>
@@ -176,7 +176,7 @@
                                 </c:choose>
                             </td>
                             <!-- Seconda colonna-->
-                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
+                            <td class=" text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
                                 <a class="link-nome" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"/>"><h4 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h4></a>                                            
                                 <h5><strong>Recensioni: </strong><c:out value="${i.getRestaurant().getReviews_counter()}"/></h5>
                                 <h5><strong>Posizione: </strong><c:out value="${i.getCityPosition()}"/></h5>
@@ -194,12 +194,12 @@
                                 </div> 
                             </td>
                             <!-- terza colonna-->
-                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
+                            <td class="text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
                                     <h5><c:out value="${i.getCoordinate().getAddress()}"/></h5>
                                     <h5><strong>Prezzo: </strong><c:out value="${i.getPriceRange().getName()}"/></h5>
                             </td>
                             <!-- quarta colonna-->
-                            <td class="col-md-3 col-sm-3 col-xs-12 text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;">                                          
+                            <td class="text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;">                                          
                                     <div class="cucine">                                            
                                         <c:forEach var="k" items="${i.getCuisines()}">
                                             <p><span class="label label-info"><c:out value="${k}"/></span></p>
@@ -207,7 +207,7 @@
                                     </div>
                             </td>
                             <!-- QUINTA, contiene NOME prezzo per ricerca-->
-                            <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
+                            <td class="sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-writer">  
@@ -217,7 +217,7 @@
                                 </div>
                             </td>
                             <!-- SESTA, contiene valore prezzo per ricerca-->
-                            <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
+                            <td class="sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-writer">  
@@ -227,7 +227,7 @@
                                 </div>
                             </td>
                             <!-- SETTIMA, contiene VOTO GLOBALE per ricerca-->
-                            <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
+                            <td class="sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-writer">  
@@ -237,7 +237,7 @@
                                 </div>
                             </td>
                             <!-- OTTAVA, contiene NOME per ricerca-->
-                            <td class="col-sm-1 sorting_1" style="padding-right: 0px;padding-left: 0px;">
+                            <td class="sorting_1" style="padding-right: 0px;padding-left: 0px;">
                                 <div class="container-right">  
                                     <div class="container-fluid">
                                         <div class="container-writer">  
