@@ -303,7 +303,7 @@
             </div>
             <div class="collapse" id="collapseAddFoto">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" enctype="multipart/form-data">
+                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" enctype="multipart/form-data" id="add_foto_form">
                         <div class="row">
                             <div class="col-md-12" id="AddFoto-FileInput">
                                 <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
@@ -313,7 +313,7 @@
                                             Cerca Photo&hellip; <input name="photo" id="AddFoto-cerca-photo" type="file" style="display: none;" accept="image/*" multiple>
                                         </span>
                                     </label>
-                                    <input type="text" id="AddFoto-cerca-photo-name" class="form-control" readonly>
+                                    <input type="text" id="AddFoto-cerca-photo-name" name="AddFoto_cerca_photo_name" class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
@@ -346,11 +346,11 @@
                                     <div class="container-fluid">
                                         <div class="row container-fluid">
                                             <div class="col-md-2 comment-writer">
-                                                <img src="<c:out value="${lastComment.getUser().getAvatar_path()}" />" class="img-circle"/>
+                                                <img src="<c:out value="${allComments.getUser().getAvatar_path()}" />" class="img-circle"/>
                                                 <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                 <p class="comment-data">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${lastComment.getReview().getDate_creation().getDate()}" />-<c:out value="${lastComment.getReview().getDate_creation().getMonth()}" />-<c:out value="${lastComment.getReview().getDate_creation().getYear()+1900}" /> <c:out value="${lastComment.getReview().getDate_creation().getHours()}" />:<c:out value="${lastComment.getReview().getDate_creation().getMinutes()}" />
+                                                    <c:out value="${allComments.getReview().getDate_creation().getDate()}" />-<c:out value="${allComments.getReview().getDate_creation().getMonth()}" />-<c:out value="${allComments.getReview().getDate_creation().getYear()+1900}" /> <c:out value="${allComments.getReview().getDate_creation().getHours()}" />:<c:out value="${allComments.getReview().getDate_creation().getMinutes()}" />
                                                 </p>
                                                 <c:if test="${allComments.getPhoto()!=null}">
                                                     <a class="thumbnail" href="<c:out value="${allComments.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${allComments.getPhoto().getPath()}" />">
