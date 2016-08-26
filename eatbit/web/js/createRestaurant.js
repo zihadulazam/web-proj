@@ -52,7 +52,7 @@ jQuery(document).ready(function() {
     	
     	// fields validation
     	parent_fieldset.find('#name, #description, #web_site, #address, #prezzo_min, #prezzo_max, #Add-photo-name, #photo_description').each(function() {
-    		if( $(this).val() == "" ) {
+    		if( $(this).val() == "") {
     			$(this).addClass('input-error');
     			next_step = false;
     		}
@@ -60,6 +60,48 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
     		}
     	});
+        if( $("#location").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
+        if( $("#city").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
+        if( $("#province").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
+        if( $("#state").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
+        if( $("#longitude").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
+        if( $("#latitude").val() == " ") {
+            $("#address").addClass('input-error');
+            next_step = false;
+        }
+        else {
+            $(this).removeClass('input-error');
+        }
     	// fields validation
     	
     	if( next_step ) {
@@ -121,6 +163,16 @@ $(document).ready(function(){
     $('#Add-photo').change(function(){
         $('#Add-photo-name').val($(this).val());
     });
+
+    $(".my-cuisine").change(function() {
+            if(this.checked) {
+                $("#num-cucine").text('checked');
+            }
+            else{
+                $("#num-cucine").text('Unchecked');
+            }
+        });
+
 });
 
 
@@ -141,7 +193,7 @@ $(document).ready(function(){
 		location=""+places.formatted_address;
 		lat=""+places.geometry.location.lat();
 		lon=""+places.geometry.location.lng();
-		via="Via ";
+		via="";
 		num="";
 		city="";
 		country="";

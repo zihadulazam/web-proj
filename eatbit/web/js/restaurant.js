@@ -193,7 +193,7 @@ function claimRisto(){
         success:function(data, textStatus, jqXHR) 
         {
             if(data == "1"){
-                alert("Abbiamo ricevuto la sua segnalazione, a breve riceverà un'email con l'esito.");
+                alert("Abbiamo ricevuto la sua segnalazione.");
                 location.reload();
             }
             if(data=="0")
