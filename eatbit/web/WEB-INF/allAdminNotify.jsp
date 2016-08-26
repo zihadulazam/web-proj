@@ -352,14 +352,6 @@
                                     </c:choose>
                                 </div>      
                                 
-                                <div class="row">
-                                        <div class="col-md-9">                                           
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="#" class="btn btn-primary">Vedi tutte le notifiche!</a>
-                                        </div>
-                                    <div class="col-md-2"></div>
-                                </div>
                                 
                             </c:otherwise>      
                         </c:choose>

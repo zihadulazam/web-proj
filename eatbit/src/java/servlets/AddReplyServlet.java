@@ -50,8 +50,10 @@ public class AddReplyServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             
-            String description= request.getParameter("description");
-            String stringIdRev= request.getParameter("id_review");          
+            String description= request.getParameter("reply_text");
+            String stringIdRev= request.getParameter("id_review");    
+            
+            out.println(description + " " + stringIdRev);
 
             //controllo che utente sia loggato in
             if(description!=null && stringIdRev!=null)
