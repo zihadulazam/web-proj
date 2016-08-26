@@ -1,11 +1,11 @@
-<footer class="footer-distributed">
+<footer class="footer footer-distributed">
 
 			<div class="footer-left">
 
 				<h3>eat<span>Bit</span></h3>
 
 				<p class="footer-links">
-					<a href="#">Home</a> . 
+					<a href="../eatbit/home">Home</a> . 
 					<a href="about">About</a> . 
 					<a href="Privacy.jsp">Privacy</a>
 				</p>
@@ -17,10 +17,13 @@
 
 				<p>Contatta</p>
 
-				<form action="#" method="post">
-
-					<input type="text" name="sendEmail" placeholder="Email" />
-					<textarea name="message" placeholder="Message"></textarea>
+				<form action="../eatbit/ContactServlet" method="post" id="send-email-form">
+					<div class="form-group">
+						<input class="form-control" type="text" name="email" placeholder="Email" />
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" name="text" placeholder="Message"></textarea>
+					</div>
 					<button type="submit"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>  Invia</button>
 
 				</form>
