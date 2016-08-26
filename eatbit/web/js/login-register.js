@@ -92,20 +92,20 @@ function regAjax(){
             if(data == "1"){
                 //se reg andato a buon fine
                 showLoginForm();
-                $('.error').addClass('alert alert-success').html("<strong>Congratulazioni !!</strong> adesso sei un nostro utente. Conferma l'e-mail ed <strong>Accedi</strong> per entrare nel tuo profilo.");     
+                $('.error').addClass('alert alert-success').html("Congratulazioni !! adesso sei un nostro utente. Conferma l'e-mail ed <strong>Accedi</strong> per entrare nel tuo profilo.");     
             } 
             else{
                 if(data=="-2")
                 {
-                    $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo indirizzo e-mail");     
+                    $('.error').addClass('alert alert-danger').html("Errore: esiste già un profilo con questo indirizzo e-mail");     
                 }
                 else{
                     if(data=="-3")
                     {
-                        $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> esiste già un profilo con questo nickname");    
+                        $('.error').addClass('alert alert-danger').html("Errore: esiste già un profilo con questo nickname");    
                     }
                     else{
-                        $('.error').addClass('alert alert-danger').html("<strong>Errore: </strong> Riprova");     
+                        $('.error').addClass('alert alert-danger').html("Errore: Riprova");     
                     }
                 }
                 shakeModal();
@@ -258,7 +258,7 @@ function shakeModal(){
                 success:function(data, textStatus, jqXHR) 
                 {
                     if(data == "1"){
-                        alert("Abbiamo inviato un'email dove puoi recuperare la tua password. Coltrolla!!");
+                        alert("Abbiamo inviato un'email dove puoi recuperare la tua password. Conltrolla!!");
                         location.reload();
                     }
                     if(data=="0")
