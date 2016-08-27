@@ -70,8 +70,8 @@ public class ProfileServlet extends HttpServlet {
                 //provo a interrogare il DB per ottenere le info                
                 ristorantiAttesa = manager.getRestaurantsRequests(2);
                 risposteConfermare = manager.getRepliesToBeConfirmed(2);
-                listPhotoNotification = manager.getReportedPhotos(2);
-                listReviewNotification = manager.getReportedReviews(2);
+                listPhotoNotification = manager.getAllReportedPhotos();
+                listReviewNotification = manager.getAllReportedReviews();
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);

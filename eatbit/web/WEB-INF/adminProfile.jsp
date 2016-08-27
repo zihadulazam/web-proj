@@ -35,7 +35,9 @@
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/adminProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
-        
+        <!-- Pnotify css -->
+       <link href="css/pnotify.custom.min.css" rel="stylesheet">
+       
         <!-- single img Viewer css-->
         <link rel="stylesheet" href="css/lightbox.min.css">
         
@@ -244,10 +246,10 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " id="AcceptReply" value="${RC.getReview().getId()}">Accept</button>
+                                                    <button  class=" right btn btn-primary fisso acceptReply " id="AcceptReply" value="${RC.getReply().getId()}">Accept</button>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" id="DeclineReply" value="${RC.getReview().getId()}">Decline</button>
+                                                    <button  class=" right btn btn-primary fisso declineReply" id="DeclineReply" value="${RC.getReply().getId()}">Decline</button>
                                                 </div>
                                             </div>
 

@@ -66,7 +66,7 @@ public class RemovePhotoByAdminServlet extends HttpServlet
                 //rimuovo associazione foto - risto da db
                 manager.removePhoto(Integer.parseInt(stringId));
                 //rimuovo foto da filesystem
-                String Path = dirName + photo.getPath().replace("img/photos/", "/");
+                String Path = dirName + photo.getPath().replace("img/photos/", "\\");
                 FileDeleter.deleteFile(Path);
                 out.write("1");
             }
