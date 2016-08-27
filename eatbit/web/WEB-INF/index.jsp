@@ -18,6 +18,9 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/index.css" rel="stylesheet">
 
+        <!-- Pnotify css -->
+        <link href="css/pnotify.custom.min.css" rel="stylesheet">
+
          <!-- single img Viewer css-->
         <link rel="stylesheet" href="css/lightbox.min.css">
         
@@ -91,7 +94,12 @@
                                                 <div class="container-fluid">
                                                     <div class="row container-fluid">
                                                         <div class="col-md-2 comment-writer">
-                                                            <img src="<c:out value="${lastComment.getUser().getAvatar_path()}" />" class="img-circle"/>
+                                                            <img data-toggle="popover" data-placement="bottom"
+                                                                 data-content=" 
+                                                                    <p>Totale Recensioni: <c:out value="${lastComment.getUser().getReviews_counter()}" /></p>
+                                                                    <p class='text-success'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span> Totale Mi Piace: <c:out value="${lastComment.getUser().getReviews_positive()}" /></p>
+                                                                    <p class='text-danger'><span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span> Totale Non Mi Piace: <c:out value="${lastComment.getUser().getReviews_negative()}" /></p>"
+                                                            src="<c:out value="${lastComment.getUser().getAvatar_path()}" />" class="img-circle"/>
                                                             <h5><c:out value="${lastComment.getUser().getNickname()}" /></h5>
                                                             <p class="comment-data">
                                                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>

@@ -31,6 +31,9 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/restaurant.css" rel="stylesheet">
 
+        <!-- Pnotify css -->
+        <link href="css/pnotify.custom.min.css" rel="stylesheet">
+
         <!-- slider pro css -->
         <link href="css/slider-pro.css" rel="stylesheet">
 
@@ -346,7 +349,12 @@
                                     <div class="container-fluid">
                                         <div class="row container-fluid">
                                             <div class="col-md-2 comment-writer">
-                                                <img src="<c:out value="${allComments.getUser().getAvatar_path()}" />" class="img-circle"/>
+                                                <img  data-toggle="popover" data-placement="bottom"
+                                                    data-content=" 
+                                                    <p>Totale Recensioni: <c:out value="${allComments.getUser().getReviews_counter()}" /></p>
+                                                    <p class='text-success'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span> Totale Mi Piace: <c:out value="${allComments.getUser().getReviews_positive()}" /></p>
+                                                    <p class='text-danger'><span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'></span> Totale Non Mi Piace: <c:out value="${allComments.getUser().getReviews_negative()}" /></p>"
+                                                src="<c:out value="${allComments.getUser().getAvatar_path()}" />" class="img-circle"/>
                                                 <h5><c:out value="${allComments.getUser().getNickname()}" /></h5>
                                                 <p class="comment-data">
                                                     <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>

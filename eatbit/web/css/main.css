@@ -550,7 +550,7 @@ html, body {
   clear: both;
   padding-top: 20px;
   background-color: #292c2f;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0);
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   width: 100%;
   font: bold 16px sans-serif;
@@ -654,7 +654,7 @@ html, body {
   border-radius: 3px;
   box-sizing: border-box;
   background-color: #1f2022;
-  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
   border: none;
   resize: none;
   font: inherit;
@@ -760,4 +760,15 @@ html, body {
   .footer-distributed form button {
     float: none;
   }
+}
+/* line 216, ../scss/main.scss */
+.myPopoverContent {
+  display: none;
+}
+
+/* line 219, ../scss/main.scss */
+.popover-content {
+  color: #5c666b;
+  font-size: 10px;
+  text-align: center;
 }
