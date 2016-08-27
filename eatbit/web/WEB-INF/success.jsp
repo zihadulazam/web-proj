@@ -35,12 +35,24 @@
         <!-- Main Content -->
             
          
-            <div class="container" id="main">
+            <div class="container text-center" id="main">
                     <h1>La cosa che stavi facendo ha funzionato! Complimenti!</h1>
+                    <p>(Tra <strong><span id="sec">5</span></strong> secondi verrai reindirizzato alla pagina Home)</p>
                 <div class="row">
                     <div class="col-md-12 update">
                         <div class="horizontally-centered">
                             <img style="margin-left:auto;margin-right:auto;" class="img-responsive" alt="Responsive image" src="img/success.jpg"/>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 update">
+                            <div class="horizontally-centered">
+                                <p class="text-center"><a id="btn-home" class="btn btn-primary btn-lg" role="button">Home</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -52,5 +64,8 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
+
+        <!-- Redirect js -->
+        <script src="js/redirect-to-home.js"></script>
     </body>
 </html>
