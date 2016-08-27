@@ -99,7 +99,6 @@
             }
         }
         #notification{
-            margin-top: 2px;
             margin-left: 5px;
             #btn-notify{
                 border-radius: 20px !important;
@@ -112,8 +111,6 @@
             .badge-notify{
                 background:$eatbit_blue;
                 position:relative;
-                top: -12px;
-                left: -25px;
            }
         }
     }
@@ -162,8 +159,6 @@
                     .badge-notify{
                         background:$eatbit_blue;
                         position:relative;
-                        top:-25px;
-                        left: 10px;
                    }
                 }
             }
