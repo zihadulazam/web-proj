@@ -3,7 +3,8 @@
     Created on : Aug 21, 2016, 6:20:15 PM
     Author     : mario
 --%>
-<%@page language="java" session="true" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@page import="database.contexts.AttemptContext"%>
 <%@page import="database.contexts.ReplyContext"%>
 <%@page import="database.contexts.PhotoContext"%>
@@ -78,7 +79,7 @@
                                                 <c:choose>
                                                     <c:when test="${rA.getIsClaim() == 0}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; Ã© in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp; é in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:when>
                                                     <c:when test="${rA.getIsClaim() == 1}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 

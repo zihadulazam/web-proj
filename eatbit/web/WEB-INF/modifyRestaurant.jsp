@@ -2,8 +2,8 @@
 <%@page import="database.contexts.RestaurantContext"%>
 <%@page import="database.PriceRange"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page language="java" session="true" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>LunedÃ¬:</h5>
+                                        <h5>Lunedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -263,7 +263,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>MartedÃ¬:</h5>
+                                        <h5>Martedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -350,7 +350,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>MercoledÃ¬:</h5>
+                                        <h5>Mercoledì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -438,7 +438,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>GiovedÃ¬:</h5>
+                                        <h5>Giovedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -525,7 +525,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>VenerdÃ¬:</h5>
+                                        <h5>Venerdì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">

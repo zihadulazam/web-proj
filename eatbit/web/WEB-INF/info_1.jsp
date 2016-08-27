@@ -4,7 +4,8 @@
     Author     : 
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>

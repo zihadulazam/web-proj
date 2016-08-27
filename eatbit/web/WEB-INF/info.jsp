@@ -4,7 +4,9 @@
     Author     : 
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +61,15 @@
                                 <c:out value="${description}"/>
                             </p>
                         </div>
-                    <p><a class="btn btn-primary btn-lg" href="/eatbit/home" role="button">Home</a></p>
+                    <p>
+                        <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
+
+                        <script>
+                        function goBack() {
+                            window.history.back();
+                        }
+                        </script>
+                    </p>
                 </div>
             </div>
         </div>

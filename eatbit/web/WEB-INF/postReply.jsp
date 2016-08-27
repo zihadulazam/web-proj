@@ -4,8 +4,8 @@
     Author     : mario
 --%>
 <%@page import="database.contexts.ReviewContext"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page language="java" session="true" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>

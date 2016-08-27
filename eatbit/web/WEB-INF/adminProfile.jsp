@@ -4,8 +4,10 @@
     Author     : mario
 --%>
 
-<%@page language="java" session="true" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
+
 <%@page import="database.contexts.AttemptContext"%>
 <%@page import="database.contexts.ReplyContext"%>
 <%@page import="database.contexts.PhotoContext"%>
@@ -123,15 +125,15 @@
                                                 <c:choose>
                                                     <c:when test="${rA.getIsClaim() == 0}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; Ã© in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;é in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:when>
                                                     <c:when test="${rA.getIsClaim() == 1}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; <b>reclama</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;<b>reclama</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:when>
                                                     <c:otherwise>
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; <b>ha creato e reclamato</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;<b>ha creato e reclamato</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:otherwise>
                                                 </c:choose>                                        
                                             </a>
@@ -246,10 +248,13 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " id="AcceptReply" value="${RC.getReply().getId()}">Accept</button>
+                                                    <div class="row">
+                                                        <button  class=" right btn btn-primary fisso acceptReply " value="${RC.getReply().getId()}">Accept</button>
+                                                        <button  class=" right btn btn-primary fisso declineReply" value="${RC.getReply().getId()}">Decline</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" id="DeclineReply" value="${RC.getReply().getId()}">Decline</button>
+                                                    
                                                 </div>
                                             </div>
 
@@ -300,21 +305,15 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button id="AcceptReportPhoto" class="btn btn-primary fisso acceptReportedPhoto" value="${listPhotoNotification.get(i).getPhoto().getId()}">Accept</button>
-                                                        </div>       
+                                                            <div class="row">
+                                                                <button class="btn btn-primary fisso acceptReportedPhoto" value="${listPhotoNotification.get(i).getPhoto().getId()}">Accept</button>
+                                                                <button  class="btn btn-primary fisso declineReportedPhoto " value="${listPhotoNotification.get(i).getPhoto().getId()}" >Decline</button>
+                                                            </div>
+                                                            </div>       
                                                         <div class="col-md-1">                                                    
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class ="col-md-9">
-                                                        </div>
-                                                        <div class ="col-md-2">   
-                                                            <button id="DeclineReportPhoto" class="btn btn-primary fisso declineReportedPhoto " value="${listPhotoNotification.get(i).getPhoto().getId()}" >Decline</button>
-                                                        </div>  
-                                                        <div class="col-md-1">                                                    
-                                                        </div>
-                                                    </div>
                                                 </div>
                                         </c:forEach>
                                         </c:if>
@@ -351,21 +350,15 @@
 
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  id="AcceptReportedReview" class=" right btn btn-primary fisso acceptReportedReview " value="${listReviewNotification.get(i).getReview().getId()}">Accept</button>
-                                                        </div>
+                                                            <div class="row">
+                                                                <button class="right btn btn-primary fisso acceptReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Accept</button>
+                                                                <button class=" right btn btn-primary fisso declineReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Decline</button>
+                                                            </div>
+                                                            </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class ="col-md-9">
-                                                        </div>
-                                                        <div class ="col-md-2">
-                                                            <button id="DeclineReportedReview" class=" right btn btn-primary fisso declineReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Decline</button>
-                                                        </div>
-                                                        <div class="col-md-1">                                                    
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </c:forEach>
                                         </c:if>                                                                                
@@ -440,12 +433,10 @@
                                     
                                 </li>
                             </ul>   
-                           </form>
-                                    <form action="/" method="POST">
-                                        <div class="right">
-                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
-                                        </div>
-                                    </form>
+                           </form>                                    
+                                <div class="right">
+                                    <p><button name ="id_user" value="${user.getId()}" class="btn btn-primary fixx cPwd"  role="button" >Cambia Password</button></p>
+                                </div>                                    
                         </div>
                                     
                         

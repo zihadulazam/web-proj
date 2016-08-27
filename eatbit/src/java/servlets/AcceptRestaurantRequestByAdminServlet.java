@@ -51,6 +51,8 @@ public class AcceptRestaurantRequestByAdminServlet extends HttpServlet
         try {
             String stringIdRestaurant= request.getParameter("id_restaurant");
             String stringIdRequester= request.getParameter("id_user");
+            //System.out.println(stringIdRequester);
+            //System.out.println(stringIdRestaurant);
             if (stringIdRestaurant!=null && stringIdRequester!=null) {
                 manager.acceptRestaurantRequest(Integer.parseInt(stringIdRequester),Integer.parseInt(stringIdRestaurant));
                 out.write("1");

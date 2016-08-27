@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isErrorPage="true" %>
 
@@ -39,7 +39,7 @@
             
          
             <div class="container" id="main">
-                    <h1>Si Ã¨ verificato un errore, ci dispiace.</h1>
+                    <h1>Si è verificato un errore, ci dispiace.</h1>
                     <div class="row">
                         <div class="col-md-12 update">
                             <div class="horizontally-centered">

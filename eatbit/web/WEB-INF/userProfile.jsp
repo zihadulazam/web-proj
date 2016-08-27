@@ -11,8 +11,8 @@
 <%@page import="database.contexts.RestaurantContext"%>
 <%@page import="java.util.ArrayList"%>
 
-<%@page language="java" session="true" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -35,6 +35,9 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
+        
+        <!-- Pnotify css -->
+        <link href="css/pnotify.custom.min.css" rel="stylesheet">
 
         <!-- single img Viewer css-->
         <link rel="stylesheet" href="css/lightbox.min.css">
@@ -209,7 +212,8 @@
                             <c:when test="${user.getType() == 0}">   
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
-                                        &nbsp; Non sei ancora un utente Ristoratore!                                                
+                                        &nbsp; Non sei ancora un utente Ristoratore oppure i ristoranti da te <br/>
+                                        &nbsp; caricati non sono ancora stati accettati dai nostri amministratori!                                                
                                     </div>
                                     <div class="row">
                                         <div class ="col-md-10">
@@ -311,20 +315,21 @@
                                         </c:otherwise>
                                     </c:choose>
                                     
+                                    
                                     <c:forEach begin="0" end="${indice_max_notifiche}" var="i">
-                                        <c:if test="${ (i <= listPhotoNotification.size()-1) && (i>0)}">
+                                        <c:if test="${ (i <= listPhotoNotification.size()-1) && (i >= 0)}">
                                             
                                             <div class="alert alert-info notice notificaFoto" role="alert">
                                                 <div class ="row">
                                                     <a href="#">
-                                                        &nbsp;<b>Nova Foto</b> caricata su <b><c:out value="${listPhotoNotification.get(i).getRestaurant_name()}" /></b>
+                                                        &nbsp;<b>Nuova Foto</b> caricata su <b><c:out value="${listPhotoNotification.get(i).getRestaurant_name()}" /></b>
                                                     </a>
                                                 </div>
 
                                                 <div class="row">
                                                     <div class ="col-md-10">
                                                         <div class="contenutoNotFoto">
-                                                            <a class="thumbnail" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                            <a class="thumbnail" style="display: -moz-inline-box;" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
                                                                 <img src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
                                                             </a>                                                                                                                                                                                               
                                                         </div>
@@ -339,22 +344,23 @@
                                                         <c:out value="${listPhotoNotification.get(i).getCreation().toLocaleString()}"></c:out>
                                                     </div>
                                                     <div class ="col-md-2">   
-                                                        <button  class="btn btn-primary diventaRis removePhotoNot" value="${listPhotoNotification.get(i).getId()}">Non vedere piÃ¹</button>
-                                                    </div>                                                        
+                                                        <button  class="btn btn-primary diventaRis removePhotoNot" value="${listPhotoNotification.get(i).getId()}">Non vedere più</button>
+                                                        <button  id="SegnalaSubito" class="btn btn-primary diventaRis " value="${listPhotoNotification.get(i).getId()}"  onclick="segnalaPhoto(${listPhotoNotification.get(i).getPhoto().getId()})">Segnala subito</button>
+                                                        </div>                                                        
                                                 </div>
 
                                                 <div class="row">
                                                     <div class ="col-md-10">
                                                     </div>
                                                     <div class ="col-md-2">   
-                                                        <button  id="SegnalaSubito" class="btn btn-primary diventaRis " value="${listPhotoNotification.get(i).getId()}"  onclick="segnalaPhoto(${listPhotoNotification.get(i).getPhoto().getId()})">Segnala subito</button>
+                                                        
                                                     </div>                                                        
                                                 </div>
                                             </div>
                                             
                                         </c:if>
                                         
-                                        <c:if test="${ (i <= listReviewNotification.size()-1) && (i>0)}">
+                                        <c:if test="${ (i <= listReviewNotification.size()-1) && (i>=0)}">
                                             <div class="alert alert-info notice  not notificaRecensione" role="alert">
                                                 <div class ="row">
                                                     <a href="#">
@@ -385,7 +391,7 @@
 
                                                     </div>
                                                     <div class ="col-md-2">
-                                                        <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${listReviewNotification.get(i).getId()}">Non vedere piÃ¹</button>
+                                                        <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${listReviewNotification.get(i).getId()}">Non vedere più</button>
                                                     </div>
                                                 </div>
 

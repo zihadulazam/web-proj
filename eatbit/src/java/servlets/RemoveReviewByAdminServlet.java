@@ -51,14 +51,17 @@ public class RemoveReviewByAdminServlet extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();        
+        PrintWriter out = response.getWriter();
+        String stringId;
+        String photoPath;
+        String path;
         try {
-            String stringId= request.getParameter("id_review");
+            stringId = request.getParameter("id_review");
             
             if (stringId!=null) {
-                String photoPath = manager.removeReview(Integer.parseInt(stringId));
+                photoPath = manager.removeReview(Integer.parseInt(stringId));
                 //cancello foto da filesystem
-                String path = dirName + photoPath.replace("img/photos/", "/");
+                path = dirName + photoPath.replace("img/photos/", "/");
                 FileDeleter.deleteFile(path);
                 out.write("1");
             }
@@ -66,7 +69,7 @@ public class RemoveReviewByAdminServlet extends HttpServlet
                 out.write("-1");
             out.flush();
                 
-        } catch (NumberFormatException | SQLException ex) {
+        } catch ( SQLException ex) {
             Logger.getLogger(RemoveReviewByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
         }

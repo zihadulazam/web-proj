@@ -75,9 +75,9 @@ public class AddReplyServlet extends HttpServlet {
                     request.setAttribute("description", "Pubblicazione andata a buon fine");
                 }else{
                     msg="-2";
-                    request.setAttribute("titolo", "Errore");
+                    request.setAttribute("titolo", "Ooops!");
                     request.setAttribute("status", "danger");
-                    request.setAttribute("description", "non sei proprietario di questo ristorante o hai già pubblicato una risposta");
+                    request.setAttribute("description", "hai già pubblicato una risposta a questa recensione");
                 }
                 out.println(msg);
                 

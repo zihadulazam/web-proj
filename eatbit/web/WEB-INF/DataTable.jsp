@@ -1,4 +1,5 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
@@ -46,7 +47,7 @@
                         <h1 align="justify">
                             <strong>Non sono stati trovati risultati per la tua ricerca!</strong> Sembra che non ci siano ristoranti nel posto che stavi cercando
                                 o con quel nome o cucina, ti invitiamo a riprovare.<br>
-                                Ricordati che nella <strong><a href="home">Home</a></strong> Ã¨ possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
+                                Ricordati che nella <strong><a href="home">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
                                 Suggerimenti di cucine:
                                 <ul>
                                   <li>asiatica</li>

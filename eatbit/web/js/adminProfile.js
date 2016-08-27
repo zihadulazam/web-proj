@@ -111,9 +111,9 @@ $(document).ready(function() {
     });
     
      $(".acceptReportedPhoto").click(function(event) {
-        var id_photo = document.getElementById("AcceptReportPhoto").value;
-        var element1 = document.getElementById("DeclineReportPhoto");
-        var element2 = document.getElementById("AcceptReportPhoto");
+        var id_photo = $(this).val();
+        var element = $(this).parent();
+       
         
         $.ajax(
         {
@@ -125,9 +125,7 @@ $(document).ready(function() {
                 //data: return data from server
                 if (dati == "1"){
                     //window.location.replace("/home");
-                    element1.remove();
-                    element2.remove();
-                    document.getElementById("DeclineReportPhoto").remove();
+                    element.remove();
                     new PNotify({
                         title: 'Rimozione',
                         text: 'Foto RIMOSSA con Successo !!',
@@ -166,9 +164,8 @@ $(document).ready(function() {
     });
     
          $(".declineReportedPhoto").click(function(event) {
-        var id_photo = document.getElementById("DeclineReportPhoto").value;
-        var element1 = document.getElementById("DeclineReportPhoto");
-        var element2 = document.getElementById("AcceptReportPhoto");
+        var id_photo = $(this).val();
+        var element1 = $(this).parent();
         //alert("id_photo = " + id_photo);
         $.ajax(
         {
@@ -181,11 +178,9 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element1.remove();
-                    element2.remove();
-                    document.getElementById("AcceptReportPhoto").remove();
                     new PNotify({
                         title: 'Rimozione',
-                        text: 'Foto tolta dall elenco delle FOTO SEGNALATE !!',
+                        text: 'Foto RIAMESSA nel Sistema !!',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -221,8 +216,8 @@ $(document).ready(function() {
     });
     
          $(".acceptReportedReview").click(function(event) {
-        var id_review = document.getElementById("AcceptReportedReview").value;
-        var element = document.getElementById("AcceptReportedReview");
+        var id_review = $(this).val();
+        var element =$(this).parent();
         
         $.ajax(
         {
@@ -235,7 +230,6 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("DeclineReportedReview").remove();
                     new PNotify({
                         title: 'Rimozione',
                         text: 'Review RIMOSSA con Successo !!',
@@ -274,8 +268,8 @@ $(document).ready(function() {
     });
     
          $(".declineReportedReview").click(function(event) {
-        var id_review = document.getElementById("DeclineReportedReview").value;
-        var element = document.getElementById("DeclineReportedReview");
+        var id_review = $(this).value();
+        var element = $(this).parent();
         
         $.ajax(
         {
@@ -288,7 +282,6 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("AcceptReportedReview").remove();
                     new PNotify({
                         title: 'Rimozione',
                         text: 'Review tolta dall elenco delle FOTO SEGNALATE !!',
