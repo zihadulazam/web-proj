@@ -6,7 +6,6 @@
 <html lang="it">
     <head>
         <title>eatBit | Recupera Password</title>
-        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -31,6 +30,9 @@
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
+        
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
         
@@ -40,7 +42,7 @@
             <div class="container" id="main">
                 <div id="last-update">
                     <div id="info-box">
-                        <form class="form-horizontal" action="${pageContext.request.contextPath}/VerifyPasswordServlet" method="post" id="reset-form">
+                        <form class="form-horizontal" action="${baseURL}/VerifyPasswordServlet" method="post" id="reset-form">
                     <fieldset>
 
                     <!-- Form Name -->

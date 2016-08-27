@@ -6,6 +6,7 @@
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,6 +38,8 @@
 
     </head>
     <body>
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
 
@@ -58,7 +61,7 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 form-box">
-                    	<form role="form" action="../eatbit/AddRestaurantServlet" method="post" class="f1" enctype="multipart/form-data">
+                    	<form role="form" action="${baseURL}/AddRestaurantServlet" method="post" class="f1" enctype="multipart/form-data">
 
                     		<h3>Crea Ristorante</h3>
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>

@@ -12,7 +12,6 @@
 <%@page import="database.Restaurant"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,7 +41,6 @@
         <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600' rel='stylesheet' type='text/css'>   
     </head>
     <body>
-        
         <!-- include navbar hear -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>

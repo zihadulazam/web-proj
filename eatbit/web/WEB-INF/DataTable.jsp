@@ -34,7 +34,8 @@
         </script>
     </head>
     <body>
-        
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
        <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
         
@@ -47,7 +48,7 @@
                         <h1 align="justify">
                             <strong>Non sono stati trovati risultati per la tua ricerca!</strong> Sembra che non ci siano ristoranti nel posto che stavi cercando
                                 o con quel nome o cucina, ti invitiamo a riprovare.<br>
-                                Ricordati che nella <strong><a href="home">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
+                                Ricordati che nella <strong><a href="${baseURL}/index.jsp">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
                                 Suggerimenti di cucine:
                                 <ul>
                                   <li>asiatica</li>
@@ -178,7 +179,7 @@
                             </td>
                             <!-- Seconda colonna-->
                             <td class=" text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
-                                <a class="link-nome" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"/>"><h4 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h4></a>                                            
+                                <a class="link-nome" href="${baseURL}/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${i.getRestaurant().getId()}"/>"><h4 class="container-title"><c:out value="${i.getRestaurant().getName()}"/></h4></a>                                            
                                 <h5><strong>Recensioni: </strong><c:out value="${i.getRestaurant().getReviews_counter()}"/></h5>
                                 <h5><strong>Posizione: </strong><c:out value="${i.getCityPosition()}"/></h5>
                                 <div class="rating-stars text-center">

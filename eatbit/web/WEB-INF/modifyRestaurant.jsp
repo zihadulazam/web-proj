@@ -40,6 +40,8 @@
         
     </head>
     <body>
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
         <!-- page container -->
@@ -61,7 +63,7 @@
                 
                 <div class="row">
                     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 form-box">
-                    	<form id="formModifica" action="${pageContext.request.contextPath}/ModifyRestaurantServlet" method="post" class="f1">
+                    	<form id="formModifica" action="${baseURL}/ModifyRestaurantServlet" method="post" class="f1">
                                 
                     		<p>Compila il modulo con i dati <strong>reali</strong> del ristorante!</p>
                     		
