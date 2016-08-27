@@ -54,37 +54,14 @@ public class GetRestaurantContextForwardToJspServlet extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int VotoTotaleCibo=0;
-            int VotoTotaleServizio=0;
-            int VotoTotaleAtmosfera=0;
-            int VotoTolatePrezzo=0;
         try {
             int id_restaurant = Integer.parseInt(request.getParameter("id_restaurant"));
             RestaurantContext context= manager.getRestaurantContext(id_restaurant);
-            
-            //Calcola Media Voto (cibo, servizio ..)
-            for(ReviewContext review: context.getReviewsContextsByNewest()){
-                VotoTotaleCibo+=review.getReview().getFood();
-                VotoTotaleServizio+=review.getReview().getService();
-                VotoTotaleAtmosfera+=review.getReview().getAtmosphere();
-                VotoTolatePrezzo+=review.getReview().getValue_for_money();
-            }
-            if(VotoTotaleCibo>0)
-                request.setAttribute("voto_per_cibo", (int)(VotoTotaleCibo/context.getReviewsContextsByNewest().size()));
-            else
-                request.setAttribute("voto_per_cibo", 1);
-            if(VotoTotaleServizio>0)
-                request.setAttribute("voto_per_servizio", (int)(VotoTotaleServizio/context.getReviewsContextsByNewest().size()));
-            else
-                request.setAttribute("voto_per_servizio", 1);
-            if(VotoTotaleAtmosfera>0)
-                request.setAttribute("voto_per_atmosfera", (int)(VotoTotaleAtmosfera/context.getReviewsContextsByNewest().size()));
-            else
-                request.setAttribute("voto_per_atmosfera", 1);
-            if(VotoTolatePrezzo>0)
-                request.setAttribute("voto_per_prezzo", (int)(VotoTolatePrezzo/context.getReviewsContextsByNewest().size()));
-            else
-                request.setAttribute("voto_per_prezzo", 1);
+            int[] averages= context.getAverages();
+                request.setAttribute("voto_per_cibo", averages[0]);
+                request.setAttribute("voto_per_servizio", averages[1]);
+                request.setAttribute("voto_per_atmosfera", averages[2]);
+                request.setAttribute("voto_per_prezzo", averages[3]);
             
             //GENERAZIONE QR
             String qrContent="";

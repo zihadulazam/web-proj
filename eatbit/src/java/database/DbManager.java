@@ -423,7 +423,7 @@ public class DbManager implements Serializable
     {
 
         User user = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=? OR NICKNAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=? OR NICKNAME=? AND VERIFIED=TRUE"))
         {
             st.setString(1, nickOrEmail);
             st.setString(2, nickOrEmail);
@@ -2172,6 +2172,7 @@ public class DbManager implements Serializable
     /**
      * Per inserire un ristorante.(la prima foto del ristorante va aggiunta a
      * parte, a livello servlet, dopo aver ottenuto l'id
+     * Ogni ristorante riceve 1 voto da 3/5 alla creazione.
      *
      * @param restaurant Il ristorante da inserire.
      * @param cucine Il tipo di cucine che ha, una lista di stringhe. (devono
@@ -2201,7 +2202,7 @@ public class DbManager implements Serializable
             st.setString(1, restaurant.getName());
             st.setString(2, restaurant.getDescription());
             st.setString(3, restaurant.getWeb_site_url());
-            st.setInt(4, 0);
+            st.setInt(4, 3);
             st.setInt(5, -1);
             st.setInt(6, restaurant.getId_creator());
             st.setInt(7, findClosestPrice(min, max));
@@ -4143,7 +4144,7 @@ public class DbManager implements Serializable
             //roba che ha bisogno coordinate != null
             if (coordinate != null)
             {
-                context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(),
+                context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(), restaurant.getReviews_counter(),
                         coordinate.getCity(), coordinate.getState()));
             }
             else
@@ -4278,28 +4279,33 @@ public class DbManager implements Serializable
      * stesso stato) rispetto al global_value. Se un ristorante avrà il
      * global_value più alto rispetto agli altri ristoranti nella sua città
      * allora il risultato sarà 1.
+     * Se due ristoranti hanno lo stesso global value è considerato migliore
+     * quello con +recensioni.
      *
      * @param global_value Il global_value del ristorante.
+     * @param n_reviews Numero reviews.
      * @param city La città del ristorante.
      * @param state Lo stato del ristorante.
      * @return Un intero pari alla posizione del ristorante in quella città in
      * base al global_value.
      * @throws SQLException
      */
-    public int getRestaurantCityPosition(final int global_value, final String city, final String state) throws SQLException
+    public int getRestaurantCityPosition(final int global_value, final int n_reviews, final String city, final String state) throws SQLException
     {
         int res = 1;
         try (PreparedStatement st = con.prepareStatement(
-                "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE FROM RESTAURANTS,"
+                "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE, RESTAURANTS.REVIEWS_COUNTER FROM RESTAURANTS,"
                 + "RESTAURANT_COORDINATE, COORDINATES WHERE "
                 + "upper(COORDINATES.CITY)=? AND upper(COORDINATES.STATE)=? AND "
                 + "RESTAURANTS.ID=RESTAURANT_COORDINATE.ID_RESTAURANT AND "
                 + "RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID) GLOBAL_VALUES "
-                + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ?"))
+                + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ? OR (GLOBAL_VALUES.GLOBAL_VALUE=? AND GLOBAL_VALUES.REVIEWS_COUNTER>?)"))
         {
             st.setString(1, city.toUpperCase());
             st.setString(2, state.toUpperCase());
             st.setInt(3, global_value);
+            st.setInt(4, global_value);
+            st.setInt(5, n_reviews);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
@@ -4713,7 +4719,22 @@ public class DbManager implements Serializable
         ArrayList<Integer> tmp;
         if (location == null && nameOrCuisine == null)
         {
-            return res;
+            tmp= new ArrayList<>();
+            try (PreparedStatement st = con.prepareStatement("SELECT ID FROM RESTAURANTS "
+                + "ORDER BY GLOBAL_VALUE DESC FETCH FIRST 20 ROWS ONLY"))
+            {
+                try (ResultSet rs = st.executeQuery())
+                {
+                    while (rs.next())
+                        tmp.add(rs.getInt("ID"));
+                }
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                con.rollback();
+                throw ex;
+            }
         }
         else if (location == null)
         {

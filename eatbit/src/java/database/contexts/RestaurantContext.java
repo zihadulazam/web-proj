@@ -131,7 +131,33 @@ public class RestaurantContext implements Serializable
         this.coordinate = coordinate;
     }
     
-    
+    /**
+     * Restituisce un array di 4 interi contenente le medie dei voti sulle recensioni,
+     * [media cibo, media servizio, media atmosfera, media prezzo]
+     * se non ci sono recensioni viene tutto settato parti al restaurant global value
+     * @return un array di 4 interi, le 4 medie
+     */
+    public int[] getAverages()
+    {
+        int[] res= {0,0,0,0};
+        if(reviewsContextsByNewest.isEmpty())
+            res[0]=res[1]=res[2]=res[3]=restaurant.getGlobal_value();
+        else
+        {
+            for(ReviewContext rev: reviewsContextsByNewest)
+            {
+                res[0]+=rev.getReview().getFood();
+                res[1]+=rev.getReview().getService();
+                res[2]+=rev.getReview().getAtmosphere();
+                res[3]+=rev.getReview().getValue_for_money();
+            }
+            res[0]/=restaurant.getReviews_counter();
+            res[1]/=restaurant.getReviews_counter();
+            res[2]/=restaurant.getReviews_counter();
+            res[3]/=restaurant.getReviews_counter();
+        }
+        return res;
+    }
     
     
 }

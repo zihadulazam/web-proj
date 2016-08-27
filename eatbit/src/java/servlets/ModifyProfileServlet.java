@@ -12,7 +12,6 @@ import java.util.Enumeration;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,97 +68,66 @@ public class ModifyProfileServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         //creo il realpath della directory di salvataggio avatar       
         String strRealPath = request.getSession().getServletContext().getRealPath("") + "img\\avatar";
-        out.println(request.getSession().getServletContext());        
         //String _path = getRelativePath("", strRealPath, strRealPath);
-        out.println("str " + strRealPath);
          // Use an advanced form of the constructor that specifies a character
             // encoding of the request (not of the file contents) and a file
             // rename policy.
-            MultipartRequest multi = new MultipartRequest(request,
-                    dirName, 
-                    10*1024*1024, "ISO-8859-1", 
-                    new DefaultFileRenamePolicy());
-            //prendo i parametri passati dagli input.text
-            Enumeration params = multi.getParameterNames();            
-            //stampo parametri in caso di mancato forward
-            while (params.hasMoreElements()) {
-                String name = (String)params.nextElement();
-                String value = multi.getParameter(name);
-                switch(name){
-                    case "name": _name = value; out.println(name + "=" + _name); break;
-                    case "surname": _surname = value; out.println(name + "=" + _surname); break;
-                }
+        MultipartRequest multi = new MultipartRequest(request,
+                dirName, 
+                10*1024*1024, "ISO-8859-1", 
+                new DefaultFileRenamePolicy());
+        //prendo i parametri passati dagli input.text
+        Enumeration params = multi.getParameterNames();            
+        //stampo parametri in caso di mancato forward
+        while (params.hasMoreElements()) {
+            String name = (String)params.nextElement();
+            String value = multi.getParameter(name);
+            switch(name){
+                case "name": _name = value;break;
+                case "surname": _surname = value;break;
             }
-            
-            try {
-                //CAMBIO NOME COGNOME UTENTE e NICKNAME
-                if ((!"".equals(_name)) && (!"".equals(_surname))){
-                    manager.modifyUserNameSurname(user.getId(), _name, _surname);
-                    user.setName(_name);
-                    user.setSurname(_surname);
-                    out.println("superata modifica nome cognome ");
-                }else{
-                    out.println("Name/SurName are empty");
-                }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
-            }
-            out.println();
-            
-            //stampo parametri del file caricato in caso di mancato forward
-            out.println("FILE:");
-            Enumeration files = multi.getFileNames();
-            try {
-                if (files.hasMoreElements()) {
-                    String name = (String)files.nextElement();
-                    String filename = multi.getFilesystemName(name);
-                    String originalFilename = multi.getOriginalFileName(name);
-                    String type = multi.getContentType(name);
-
-                    File f = multi.getFile(name); //file caricato
+        }
+        try {
+            //CAMBIO NOME COGNOME UTENTE e NICKNAME
+            manager.modifyUserNameSurname(user.getId(), _name, _surname);
+            user.setName(_name);
+            user.setSurname(_surname);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+        }
+        Enumeration files = multi.getFileNames();
+        try {
+            if (files.hasMoreElements()) {
+                String name = (String)files.nextElement();
+                String filename = multi.getFilesystemName(name);
+                String originalFilename = multi.getOriginalFileName(name);
+                String type = multi.getContentType(name);
+                File f = multi.getFile(name); //file caricato
+                if(f!=null)
+                {
                     //cambio il nome del file per non avere collisioni
                     String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
                     String photoPath = dirName+"/"+r;
                     File f2 = new File(photoPath);
                     f.renameTo(f2);    
-                    
                     //CANCELLO FOTO VECCHIA se è diversa dall'avatar di default
                     if(user.getAvatar_path().compareTo("img/avatar/avatar.png")!=0)
                     {
                         String oldAvatarPath = dirName + user.getAvatar_path().replace("img/avatar/", "/");
                         out.println("old_avatar_path :" + oldAvatarPath);   
-                        boolean success = FileDeleter.deleteFile(oldAvatarPath);
-                        if(success){
-                            out.println("file vecchio cancellato ");  
-                        }else{
-                        out.println("non sono riuscito a cancellare il file ");  
-                        }
-                    out.println("delete = " + success );    
+                        FileDeleter.deleteFile(oldAvatarPath);
                     }
                     //CAMBIO FOTO UTENTE
                     manager.modifyUserPhoto(user.getId(), "img/avatar/"+r);
                     user.setAvatar_path("img/avatar/"+r);
                     session.setAttribute("user", user);
-                    out.println("superata modifica avatar ");         
-                    
-                    
-                         
-                    
-                    //stampo qualche parametro 
-                    out.println("dirName: " + dirName);
-                    out.println("originalFilename: " + originalFilename);                
-                    out.println();
-                }  
-                
-            } catch (Exception ex) {
-                Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
-            //forward della richiesta
-            request.getRequestDispatcher("/ProfileServlet").forward(request, response);
-            
+                }
+            }  
+        } catch (Exception ex) {
+            Logger.getLogger(ModifyProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //forward della richiesta
+        request.getRequestDispatcher("/ProfileServlet").forward(request, response);
         }
     
     private String getExtension(String name){
