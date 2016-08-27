@@ -361,4 +361,26 @@ $('[data-toggle=popover]').mouseout(function() {
     $(this).popover('hide');
 });
 
+jQuery(document).ready(function() {
+  caricaNumNotifica();
+});
+function caricaNumNotifica(){
+    if($('#btn-notify').length!=0){ 
+        $.ajax(
+        {
+            url : "../eatbit/NotificationCount",
+            type: "GET",
+            success:function(data, textStatus, jqXHR) 
+            {
+                 if(parseInt(data)>0){
+                     $('#ntfy-badge').html(data);
+                 }
+                 else{
+                     $("#ntfy-badge").css("display", "none");
+                 }
+            }
+        });
+    }
+}
+
 
