@@ -1,12 +1,13 @@
 <%@ page errorPage="error.jsp" %>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=ISO-8859-1" %> 
 <%@ page import="java.io.*,java.util.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
    Date dNow = new Date( );
    SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");
-   SimpleDateFormat fd = new SimpleDateFormat ("E");
+   SimpleDateFormat fd = new SimpleDateFormat ("u");
    SimpleDateFormat ft = new SimpleDateFormat ("HH:mm");
    pageContext.setAttribute("Today", fdate.format(dNow));
    pageContext.setAttribute("NowDay", fd.format(dNow));
@@ -15,7 +16,8 @@
 <html lang="it">
     <head>
         <title>eatBit | <c:out value="${restaurant_context.getRestaurant().getName()}"/></title>
-        <meta charset="UTF-8">
+        
+        <meta charset="ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -102,10 +104,10 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
-                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per citt√†): <c:out value="${restaurant_context.getCityPosition()}"/></p>
-                        <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi:</p>
+                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per citt‡†): <c:out value="${restaurant_context.getCityPosition()}"/></p>
+                        <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi: </p>
                         <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
-                            <c:if test="${NowDay==ore.getFormattedDay()}">
+                            <c:if test="${NowDay==ore.getDay()}">
                                   <p><c:out value="${ore.getFormattedStart_hour()}"/> - <c:out value="${ore.getFormattedEnd_hour()}"/></p>
                                   <c:choose>
                                       <c:when test="${ore.getStart_hour()<=NowTime && ore.getEnd_hour()>=NowTime}">
