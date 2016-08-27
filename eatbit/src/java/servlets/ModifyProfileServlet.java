@@ -7,6 +7,9 @@ import database.User;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -19,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.ServletConfig;
+import org.apache.derby.iapi.services.io.FileUtil;
 import utility.FileDeleter;
 //import org.apache.commons.io.FilenameUtils;
 
@@ -28,7 +32,7 @@ import utility.FileDeleter;
  */
 @WebServlet(name = "ModifyProfileServlet", urlPatterns = {"/ModifyProfileServlet"})
 public class ModifyProfileServlet extends HttpServlet {
-    private String dirName;
+    private String global_dirName;
     private DbManager manager;
 
     @Override
@@ -37,9 +41,10 @@ public class ModifyProfileServlet extends HttpServlet {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName = getServletContext().getRealPath(config.getInitParameter("uploadDir")).replace("build/", "").replace("build\\", "");
-        if (dirName == null) 
+        global_dirName = config.getInitParameter("uploadDir");
+        if (global_dirName == null) 
           throw new ServletException("missing uploadDir parameter in web.xml for servlet ModifyProfileServlet");
+        global_dirName = getServletContext().getRealPath(global_dirName);
     }
     
     
@@ -54,6 +59,7 @@ public class ModifyProfileServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String dirName= global_dirName;
         response.setContentType("text/html;charset=UTF-8");
         response.setContentType("text/plain");
         //prendo la sessione
@@ -109,7 +115,10 @@ public class ModifyProfileServlet extends HttpServlet {
                     String r = UUID.randomUUID().toString()+"."+getExtension(f.toString());
                     String photoPath = dirName+"/"+r;
                     File f2 = new File(photoPath);
-                    f.renameTo(f2);    
+                    f.renameTo(f2); 
+                    File fWeb= new File(dirName.replace("build/", "").replace("build\\", "")+"/"+r);
+                    Files.copy(f2.toPath(),fWeb.toPath(),COPY_ATTRIBUTES);
+                    dirName= dirName.replace("build/", "").replace("build\\", "");
                     //CANCELLO FOTO VECCHIA se è diversa dall'avatar di default
                     if(user.getAvatar_path().compareTo("img/avatar/avatar.png")!=0)
                     {
@@ -133,7 +142,11 @@ public class ModifyProfileServlet extends HttpServlet {
     private String getExtension(String name){
         
         try {
-            return name.substring(name.lastIndexOf(".") + 1);
+            int val= name.lastIndexOf(".");
+            if(val==-1)
+                return "jpg";
+            else
+                return name.substring(name.lastIndexOf(".") + 1);
         } catch (Exception e) {
             return e.toString();
         }
