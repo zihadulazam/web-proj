@@ -1801,16 +1801,17 @@ public class DbManager implements Serializable
         {
             return -1;
         }
-        //controllo che proprietario!=recensore
-        if (restaurant.getId_owner() == review.getId_creator())
-        {
-            return -3;
-        }
         //controllo che nn esista già voto o review per questo ristorante nelle u ltime 24h
         if (!addOrRefreshVote(review.getId_creator(), review.getId_restaurant()))
         {
             return -2;
         }
+        //controllo che proprietario!=recensore
+        if (restaurant.getId_owner() == review.getId_creator())
+        {
+            return -3;
+        }
+        
         try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEWS(GLOBAL_VALUE,FOOD,"
                 + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
                 + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
@@ -1869,9 +1870,22 @@ public class DbManager implements Serializable
         return res;
     }
 
+    private void updateRestaurantReviewsNumber(final int id_rest) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE RESTAURANTS SET REVIEWS_COUNTER=(SELECT COUNT(ID) FROM REVIEWS WHERE ID_RESTAURANT=1) WHERE ID=1"))
+        {
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
     /**
-     * Per settare la foto dello user. Non viene controllato prima se lo user
-     * esiste perchè si assume che sia preso dalla sessione e quindi corretto.
+     * Per settare la foto dello user. 
      *
      * @param userId Id dell'utente.
      * @param photoPath Una stringa che è il path della foto all'interno
@@ -1880,7 +1894,6 @@ public class DbManager implements Serializable
      */
     public void modifyUserPhoto(final int userId, final String photoPath) throws SQLException
     {
-        boolean res = false;
         try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE ID=?"))
         {
             st.setString(1, photoPath);
@@ -2475,10 +2488,13 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
+            Photo photo= getPhotoById(id_photo);
             //unreportPhoto(id_photo);//rimuovo dalla lista reportati non necessario causa ON DELETE CASCADE
             st.setInt(1, id_photo);
             st.executeUpdate();
             con.commit();
+            //necessario xk a volte la rimozione di una foto causa la rimozione di una review a cascata
+            updateRestaurantReviewsNumber(photo.getId_restaurant());
         }
         catch (SQLException ex)
         {

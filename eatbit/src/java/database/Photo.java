@@ -1,6 +1,7 @@
 package database;
 
 import java.io.Serializable;
+import java.nio.charset.Charset;
 
 /**
  *Oggetto che rispecchia la tabella Photos nel database.
