@@ -105,72 +105,56 @@
 }
 /* line 101, ../scss/components/_navbar-default.scss */
 .navbar #logged #notification {
-  margin-top: 2px;
   margin-left: 5px;
 }
-/* line 104, ../scss/components/_navbar-default.scss */
-.navbar #logged #notification button {
-  border-radius: 20px;
+/* line 103, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification #btn-notify {
+  border-radius: 20px !important;
+  padding: 6px 12px !important;
+  color: #000 !important;
 }
 /* line 107, ../scss/components/_navbar-default.scss */
+.navbar #logged #notification #btn-notify:hover {
+  background-color: #3fb0ac;
+}
+/* line 111, ../scss/components/_navbar-default.scss */
 .navbar #logged #notification .badge-notify {
   background: #3f51b5;
   position: relative;
-  top: -12px;
-  left: -25px;
-}
-/* line 113, ../scss/components/_navbar-default.scss */
-.navbar #logged #notification .dropdown-menu {
-  width: 400px;
-}
-/* line 115, ../scss/components/_navbar-default.scss */
-.navbar #logged #notification .dropdown-menu li {
-  padding-left: 5px;
-  padding-top: 5px;
-}
-/* line 118, ../scss/components/_navbar-default.scss */
-.navbar #logged #notification .dropdown-menu li .data {
-  text-align: right;
-  padding-right: 5px;
-  color: #999;
-}
-/* line 124, ../scss/components/_navbar-default.scss */
-.navbar #logged #notification .dropdown-menu #mostra-notifiche {
-  text-align: center;
 }
 
 @media (max-width: 767px) {
-  /* line 134, ../scss/components/_navbar-default.scss */
+  /* line 121, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #333;
   }
 
-  /* line 137, ../scss/components/_navbar-default.scss */
+  /* line 124, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li {
     color: #333;
   }
-  /* line 139, ../scss/components/_navbar-default.scss */
+  /* line 126, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li .data {
     color: #bbb;
   }
 
-  /* line 145, ../scss/components/_navbar-default.scss */
+  /* line 132, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .navbar-form {
     border-top: 0px;
   }
-  /* line 148, ../scss/components/_navbar-default.scss */
+  /* line 135, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .btn {
     width: 100%;
   }
-  /* line 152, ../scss/components/_navbar-default.scss */
+  /* line 139, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .btn {
     margin: 8px 0px;
   }
-  /* line 155, ../scss/components/_navbar-default.scss */
+  /* line 142, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #not-logged .navbar-link {
     text-align: center;
   }
-  /* line 160, ../scss/components/_navbar-default.scss */
+  /* line 147, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #logged #notification {
     color: #333;
     margin-left: auto;
@@ -178,66 +162,64 @@
     width: 100%;
     margin-top: 5px;
   }
-  /* line 166, ../scss/components/_navbar-default.scss */
-  .navbar-default .navbar-collapse #logged #notification button {
-    border-radius: 5px;
+  /* line 153, ../scss/components/_navbar-default.scss */
+  .navbar-default .navbar-collapse #logged #notification #btn-notify {
+    border-radius: 5px !important;
   }
-  /* line 169, ../scss/components/_navbar-default.scss */
+  /* line 156, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #logged #notification .dropdown-menu {
     width: auto;
   }
-  /* line 172, ../scss/components/_navbar-default.scss */
+  /* line 159, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse #logged #notification .badge-notify {
     background: #3f51b5;
     position: relative;
-    top: -25px;
-    left: 10px;
   }
-  /* line 180, ../scss/components/_navbar-default.scss */
+  /* line 165, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .dropdown-menu {
     background-color: #fff;
   }
-  /* line 182, ../scss/components/_navbar-default.scss */
+  /* line 167, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar-collapse .dropdown-menu li {
     text-align: center;
     color: #333 !important;
   }
 }
-/* line 191, ../scss/components/_navbar-default.scss */
+/* line 176, ../scss/components/_navbar-default.scss */
 .navbar-collapse.in {
   overflow-y: inherit !important;
 }
 
 @media (max-width: 1020px) {
-  /* line 197, ../scss/components/_navbar-default.scss */
+  /* line 182, ../scss/components/_navbar-default.scss */
   .navbar-default #locationRisto {
     width: 100px;
   }
 }
 @media (max-width: 902px) {
-  /* line 202, ../scss/components/_navbar-default.scss */
+  /* line 187, ../scss/components/_navbar-default.scss */
   .navbar-default #nomeRisto {
     width: 150px;
   }
 }
 @media (max-width: 825px) {
-  /* line 207, ../scss/components/_navbar-default.scss */
+  /* line 192, ../scss/components/_navbar-default.scss */
   .navbar-default #nomeRisto {
     width: 90px;
   }
-  /* line 210, ../scss/components/_navbar-default.scss */
+  /* line 195, ../scss/components/_navbar-default.scss */
   .navbar-default #locationRisto {
     width: 90px;
   }
 }
 @media (max-width: 767px) {
-  /* line 215, ../scss/components/_navbar-default.scss */
+  /* line 200, ../scss/components/_navbar-default.scss */
   .navbar-default #locationRisto, .navbar-default #nomeRisto {
     width: 100%;
   }
 }
 @media only screen and (max-width: 1200px) {
-  /* line 220, ../scss/components/_navbar-default.scss */
+  /* line 205, ../scss/components/_navbar-default.scss */
   .navbar-default .navbar {
     padding-left: 40px;
     padding-right: 40px;
@@ -760,4 +742,15 @@ html, body {
   .footer-distributed form button {
     float: none;
   }
+}
+/* line 216, ../scss/main.scss */
+.myPopoverContent {
+  display: none;
+}
+
+/* line 219, ../scss/main.scss */
+.popover-content {
+  color: #5c666b;
+  font-size: 10px;
+  text-align: center;
 }

@@ -8,6 +8,8 @@ import database.Review;
 import database.User;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import static java.nio.file.StandardCopyOption.COPY_ATTRIBUTES;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.UUID;
@@ -52,7 +54,7 @@ import utility.FileDeleter;
 })
 public class AddReviewServlet extends HttpServlet
 {
-    private String dirName;
+    private String global_dirName;
     private DbManager manager;
 
     @Override
@@ -60,10 +62,10 @@ public class AddReviewServlet extends HttpServlet
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
-        if (dirName == null) 
+        global_dirName= (String) super.getServletContext().getInitParameter("uploadPhotosDir");
+        if (global_dirName == null) 
           throw new ServletException("missing uploadPhotosDir parameter in web.xml for servlet addReviewServlet");
-        dirName = getServletContext().getRealPath(dirName).replace("build/", "").replace("build\\", "");
+        global_dirName = getServletContext().getRealPath(global_dirName);
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -109,6 +111,7 @@ public class AddReviewServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+        String dirName= global_dirName;
         //prendo richiesta multipart
         MultipartRequest multi = new MultipartRequest(request,
                     dirName, 
@@ -168,6 +171,8 @@ public class AddReviewServlet extends HttpServlet
             String newPath = dirName+"/"+newName;
             File f2 = new File(newPath);
             f.renameTo(f2);
+            File fWeb= new File(dirName.replace("build/", "").replace("build\\", "")+"/"+newName);
+            Files.copy(f2.toPath(),fWeb.toPath(),COPY_ATTRIBUTES);
             int id_photo=-1;//serve in scope per catch
             //converto i parametri che lo necessitano in numeri e faccio
             //le chiamate al db, preparando prima gli oggetto necessari
@@ -261,7 +266,11 @@ public class AddReviewServlet extends HttpServlet
     private String getExtension(String name){
         
         try {
-            return name.substring(name.lastIndexOf(".") + 1);
+            int val= name.lastIndexOf(".");
+            if(val==-1)
+                return "jpg";
+            else
+                return name.substring(name.lastIndexOf(".") + 1);
         } catch (Exception e) {
             return e.toString();
         }

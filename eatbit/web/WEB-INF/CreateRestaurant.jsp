@@ -1,15 +1,15 @@
 <%-- 
     Document   : CreateRestaurant
     Created on : 14-ago-2016, 19.13.22
-    Author     : Andrea
+    Author     : Zihadul Azam
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=ISO-8859-1" %> 
 <!DOCTYPE html>
 <html>
 <head>
         <title>eatBit | Crea nuovo ristorante</title>
-        <meta charset="UTF-8">
+        <meta charset="ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->

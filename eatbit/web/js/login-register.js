@@ -75,8 +75,18 @@ function loginAjax(){
     });
 }
 function logoutAjax(){
-    $.get("../eatbit/LogoutServlet",function (data){
-        location.reload();
+    $.ajax(
+    {
+        url : "../eatbit/LogoutServlet",
+        type: "GET",
+        success:function(data, textStatus, jqXHR) 
+        {
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+            shakeModal();      
+        }
     });
 }
 function regAjax(){
@@ -258,19 +268,62 @@ function shakeModal(){
                 success:function(data, textStatus, jqXHR) 
                 {
                     if(data == "1"){
-                        alert("Abbiamo inviato un'email dove puoi recuperare la tua password. Conltrolla!!");
+                        new PNotify({
+                            title: 'Ok',
+                            text: 'Abbiamo inviato un\'email dove puoi recuperare la tua password. Conltrolla!!',
+                            type: 'success',
+                            mobile: {
+                                swipe_dismiss: true,
+                                styling: true
+                            }
+                        });
                         location.reload();
                     }
-                    if(data=="0")
-                        alert("Mi dispiace, recupero password al momento non è disponibile !!");
-                    if(data=="-1")
-                        alert("Mi dispiace, Mancano i Parametri");
-                    if(data=="-2")
-                        alert("Questa email non corrisponde a nessun utente registrato");
+                    if(data=="0"){
+                        new PNotify({
+                            title: 'Mi dispiace',
+                            text: 'Recupero password al momento non è disponibile !!',
+                            type: 'error',
+                            mobile: {
+                                swipe_dismiss: true,
+                                styling: true
+                            }
+                        });
+                    }
+                    if(data=="-1"){
+                        new PNotify({
+                            title: 'Mi dispiace',
+                            text: 'Mancano i Parametri !!',
+                            type: 'error',
+                            mobile: {
+                                swipe_dismiss: true,
+                                styling: true
+                            }
+                        });
+                    }
+                    if(data=="-2"){
+                        new PNotify({
+                            title: 'Attenzione',
+                            text: 'Questa email non corrisponde a nessun utente registrato !!',
+                            type: 'error',
+                            mobile: {
+                                swipe_dismiss: true,
+                                styling: true
+                            }
+                        });
+                    }
                 },
                 error: function(jqXHR, textStatus, errorThrown) 
                 {
-                    alert("Mi dispiace, recupero password al momento non è disponibile ");
+                    new PNotify({
+                            title: 'Mi dispiace',
+                            text: 'Recupero password al momento non è disponibile !!',
+                            type: 'error',
+                            mobile: {
+                                swipe_dismiss: true,
+                                styling: true
+                            }
+                        });
                 }
             });
      }

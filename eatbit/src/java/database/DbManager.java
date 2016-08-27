@@ -423,7 +423,7 @@ public class DbManager implements Serializable
     {
 
         User user = null;
-        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=? OR NICKNAME=?"))
+        try (PreparedStatement st = con.prepareStatement("SELECT * FROM USERS WHERE EMAIL=? OR NICKNAME=? AND VERIFIED=TRUE"))
         {
             st.setString(1, nickOrEmail);
             st.setString(2, nickOrEmail);
@@ -1801,16 +1801,17 @@ public class DbManager implements Serializable
         {
             return -1;
         }
-        //controllo che proprietario!=recensore
-        if (restaurant.getId_owner() == review.getId_creator())
-        {
-            return -3;
-        }
         //controllo che nn esista già voto o review per questo ristorante nelle u ltime 24h
         if (!addOrRefreshVote(review.getId_creator(), review.getId_restaurant()))
         {
             return -2;
         }
+        //controllo che proprietario!=recensore
+        if (restaurant.getId_owner() == review.getId_creator())
+        {
+            return -3;
+        }
+        
         try (PreparedStatement st = con.prepareStatement("INSERT INTO REVIEWS(GLOBAL_VALUE,FOOD,"
                 + "SERVICE,VALUE_FOR_MONEY,ATMOSPHERE,NAME,DESCRIPTION,DATE_CREATION,ID_RESTAURANT,"
                 + "ID_CREATOR,ID_PHOTO,LIKES,DISLIKES) "
@@ -1869,9 +1870,22 @@ public class DbManager implements Serializable
         return res;
     }
 
+    private void updateRestaurantReviewsNumber(final int id_rest) throws SQLException
+    {
+        try (PreparedStatement st = con.prepareStatement("UPDATE RESTAURANTS SET REVIEWS_COUNTER=(SELECT COUNT(ID) FROM REVIEWS WHERE ID_RESTAURANT=1) WHERE ID=1"))
+        {
+            st.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException ex)
+        {
+            Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+            con.rollback();
+            throw ex;
+        }
+    }
     /**
-     * Per settare la foto dello user. Non viene controllato prima se lo user
-     * esiste perchè si assume che sia preso dalla sessione e quindi corretto.
+     * Per settare la foto dello user. 
      *
      * @param userId Id dell'utente.
      * @param photoPath Una stringa che è il path della foto all'interno
@@ -1880,7 +1894,6 @@ public class DbManager implements Serializable
      */
     public void modifyUserPhoto(final int userId, final String photoPath) throws SQLException
     {
-        boolean res = false;
         try (PreparedStatement st = con.prepareStatement("UPDATE USERS SET AVATAR_PATH=? WHERE ID=?"))
         {
             st.setString(1, photoPath);
@@ -2172,6 +2185,7 @@ public class DbManager implements Serializable
     /**
      * Per inserire un ristorante.(la prima foto del ristorante va aggiunta a
      * parte, a livello servlet, dopo aver ottenuto l'id
+     * Ogni ristorante riceve 1 voto da 3/5 alla creazione.
      *
      * @param restaurant Il ristorante da inserire.
      * @param cucine Il tipo di cucine che ha, una lista di stringhe. (devono
@@ -2201,7 +2215,7 @@ public class DbManager implements Serializable
             st.setString(1, restaurant.getName());
             st.setString(2, restaurant.getDescription());
             st.setString(3, restaurant.getWeb_site_url());
-            st.setInt(4, 0);
+            st.setInt(4, 3);
             st.setInt(5, -1);
             st.setInt(6, restaurant.getId_creator());
             st.setInt(7, findClosestPrice(min, max));
@@ -2474,10 +2488,13 @@ public class DbManager implements Serializable
     {
         try (PreparedStatement st = con.prepareStatement("DELETE FROM PHOTOS WHERE ID=?"))
         {
+            Photo photo= getPhotoById(id_photo);
             //unreportPhoto(id_photo);//rimuovo dalla lista reportati non necessario causa ON DELETE CASCADE
             st.setInt(1, id_photo);
             st.executeUpdate();
             con.commit();
+            //necessario xk a volte la rimozione di una foto causa la rimozione di una review a cascata
+            updateRestaurantReviewsNumber(photo.getId_restaurant());
         }
         catch (SQLException ex)
         {
@@ -4143,7 +4160,7 @@ public class DbManager implements Serializable
             //roba che ha bisogno coordinate != null
             if (coordinate != null)
             {
-                context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(),
+                context.setCityPosition(getRestaurantCityPosition(restaurant.getGlobal_value(), restaurant.getReviews_counter(),
                         coordinate.getCity(), coordinate.getState()));
             }
             else
@@ -4278,28 +4295,33 @@ public class DbManager implements Serializable
      * stesso stato) rispetto al global_value. Se un ristorante avrà il
      * global_value più alto rispetto agli altri ristoranti nella sua città
      * allora il risultato sarà 1.
+     * Se due ristoranti hanno lo stesso global value è considerato migliore
+     * quello con +recensioni.
      *
      * @param global_value Il global_value del ristorante.
+     * @param n_reviews Numero reviews.
      * @param city La città del ristorante.
      * @param state Lo stato del ristorante.
      * @return Un intero pari alla posizione del ristorante in quella città in
      * base al global_value.
      * @throws SQLException
      */
-    public int getRestaurantCityPosition(final int global_value, final String city, final String state) throws SQLException
+    public int getRestaurantCityPosition(final int global_value, final int n_reviews, final String city, final String state) throws SQLException
     {
         int res = 1;
         try (PreparedStatement st = con.prepareStatement(
-                "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE FROM RESTAURANTS,"
+                "SELECT COUNT(*) AS COUNT FROM (SELECT RESTAURANTS.GLOBAL_VALUE, RESTAURANTS.REVIEWS_COUNTER FROM RESTAURANTS,"
                 + "RESTAURANT_COORDINATE, COORDINATES WHERE "
                 + "upper(COORDINATES.CITY)=? AND upper(COORDINATES.STATE)=? AND "
                 + "RESTAURANTS.ID=RESTAURANT_COORDINATE.ID_RESTAURANT AND "
                 + "RESTAURANT_COORDINATE.ID_COORDINATE=COORDINATES.ID) GLOBAL_VALUES "
-                + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ?"))
+                + "WHERE GLOBAL_VALUES.GLOBAL_VALUE > ? OR (GLOBAL_VALUES.GLOBAL_VALUE=? AND GLOBAL_VALUES.REVIEWS_COUNTER>?)"))
         {
             st.setString(1, city.toUpperCase());
             st.setString(2, state.toUpperCase());
             st.setInt(3, global_value);
+            st.setInt(4, global_value);
+            st.setInt(5, n_reviews);
             try (ResultSet rs = st.executeQuery())
             {
                 if (rs.next())
@@ -4713,7 +4735,22 @@ public class DbManager implements Serializable
         ArrayList<Integer> tmp;
         if (location == null && nameOrCuisine == null)
         {
-            return res;
+            tmp= new ArrayList<>();
+            try (PreparedStatement st = con.prepareStatement("SELECT ID FROM RESTAURANTS "
+                + "ORDER BY GLOBAL_VALUE DESC FETCH FIRST 20 ROWS ONLY"))
+            {
+                try (ResultSet rs = st.executeQuery())
+                {
+                    while (rs.next())
+                        tmp.add(rs.getInt("ID"));
+                }
+            }
+            catch (SQLException ex)
+            {
+                Logger.getLogger(DbManager.class.getName()).log(Level.SEVERE, ex.toString(), ex);
+                con.rollback();
+                throw ex;
+            }
         }
         else if (location == null)
         {

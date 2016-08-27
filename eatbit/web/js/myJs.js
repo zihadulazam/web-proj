@@ -1,3 +1,6 @@
+//PNotify opz
+PNotify.prototype.options.styling = "bootstrap3";
+var stack_modal = {"dir1": "down", "dir2": "right", "push": "top", "modal": true, "overlay_close": true};
 //autocomplete
 $(function() {
     $( "#nomeRisto" ).autocomplete({
@@ -49,13 +52,30 @@ function segnalaReview(reviewId){
             data : {id_review:reviewId},
             success:function(data, textStatus, jqXHR) 
             {
-                if(data == "1")
-                    alert("Grazie per la segnalazione :)");
+                if(data == "1"){
+                     new PNotify({
+                        title: 'Ok',
+                        text: 'Grazie per la segnalazione !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
+                }
                     
             },
             error: function(jqXHR, textStatus, errorThrown) 
             {
-                alert("Mi dispiace, segnalazione non è disponibile");
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'segnalazione non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
             }
         });
 }
@@ -69,12 +89,28 @@ function segnalaPhoto(photoId){
         success:function(data, textStatus, jqXHR) 
         {
             if(data == "1")
-                alert("Grazie per la segnalazione :)");
+            new PNotify({
+                    title: 'Ok',
+                    text: 'Grazie per la segnalazione !!',
+                    type: 'success',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
                 
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            alert("Mi dispiace, segnalazione non è disponibile");
+            new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'segnalazione non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
         }
     });
 }
@@ -111,15 +147,40 @@ function miPiace(reviewId,likeType){
             {
                 $(btnMiPiaceId).prop("disabled",true);
                 $(btnNonMiPiaceId).prop("disabled",true);
-                alert("Mi dispiace, Non puoi votare i tuoi review !!");
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Non puoi votare i tuoi review !!',
+                    type: 'notice',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
             }
-            if(data=="-1")
-                alert("Mi dispiace, votazione al momento non è disponibile");
+            if(data=="-1"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
                 
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            alert("Mi dispiace, votazione al momento non è disponibile");
+            new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
         }
     });
 }
@@ -154,15 +215,40 @@ function nonMiPiace(reviewId,likeType){
             {
                 $(btnMiPiaceId).prop("disabled",true);
                 $(btnNonMiPiaceId).prop("disabled",true);
-                alert("Non puoi votare i tuoi review !!");
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Non puoi votare i tuoi review !!',
+                    type: 'notice',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
             }
-            if(data=="-1")
-                alert("Mi dispiace, votazione al momento non è disponibile");
+            if(data=="-1"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
                 
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            alert("Mi dispiace, votazione al momento non è disponibile");
+            new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
         }
     });
 }    
@@ -264,4 +350,37 @@ function primaFaiLogin(){
     $('.error').addClass('alert alert-danger').html("Prima devi fare il Login");
                 shakeModal();
 }
+
+$('[data-toggle=popover]').popover({
+    html: true
+}).mouseover(function() {
+    $(this).popover('show');
+});
+
+$('[data-toggle=popover]').mouseout(function() {
+    $(this).popover('hide');
+});
+
+jQuery(document).ready(function() {
+  caricaNumNotifica();
+});
+function caricaNumNotifica(){
+    if($('#btn-notify').length!=0){ 
+        $.ajax(
+        {
+            url : "../eatbit/NotificationCount",
+            type: "GET",
+            success:function(data, textStatus, jqXHR) 
+            {
+                 if(parseInt(data)>0){
+                     $('#ntfy-badge').html(data);
+                 }
+                 else{
+                     $("#ntfy-badge").css("display", "none");
+                 }
+            }
+        });
+    }
+}
+
 

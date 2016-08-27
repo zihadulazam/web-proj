@@ -20,7 +20,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand eatbit-brand" href="/eatbit/home">eatBit</a>
+            <a class="navbar-brand eatbit-brand" href="../eatbit/home">eatBit</a>
         </div>
         
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -60,10 +60,19 @@
                             </ul>
                         </li>
                         <li id="notification">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <a class="btn btn-default" type="button" id="btn-notify" href="
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.getType()==2 && sessionScope.user.getNickname()!=null}">
+                                        ../eatbit/GetAllAdmin
+                                    </c:when>
+                                    <c:otherwise>
+                                        ../eatbit/GetAllNotify
+                                    </c:otherwise>
+                                </c:choose>
+                            ">
                                 <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
-                            </button>
-                            <span class="badge badge-notify">3</span>
+                            </a>
+                            <span id="ntfy-badge" class="badge badge-notify">--</span>
                         </li>                
                     </ul> 
                 </c:otherwise>

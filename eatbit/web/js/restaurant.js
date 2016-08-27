@@ -166,21 +166,73 @@ function addRistoVote(restaurantId){
         success:function(data, textStatus, jqXHR) 
         {
             if(data == "1"){
-                alert("Grazie per il suo voto preziozo");
+                new PNotify({
+                    title: 'Ok',
+                    text: 'Grazie per il suo voto preziozo !!',
+                    type: 'success',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
                 location.reload();
             }
-            if(data=="-2")
-                alert("Mi dispiace, hai già votato o fatto una recensione in meno di 24h !!");
-            if(data=="0")
-                alert("Mi dispiace, votazione al momento non è disponibile !!");
-            if(data=="-1")
-                alert("Mi dispiace, Mancano i Parametri");
-            if(data=="-3")
-            alert("Mi dispiace, Non puoi votare il tuo ristorante !!");
+            if(data=="-2"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Hai già votato o fatto una recensione in meno di 24h !!',
+                    type: 'notice',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
+            if(data=="0"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
+            if(data=="-1"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Mancano i Parametri !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
+            if(data=="-3"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Non puoi votare il tuo ristorante !!',
+                    type: 'notice',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            alert("Mi dispiace, votazione al momento non è disponibile");
+            new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Votazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
         }
     });
 }
@@ -197,17 +249,51 @@ function claimRisto(){
         success:function(data, textStatus, jqXHR) 
         {
             if(data == "1"){
-                alert("Abbiamo ricevuto la sua segnalazione.");
+                 new PNotify({
+                    title: 'Ok',
+                    text: 'Abbiamo ricevuto la sua segnalazione',
+                    type: 'success',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
                 location.reload();
             }
-            if(data=="0")
-                alert("Mi dispiace, segnalazione al momento non è disponibile !!");
-            if(data=="-1")
-                alert("Mi dispiace, Mancano i Parametri");
+            if(data=="0"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'segnalazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
+            if(data=="-1"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Mancano i Parametri !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            alert("Mi dispiace, segnalazione al momento non è disponibile");
+            new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'segnalazione al momento non è disponibile !!',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
         }
     });
 }

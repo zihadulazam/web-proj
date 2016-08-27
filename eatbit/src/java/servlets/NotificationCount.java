@@ -58,7 +58,8 @@ public class NotificationCount extends HttpServlet
             int id= ((User)request.getSession().getAttribute("user")).getId();
             int fCount= manager.getUserPhotoNotificationsCount(id);
             int rCount= manager.getUserReviewNotificationsCount(id);
-            out.write(fCount+rCount);
+            int tot=(fCount+rCount);
+            out.write(""+tot+"");
         }
         catch (SQLException ex)
         {
