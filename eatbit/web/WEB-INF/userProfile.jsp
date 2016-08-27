@@ -92,6 +92,7 @@
                     <c:choose>                            
                         <c:when test="${user.getType() == 1}">
                             <li><a data-toggle="tab" href="#menu3">Notifiche<span class="badge"> <c:out value="${listPhotoNotification.size()+listReviewNotification.size()}"/> </span></a></li>
+                        
                         </c:when>
                     </c:choose>
                     <li><a data-toggle="tab" href="#menu2">Ristoranti<span class="badge"><c:out value="${listRestaurants.size()}"/></span></a></li>
@@ -285,6 +286,7 @@
                     <div id="menu3" class="tab-pane fade">
                         <c:choose>
                             <c:when test="${(listPhotoNotification.size()+listReviewNotification.size()) <= 0}">
+                                <br>
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
                                         &nbsp; Nessuna nuova Notifica!                                                
@@ -293,103 +295,107 @@
                             </c:when>
                             
                             <c:otherwise>
-                                <div class="col-md-6">
-                                    <br>
-                                    <!-- PhotoNotifications -->
-                                    <h4>Nuove foto</h4>                           
+                                <br>
+                                <div class="row">
+                                    <c:choose>
+                                        <c:when test="${listPhotoNotification.size() > listReviewNotification.size() }">
+                                            <c:set var="indice_max_notifiche" value="${listPhotoNotification.size()-1}" />
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:set var="indice_max_notifiche" value="${listReviewNotification.size()-1}" />
+                                        </c:otherwise>
+                                    </c:choose>
+                                    
+                                    <c:forEach begin="0" end="${indice_max_notifiche}" var="i">
+                                        <c:if test="${i <= listPhotoNotification.size()-1}">
+                                            
+                                            <div class="alert alert-info notice notificaFoto" role="alert">
+                                                <div class ="row">
+                                                    <a href="#">
+                                                        &nbsp;<b>Nova Foto</b> caricata su <b><c:out value="${listPhotoNotification.get(i).getRestaurant_name()}" /></b>
+                                                    </a>
+                                                </div>
 
-                                    <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                        <div class="alert alert-info notice notificaFoto" role="alert">
-                                            <div class ="row">
-                                                <a href="#">
-                                                    &nbsp;<b>Nova Foto</b> caricata su <b><c:out value="${photoNotification.getRestaurant_name()}" /></b>
-                                                </a>
+                                                <div class="row">
+                                                    <div class ="col-md-10">
+                                                        <div class="contenutoNotFoto">
+                                                            <a class="thumbnail" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                <img src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                            </a>                                                                                                                                                                                               
+                                                        </div>
+                                                    </div>
+                                                    <div class ="col-md-2">                                                    
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class ="col-md-10">
+                                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                        <c:out value="${listPhotoNotification.get(i).getCreation().toLocaleString()}"></c:out>
+                                                    </div>
+                                                    <div class ="col-md-2">   
+                                                        <button  class="btn btn-primary diventaRis removePhotoNot" value="${listPhotoNotification.get(i).getId()}">Non vedere più</button>
+                                                    </div>                                                        
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class ="col-md-10">
+                                                    </div>
+                                                    <div class ="col-md-2">   
+                                                        <button  id="SegnalaSubito" class="btn btn-primary diventaRis " value="${listPhotoNotification.get(i).getId()}"  onclick="segnalaPhoto(${listPhotoNotification.get(i).getPhoto().getId()})">Segnala subito</button>
+                                                    </div>                                                        
+                                                </div>
                                             </div>
                                             
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                    <div class="contenutoNotFoto">
-                                                        <a class="thumbnail" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
-                                                            <img src="<c:out value="${photoNotification.getPhoto().getPath()}" />">
-                                                        </a>                                                                                                                                                                                               
-                                                    </div>
+                                        </c:if>
+                                        
+                                        <c:if test="${i <= listReviewNotification.size()-1}">
+                                            <div class="alert alert-info notice  not notificaRecensione" role="alert">
+                                                <div class ="row">
+                                                    <a href="#">
+                                                        &nbsp; Nuova recensione su <b><c:out value="${listReviewNotification.get(i).getRestaurant_name()}" /></b>                                                   
+                                                    </a>                                                
                                                 </div>
-                                                <div class ="col-md-2">                                                    
-                                                </div>
-                                            </div>
-                                                    
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${photoNotification.getCreation().toLocaleString()}"></c:out>
-                                                </div>
-                                                <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis removePhotoNot" value="${photoNotification.getId()}">Non vedere più</button>
-                                                </div>                                                        
-                                            </div>
-                                                    
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">   
-                                                    <button  id="SegnalaSubito" class="btn btn-primary diventaRis " value="${photoNotification.getId()}"  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
-                                                </div>                                                        
-                                            </div>
-                                        </div>
-                                    </c:forEach>  
-                                </div>                   
 
-                                <div class="col-md-6">
-                                    <br>
-                                    <!-- ReviewNotifications -->
-                                    <h4>Nuove recensioni</h4>                           
-
-                                    <c:forEach items="${listReviewNotification}" var="reviewNotification">
-                                        <div class="alert alert-info notice  not notificaRecensione" role="alert">
-                                            <div class ="row">
-                                                <a href="#">
-                                                    &nbsp; Nuova recensione su <b><c:out value="${reviewNotification.getRestaurant_name()}" /></b>                                                   
-                                                </a>                                                
-                                            </div>
-                                                
-                                            <div class="row">
-                                                <div class ="col-md-10">                                                    
-                                                    <div class="panel panel-primary comm">
-                                                        <div class="panel-heading">
-                                                            <h3 class="panel-title">Hanno commentato:</h3>
+                                                <div class="row">
+                                                    <div class ="col-md-10">                                                    
+                                                        <div class="panel panel-primary comm">
+                                                            <div class="panel-heading">
+                                                                <h3 class="panel-title">Hanno commentato:</h3>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <c:out value="${listReviewNotification.get(i).getReview().getDescription()}" />
+                                                            </div>           
                                                         </div>
-                                                        <div class="panel-body">
-                                                            <c:out value="${reviewNotification.getReview().getDescription()}" />
-                                                        </div>           
+                                                    </div>
+                                                    <div class ="col-md-2">                                                    
+                                                    </div>
+                                                </div>    
+
+                                                <div class="row">
+                                                    <div class ="col-md-10">
+
+                                                        <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                                                        <c:out value="${listReviewNotification.get(i).getReview().getDate_creation().toLocaleString()}"></c:out>
+
+                                                    </div>
+                                                    <div class ="col-md-2">
+                                                        <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${listReviewNotification.get(i).getId()}">Non vedere più</button>
                                                     </div>
                                                 </div>
-                                                <div class ="col-md-2">                                                    
-                                                </div>
-                                            </div>    
-                                                
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                    
-                                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                    <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
-                                                    
-                                                </div>
-                                                <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più</button>
+
+                                                <div class="row">
+                                                    <div class ="col-md-10">
+                                                    </div>
+                                                    <div class ="col-md-2">
+                                                            <form action="${baseURL}/GetReplyInfo" method="POST">
+                                                                <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${listReviewNotification.get(i).getReview().getId()}">Rispondi subito</button>
+                                                            </form>                                           
+                                                    </div>
                                                 </div>
                                             </div>
-                                                
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">
-                                                        <form action="${baseURL}/GetReplyInfo" method="POST">
-                                                            <button type="submit" name="id_review"  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
-                                                        </form>                                           
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>  
+                                        </c:if>
+                                    </c:forEach>
                                 </div>      
                                 
                                 <div class="row">
