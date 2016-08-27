@@ -63,7 +63,7 @@ public class GetAllAdmin extends HttpServlet {
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
                 request.setAttribute("risposteConfermare", risposteConfermare);
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
-                request.setAttribute("reviewSegnalate", listReviewNotification);
+                request.setAttribute("listReviewNotification", listReviewNotification);
             
             request.getRequestDispatcher("/WEB-INF/allAdminNotify.jsp").forward(request, response);
             

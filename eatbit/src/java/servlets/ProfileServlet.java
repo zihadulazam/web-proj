@@ -77,7 +77,7 @@ public class ProfileServlet extends HttpServlet {
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
                 request.setAttribute("risposteConfermare", risposteConfermare);
                 request.setAttribute("listPhotoNotification", listPhotoNotification);
-                request.setAttribute("reviewSegnalate", listReviewNotification);
+                request.setAttribute("listReviewNotification", listReviewNotification);
                 
 //                response.getWriter().println(risposteConfermare.get(0).getUser().getName());
 //                response.getWriter().println(risposteConfermare.get(0).getReview().getDescription());

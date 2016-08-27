@@ -298,16 +298,21 @@
                                 <br>
                                 <div class="row">
                                     <c:choose>
-                                        <c:when test="${listPhotoNotification.size() > listReviewNotification.size() }">
+                                        <c:when test="${ (listPhotoNotification.size() > listReviewNotification.size()) && (listPhotoNotification.size() >= 1) }">
                                             <c:set var="indice_max_notifiche" value="${listPhotoNotification.size()-1}" />
                                         </c:when>
                                         <c:otherwise>
-                                            <c:set var="indice_max_notifiche" value="${listReviewNotification.size()-1}" />
+                                            <c:if test="${listReviewNotification.size() >= 1}">
+                                                <c:set var="indice_max_notifiche" value="${listReviewNotification.size()-1}" />
+                                            </c:if>
+                                            <c:if test="${ (listReviewNotification.size() < 1) && (listPhotoNotification.size() < 1) }">
+                                                <c:set var="indice_max_notifiche" value="${0}" />
+                                            </c:if>                                                
                                         </c:otherwise>
                                     </c:choose>
                                     
                                     <c:forEach begin="0" end="${indice_max_notifiche}" var="i">
-                                        <c:if test="${i <= listPhotoNotification.size()-1}">
+                                        <c:if test="${ (i <= listPhotoNotification.size()-1) && (i>0)}">
                                             
                                             <div class="alert alert-info notice notificaFoto" role="alert">
                                                 <div class ="row">
@@ -349,7 +354,7 @@
                                             
                                         </c:if>
                                         
-                                        <c:if test="${i <= listReviewNotification.size()-1}">
+                                        <c:if test="${ (i <= listReviewNotification.size()-1) && (i>0)}">
                                             <div class="alert alert-info notice  not notificaRecensione" role="alert">
                                                 <div class ="row">
                                                     <a href="#">
