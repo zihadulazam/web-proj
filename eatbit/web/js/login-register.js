@@ -75,8 +75,18 @@ function loginAjax(){
     });
 }
 function logoutAjax(){
-    $.get("../eatbit/LogoutServlet",function (data){
-        location.reload();
+    $.ajax(
+    {
+        url : "../eatbit/LogoutServlet",
+        type: "GET",
+        success:function(data, textStatus, jqXHR) 
+        {
+        },
+        error: function(jqXHR, textStatus, errorThrown) 
+        {
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+            shakeModal();      
+        }
     });
 }
 function regAjax(){
