@@ -67,8 +67,6 @@ public class RemoveReviewByAdminServlet extends HttpServlet
             }
             else
                 out.write("-1");
-            out.flush();
-                
         } catch ( SQLException ex) {
             Logger.getLogger(RemoveReviewByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");

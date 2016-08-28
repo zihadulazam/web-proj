@@ -91,8 +91,8 @@
                                 </c:choose>
                             ">
                                 <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
-                                <span id="ntfy-badge" class="badge badge-notify">--</span>
                             </a>
+                            <span id="ntfy-badge" class="badge badge-notify">--</span>
                         </li>  
                     </ul> 
                 </c:otherwise>

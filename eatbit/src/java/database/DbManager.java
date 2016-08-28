@@ -49,17 +49,9 @@ public class DbManager implements Serializable
         con = DriverManager.getConnection(url);
         con.setAutoCommit(false);
         kshingling = getKShingling();
-        /*if(kshingling==null)
-        {
-            System.out.println("no shingling found");
+        //se è la prima volta che si avvia il progetto, a db pulito, lo shingling non c'è, lo creo
+        if(kshingling==null)
             kshingling= new KShingling(3);
-        }
-        else*/
-        System.out.println("shingling found");
-        //per testing
-        kshingling = new KShingling(3);
-        clearProfiles();
-        createAllProfiles();
     }
 
     /**
@@ -1662,13 +1654,11 @@ public class DbManager implements Serializable
         //se esiste già una reply da parte del ristoratore per questa review ritorna falso, altrimenti procedi
         if (replyForReviewExist(reply.getId_review()))
         {
-            System.out.println(100);
             return false;
         }
         //se il proprietario della reply è diverso da quello del ristorante ritorna falso, altrimenti procedi
         if (getRestaurantById(getReviewById(reply.getId_review()).getId_restaurant()).getId_owner() != reply.getId_owner())
         {
-            System.out.println(200);
             return false;
         }
         try (PreparedStatement st1 = con.prepareStatement("INSERT INTO REPLIES(DESCRIPTION,DATE_CREATION,ID_REVIEW,ID_OWNER"
@@ -4580,6 +4570,13 @@ public class DbManager implements Serializable
         }
     }
 
+    /**
+     * Funzione usata per testing di somiglianza stringhe
+     * @param input
+     * @throws IOException
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void test(final String input) throws IOException, SQLException, ClassNotFoundException
     {
         SparseIntegerVector inputV = kshingling.getProfile(input).getSparseVector();
@@ -4594,7 +4591,6 @@ public class DbManager implements Serializable
                     InputStream ip = blob.getBinaryStream();
                     ObjectInputStream obs = new ObjectInputStream(ip);
                     SparseIntegerVector res = (SparseIntegerVector) obs.readObject();
-                    System.out.println(s + " = " + inputV.cosineSimilarity(res));
                 }
             }
         }
@@ -4789,7 +4785,6 @@ public class DbManager implements Serializable
         try
         {
             saveKShingling();
-            System.out.println("saved shingling");
             DriverManager.getConnection("jdbc:derby://localhost:1527/eatbitDB;shutdown=true;user=eatbitDB;password=password;");
         }
         catch (SQLException | IOException ex)

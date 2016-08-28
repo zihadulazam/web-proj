@@ -180,7 +180,7 @@ function addRistoVote(restaurantId){
             if(data=="-2"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Hai già votato o fatto una recensione in meno di 24h !!',
+                    text: 'Hai gia\' votato o fatto una recensione in meno di 24h !!',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,

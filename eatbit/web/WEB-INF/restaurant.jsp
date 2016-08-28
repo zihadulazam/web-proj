@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
-                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città ): <c:out value="${restaurant_context.getCityPosition()}"/></p>
+                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per cittï¿½ï¿½): <c:out value="${restaurant_context.getCityPosition()}"/></p>
                         <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi: </p>
                         <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
                             <c:if test="${NowDay==ore.getDay()}">
@@ -408,8 +408,7 @@
                                                                         </div>
                                                                         <div class="col-md-10">
                                                                             <p class="risposta-text"><c:out value="${allComments.getReply().getDescription()}" /></p>
-                                                                            <p class="risposta-autore">Da: Admin</p>
-                                                                            <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation()}" /></p>
+                                                                            <p class="risposta-date"><c:out value="${allComments.getReply().getDate_creation().getDate()}" />-<c:out value="${allComments.getReply().getDate_creation().getMonth()}" />-<c:out value="${allComments.getReply().getDate_creation().getYear()+1900}" /> <c:out value="${allComments.getReply().getDate_creation().getHours()}" />:<c:out value="${allComments.getReply().getDate_creation().getMinutes()}" /></p>
                                                                         </div>
                                                                     </div>
                                                                 </div>

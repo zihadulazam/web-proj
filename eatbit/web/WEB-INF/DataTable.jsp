@@ -282,9 +282,6 @@
                     bInfo: false,
                     ordering:true,
                     order: [[ 2, "desc" ]], 
-                    scrollX:false,
-                    scrollY:false,
-                    scrollCollapse:false,
                     
                     "language": {
                         "search":"Filtra per nome del ristorante:",

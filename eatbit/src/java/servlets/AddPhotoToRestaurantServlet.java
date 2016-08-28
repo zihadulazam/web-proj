@@ -132,7 +132,7 @@ public class AddPhotoToRestaurantServlet extends HttpServlet
                 {
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "ok");
-                    request.setAttribute("description", "Ok: La tua Foto è stato inserito con successo.");
+                    request.setAttribute("description", "Ok: La tua foto è stata inserita con successo.");
                     request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                     manager.notifyPhoto(Integer.parseInt(sId_rest), id_photo);
                 }

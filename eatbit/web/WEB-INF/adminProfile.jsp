@@ -31,7 +31,6 @@
         
         <!-- eatBit css -->
         <link href="css/main.css" rel="stylesheet">
-        <link href="css/index.css" rel="stylesheet">
         <link href="css/cssFooter.css" rel="stylesheet">
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/adminProfile.css" rel="stylesheet">
@@ -456,17 +455,14 @@
                 
         <!--footer-->
         <%@include file="components/footer.html"%>
-                        
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>
-        
-        <!-- Single image viewer js -->
-        <script src="js/lightbox.min.js"></script>
         
         <!-- Admin JS-->
         <script type="text/javascript" src="js/adminProfile.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        
+        <!-- Single image viewer js -->
+        <script src="js/lightbox.min.js"></script>
+        
+        
     </body>
 </html>

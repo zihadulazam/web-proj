@@ -78,7 +78,6 @@ public class UserVoteServlet extends HttpServlet {
             }
             else
                 out.write("-1");
-            out.flush();
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(UserVoteServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
