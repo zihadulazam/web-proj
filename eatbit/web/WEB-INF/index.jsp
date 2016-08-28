@@ -51,7 +51,7 @@
                     <div class="jumbo-text-container"> 
                         <h1 class="name"><strong>eatBit</strong></h1>
                         <div class="motto horizontally-centered">
-                            <p>Trova il ristorante pi� <strong>adatto</strong> a te..</p> 
+                            <p>Trova il ristorante piu' <strong>adatto</strong> a te..</p> 
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">

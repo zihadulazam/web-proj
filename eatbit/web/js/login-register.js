@@ -107,7 +107,7 @@ function regAjax(){
             else{
                 if(data=="-2")
                 {
-                    $('.error').addClass('alert alert-danger').html("Errore: esiste già un profilo con questo indirizzo e-mail");     
+                    $('.error').addClass('alert alert-danger').html("Errore: esiste gia' un profilo con questo indirizzo e-mail");     
                 }
                 else{
                     if(data=="-3")

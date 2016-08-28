@@ -100,6 +100,7 @@
         }
         #notification{
             margin-left: 5px;
+            margin-top: 3px;
             #btn-notify{
                 border-radius: 20px !important;
                 padding: 6px 12px !important;
@@ -108,9 +109,13 @@
                     background-color: #3fb0ac;
                 }
             }
-            .badge-notify{
+            #ntfy-badge{
                 background:$eatbit_blue;
-                position:relative;
+                display: none;
+                position: relative;
+                top:-33;
+                width: 25px;
+                left: 30;
            }
         }
     }
@@ -153,13 +158,16 @@
                     #btn-notify{
                         border-radius: 5px !important;
                     }
+                    #ntfy-badge{
+                            background:$eatbit_blue;
+                            display: none;
+                            position: relative;
+                            top:-23;
+                            width: 25px;
+                    }
                     .dropdown-menu{
                         width: auto;
                     }
-                    .badge-notify{
-                        background:$eatbit_blue;
-                        position:relative;
-                   }
                 }
             }
             .dropdown-menu{

@@ -374,6 +374,7 @@ function caricaNumNotifica(){
             {
                  if(parseInt(data)>0){
                      $('#ntfy-badge').html(data);
+                     $("#ntfy-badge").css("display", "block");
                  }
                  else{
                      $("#ntfy-badge").css("display", "none");
