@@ -71,7 +71,7 @@ public class ProfileServlet extends HttpServlet {
                 ristorantiAttesa = manager.getRestaurantsRequests(2);
                 risposteConfermare = manager.getRepliesToBeConfirmed(2);
                 listPhotoNotification = manager.getReportedPhotos(1);
-                listReviewNotification = manager.getAllReportedReviews();
+                listReviewNotification = manager.getReportedReviews(1);
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);
