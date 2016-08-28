@@ -66,8 +66,10 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="thumbnail restaurant">
-                            <img src="${user.getAvatar_path()}" alt="administrator user">
-                            <div class="caption">
+                            <div class="AvatarContainer">
+                                <img class="Image" src="${user.getAvatar_path()}" alt="normal user">
+                            </div>
+                            <div class="caption" style="word-wrap:break-word;">
                                 <hr>
                                 <h3><%= user.getNickname() %></h3>
                                 <h4>Bentornato sulla tua pagina privata di <b>eatBit</b></h4>

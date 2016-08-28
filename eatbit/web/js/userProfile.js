@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
     
     $(".cPwd").click(function(event) {
         

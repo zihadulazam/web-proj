@@ -10,6 +10,11 @@ and open the template in the editor.
 
 /*ristoranti*/
 
+
+
+.ImageContainer { width: 60px; }
+.Image { max-width: 100%;}
+
 .go_reply{}
 
 .modifica-risto {
