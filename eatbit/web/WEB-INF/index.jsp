@@ -51,7 +51,7 @@
                     <div class="jumbo-text-container"> 
                         <h1 class="name"><strong>eatBit</strong></h1>
                         <div class="motto horizontally-centered">
-                            <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
+                            <p>Trova il ristorante piï¿½ <strong>adatto</strong> a te..</p> 
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">
@@ -151,8 +151,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-10">
                                                                                         <p class="risposta-text"><c:out value="${lastComment.getReply().getDescription()}" /></p>
-                                                                                        <p class="risposta-autore">Da: Admin</p>
-                                                                                        <p class="risposta-date"><c:out value="${lastComment.getReply().getDate_creation()}" /></p>
+                                                                                        <p class="risposta-date"><c:out value="${lastComment.getReply().getDate_creation().getDate()}" />-<c:out value="${lastComment.getReply().getDate_creation().getMonth()}" />-<c:out value="${lastComment.getReply().getDate_creation().getYear()+1900}" /> <c:out value="${lastComment.getReply().getDate_creation().getHours()}" />:<c:out value="${lastComment.getReply().getDate_creation().getMinutes()}" /></p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
