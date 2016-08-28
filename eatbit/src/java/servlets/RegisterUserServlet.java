@@ -88,7 +88,7 @@ public class RegisterUserServlet extends HttpServlet {
                     default://se è >=0 è un id utente, è andato a buon fine
                         try
                         {
-                            sendVerificationEmail(user.getId(),email);
+                            sendVerificationEmail(user.getId(),email,request);
                             out.write("1");//successo
                         }
                         catch(Exception ex)
@@ -117,14 +117,14 @@ public class RegisterUserServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void sendVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException {
+    private void sendVerificationEmail(final int id, final String email, HttpServletRequest req) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException {
             String token = manager.getUserVerificationToken(id);
             if (token != null) {
                 /*3 modi di avere ip: localhost, pubblico, ip locale
                 mando la mail con ip settato a localhost, la verifica funzionerà
                 solo dalla stessa macchina*/
                 String begin= "This is a verification email sent from eatbit, to "
-                        + "activate your account please visit this url:" + '\n';
+                        + "activate your account please visit one of these urls\n\n";
                 String t1= "http://localhost:8084/eatbit/verify?token="
                         + token
                         + "&id=" + Integer.toString(id);
@@ -143,7 +143,15 @@ public class RegisterUserServlet extends HttpServlet {
                         +":8084/eatbit/verify?token="
                         + token
                         + "&id=" + Integer.toString(id);
-                EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3, "user verification");
+                //url con stessa base dell url tramite cui la servlet è stata contattata
+                StringBuffer url = req.getRequestURL();
+                String uri = req.getRequestURI();
+                String ctx = req.getContextPath();
+                String t4 = url.substring(0, url.length() - 
+                        uri.length() + ctx.length()) + "/" 
+                        + "verify?token=" + token + 
+                        "&id=" + Integer.toString(id);
+                EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3+"\n\n"+t4, "user verification");
             }
     }
 }

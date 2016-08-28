@@ -70,7 +70,7 @@ public class SendForgottenPswEmailServlet extends HttpServlet
                     User user= manager.getUserByEmail(email);
                     if(user!=null)
                     {
-                        sendPasswordVerificationEmail(user.getId(),user.getEmail());
+                        sendPasswordVerificationEmail(user.getId(),user.getEmail(),request);
                         out.write("1");
                     }
                     else
@@ -138,7 +138,7 @@ public class SendForgottenPswEmailServlet extends HttpServlet
      * @throws MessagingException
      * @throws SQLException 
      */
-    private void sendPasswordVerificationEmail(int id, String email) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException
+    private void sendPasswordVerificationEmail(final int id,final String email,HttpServletRequest req ) throws ServletException, SocketException, UnknownHostException, MessagingException, SQLException
     {
             String token = manager.addToUsersToChangePassword(id);
             String jsp= "passwordReset";
@@ -146,7 +146,9 @@ public class SendForgottenPswEmailServlet extends HttpServlet
             mando la mail con ip settato a localhost, la verifica funzionerà
             solo dalla stessa macchina*/
             String begin= "This is a password verification email sent from eatbit, to "
-                    + "change your account please visit this url:" + '\n';
+                    + "change your account please visit one of these urls (we have "
+                    + "sent you many because one or more of them may not work properly depending"
+                    + " on the network you are):\n\n";
             String t1= "http://localhost:8084/eatbit/"
                     + jsp
                     +"?token="
@@ -171,6 +173,14 @@ public class SendForgottenPswEmailServlet extends HttpServlet
                     + "?token="
                     + token
                     + "&id=" + Integer.toString(id);
-            EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3, "password change verification");
+            //url con stessa base dell url tramite cui la servlet è stata contattata
+            StringBuffer url = req.getRequestURL();
+            String uri = req.getRequestURI();
+            String ctx = req.getContextPath();
+            String t4 = url.substring(0, url.length() - 
+                    uri.length() + ctx.length()) + "/" + 
+                    jsp + "?token=" + token + 
+                    "&id=" + Integer.toString(id);
+            EmailSender.sendEmail(email, begin+t1+"\n\n"+t2+"\n\n"+t3+"\n\n"+t4, "password change verification");
     }
 }
