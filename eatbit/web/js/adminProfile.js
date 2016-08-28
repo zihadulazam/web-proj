@@ -268,7 +268,7 @@ $(document).ready(function() {
     });
     
          $(".declineReportedReview").click(function(event) {
-        var id_review = $(this).value();
+        var id_review = $(this).val();
         var element = $(this).parent();
         
         $.ajax(
