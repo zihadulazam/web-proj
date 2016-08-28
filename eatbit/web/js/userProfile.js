@@ -2,13 +2,12 @@ $(document).ready(function() {
     
     $(".cPwd").click(function(event) {
         
-        var id_user = $(this).val();
-        
+        formdata=$('#pswForm').serializeArray();
         $.ajax(
         {
-            url : "../eatbit/SendPswVerificationEmailServlet",
+            url : "../eatbit/SendPswVerificationEmailServlet?",
             type: "POST",
-            data : {id_user:id_user},
+            data : formdata,
             success:function(dati)  
             {
                 //data: return data from server

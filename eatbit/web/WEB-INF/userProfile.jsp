@@ -485,7 +485,8 @@
                                 </li>
                             </ul>   
                            </form>
-                                    <form action="#" method="POST">
+                                    <form id="pswForm" action="#" method="POST">
+                                        <input type="hidden" name="id_user" value="${user.id}"/>
                                         <div class="right">
                                             <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
                                         </div>

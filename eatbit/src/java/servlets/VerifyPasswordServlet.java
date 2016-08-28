@@ -68,7 +68,7 @@ public class VerifyPasswordServlet extends HttpServlet
                 if (manager.verifyPasswordChangeToken(id, token)) 
                 {
                     manager.modifyUserPassword(id, newPassword);
-                    request.getRequestDispatcher("/home").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/success.jsp").forward(request, response);
                 } 
                 else 
                     request.getRequestDispatcher("/WEB-INF/failure.jsp").forward(request, response);
