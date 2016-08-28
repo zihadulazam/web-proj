@@ -36,12 +36,11 @@ public class ModifyProfileServlet extends HttpServlet {
     private DbManager manager;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init() throws ServletException {
         // inizializza il DBManager dagli attributi di Application
         this.manager = (DbManager) super.getServletContext().getAttribute("dbmanager");
         //prendo la directory di upload e prendo un path assoluto che mi manda in build, tolgo il build dal path per arrivare al path dove salviamo le immagini
-        global_dirName = config.getInitParameter("uploadDir");
+        global_dirName= (String) super.getServletContext().getInitParameter("uploadDir");
         if (global_dirName == null) 
           throw new ServletException("missing uploadDir parameter in web.xml for servlet ModifyProfileServlet");
         global_dirName = getServletContext().getRealPath(global_dirName);

@@ -46,7 +46,6 @@ public class AddReplyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
             
@@ -61,7 +60,6 @@ public class AddReplyServlet extends HttpServlet {
                 reply.setDescription(description);
                 reply.setDate_creation(null);
                 reply.setId_review(Integer.parseInt(stringIdRev));
-                reply.setId_owner(8);
                 reply.setId_owner(user.getId());
                 reply.setDate_validation(null);
                 reply.setId_validator(-1);
@@ -83,21 +81,17 @@ public class AddReplyServlet extends HttpServlet {
                 
             }
             else{
-                out.write("-1");
                 request.setAttribute("titolo", "Errore");
                 request.setAttribute("status", "danger");
                 request.setAttribute("description", "controlla di essere loggato e di aver inserito i dati correttamente");
                 
             }
             request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
-            out.flush();
-            
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(AddReplyServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             request.setAttribute("titolo", "Errore");
             request.setAttribute("status", "danger");
             request.setAttribute("description", "Errore Server ci scusiamo per il disagio!");
-            out.write("0");
             request.getRequestDispatcher("/WEB-INF/info_1.jsp").forward(request, response);
         }
         

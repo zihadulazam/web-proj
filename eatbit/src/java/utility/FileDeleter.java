@@ -19,19 +19,10 @@ public class FileDeleter {
      * procedura statica che prende il path assoluto di un file e lo cancella
      * @param _path percorso assoluto del file da cancellare 
      * es_path:  C:\Users\andrei\Desktop\PROGETTO\web-proj\eatbit\web\img\avatar\be320b71-bd27-471a-80ba-b1e64dacf25e.jpg
-     * @return ritorna true se il file é stato cancellato, false altrimenti
      */
-    public static boolean deleteFile(String _path){     
+    public static void deleteFile(String _path){     
 
-        System.out.println("path");
-        System.out.println(_path);
-        boolean success = (new File (_path)).delete();
-        if (success) {
-            System.out.println("The file has been successfully deleted!!");           
-        }else{
-            System.out.println("Maybe some error!!");
-        }
-        return success;
+        (new File (_path)).delete();
     }
     
 }

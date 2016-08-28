@@ -59,7 +59,6 @@ public class RemovePhotoByAdminServlet extends HttpServlet
         PrintWriter out = response.getWriter();
         try {
             String stringId =request.getParameter("id_photo");
-            System.out.println(stringId);
             if (stringId!=null) 
             {
                 Photo photo= manager.getPhotoById(Integer.parseInt(stringId));
@@ -72,8 +71,6 @@ public class RemovePhotoByAdminServlet extends HttpServlet
             }
             else
                 out.write("-1");
-            out.flush();
-                
         } catch (NumberFormatException | SQLException ex) {
             Logger.getLogger(RemovePhotoByAdminServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");

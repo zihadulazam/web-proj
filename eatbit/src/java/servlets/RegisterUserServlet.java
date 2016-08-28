@@ -101,7 +101,6 @@ public class RegisterUserServlet extends HttpServlet {
             } else {
                 out.write("-1");//missing parameters
             }
-            out.flush();
         } catch (Exception ex) {
             Logger.getLogger(RegisterUserServlet.class.getName()).log(Level.SEVERE, ex.toString(), ex);
             out.write("0");
