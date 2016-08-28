@@ -4,6 +4,8 @@
 <%@ page import="java.io.*,java.util.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
 <%
    Date dNow = new Date( );
    SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");

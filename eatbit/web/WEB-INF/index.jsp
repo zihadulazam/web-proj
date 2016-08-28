@@ -6,6 +6,8 @@
 <html lang="it">
     <head>
         <title>eatBit | Home</title>
+        <meta charset="ISO-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -49,7 +51,7 @@
                     <div class="jumbo-text-container"> 
                         <h1 class="name"><strong>eatBit</strong></h1>
                         <div class="motto horizontally-centered">
-                            <p>Trova il ristorante piÃ¹ <strong>adatto</strong> a te..</p> 
+                            <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">

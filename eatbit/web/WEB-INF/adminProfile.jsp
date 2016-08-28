@@ -21,7 +21,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -351,8 +350,8 @@
                                                         </div>
                                                         <div class ="col-md-2">
                                                             <div class="row">
-                                                                <button class="right btn btn-primary fisso acceptReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Accept</button>
-                                                                <button class=" right btn btn-primary fisso declineReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Decline</button>
+                                                                <button class="right btn btn-primary fisso acceptReportedReview" value="${listReviewNotification.get(i).getReview().getId()}"/>Accept</button>
+                                                                <button class=" right btn btn-primary fisso declineReportedReview" value="${listReviewNotification.get(i).getReview().getId()}"/>Decline</button>
                                                             </div>
                                                             </div>
                                                         <div class="col-md-1">                                                    
@@ -433,10 +432,13 @@
                                     
                                 </li>
                             </ul>   
-                           </form>                                    
-                                <div class="right">
-                                    <p><button name ="id_user" value="${user.getId()}" class="btn btn-primary fixx cPwd"  role="button" >Cambia Password</button></p>
-                                </div>                                    
+                           </form>          
+                                  <form id="pswForm" method="POST">
+                                        <input type="hidden" name="id_user" value="${user.id}"/>
+                                        <div class="right">
+                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
+                                        </div>
+                                    </form>
                         </div>
                                     
                         

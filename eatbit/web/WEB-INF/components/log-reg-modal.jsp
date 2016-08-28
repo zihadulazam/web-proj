@@ -1,7 +1,7 @@
 <!-- Modals -->
 
     <!-- Login Modal -->
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
     <div class="modal fade login" id="loginModal">
             <div class="modal-dialog login animated">
                 <div class="modal-content">
@@ -14,7 +14,7 @@
                             <div class="content">
                             <div class="error"></div>
                             <div class="form loginBox">
-                                <form method="post" accept-charset="UTF-8" id="login-form">
+                                <form method="post" accept-charset="ISO-8859-1" id="login-form">
                                     <!-- da verifivare id emailor Nickname -->
                                     <div class="form-group">
                                         <label for="emailorNickname">Email o Nickname:</label>

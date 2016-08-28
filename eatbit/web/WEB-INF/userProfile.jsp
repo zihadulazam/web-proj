@@ -22,7 +22,6 @@
 <html lang="en">
     <head>
         
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -486,7 +485,8 @@
                                 </li>
                             </ul>   
                            </form>
-                                    <form action="#" method="POST">
+                                    <form id="pswForm" method="POST">
+                                        <input type="hidden" name="id_user" value="${user.id}"/>
                                         <div class="right">
                                             <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
                                         </div>
