@@ -49,17 +49,9 @@ public class DbManager implements Serializable
         con = DriverManager.getConnection(url);
         con.setAutoCommit(false);
         kshingling = getKShingling();
-        /*if(kshingling==null)
-        {
-            System.out.println("no shingling found");
+        //se è la prima volta che si avvia il progetto, a db pulito, lo shingling non c'è, lo creo
+        if(kshingling==null)
             kshingling= new KShingling(3);
-        }
-        else*/
-        System.out.println("shingling found");
-        //per testing
-        kshingling = new KShingling(3);
-        clearProfiles();
-        createAllProfiles();
     }
 
     /**
@@ -4793,7 +4785,6 @@ public class DbManager implements Serializable
         try
         {
             saveKShingling();
-            System.out.println("saved shingling");
             DriverManager.getConnection("jdbc:derby://localhost:1527/eatbitDB;shutdown=true;user=eatbitDB;password=password;");
         }
         catch (SQLException | IOException ex)

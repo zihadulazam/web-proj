@@ -134,7 +134,8 @@ public class SendPswVerificationEmailServlet extends HttpServlet
             mando la mail con ip settato a localhost, la verifica funzionerà
             solo dalla stessa macchina*/
             String begin= "This is a password verification email sent from eatbit, to "
-                    + "change your account please visit one of these urls (we have sent you many because one or more of them may not work properly depending"
+                    + "change your account please visit one of these urls (we have "
+                    + "sent you many because one or more of them may not work properly depending"
                     + " on the network you are):\n\n";
             String t1= "http://localhost:8084/eatbit/"
                     + jsp
