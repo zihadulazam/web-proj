@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
-                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per cittï¿½ï¿½): <c:out value="${restaurant_context.getCityPosition()}"/></p>
+                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): <c:out value="${restaurant_context.getCityPosition()}"/></p>
                         <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi: </p>
                         <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
                             <c:if test="${NowDay==ore.getDay()}">
