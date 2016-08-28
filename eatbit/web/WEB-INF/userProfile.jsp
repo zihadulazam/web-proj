@@ -63,8 +63,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="thumbnail restaurant">
-                            <img src="${user.getAvatar_path()}" alt="normal user">
-                            <div class="caption">
+                            <div class="AvatarContainer">
+                                <img class="Image" src="${user.getAvatar_path()}" alt="normal user">
+                            </div>
+                            
+                            <div class="caption" style="word-wrap:break-word;">
                               <hr>
 
                               <h3><%= user.getNickname() %></h3>
@@ -190,7 +193,7 @@
                                                                 <div class="col-md-12">
                                                                     <button type="button" class="btn btn-danger btn-mi-piace"  disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
                                                                     <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></button>
-                                                                    <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="http://localhost:8080/eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${allComments.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
+                                                                    <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="${baseURL}/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${allComments.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -470,7 +473,7 @@
                                         <div class="input-group">
                                             <label class="input-group-btn">
                                                 <span class="btn btn-default">
-                                                    <input name="avatar" type="file" multiple>
+                                                    <input name="avatar" type="file">
                                                 </span>
                                             </label>
                                         </div>
@@ -488,7 +491,7 @@
                                     <form id="pswForm" method="POST">
                                         <input type="hidden" name="id_user" value="${user.id}"/>
                                         <div class="right">
-                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
+                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" >Cambia Password</button></p>
                                         </div>
                                     </form>
                         </div>

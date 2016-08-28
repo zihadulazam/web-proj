@@ -22,7 +22,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'Accettazione',
-                        text: 'Accettazione andata a BUON FINE !!',
+                        text: 'Accettazione andata a BUON FINE !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -33,7 +33,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a Confermare il ristorante Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a Confermare il ristorante Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -75,7 +75,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'DECLINED',
-                        text: 'Richiesta DECLINATA !!',
+                        text: 'Richiesta DECLINATA !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -86,7 +86,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE il ristorante - Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE il ristorante - Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -128,7 +128,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'Rimozione',
-                        text: 'Foto RIMOSSA con Successo !!',
+                        text: 'Foto RIMOSSA con Successo !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -139,7 +139,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la FOTO - Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la FOTO - Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -180,7 +180,7 @@ $(document).ready(function() {
                     element1.remove();
                     new PNotify({
                         title: 'Rimozione',
-                        text: 'Foto RIAMESSA nel Sistema !!',
+                        text: 'Foto RIAMESSA nel Sistema !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -191,7 +191,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -243,7 +243,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la REVIEW - Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la REVIEW - Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -284,7 +284,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'Rimozione',
-                        text: 'Review tolta dall elenco delle Review SEGNALATE !!',
+                        text: 'Review tolta dall elenco delle FOTO SEGNALATE !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -295,7 +295,7 @@ $(document).ready(function() {
                 else{
                      new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -336,7 +336,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'AccettazioneReply',
-                        text: 'La REPLY é stata aggiunta in risposta alla recensione !!',
+                        text: 'La REPLY é stata aggiunta in risposta alla recensione !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -347,7 +347,7 @@ $(document).ready(function() {
                 else{
                      new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti ad Accettare la Reply!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti ad Accettare la Reply!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,
@@ -388,7 +388,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'DeclineReply',
-                        text: 'La REPLY é stata RIMOSSA con successo !!',
+                        text: 'La REPLY é stata RIMOSSA con successo !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
@@ -399,7 +399,7 @@ $(document).ready(function() {
                 else{
                     new PNotify({
                         title: 'Errore',
-                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la Reply!!!  Codice = '+dati ,
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la Reply!  Codice = '+dati ,
                         type: 'error',
                         mobile: {
                             swipe_dismiss: true,

@@ -62,6 +62,9 @@
                 <p><a class="btn btn-primary btn-lg" href="/eatbit/ProfileServlet" role="button">Torna al tuo Profilo</a></p>
             </div>
         </div>
+                        
+            </div>
+        </div>
          <!-- include modal hear -->
         <%@include file="components/log-reg-modal.jsp"%>
         

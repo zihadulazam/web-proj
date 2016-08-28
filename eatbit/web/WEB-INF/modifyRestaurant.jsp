@@ -789,7 +789,7 @@
                                 <br/>
                                 <div class="f1-buttons">
                                     <button type="button" class="btn btn-previous">Precedente</button>
-                                    <button type ="submit" id="invia" class="btn btn-submit">Fine</button>
+                                    <button type ="submit" id="btn-fine" disabled="disabled" class="btn btn-submit">Fine</button>
                                     
                                     <input name="address" type="hidden" id="location" />
                                     <input name="city" type="hidden" id="city" />
