@@ -70,7 +70,7 @@ public class AddReplyServlet extends HttpServlet {
                     msg = "1";
                     request.setAttribute("titolo", "Pubblicazione risposta");
                     request.setAttribute("status", "ok");
-                    request.setAttribute("description", "Pubblicazione andata a buon fine");
+                    request.setAttribute("description", "La pubblicazione verrà valutata dall'Admin");
                 }else{
                     msg="-2";
                     request.setAttribute("titolo", "Ooops!");
