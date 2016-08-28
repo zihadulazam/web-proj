@@ -68,15 +68,40 @@ $(document).ready(function() {
                 if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    new PNotify({
+                        title: 'Notifica rimossa!',
+                        text: 'La notifica é stata rimossa con successo!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                     
                 }
                 else{
-                    alert("Chiamata fallita!!!");            
+                    new PNotify({
+                        title: 'Rimozione Notifica Fallita! ',
+                        text: 'Ci dispiace per il disagio',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });          
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'Errore Server! ',
+                        text: 'Rimozione Notifica Fallita! - Ci dispiace per il disagio',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    }); 
             }
                     });
     });
@@ -95,14 +120,39 @@ $(document).ready(function() {
                 if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    new PNotify({
+                        title: 'Notifica rimossa!',
+                        text: 'La notifica é stata rimossa con successo!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!");            
+                    new PNotify({
+                        title: 'Rimozione Notifica Fallita! ',
+                        text: 'Ci dispiace per il disagio',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });  
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'Errore Server! ',
+                        text: 'Rimozione Notifica Fallita! - Ci dispiace per il disagio',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });    
             }
                     });
     });
