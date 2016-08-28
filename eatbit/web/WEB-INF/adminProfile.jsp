@@ -292,7 +292,7 @@
                                                     <div class="row">
                                                         <div class ="col-md-10">
                                                             <div class="contenutoNotFoto">
-                                                                <a class="thumbnail" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                <a class="thumbnail" style="display: -moz-box;" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
                                                                     <img src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
                                                                 </a>                                                                                                                                                                                               
                                                             </div>
@@ -434,12 +434,12 @@
                                 </li>
                             </ul>   
                            </form>          
-                                  <form id="pswForm" method="POST">
+                                  
                                         <input type="hidden" name="id_user" value="${user.id}"/>
                                         <div class="right">
                                             <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" >Cambia Password</button></p>
                                         </div>
-                                    </form>
+                                    
                         </div>
                                     
                         

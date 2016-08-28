@@ -199,7 +199,7 @@
                         <div class="list-group">
                             <br>
                             <c:choose>
-                            <c:when test="${(listPhotoNotification.size()+reviewSegnalate.size()) <= 0}">
+                            <c:when test="${(listPhotoNotification.size()+listReviewNotification.size()) <= 0}">
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
                                         &nbsp; Nessuna nuova Notifica!                                                
@@ -226,7 +226,7 @@
                                     </c:choose>
                                     
                                     <c:forEach begin="0" end="${indice_max_notifiche}" var="i">
-                                        <c:if test="${ (i <= listPhotoNotification.size()-1) && (i>0)}">
+                                        <c:if test="${ (i <= listPhotoNotification.size()-1) && (i>=0)}">
                                             
                                             <div class="alert alert-info notice notificaFoto" role="alert">
                                                     <div class ="row">
@@ -251,7 +251,7 @@
                                             
                                         </c:if>
                                         
-                                        <c:if test="${ (i <= listReviewNotification.size()-1) && (i>0)}">
+                                        <c:if test="${ (i <= listReviewNotification.size()-1) && (i>=0)}">
                                         
                                             <div class="alert alert-info notice  notificaRecensione" role="alert">
                                                 <div class ="row">

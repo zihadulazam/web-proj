@@ -335,8 +335,8 @@ $(document).ready(function() {
                     //window.location.replace("/home");
                     element.remove();
                     new PNotify({
-                        title: 'AccettazioneReply',
-                        text: 'La REPLY é stata aggiunta in risposta alla recensione !',
+                        title: 'Reply',
+                        text: 'Risposta aggiunta con successo !',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
