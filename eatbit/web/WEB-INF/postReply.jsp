@@ -4,8 +4,8 @@
     Author     : mario
 --%>
 <%@page import="database.contexts.ReviewContext"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page language="java" session="true" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
     <head>
         
         
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -48,7 +48,8 @@
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
         
-        
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         
         
         <div class ="container">
@@ -103,7 +104,7 @@
                                                 </div>
                                                 <div class="col-md-10">
                                                     <p class="risposta-text">
-                                                    <form action="../eatbit/AddReplyServlet" method="POST">
+                                                    <form action="${baseURL}/AddReplyServlet" method="POST">
                                                         <textarea name="reply_text" style="color:black; text-align: left;" rows="4" cols="50">Scrivi qui il tuo messaggio</textarea>
                                                         <input type="hidden" name="id_review" value="${review.getReview().getId()}" />
                                                         <br>
@@ -124,7 +125,7 @@
                                         <div class="col-md-12">
                                             <button type="button" class="btn btn-danger btn-mi-piace"  disabled="disabled"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${review.getReview().getLikes()}" /></span></button>
                                             <button type="button" class="btn btn-danger btn-non-mi-piace" disabled="disabled"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${review.getReview().getDislikes()}" /></span></button>
-                                            <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${review.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
+                                            <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="${baseURL}/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${review.getReview().getId_restaurant()}" />"> <c:out value="${allComments.getRestaurantName()}" /></a></p>
                                         </div>
                                     </div>
                                 </div>

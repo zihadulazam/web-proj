@@ -1,12 +1,60 @@
 $(document).ready(function() {
+    
     $(".cPwd").click(function(event) {
-        alert("Segui il link che abbiamo inviato alla tua casella postale per modificare la password");
+        
+        formdata=$('#pswForm').serializeArray();
+        $.ajax(
+        {
+            url : "../eatbit/SendPswVerificationEmailServlet?",
+            type: "POST",
+            data : formdata,
+            success:function(dati)  
+            {
+                //data: return data from server
+                if(dati == "1"){
+                    //window.location.replace("/home");
+                    new PNotify({
+                        title: 'Cambio Password',
+                        text: 'Segui il link che abbiamo inviato alla tua casella postale per cambiare la password!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
+                    
+                }
+                else{
+                    new PNotify({
+                        title: 'Cambio Password Fallito ',
+                        text: 'Ci dispiace ma ce qualche problema con i tuoi dati. Controlla se sei Loggato',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });           
+                }
+            },
+            error: function() 
+            {
+                new PNotify({
+                        title: 'Cambio Password Fallito ',
+                        text: 'Ci dispiace ma ce qualche problema con il server centrale cercheremo di rimediare al piu presto',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });     
+            }
+                    });
     });
     
     
     $(".removePhotoNot").click(function(event) {
         var notifyId = $(this).val();
-        var element = $(this);
+        var element = $(this).parent();
         $.ajax(
         {
             url : "../eatbit/RemovePhotoNotificationFromUserServlet",
@@ -18,7 +66,7 @@ $(document).ready(function() {
                 if(dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("SegnalaSubito").remove();
+                    
                 }
                 else{
                     alert("Chiamata fallita!!!");            

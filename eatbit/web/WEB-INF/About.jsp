@@ -1,11 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html lang="it">
     <head>
         <title>eatBit | About</title>
-        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -37,10 +37,10 @@
          
             <div class="container" id="main">
                 <h1 align="justify"><strong>About EatBit</strong></h1>
-    <p class="lead">EatBit Ã¨ il portale di ristoranti piÃ¹ piccolo al mondo, probabilmente. 
+    <p class="lead">EatBit è il portale di ristoranti più piccolo al mondo, probabilmente. 
     Permette agli utenti e a chi ha fame di cercare fra una manciata di ristoranti che potrebbero non esistere.
-    Il marchio eatBit rappresenta la piÃ¹ piccola community di mangiatori al mondo, con meno di 20 utenti registrati, e il suo
-    sito Ã¨ attivo solo in italia.</p>
+    Il marchio eatBit rappresenta la più piccola community di mangiatori al mondo, con meno di 20 utenti registrati, e il suo
+    sito è attivo solo in italia.</p>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="horizontally-centered">

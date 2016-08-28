@@ -20,14 +20,39 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    new PNotify({
+                        title: 'Accettazione',
+                        text: 'Accettazione andata a BUON FINE !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  "+dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a Confermare il ristorante Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });            
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });      
             }
                     });
     });
@@ -48,21 +73,47 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
+                    new PNotify({
+                        title: 'DECLINED',
+                        text: 'Richiesta DECLINATA !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  "+ dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE il ristorante - Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });               
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });   
             }
                     });
     });
     
      $(".acceptReportedPhoto").click(function(event) {
         var id_photo = $(this).val();
-        var element = $(this);
+        var element = $(this).parent();
+       
         
         $.ajax(
         {
@@ -70,28 +121,52 @@ $(document).ready(function() {
             type: "POST",
             data : {id_photo:id_photo},
             success:function(dati)  
-            {
+            {   
                 //data: return data from server
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("DeclineReportPhoto").remove();
+                    new PNotify({
+                        title: 'Rimozione',
+                        text: 'Foto RIMOSSA con Successo !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la FOTO - Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });             
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });      
             }
                     });
     });
     
          $(".declineReportedPhoto").click(function(event) {
         var id_photo = $(this).val();
-        var element = $(this);
-        
+        var element1 = $(this).parent();
+        //alert("id_photo = " + id_photo);
         $.ajax(
         {
             url : "../eatbit/UnreportPhotoByAdminServlet",
@@ -102,23 +177,47 @@ $(document).ready(function() {
                 //data: return data from server
                 if (dati == "1"){
                     //window.location.replace("/home");
-                    element.remove();
-                    document.getElementById("AcceptReportPhoto").remove();
+                    element1.remove();
+                    new PNotify({
+                        title: 'Rimozione',
+                        text: 'Foto RIAMESSA nel Sistema !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });   
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });    
             }
                     });
     });
     
          $(".acceptReportedReview").click(function(event) {
-        var id_review = document.getElementById("AcceptReportedReview").value;
-        var element = $(this);
+        var id_review = $(this).val();
+        var element =$(this).parent();
         
         $.ajax(
         {
@@ -131,22 +230,46 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("DeclineReportedReview").remove();
+                    new PNotify({
+                        title: 'Rimozione',
+                        text: 'Review RIMOSSA con Successo !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la REVIEW - Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });           
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });      
             }
                     });
     });
     
          $(".declineReportedReview").click(function(event) {
-        var id_review = document.getElementById("DeclineReportedReview").value;
-        var element = $(this);
+        var id_review = $(this).value();
+        var element = $(this).parent();
         
         $.ajax(
         {
@@ -159,15 +282,39 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    document.getElementById("AcceptReportedReview").remove();
+                    new PNotify({
+                        title: 'Rimozione',
+                        text: 'Review tolta dall elenco delle FOTO SEGNALATE !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                     new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a DECLINARE la Segnalazione - Chiamata fallita!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });          
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+               new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });       
             }
                     });
     });
@@ -187,15 +334,39 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    alert("Andata a buon Fine!!!  Codice = "+ dati);   
+                    new PNotify({
+                        title: 'AccettazioneReply',
+                        text: 'La REPLY é stata aggiunta in risposta alla recensione !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                     new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti ad Accettare la Reply!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });           
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });       
             }
                     });
     });
@@ -215,15 +386,39 @@ $(document).ready(function() {
                 if (dati == "1"){
                     //window.location.replace("/home");
                     element.remove();
-                    alert("Andata a buon Fine!!!  Codice = "+ dati); 
+                    new PNotify({
+                        title: 'DeclineReply',
+                        text: 'La REPLY é stata RIMOSSA con successo !!',
+                        type: 'success',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    }); 
                 }
                 else{
-                    alert("Chiamata fallita!!!  Codice = "+ dati);            
+                    new PNotify({
+                        title: 'Errore',
+                        text: 'Ci dispiace ma non siamo riusciti a RIMUOVERE la Reply!!!  Codice = '+dati ,
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });            
                 }
             },
             error: function() 
             {
-                alert("Errore Server!!!");     
+                new PNotify({
+                        title: 'ErroreServer',
+                        text: 'Errore Server - Ci scusiamo per il disagio!',
+                        type: 'error',
+                        mobile: {
+                            swipe_dismiss: true,
+                            styling: true
+                        }
+                    });      
             }
                     });
     });

@@ -4,6 +4,8 @@
 <%@ page import="java.io.*,java.util.*" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
 <%
    Date dNow = new Date( );
    SimpleDateFormat fdate = new SimpleDateFormat ("E dd.MM.yyyy");
@@ -16,8 +18,7 @@
 <html lang="it">
     <head>
         <title>eatBit | <c:out value="${restaurant_context.getRestaurant().getName()}"/></title>
-        
-        <meta charset="ISO-8859-1">
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -70,6 +71,9 @@
     <body>
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
+        
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         
         <!-- Main Content -->
         <div class="container" id="header">
@@ -216,7 +220,7 @@
             </div>
             <div class="collapse" id="collapseAddRecensione">
                 <div class="well">
-                    <form method="POST" id="add_review_form" action="../eatbit/AddReviewServlet" enctype="multipart/form-data">
+                    <form method="POST" id="add_review_form" action="${baseURL}/AddReviewServlet" enctype="multipart/form-data">
                         <input type="hidden" name="id_rest" id="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
                         <div class="from-group">
                             <div class="row">
@@ -308,7 +312,7 @@
             </div>
             <div class="collapse" id="collapseAddFoto">
                 <div class="well">
-                    <form method="POST" action="../eatbit/AddPhotoToRestaurantServlet" enctype="multipart/form-data" id="add_foto_form">
+                    <form method="POST" action="${baseURL}/AddPhotoToRestaurantServlet" enctype="multipart/form-data" id="add_foto_form">
                         <div class="row">
                             <div class="col-md-12" id="AddFoto-FileInput">
                                 <input type="hidden" name="id_rest" value="<c:out value="${restaurant_context.getRestaurant().getId()}"/>" >
@@ -571,7 +575,7 @@
                     <p id="button-rec-foto">
                         <c:choose>
                             <c:when test="${sessionScope.user.getId()==restaurant_context.getOwner().getId() && sessionScope.user.getNickname()!=null}">
-                                <a type="button" class="btn btn-primary btn-lg btn-config" href="../eatbit/GetRestaurantInfoServlet?restaurant_id=<c:out value="${restaurant_context.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Modifica Ristorante
+                                <a type="button" class="btn btn-primary btn-lg btn-config" href="${baseURL}/GetRestaurantInfoServlet?restaurant_id=<c:out value="${restaurant_context.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Modifica Ristorante
                                 </a> 
                             </c:when>
                             <c:otherwise>

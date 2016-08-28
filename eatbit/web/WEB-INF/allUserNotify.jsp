@@ -1,3 +1,5 @@
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 
 <%@page import="database.ReviewNotification"%>
 <%@page import="database.PhotoNotification" %>
@@ -5,7 +7,7 @@
 <html lang="en">
     <head>
         
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -18,6 +20,9 @@
         <link href="css/main.css" rel="stylesheet">
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
+        
+        <!-- Pnotify css -->
+        <link href="css/pnotify.custom.min.css" rel="stylesheet">
 
         <!-- single img Viewer css-->
         <link rel="stylesheet" href="css/lightbox.min.css">
@@ -36,6 +41,8 @@
         <!-- nav-bar -->
         <!--BARRA-->
         <%@include file="components/navbar-second.jsp"%>
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         
         <div class="container">
             <div class="row">
@@ -100,7 +107,7 @@
                                                 <div class ="col-md-10">
                                                 </div>
                                                 <div class ="col-md-2">   
-                                                    <button  class="btn btn-primary diventaRis " value="${photoNotification.getId()}"  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
+                                                    <button  class="btn btn-primary diventaRis "  onclick="segnalaPhoto(${photoNotification.getPhoto().getId()})">Segnala subito</button>
                                                 </div>                                                        
                                             </div>
                                         </div>
@@ -113,7 +120,7 @@
 
                     <!--MENU 2-->
                     <div id="menu2" class="tab-pane fade">
-                        <!--Revisioni-->
+                        <!--Recensioni-->
                         <br>
                         
                         <c:choose>
@@ -159,17 +166,15 @@
                                                     
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getId()}">Non vedere più</button>
+                                                    <div class="row">
+                                                        <button  class="right btn btn-primary diventaRis removeReviewNot" value="${reviewNotification.getReview().getId()}">Non vedere più</button>
+                                                        <form action="${baseURL}/GetReplyInfo" method="POST">
+                                                            <button type="submit" name="id_review"  class=" right diventaRis btn btn-primary" value="${reviewNotification.getReview().getId()}">Rispondi subito</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                                
-                                            <div class="row">
-                                                <div class ="col-md-10">
-                                                </div>
-                                                <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary diventaRis rispRecensione" value="${reviewNotification.getId()}">Rispondi subito</button>
-                                                </div>
-                                            </div>
+                                
                                         </div>
                                     </c:forEach>  
                                 </div>                     

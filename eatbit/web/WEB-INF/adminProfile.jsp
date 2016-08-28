@@ -4,8 +4,10 @@
     Author     : mario
 --%>
 
-<%@page language="java" session="true" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
+
 <%@page import="database.contexts.AttemptContext"%>
 <%@page import="database.contexts.ReplyContext"%>
 <%@page import="database.contexts.PhotoContext"%>
@@ -19,7 +21,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>       
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -34,7 +35,9 @@
         <link href="css/userProfile.css" rel="stylesheet">
         <link href="css/adminProfile.css" rel="stylesheet">
         <link href="css/jquery-ui.css" rel="stylesheet">
-        
+        <!-- Pnotify css -->
+       <link href="css/pnotify.custom.min.css" rel="stylesheet">
+       
         <!-- single img Viewer css-->
         <link rel="stylesheet" href="css/lightbox.min.css">
         
@@ -93,7 +96,7 @@
                 <ul class="nav nav-pills restaurant">
                     <li class="active"><a data-toggle="tab" href="#menu1">Ristoranti in Attesa<span class="badge"><c:out value="${ristorantiAttesa.size()}"/></span></a></li>
                     <li><a data-toggle="tab" href="#menu2">Risposte da Confermare<span class="badge"><c:out value="${risposteConfermare.size()}"/></span></a></li>
-                    <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${listPhotoNotification.size()+reviewSegnalate.size()}"/> </span></a></li>
+                    <li><a data-toggle="tab" href="#menu3">Segnalati<span class="badge"> <c:out value="${listPhotoNotification.size()+listReviewNotification.size()}"/> </span></a></li>
                     <li><a data-toggle="tab" href="#menu4">Informazioni Profilo</a></li>
                 </ul>
 
@@ -120,15 +123,15 @@
                                                 <c:choose>
                                                     <c:when test="${rA.getIsClaim() == 0}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; Ã© in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;é in attesa di conferma dopo la <b>creazione</b> del ristorente <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:when>
                                                     <c:when test="${rA.getIsClaim() == 1}">
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; <b>reclama</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;<b>reclama</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:when>
                                                     <c:otherwise>
                                                         &nbsp; L'utente <b><c:out value="${rA.getUser().getName()}" /></b> 
-                                                        &nbsp; <b>ha creato e reclamato</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
+                                                        &nbsp;<b>ha creato e reclamato</b> il ristorante <b><c:out value="${rA.getRestaurant().getName()}" /></b>
                                                     </c:otherwise>
                                                 </c:choose>                                        
                                             </a>
@@ -174,7 +177,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:forEach items="${risposteConfermare}" var="RC">
-                                        <div class="alert alert-info notice  notificaRecensione" role="alert">
+                                        <div class="alert alert-info notice  notificaRecensione" style="border-radius:0px;" role="alert">
                                             <div class ="row">
                                                 <a href="#">
                                                     &nbsp; <span>Reply in attesa di accettazione!</span>                                                   
@@ -243,10 +246,13 @@
                                                 <div class ="col-md-8">
                                                 </div>
                                                 <div class ="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso acceptReply " id="AcceptReply" value="${RC.getReview().getId()}">Accept</button>
+                                                    <div class="row">
+                                                        <button  class=" right btn btn-primary fisso acceptReply " value="${RC.getReply().getId()}">Accept</button>
+                                                        <button  class=" right btn btn-primary fisso declineReply" value="${RC.getReply().getId()}">Decline</button>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <button  class=" right btn btn-primary fisso declineReply" id="DeclineReply" value="${RC.getReview().getId()}">Decline</button>
+                                                    
                                                 </div>
                                             </div>
 
@@ -261,7 +267,7 @@
                         <div class="list-group">
                             <br>
                             <c:choose>
-                            <c:when test="${(listPhotoNotification.size()+reviewSegnalate.size()) <= 0}">
+                            <c:when test="${(listPhotoNotification.size()+listReviewNotification.size()) <= 0}">
                                 <div class="alert alert-info notice restaurant" role="alert">
                                     <div class ="row">
                                         &nbsp; Nessuna nuova Notifica!                                                
@@ -270,22 +276,11 @@
                             </c:when>
                             
                             <c:otherwise>
-                                <div class="col-md-6">
-                                    <br>
-                                    <!-- PhotoNotifications -->
-                                    <h4>Foto Segnalate</h4>                           
-                                    <c:choose>
-                                        <c:when test="${listPhotoNotification.size() <= 0}">
-                                            <div class="alert alert-info notice restaurant" role="alert">
-                                                <div class ="row">
-                                                    &nbsp; Nessuna Foto Segnalata!                                                
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                    
-                                            <c:forEach items="${listPhotoNotification}" var="photoNotification">
-                                                <div class="alert alert-info notice notificaFoto" role="alert">
+                                <div class ="row">
+                                    <c:if test="${ (listPhotoNotification.size()-1) >= 0}">
+                                        <c:forEach begin="0" end="${(listPhotoNotification.size()-1)}" var="i">
+                                        
+                                            <div class="alert alert-info notice notificaFoto" role="alert">
                                                     <div class ="row">
                                                         <a href="#">
                                                             &nbsp;<span>Segnalazione Foto</span>
@@ -295,8 +290,8 @@
                                                     <div class="row">
                                                         <div class ="col-md-10">
                                                             <div class="contenutoNotFoto">
-                                                                <a class="thumbnail" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
-                                                                    <img src="<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                                <a class="thumbnail" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                    <img src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
                                                                 </a>                                                                                                                                                                                               
                                                             </div>
                                                         </div>
@@ -308,41 +303,21 @@
                                                         <div class ="col-md-9">
                                                         </div>
                                                         <div class ="col-md-2">   
-                                                            <button id="AcceptReportPhoto" class="btn btn-primary fisso acceptReportedPhoto" value="${photoNotification.getPhoto().getId()}">Accept</button>
-                                                        </div>       
+                                                            <div class="row">
+                                                                <button class="btn btn-primary fisso acceptReportedPhoto" value="${listPhotoNotification.get(i).getPhoto().getId()}">Accept</button>
+                                                                <button  class="btn btn-primary fisso declineReportedPhoto " value="${listPhotoNotification.get(i).getPhoto().getId()}" >Decline</button>
+                                                            </div>
+                                                            </div>       
                                                         <div class="col-md-1">                                                    
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class ="col-md-9">
-                                                        </div>
-                                                        <div class ="col-md-2">   
-                                                            <button id="DeclineReportPhoto" class="btn btn-primary fisso declineReportedPhoto " value="${photoNotification.getPhoto().getId()}" >Decline</button>
-                                                        </div>  
-                                                        <div class="col-md-1">                                                    
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </c:forEach>  
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>                   
-
-                                <div class="col-md-6">
-                                    <br>
-                                    <!-- ReviewNotifications -->
-                                    <h4>Review Segnalate</h4>                           
-                                    <c:choose>
-                                        <c:when test="${reviewSegnalate.size() == 0}">
-                                            <div class="alert alert-info notice restaurant" role="alert">
-                                                <div class ="row">
-                                                    &nbsp; Nessuna Review Segnalata!                                                
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:forEach items="${reviewSegnalate}" var="reviewNotification">
+                                        </c:forEach>
+                                        </c:if>
+                                        
+                                    <c:if test="${ (listReviewNotification.size()-1) >= 0}">
+                                            <c:forEach begin="0" end="${(listReviewNotification.size()-1)}" var="i">
                                                 <div class="alert alert-info notice  notificaRecensione" role="alert">
                                                     <div class ="row">
                                                         <a href="#">
@@ -354,10 +329,10 @@
                                                         <div class ="col-md-10">                                                    
                                                             <div class="panel panel-primary comm">
                                                                 <div class="panel-heading">
-                                                                    <h3 class="panel-title"><c:out value="${reviewNotification.getUser().getName()}" /> ha commentato:</h3>
+                                                                    <h3 class="panel-title"><c:out value="${listReviewNotification.get(i).getUser().getName()}" /> ha commentato:</h3>
                                                                 </div>
                                                                 <div class="panel-body">
-                                                                    <c:out value="${reviewNotification.getReview().getDescription()}" />
+                                                                    <c:out value="${listReviewNotification.get(i).getReview().getDescription()}" />
                                                                 </div>           
                                                             </div>
                                                         </div>
@@ -369,40 +344,25 @@
                                                         <div class ="col-md-9">
 
                                                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-                                                            <c:out value="${reviewNotification.getReview().getDate_creation().toLocaleString()}"></c:out>
+                                                            <c:out value="${listReviewNotification.get(i).getReview().getDate_creation().toLocaleString()}"></c:out>
 
                                                         </div>
                                                         <div class ="col-md-2">
-                                                            <button  id="AcceptReportedReview" class=" right btn btn-primary fisso acceptReportedReview " value="${reviewNotification.getReview().getId()}">Accept</button>
-                                                        </div>
+                                                            <div class="row">
+                                                                <button class="right btn btn-primary fisso acceptReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Accept</button>
+                                                                <button class=" right btn btn-primary fisso declineReportedReview" value="${listReviewNotification.get(i).getReview().getId()}">Decline</button>
+                                                            </div>
+                                                            </div>
                                                         <div class="col-md-1">                                                    
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class ="col-md-9">
-                                                        </div>
-                                                        <div class ="col-md-2">
-                                                            <button id="DeclineReportedReview" class=" right btn btn-primary fisso declineReportedReview" value="${reviewNotification.getReview().getId()}">Decline</button>
-                                                        </div>
-                                                        <div class="col-md-1">                                                    
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </c:forEach>  
-                                        </c:otherwise>
-                                    </c:choose>
-                                </div>      
-                                
-                                <div class="row">
-                                        <div class="col-md-9">                                           
-                                        </div>
-                                        <div class="col-md-2">
-                                            <a href="${baseURL}/GetAllAdmin" class="btn btn-primary">Vedi tutte le notifiche!</a>
-                                        </div>
-                                    <div class="col-md-2"></div>
+                                            </c:forEach>
+                                        </c:if>                                                                                
+                                    
+                                    
                                 </div>
-                                
                             </c:otherwise>      
                         </c:choose>
                         </div>
@@ -471,12 +431,10 @@
                                     
                                 </li>
                             </ul>   
-                           </form>
-                                    <form action="/" method="POST">
-                                        <div class="right">
-                                            <p><button class="btn btn-primary fixx cPwd" type="submit" role="button" onclick="">Cambia Password</button></p>
-                                        </div>
-                                    </form>
+                           </form>                                    
+                                <div class="right">
+                                    <p><button name ="id_user" value="${user.getId()}" class="btn btn-primary fixx cPwd"  role="button" >Cambia Password</button></p>
+                                </div>                                    
                         </div>
                                     
                         

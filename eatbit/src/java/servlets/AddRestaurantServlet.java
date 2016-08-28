@@ -245,9 +245,10 @@ public class AddRestaurantServlet extends HttpServlet
                 FileDeleter.deleteFile(newPath);
                 Logger.getLogger(AddReviewServlet.class.getName()).log(Level.SEVERE, e.toString(), e);
                 //request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-                request.setAttribute("title", "Risultato Operazione:");
+                request.setAttribute("title", "Ricontrolla i dati inseriti");
                 request.setAttribute("status", "danger");
-                request.setAttribute("description", "Errore: "+e.toString()+" "+e);
+                request.setAttribute("description", "Orario Apertura non può essere dopo Orario Chiusura -----"
+                        + "Prezzo Minimo non può essere più grande di Prezzo Massimo");
                 request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
             }
         }

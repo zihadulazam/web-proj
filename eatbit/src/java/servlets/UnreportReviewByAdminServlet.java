@@ -47,7 +47,8 @@ public class UnreportReviewByAdminServlet extends HttpServlet
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
         try {
-            String stringId= request.getParameter("id_review");
+            String stringId= request.getParameter("id_review");            
+            
             if (stringId!=null) {
                 manager.unreportReview(Integer.parseInt(stringId));
                 out.write("1");

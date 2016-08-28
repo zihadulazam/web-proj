@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=ISO-8859-1" %> 
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.ArrayList"%>
 
@@ -6,6 +7,7 @@
     <head>
         <title>eatBit | Home</title>
         <meta charset="ISO-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -36,6 +38,8 @@
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
         <%@include file="components/navbar-index.jsp"%>
         
@@ -47,11 +51,11 @@
                     <div class="jumbo-text-container"> 
                         <h1 class="name"><strong>eatBit</strong></h1>
                         <div class="motto horizontally-centered">
-                            <p>Trova il ristorante piÃ¹ <strong>adatto</strong> a te..</p> 
+                            <p>Trova il ristorante più <strong>adatto</strong> a te..</p> 
                         </div>
                     </div>
                     <div class="input-thumbnail thumbnail">
-                        <form id="search-form" role="form" method="get" action="/eatbit/PopulateTable">
+                        <form id="search-form" role="form" method="get" action="${baseURL}/PopulateTable">
                             <div class="jumbo-textbox-container form-group horizontally-centered">
                                 <div class="checkbox text-right">
                                         <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span><label><input type="checkbox" id="vicino_a_me">Vicino a me</label>
@@ -173,7 +177,7 @@
                                                                                 onclick="nonMiPiace(<c:out value="${lastComment.getReview().getId()}"></c:out>,0)"
                                                                                 id="btn-nonmipiace-<c:out value="${lastComment.getReview().getId()}"></c:out>"
                                                                                 ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${lastComment.getReview().getDislikes()}" /></span></span></button>
-                                                                        <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
+                                                                        <p class="comment-nome-ristorante"><span class="glyphicon glyphicon-cutlery" aria-hidden="true"></span><a href="${baseURL}/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${lastComment.getReview().getId_restaurant()}" />"> <c:out value="${lastComment.getRestaurantName()}" /></a></p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -235,7 +239,7 @@
                                                         </div>
                                                         <div class="row container-fluid">
                                                             <!-- va qua url del ristorante -->
-                                                            <div class="btn-visita"><a type="button" class="btn btn-primary" href="../eatbit/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
+                                                            <div class="btn-visita"><a type="button" class="btn btn-primary" href="${baseURL}/GetRestaurantContextForwardToJspServlet?id_restaurant=<c:out value="${topRatedRisto.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Visita</a></div>
                                                         </div>
                                                     </div>
                                                 </c:forEach>

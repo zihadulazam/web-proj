@@ -1,11 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <html lang="it">
     <head>
         <title>eatBit | Failure</title>
-        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -38,7 +38,7 @@
             
          
             <div class="container text-center" id="main">
-                <h1>L'operazione non Ã¨ andata a buon fine, ci dispiace.</h1>
+                <h1>L'operazione non è andata a buon fine, ci dispiace.</h1>
                 <p>(Tra <strong><span id="sec">5</span></strong> secondi verrai reindirizzato alla pagina Home)</p>
                 <div class="row">
                     <div class="col-md-12 update">
