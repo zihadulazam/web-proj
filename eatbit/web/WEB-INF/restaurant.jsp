@@ -541,11 +541,11 @@
                     <h4 class="dettagli-lable">Orario:</h4>
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" id="giorni">
-                    <p>LunedÃ¬</p><hr/>
-                    <p>MartedÃ¬</p><hr/>
-                    <p>MercoledÃ¬</p><hr/>
-                    <p>GiovedÃ¬</p><hr/>
-                    <p>VenerdÃ¬</p><hr/>
+                    <p>Lunedì</p><hr/>
+                    <p>Martedì</p><hr/>
+                    <p>Mercoledì</p><hr/>
+                    <p>Giovedì</p><hr/>
+                    <p>Venerdì</p><hr/>
                     <p>Sabato</p><hr/>
                     <p>Domenica</p><hr/>
                 </div>
