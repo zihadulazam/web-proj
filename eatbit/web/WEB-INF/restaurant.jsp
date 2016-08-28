@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <div id="informazioni-orario">
-                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per cittï¿½ï¿½): <c:out value="${restaurant_context.getCityPosition()}"/></p>
+                        <p id="classifica"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Classifica (per città): <c:out value="${restaurant_context.getCityPosition()}"/></p>
                         <p id="bold"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> Oggi: </p>
                         <c:forEach var="ore" items="${restaurant_context.getHoursRanges()}">
                             <c:if test="${NowDay==ore.getDay()}">
@@ -541,11 +541,11 @@
                     <h4 class="dettagli-lable">Orario:</h4>
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" id="giorni">
-                    <p>LunedÃ¬</p><hr/>
-                    <p>MartedÃ¬</p><hr/>
-                    <p>MercoledÃ¬</p><hr/>
-                    <p>GiovedÃ¬</p><hr/>
-                    <p>VenerdÃ¬</p><hr/>
+                    <p>Lunedì</p><hr/>
+                    <p>Martedì</p><hr/>
+                    <p>Mercoledì</p><hr/>
+                    <p>Giovedì</p><hr/>
+                    <p>Venerdì</p><hr/>
                     <p>Sabato</p><hr/>
                     <p>Domenica</p><hr/>
                 </div>

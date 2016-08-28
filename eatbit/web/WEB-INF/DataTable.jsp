@@ -197,6 +197,7 @@
                             <!-- terza colonna-->
                             <td class="text-center sorting_1 comment" style="padding-right: 0px;padding-left: 0px;" >
                                     <h5><c:out value="${i.getCoordinate().getAddress()}"/></h5>
+                                    <h5><c:out value="${i.getCoordinate().getCity()}"/>,<c:out value="${i.getCoordinate().getState()}"/></h5>
                                     <h5><strong>Prezzo: </strong><c:out value="${i.getPriceRange().getName()}"/></h5>
                             </td>
                             <!-- quarta colonna-->
