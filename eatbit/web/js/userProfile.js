@@ -3,12 +3,12 @@ $(document).ready(function() {
     
     $(".cPwd").click(function(event) {
         
-        formdata=$('#pswForm').serializeArray();
+        var id_user = $("#id_user").val();
         $.ajax(
         {
             url : "../eatbit/SendPswVerificationEmailServlet?",
             type: "POST",
-            data : formdata,
+            data : {id_user:id_user},
             success:function(dati)  
             {
                 //data: return data from server
@@ -37,8 +37,9 @@ $(document).ready(function() {
                     });           
                 }
             },
-            error: function() 
+            error: function(xhr) 
             {
+                console.log("Error: " + xhr.statusText);
                 new PNotify({
                         title: 'Cambio Password Fallito ',
                         text: 'Ci dispiace ma ce qualche problema con il server centrale cercheremo di rimediare al piu presto',

@@ -422,6 +422,8 @@ $(document).ready(function() {
             }
                     });
     });
+    
+    /*
     $(".cPwd").click(function(event) {
         
         formdata=$('#pswForm').serializeArray();
@@ -472,4 +474,6 @@ $(document).ready(function() {
             }
                     });
     });
+    
+    */
      });
