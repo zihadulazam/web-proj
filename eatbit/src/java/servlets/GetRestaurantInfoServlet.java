@@ -54,7 +54,8 @@ public class GetRestaurantInfoServlet extends HttpServlet {
             //raccolgo le informazioni
             RestaurantContext restaurant = manager.getRestaurantContext(id_restaurant);
             
-            //aggiungo il ristorante alla richiesta
+            //aggiungo il ristorante alla richiesta +  altre info utili
+            request.setAttribute("cuisines", manager.getAllCuisines());
             request.setAttribute("restaurant", restaurant);
             //dirigo verso la pagina di modifica del ristorante
             request.getRequestDispatcher("/WEB-INF/modifyRestaurant.jsp").forward(request, response);

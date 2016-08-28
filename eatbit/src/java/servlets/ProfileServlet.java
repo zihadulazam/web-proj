@@ -68,10 +68,10 @@ public class ProfileServlet extends HttpServlet {
                 ArrayList<ReviewContext> listReviewNotification = null;
                 
                 //provo a interrogare il DB per ottenere le info                
-                ristorantiAttesa = manager.getRestaurantsRequests(2);
-                risposteConfermare = manager.getRepliesToBeConfirmed(2);
-                listPhotoNotification = manager.getReportedPhotos(1);
-                listReviewNotification = manager.getAllReportedReviews();
+                ristorantiAttesa = manager.getRestaurantsRequests(5);
+                risposteConfermare = manager.getRepliesToBeConfirmed(5);
+                listPhotoNotification = manager.getReportedPhotos(5);
+                listReviewNotification = manager.getReportedReviews(5);
 
                 response.setContentType("text/plain");
                 request.setAttribute("ristorantiAttesa", ristorantiAttesa);

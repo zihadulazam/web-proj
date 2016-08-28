@@ -149,7 +149,7 @@
                                 <div class="form-group">
                                     <h5>Fascia Prezzo:</h5>
                                     <div class="input-group">
-                                        <select class="form-control" name="min" class="form-control" id="prezzo_min">
+                                        <select class="form-control" name="min" id="prezzo_min">
                                             <option>Prezzo Min</option>
                                             <c:forEach var="i" begin="1" end="1000">
                                                 <option><c:out value="${i}"/></option>
@@ -160,7 +160,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                         <select class="form-control" name="max" class="form-control" id="prezzo_max">
+                                         <select class="form-control" name="max" id="prezzo_max">
                                             <option>Prezzo Max</option>
                                             <c:forEach var="i" begin="1" end="1000">
                                                 <option><c:out value="${i}"/></option>
@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>LunedÃ¬:</h5>
+                                        <h5>Lunedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -295,7 +295,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>MartedÃ¬:</h5>
+                                        <h5>Martedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -382,7 +382,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>MercoledÃ¬:</h5>
+                                        <h5>Mercoledì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -469,7 +469,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>GiovedÃ¬:</h5>
+                                        <h5>Giovedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -556,7 +556,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>VenerdÃ¬:</h5>
+                                        <h5>Venerdì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">

@@ -163,7 +163,7 @@
                                               
                                         
                             <fieldset>
-                                <h4>Orario d'apertura (Quasi Finito):</h4>
+                                <h4>Orario d'apertura:</h4>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 text-center">
                                         <h5>Giorno</h5>
