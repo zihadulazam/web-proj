@@ -38,7 +38,7 @@
                         <i class="form-control-feedback glyphicon glyphicon-map-marker"></i>
                     </div>
                     <div class="form-group has-feedback has-feedback-left">
-                        <input type="text" class="form-control" id="nomeRisto" name="name" placeholder="Nome del ristorante" />
+                        <input type="text" class="form-control" id="nomeRisto" name="name" placeholder="Nome del ristorante/Tipo di Cucina" />
                         <i class="form-control-feedback glyphicon glyphicon-cutlery"></i>
                     </div>
                     <button type="submit" class="btn btn-info">Cerca</button>
