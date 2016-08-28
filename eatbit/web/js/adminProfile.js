@@ -284,7 +284,7 @@ $(document).ready(function() {
                     element.remove();
                     new PNotify({
                         title: 'Rimozione',
-                        text: 'Review tolta dall elenco delle FOTO SEGNALATE !!',
+                        text: 'Review tolta dall elenco delle Review SEGNALATE !!',
                         type: 'success',
                         mobile: {
                             swipe_dismiss: true,
