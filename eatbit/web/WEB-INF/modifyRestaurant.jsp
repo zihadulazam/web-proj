@@ -823,9 +823,6 @@
 
         <!-- Javascript -->
         <script src="assets/js/jquery.backstretch.min.js"></script>
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  
         <script src="assets/js/retina-1.1.0.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5PvbD12gNax9Avkf-qes0_Y-_oB90b-o&libraries=places"></script>
         <script src="js/createRestaurant.js"></script>
