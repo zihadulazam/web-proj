@@ -68,19 +68,20 @@
                     <p>
                         
                         <c:if test="${status=='ok'}" >
-                            <a class="btn btn-primary btn-lg" href="${baseURL}/ProfileServlet">Torna al Profilo</a>
+                            <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
+                            <a class="btn btn-primary btn-lg" href="${baseURL}/ProfileServlet">Vai al Profilo</a>
                         </c:if>
                         
                         <c:if test="${status != 'ok'}" >
                             <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
-                            <script>
+                            
+                        </c:if>
+                            
+                        <script>
                             function goBack() {
                                 window.history.back();
                             }
-                            </script>
-                        </c:if>
-                            
-                        
+                        </script>
                     </p>
                 </div>
             </div>
