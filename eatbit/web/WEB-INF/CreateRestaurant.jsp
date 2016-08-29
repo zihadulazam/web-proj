@@ -1,8 +1,3 @@
-<%-- 
-    Document   : CreateRestaurant
-    Created on : 14-ago-2016, 19.13.22
-    Author     : Zihadul Azam
---%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp" %>
@@ -208,7 +203,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Lunedì:</h5>
+                                        <h5>Lunedï¿½:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -295,7 +290,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Martedì:</h5>
+                                        <h5>Martedï¿½:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -382,7 +377,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Mercoledì:</h5>
+                                        <h5>Mercoledï¿½:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -469,7 +464,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Giovedì:</h5>
+                                        <h5>Giovedï¿½:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -556,7 +551,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Venerdì:</h5>
+                                        <h5>Venerdï¿½:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
