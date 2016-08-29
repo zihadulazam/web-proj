@@ -11,7 +11,6 @@
 <html>
 <head>
         <title>eatBit | Info</title>
-        <meta charset="ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <!-- Bootstrap -->
@@ -34,6 +33,10 @@
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     </head>
     <body>
+        
+        <c:set var="req" value="${pageContext.request}" />
+        <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
+        
         <!-- include navbar hear -->
         <%@include file="components/navbar-second.jsp"%>
 
@@ -62,15 +65,25 @@
                             </p>
                         </div>
                     <p>
-                        <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
-
-                        <script>
-                        function goBack() {
-                            window.history.back();
-                        }
-                        </script>
+                        
+                        <c:if test="${status=='ok'}" >
+                            <a class="btn btn-primary btn-lg" href="${baseURL}/ProfileServlet">Torna al Profilo</a>
+                        </c:if>
+                        
+                        <c:if test="${status != 'ok'}" >
+                            <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
+                            <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                            </script>
+                        </c:if>
+                            
+                        
                     </p>
                 </div>
+            </div>
+        </div>
             </div>
         </div>
          <!-- include modal hear -->
