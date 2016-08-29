@@ -79,21 +79,14 @@
                                 <li class="text-center"><a href="" onclick="logoutAjax();"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
                             </ul>
                         </li>
-                        <li id="notification">
-                            <a class="btn btn-default" type="button" id="btn-notify" href="
-                                <c:choose>
-                                    <c:when test="${sessionScope.user.getType()==2 && sessionScope.user.getNickname()!=null}">
-                                        ../eatbit/GetAllAdmin
-                                    </c:when>
-                                    <c:otherwise>
-                                        ../eatbit/GetAllNotify
-                                    </c:otherwise>
-                                </c:choose>
-                            ">
-                                <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
-                            </a>
-                            <span id="ntfy-badge" class="badge badge-notify">--</span>
-                        </li>  
+                        <c:if test="${sessionScope.user.getType()==2 && sessionScope.user.getNickname()!=null}">
+                            <li id="notification">
+                                <a class="btn btn-default" type="button" id="btn-notify" href="../eatbit/GetAllNotify">
+                                    <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                </a>
+                                <span id="ntfy-badge" class="badge badge-notify">--</span>
+                            </li>
+                        </c:if>  
                     </ul> 
                 </c:otherwise>
             </c:choose>
