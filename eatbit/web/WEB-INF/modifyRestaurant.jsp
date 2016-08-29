@@ -43,7 +43,7 @@
         <c:set var="req" value="${pageContext.request}" />
         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
-        <%@include file="components/navbar-second.jsp"%>
+        <%@include file="components/navbar-index.jsp"%>
         <!-- page container -->
         <!-- Top content -->
         <div class="top-content">
@@ -171,7 +171,7 @@
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Dalle</h5>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 text-center"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Alle</h5>
                                     </div>
