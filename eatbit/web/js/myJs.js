@@ -263,7 +263,7 @@ function nonMiPiace(reviewId,likeType){
         }
     });
 }    
-
+/*
 (function($,W,D)
     {
         var JQUERY4U = {};
@@ -349,7 +349,7 @@ function nonMiPiace(reviewId,likeType){
             JQUERY4U.UTIL.setupFormValidation();
         });
 
-})(jQuery, window, document);
+})(jQuery, window, document);*/
 
 //chiama login modal se non è loggato
 function primaFaiLogin(){
