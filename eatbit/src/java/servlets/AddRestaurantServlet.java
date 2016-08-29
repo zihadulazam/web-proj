@@ -233,7 +233,7 @@ public class AddRestaurantServlet extends HttpServlet
                     manager.addPhoto(photo);
                     request.setAttribute("title", "Risultato Operazione:");
                     request.setAttribute("status", "ok");
-                    request.setAttribute("description", "Successo: Il tuo Ristorante é stato aggiunto verrà valutato dall Amministratore.");
+                    request.setAttribute("description", "Successo: Il tuo Ristorante é stato aggiunto e verrà valutato dall Amministratore.");
                     request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                 }
             }
