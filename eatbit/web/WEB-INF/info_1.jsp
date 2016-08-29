@@ -38,7 +38,7 @@
         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         
         <!-- include navbar hear -->
-        <%@include file="components/navbar-second.jsp"%>
+        <%@include file="components/navbar-index.jsp"%>
 
         <div class="jumbotron">
             <div class="container text-center">
@@ -85,6 +85,5 @@
         
         <!-- footer -->
         <%@include file="components/footer.html"%>
-
 </body>
 </html>

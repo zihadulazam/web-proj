@@ -1,8 +1,3 @@
-<%-- 
-    Document   : CreateRestaurant
-    Created on : 14-ago-2016, 19.13.22
-    Author     : Zihadul Azam
---%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp" %>
@@ -41,7 +36,7 @@
         <c:set var="req" value="${pageContext.request}" />
         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
-        <%@include file="components/navbar-second.jsp"%>
+        <%@include file="components/navbar-index.jsp"%>
 
         <!-- page container -->
         <!-- Top content -->
@@ -87,17 +82,17 @@
                     		    <h4>Informazioni sul vostro ristorante:</h4>
                     			<div class="form-group">
                     			    <label class="sr-only" for="name">Nome</label>
-                                    <input type="text" name="name" placeholder="Nome..." class="form-control" id="name">
+                                    <input type="text" name="name" placeholder="Nome..." class="form-control" id="name" maxlength="255">
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="description">Descrizione</label>
                                     <textarea name="description" placeholder="Descrizione..." 
-                                    	                 class="form-control" id="description"></textarea>
+                                    	                 class="form-control" id="description" maxlength="32000"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="web_site">Sito Web</label>
                                     <div class="input-group">
-                                        <input type="text" name="url" placeholder="Sito Web..." class="form-control" id="web_site">
+                                        <input type="text" name="url" placeholder="Sito Web..." class="form-control" id="web_site" maxlength="255">
                                         <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
                                     </div>
                                     
@@ -201,16 +196,16 @@
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Dalle</h5>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 text-center"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Alle</h5>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                                         <h5>Lunedì:</h5>
                                     </div>
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="LunMatH">
                                                 <option value="--">--</option>
@@ -230,7 +225,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="LunMatM">
                                                 <option value="--">--</option>
@@ -250,8 +245,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="LunPomH">
                                                 <option value="--">--</option>
@@ -271,7 +266,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="LunPomM">
                                                 <option value="--">--</option>
@@ -337,7 +332,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="MarPomH">
@@ -424,7 +419,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="MerPomH">
@@ -511,7 +506,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="GioPomH">
@@ -598,7 +593,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="VenPomH">
@@ -685,7 +680,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="SabPomH">
@@ -772,7 +767,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="DomPomH">

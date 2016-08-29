@@ -39,8 +39,8 @@
         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         
         <!-- include navbar hear -->
-        <%@include file="components/navbar-second.jsp"%>
-
+        <%@include file="components/navbar-index.jsp"%>
+        <div style='width:100%;height:100px;'></div>
         <div class="container" style="height: 100%;min-height: 100%;">
             <div class="jumbotron">
                 <div class="container text-center">

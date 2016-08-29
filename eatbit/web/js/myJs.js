@@ -149,7 +149,7 @@ function miPiace(reviewId,likeType){
                 $(btnNonMiPiaceId).prop("disabled",true);
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Non puoi votare le tue recensioni !',
+                    text: 'Hai già votato questa recensione oppure stai votando una delle tue recensioni !',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,
@@ -158,6 +158,17 @@ function miPiace(reviewId,likeType){
                 });
             }
             if(data=="-1"){
+                new PNotify({
+                    title: 'Mi dispiace',
+                    text: 'Votazione al momento non è disponibile !',
+                    type: 'error',
+                    mobile: {
+                        swipe_dismiss: true,
+                        styling: true
+                    }
+                });
+            }
+            if(data=="0"){
                 new PNotify({
                     title: 'Mi dispiace',
                     text: 'Votazione al momento non è disponibile !',
@@ -217,7 +228,7 @@ function nonMiPiace(reviewId,likeType){
                 $(btnNonMiPiaceId).prop("disabled",true);
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Non puoi votare i tuoi review !!',
+                    text: 'Hai già votato questa recensione oppure stai votando una delle tue recensioni !',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,
@@ -252,7 +263,7 @@ function nonMiPiace(reviewId,likeType){
         }
     });
 }    
-
+/*
 (function($,W,D)
     {
         var JQUERY4U = {};
@@ -338,7 +349,7 @@ function nonMiPiace(reviewId,likeType){
             JQUERY4U.UTIL.setupFormValidation();
         });
 
-})(jQuery, window, document);
+})(jQuery, window, document);*/
 
 //chiama login modal se non è loggato
 function primaFaiLogin(){

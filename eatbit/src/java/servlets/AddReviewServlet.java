@@ -216,13 +216,13 @@ public class AddReviewServlet extends HttpServlet
                     //l'utente ha già fatto un voto o una review a questo ristorante nelle ultime 24h
                         case -2:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
-                                    request.setAttribute("description", "Ops: Hai già fatto una recensione a questo ristorante nelle ultime 24h.");
+                                    request.setAttribute("description", "Ops: Hai già fatto una recensione a questo ristorante nelle ultime 24h. Però abbiamo aggiunto la tua foto al ristornate");
                                     request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //l'utente ristoratore sta cercando di recensire il proprio ristorante
                         case -3:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "warning");
-                                    request.setAttribute("description", "Ops: Il proprietario non può fare recensione.");
+                                    request.setAttribute("description", "Ops: Il proprietario non può fare recensione. Però abbiamo aggiunto la tua foto al ristornate");
                                     request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                         break;
                     //successo

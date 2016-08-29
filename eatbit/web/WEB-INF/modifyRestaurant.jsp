@@ -43,7 +43,7 @@
         <c:set var="req" value="${pageContext.request}" />
         <c:set var="baseURL" value="${req.scheme}://${req.serverName}:${req.serverPort}${req.contextPath}" />
         <!-- include navbar hear -->
-        <%@include file="components/navbar-second.jsp"%>
+        <%@include file="components/navbar-index.jsp"%>
         <!-- page container -->
         <!-- Top content -->
         <div class="top-content">
@@ -171,7 +171,7 @@
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Dalle</h5>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 text-center"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Alle</h5>
                                     </div>
@@ -220,7 +220,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="LunPomH">
@@ -307,7 +307,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="MarPomH">
@@ -395,7 +395,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="MerPomH">
@@ -482,7 +482,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="GioPomH">
@@ -569,7 +569,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="VenPomH">
@@ -656,7 +656,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="SabPomH">
@@ -743,7 +743,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select name="hour" class="form-control" id="DomPomH">
@@ -787,10 +787,6 @@
                                 </div>
                                 <br/>
                                 <br/>
-                                <div class="f1-buttons">
-                                    <button type="button" class="btn btn-previous">Precedente</button>
-                                    <button type ="submit" id="btn-fine" disabled="disabled" class="btn btn-submit">Fine</button>
-                                    
                                     <input name="address" type="hidden" id="location" />
                                     <input name="city" type="hidden" id="city" />
                                     <input name="province" type="hidden" id="province" />
@@ -805,6 +801,9 @@
                                     <input name="orarioV" type="hidden" id="orarioV" />
                                     <input name="orarioS" type="hidden" id="orarioS" />
                                     <input name="orarioD" type="hidden" id="orarioD" />
+                                <div class="f1-buttons">
+                                    <button type="button" class="btn btn-previous">Precedente</button>
+                                    <button type ="submit" id="btn-fine" disabled="disabled" class="btn btn-submit">Fine</button>
                                 </div>
                             </fieldset>
                     	
@@ -824,9 +823,6 @@
 
         <!-- Javascript -->
         <script src="assets/js/jquery.backstretch.min.js"></script>
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  
         <script src="assets/js/retina-1.1.0.min.js"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5PvbD12gNax9Avkf-qes0_Y-_oB90b-o&libraries=places"></script>
         <script src="js/createRestaurant.js"></script>

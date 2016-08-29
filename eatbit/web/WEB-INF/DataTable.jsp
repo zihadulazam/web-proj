@@ -1,16 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<html lang="en">
     <head>
         
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>Eatbit | Search</title>
-        
         <!-- icon-->
         <link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
         <!-- Bootstrap -->
         <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -44,10 +45,11 @@
                 <div class="container" id="main" >
                 <div id="last-update">
                     <div id="info-box">
-                        <h1 align="justify">
-                            <strong>Non sono stati trovati risultati per la tua ricerca!</strong> Sembra che non ci siano ristoranti nel posto che stavi cercando
+                        <h1 align="justify text-center">Non sono stati trovati risultati per la tua ricerca!</h1>
+                    </div>
+                    <h4 class="text-left">Sembra che non ci siano ristoranti nel posto che stavi cercando
                                 o con quel nome o cucina, ti invitiamo a riprovare.<br>
-                                Ricordati che nella <strong><a href="${baseURL}/index.jsp">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
+                                Ricordati che nella <strong><a href="../eatbit/home">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
                                 Suggerimenti di cucine:
                                 <ul>
                                   <li>asiatica</li>
@@ -63,9 +65,7 @@
                                   <li>spagnola</li>
                                   <li>vegetariana</li>
                                 </ul> 
-                           </h1>
-                            <h2 align="justify">
-                    </div>
+                    </h4>
                 </div>
             </div>
             </c:when>

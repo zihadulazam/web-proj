@@ -1,0 +1,5 @@
+// Inserire le impostazioni in questo file per sovrascrivere quelle utente e predefinite.
+{
+    // Codifica del set di caratteri predefinita da usare durante la lettura e la scrittura di file.
+    "files.encoding": "ISO-8859-1"
+}

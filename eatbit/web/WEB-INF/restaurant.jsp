@@ -281,7 +281,7 @@
                             <br/>
                             <p>
                                 <label class="rating-lb" for="recensione-title">Titolo:</label>
-                                <input id="recensione-title" name="name" type="text">
+                                <input id="recensione-title" name="name" type="text" maxlength="25">
                             </p>
                         </div>
                         <div class="form-group">
