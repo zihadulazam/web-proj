@@ -54,14 +54,14 @@ public class LoginFilter implements Filter {
         // controllo se la sessione esiste e contiene un utente loggato
         // se non esiste o non conteiene un utente, ridirigo alla pagina iniziale di login
         HttpSession session = req.getSession(false);        
-        if (session == null) {            
-            resp.sendRedirect(req.getContextPath());
+        if (session == null) {          
+            request.getRequestDispatcher("/home").forward(request, response);
         } else {
             User user=(User)session.getAttribute("user");
             
             if(user.getName() == null )//|| user.getId()==0)
-            {
-                resp.sendRedirect(req.getContextPath());
+            {                
+                request.getRequestDispatcher("/home").forward(request, response);
             }else{                
                 chain.doFilter(request, response);
                 }

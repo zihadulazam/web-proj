@@ -238,8 +238,10 @@
                                                     <div class="row">
                                                         <div class ="col-md-10">
                                                             <div class="contenutoNotFoto">
-                                                                <a class="thumbnail" style="display: -moz-box;" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
-                                                                    <img src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                <a class="thumbnail" style="display: inline-block;" href="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                    <div class="NotifyPhotoContainer">
+                                                                        <img class="Image" src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                                    </div>
                                                                 </a>                                                                                                                                                                                               
                                                             </div>
                                                         </div>
