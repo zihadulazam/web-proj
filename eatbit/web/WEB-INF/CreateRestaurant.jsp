@@ -82,17 +82,17 @@
                     		    <h4>Informazioni sul vostro ristorante:</h4>
                     			<div class="form-group">
                     			    <label class="sr-only" for="name">Nome</label>
-                                    <input type="text" name="name" placeholder="Nome..." class="form-control" id="name">
+                                    <input type="text" name="name" placeholder="Nome..." class="form-control" id="name" maxlength="255">
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="description">Descrizione</label>
                                     <textarea name="description" placeholder="Descrizione..." 
-                                    	                 class="form-control" id="description"></textarea>
+                                    	                 class="form-control" id="description" maxlength="32000"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label class="sr-only" for="web_site">Sito Web</label>
                                     <div class="input-group">
-                                        <input type="text" name="url" placeholder="Sito Web..." class="form-control" id="web_site">
+                                        <input type="text" name="url" placeholder="Sito Web..." class="form-control" id="web_site" maxlength="255">
                                         <span class="input-group-addon"><span class="fa fa-globe" aria-hidden="true"></span></span>
                                     </div>
                                     
