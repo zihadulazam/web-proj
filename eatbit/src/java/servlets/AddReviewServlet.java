@@ -228,7 +228,7 @@ public class AddReviewServlet extends HttpServlet
                     //successo
                         default:    request.setAttribute("title", "Risultato Operazione:");
                                     request.setAttribute("status", "ok");
-                                    request.setAttribute("description", "Successo: Il tuo recensione è stato inserito con successo.");
+                                    request.setAttribute("description", "Successo: La tua recensione è stato inserita con successo.");
                                     manager.notifyReview(Integer.parseInt(sId_rest), id_review);
                                     request.getRequestDispatcher("/WEB-INF/info.jsp").forward(request, response);
                     }
