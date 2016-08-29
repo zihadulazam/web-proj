@@ -91,7 +91,7 @@ function segnalaPhoto(photoId){
             if(data == "1")
             new PNotify({
                     title: 'Ok',
-                    text: 'Grazie per la segnalazione !!',
+                    text: 'Grazie per la segnalazione !',
                     type: 'success',
                     mobile: {
                         swipe_dismiss: true,
@@ -104,7 +104,7 @@ function segnalaPhoto(photoId){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'segnalazione non è disponibile !!',
+                    text: 'segnalazione non disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -149,7 +149,7 @@ function miPiace(reviewId,likeType){
                 $(btnNonMiPiaceId).prop("disabled",true);
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Non puoi votare i tuoi review !!',
+                    text: 'Non puoi votare le tue recensioni !',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,
@@ -160,7 +160,7 @@ function miPiace(reviewId,likeType){
             if(data=="-1"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'votazione al momento non è disponibile !!',
+                    text: 'Votazione al momento non è disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -174,7 +174,7 @@ function miPiace(reviewId,likeType){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'votazione al momento non è disponibile !!',
+                    text: 'Votazione al momento non è disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -242,7 +242,7 @@ function nonMiPiace(reviewId,likeType){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non è disponibile !!',
+                    text: 'Votazione al momento non è disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,

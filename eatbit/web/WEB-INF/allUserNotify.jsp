@@ -1,13 +1,14 @@
 <%@ page language="java" session="true" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp" %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page import="database.ReviewNotification"%>
 <%@page import="database.PhotoNotification" %>
 
 <html lang="en">
     <head>
-        
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
@@ -84,8 +85,10 @@
                                             <div class="row">
                                                 <div class ="col-md-10">
                                                     <div class=" contenutoNotFoto">
-                                                        <a class="thumbnail autoX" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
-                                                            <img src="<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                        <a class="thumbnail autoX" style="display: inline-block;" href="<c:out value="${photoNotification.getPhoto().getPath()}" />" data-lightbox="example-<c:out value="${photoNotification.getPhoto().getPath()}" />">
+                                                            <div class="NotifyPhotoContainer">
+                                                                <img class="Image" src="<c:out value="${listPhotoNotification.get(i).getPhoto().getPath()}" />">
+                                                            </div>
                                                         </a>                                                                                                                                                                                               
                                                     </div>
                                                 </div>
