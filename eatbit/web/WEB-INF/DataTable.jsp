@@ -7,7 +7,7 @@
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>Eatbit | Search</title>
-        
+        <meta charset="ISO-8859-1">
         <!-- icon-->
         <link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
@@ -44,10 +44,11 @@
                 <div class="container" id="main" >
                 <div id="last-update">
                     <div id="info-box">
-                        <h1 align="justify">
-                            <strong>Non sono stati trovati risultati per la tua ricerca!</strong> Sembra che non ci siano ristoranti nel posto che stavi cercando
+                        <h1 align="justify text-center">Non sono stati trovati risultati per la tua ricerca!</h1>
+                    </div>
+                    <h4 class="text-left">Sembra che non ci siano ristoranti nel posto che stavi cercando
                                 o con quel nome o cucina, ti invitiamo a riprovare.<br>
-                                Ricordati che nella <strong><a href="${baseURL}/index.jsp">Home</a></strong> è possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
+                                Ricordati che nella <strong><a href="../eatbit/home">Home</a></strong> Ã¨ possibile trovare i migliori ristoranti per voto o numero di recensioni, se sei in cerca di ispirazione.<br>
                                 Suggerimenti di cucine:
                                 <ul>
                                   <li>asiatica</li>
@@ -63,9 +64,7 @@
                                   <li>spagnola</li>
                                   <li>vegetariana</li>
                                 </ul> 
-                           </h1>
-                            <h2 align="justify">
-                    </div>
+                    </h4>
                 </div>
             </div>
             </c:when>
