@@ -69,7 +69,7 @@ function loginAjax(){
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi"+textStatus);
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi "+textStatus);
                 shakeModal();      
         }
     });
@@ -84,7 +84,7 @@ function logoutAjax(){
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
+            $('.error').addClass('alert alert-danger').html("Errore Server! riprova più tardi");
             shakeModal();      
         }
     });
@@ -107,7 +107,7 @@ function regAjax(){
             else{
                 if(data=="-2")
                 {
-                    $('.error').addClass('alert alert-danger').html("Errore: esiste gia' un profilo con questo indirizzo e-mail");     
+                    $('.error').addClass('alert alert-danger').html("Errore: esiste già un profilo con questo indirizzo e-mail");     
                 }
                 else{
                     if(data=="-3")
