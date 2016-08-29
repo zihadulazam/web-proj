@@ -196,14 +196,14 @@
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Dalle</h5>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1 text-center"></div>
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
                                         <h5>Alle</h5>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Lunedï¿½:</h5>
+                                        <h5>Lunedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -245,7 +245,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="LunPomH">
@@ -290,7 +290,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Martedï¿½:</h5>
+                                        <h5>Martedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -332,7 +332,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="MarPomH">
@@ -377,7 +377,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Mercoledï¿½:</h5>
+                                        <h5>Mercoledì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -419,7 +419,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="MerPomH">
@@ -464,7 +464,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Giovedï¿½:</h5>
+                                        <h5>Giovedì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -506,7 +506,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="GioPomH">
@@ -551,7 +551,7 @@
                                 <br/>
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                                        <h5>Venerdï¿½:</h5>
+                                        <h5>Venerdì:</h5>
                                     </div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
@@ -593,7 +593,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="VenPomH">
@@ -680,7 +680,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="SabPomH">
@@ -767,7 +767,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
+                                    <div class="col-xs-0 col-sm-0 col-md-1 col-lg-1"></div>
                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                         <div class="input-group">
                                             <select class="form-control" id="DomPomH">
