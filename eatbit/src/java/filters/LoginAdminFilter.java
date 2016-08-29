@@ -58,14 +58,14 @@ public class LoginAdminFilter implements Filter {
         User user=(User)session.getAttribute("user");
         if (session == null || user.getName() == null ||user.getId()==0) {
             
-            resp.sendRedirect(req.getContextPath());
+            request.getRequestDispatcher("/home").forward(request, response);
         } else {
             
             if(user.getType()==2){            
              chain.doFilter(request, response);
             }
             else{
-             resp.sendRedirect(req.getContextPath());
+             request.getRequestDispatcher("/home").forward(request, response);
             }
         }
       

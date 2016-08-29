@@ -37,7 +37,7 @@ public class LogoutServlet extends HttpServlet {
             session.setMaxInactiveInterval(1);
             session.invalidate();
         }
-        request.getRequestDispatcher("/HomeServlet").forward(request, response);
+        request.getRequestDispatcher("/home").forward(request, response);
     }
 
     @Override
