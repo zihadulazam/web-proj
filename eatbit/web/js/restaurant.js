@@ -191,7 +191,7 @@ function addRistoVote(restaurantId){
             if(data=="0"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non Ã¨ disponibile !!',
+                    text: 'Votazione al momento non è disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -226,7 +226,7 @@ function addRistoVote(restaurantId){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non Ã¨ disponibile !!',
+                    text: 'Votazione al momento non è disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -258,12 +258,11 @@ function claimRisto(){
                         styling: true
                     }
                 });
-                location.reload();
             }
             if(data=="0"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'segnalazione al momento non Ã¨ disponibile !!',
+                    text: 'segnalazione al momento non è disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -287,7 +286,7 @@ function claimRisto(){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'segnalazione al momento non Ã¨ disponibile !!',
+                    text: 'segnalazione al momento non è disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,

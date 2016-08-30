@@ -73,7 +73,12 @@
                     </c:if>
 
                     <c:if test="${status != 'ok'}" >
-                        <button class="btn btn-primary btn-lg" onClick="location.href = document.referrer;">Torna Indietro</button>
+                        <button class="btn btn-primary btn-lg" onclick="goBack()">Torna Indietro</button>
+                        <script>
+                        function goBack() {
+                            window.history.back();
+                        }
+                        </script>
                     </c:if>
             </div>
         </div>

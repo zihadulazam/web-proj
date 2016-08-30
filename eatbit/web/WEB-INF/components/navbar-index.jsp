@@ -60,7 +60,7 @@
                                 <li><a href="" onclick="logoutAjax();"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</a></li>
                             </ul>
                         </li>
-                        <c:if test="${sessionScope.user.getType()==2 && sessionScope.user.getNickname()!=null}">
+                        <c:if test="${sessionScope.user.getType()==1 && sessionScope.user.getNickname()!=null}">
                             <li id="notification">
                                 <a class="btn btn-default" type="button" id="btn-notify" href="../eatbit/GetAllNotify">
                                     <span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span>
