@@ -190,25 +190,6 @@
                                 p{
                                     text-align: justify;
                                 }
-                                .btn-mi-piace,.btn-non-mi-piace{
-                                    background-color: $eatbit_red;
-                                    border: 1px solid #fff;
-                                    //&:hover{
-                                        //  background-color: #C70039  ;
-                                    //}
-                                    &:enabled{
-                                        &:hover{
-                                            background-color: #C70039  ;
-                                        }
-                                    }
-                                    @media (max-width: 405px){
-                                        margin-top: 2px;
-                                        width: 150px;
-                                    }
-                                    @media (max-width: 430px){
-                                        font-size: 12px;
-                                    }
-                                }
                                 .comment-nome-ristorante{
                                     float: right;
                                     margin-top: 5px;
@@ -216,6 +197,26 @@
                                         color: #FFC300;
                                         font-weight: bold;
                                     }   
+                                }
+                            }
+                            .btn-mi-piace,.btn-non-mi-piace{
+                                background-color: $eatbit_red;
+                                border: 1px solid #fff;
+                                margin-bottom: 10px;
+                                //&:hover{
+                                    //  background-color: #C70039  ;
+                                //}
+                                &:enabled{
+                                    &:hover{
+                                        background-color: #C70039  ;
+                                    }
+                                }
+                                @media (max-width: 405px){
+                                    margin-top: 2px;
+                                    width: 150px;
+                                }
+                                @media (max-width: 430px){
+                                    font-size: 12px;
                                 }
                             }
                         }

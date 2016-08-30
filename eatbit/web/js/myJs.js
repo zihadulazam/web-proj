@@ -69,7 +69,7 @@ function segnalaReview(reviewId){
             {
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'segnalazione non √® disponibile !!',
+                    text: 'segnalazione non Ë disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -149,7 +149,7 @@ function miPiace(reviewId,likeType){
                 $(btnNonMiPiaceId).prop("disabled",true);
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Hai gi√† votato questa recensione oppure stai votando una delle tue recensioni !',
+                    text: 'Hai gi‡† votato questa recensione oppure stai votando una delle tue recensioni !',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,
@@ -160,7 +160,7 @@ function miPiace(reviewId,likeType){
             if(data=="-1"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non √® disponibile !',
+                    text: 'Votazione al momento non Ë disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -171,7 +171,7 @@ function miPiace(reviewId,likeType){
             if(data=="0"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non √® disponibile !',
+                    text: 'Votazione al momento non Ë disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -185,7 +185,7 @@ function miPiace(reviewId,likeType){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non √® disponibile !',
+                    text: 'Votazione al momento non Ë disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -228,7 +228,7 @@ function nonMiPiace(reviewId,likeType){
                 $(btnNonMiPiaceId).prop("disabled",true);
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Hai gi√† votato questa recensione oppure stai votando una delle tue recensioni !',
+                    text: 'Hai gi‡† votato questa recensione oppure stai votando una delle tue recensioni !',
                     type: 'notice',
                     mobile: {
                         swipe_dismiss: true,
@@ -239,7 +239,7 @@ function nonMiPiace(reviewId,likeType){
             if(data=="-1"){
                 new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non √® disponibile !!',
+                    text: 'Votazione al momento non Ë disponibile !!',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,
@@ -253,7 +253,7 @@ function nonMiPiace(reviewId,likeType){
         {
             new PNotify({
                     title: 'Mi dispiace',
-                    text: 'Votazione al momento non √® disponibile !',
+                    text: 'Votazione al momento non Ë disponibile !',
                     type: 'error',
                     mobile: {
                         swipe_dismiss: true,

@@ -63,13 +63,13 @@ function loginAjax(){
                 location.reload();
             } 
             else{
-                $('.error').addClass('alert alert-danger').html("Email/Password non valido!!");
+                $('.error').addClass('alert alert-danger').html("Email/Password non è valido!!");
                 shakeModal();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova piÃ¹ tardi "+textStatus);
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi "+textStatus);
                 shakeModal();      
         }
     });
@@ -84,7 +84,7 @@ function logoutAjax(){
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server! riprova piÃ¹ tardi");
+            $('.error').addClass('alert alert-danger').html("Errore Server! riprova più¹ tardi");
             shakeModal();      
         }
     });
@@ -107,12 +107,12 @@ function regAjax(){
             else{
                 if(data=="-2")
                 {
-                    $('.error').addClass('alert alert-danger').html("Errore: esiste giÃ  un profilo con questo indirizzo e-mail");     
+                    $('.error').addClass('alert alert-danger').html("Errore: esiste già  un profilo con questo indirizzo e-mail");     
                 }
                 else{
                     if(data=="-3")
                     {
-                        $('.error').addClass('alert alert-danger').html("Errore: esiste giÃ  un profilo con questo nickname");    
+                        $('.error').addClass('alert alert-danger').html("Errore: esiste già  un profilo con questo nickname");    
                     }
                     else{
                         $('.error').addClass('alert alert-danger').html("Errore: Riprova");     
@@ -123,7 +123,7 @@ function regAjax(){
         },
         error: function(jqXHR, textStatus, errorThrown) 
         {
-            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova piÃ¹ tardi");
+            $('.error').addClass('alert alert-danger').html("Errore Server!! riprova più tardi");
             shakeModal();      
         }
     });
@@ -282,7 +282,7 @@ function shakeModal(){
                     if(data=="0"){
                         new PNotify({
                             title: 'Mi dispiace',
-                            text: 'Recupero password al momento non Ã¨ disponibile !!',
+                            text: 'Recupero password al momento non è disponibile !!',
                             type: 'error',
                             mobile: {
                                 swipe_dismiss: true,
@@ -317,7 +317,7 @@ function shakeModal(){
                 {
                     new PNotify({
                             title: 'Mi dispiace',
-                            text: 'Recupero password al momento non Ã¨ disponibile !!',
+                            text: 'Recupero password al momento non è disponibile !!',
                             type: 'error',
                             mobile: {
                                 swipe_dismiss: true,

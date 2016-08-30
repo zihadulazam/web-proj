@@ -31,6 +31,11 @@
         <!-- icon-->
         <link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <style>
+            body{
+                background-color: #eee;
+            }
+        </style>
     </head>
     <body>
         
@@ -39,7 +44,7 @@
         
         <!-- include navbar hear -->
         <%@include file="components/navbar-index.jsp"%>
-
+        <div style='width:100%;height:100px;'></div>
         <div class="jumbotron">
             <div class="container text-center">
                 <h1><c:out value="${titolo}"/></h1>

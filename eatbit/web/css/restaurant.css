@@ -10,7 +10,7 @@
 }
 /* line 9, ../scss/restaurant.scss */
 #restaurant-name img {
-  height: 100px;
+  height: 80px;
   width: auto;
   text-align: center;
   padding-bottom: 20px;
@@ -21,9 +21,9 @@
   margin-top: 0px;
   margin-bottom: 5px;
   font-family: 'Raleway', sans-serif;
-  font-size: 50px;
+  font-size: 30px;
+  font-weight: bold;
   color: #555;
-  font-size: 40px;
 }
 @media (max-width: 500px) {
   /* line 15, ../scss/restaurant.scss */
@@ -389,39 +389,40 @@
   text-align: justify;
 }
 /* line 315, ../scss/restaurant.scss */
-#recensioni-container .comment .container-fluid .row .comment-content .btn-mi-piace, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace {
+#recensioni-container .comment .container-fluid .row .comment-content .comment-nome-ristorante {
+  float: right;
+  margin-top: 5px;
+}
+/* line 318, ../scss/restaurant.scss */
+#recensioni-container .comment .container-fluid .row .comment-content .comment-nome-ristorante a {
+  color: #FFC300;
+  font-weight: bold;
+}
+/* line 324, ../scss/restaurant.scss */
+#recensioni-container .comment .container-fluid .row .btn-mi-piace, #recensioni-container .comment .container-fluid .row .btn-non-mi-piace {
   background-color: #e62739;
   border: 1px solid #fff;
+  margin-bottom: 10px;
 }
-/* line 322, ../scss/restaurant.scss */
-#recensioni-container .comment .container-fluid .row .comment-content .btn-mi-piace:enabled:hover, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace:enabled:hover {
+/* line 332, ../scss/restaurant.scss */
+#recensioni-container .comment .container-fluid .row .btn-mi-piace:enabled:hover, #recensioni-container .comment .container-fluid .row .btn-non-mi-piace:enabled:hover {
   background-color: #C70039;
 }
 @media (max-width: 405px) {
-  /* line 315, ../scss/restaurant.scss */
-  #recensioni-container .comment .container-fluid .row .comment-content .btn-mi-piace, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace {
+  /* line 324, ../scss/restaurant.scss */
+  #recensioni-container .comment .container-fluid .row .btn-mi-piace, #recensioni-container .comment .container-fluid .row .btn-non-mi-piace {
     margin-top: 2px;
     width: 150px;
   }
 }
 @media (max-width: 430px) {
-  /* line 315, ../scss/restaurant.scss */
-  #recensioni-container .comment .container-fluid .row .comment-content .btn-mi-piace, #recensioni-container .comment .container-fluid .row .comment-content .btn-non-mi-piace {
+  /* line 324, ../scss/restaurant.scss */
+  #recensioni-container .comment .container-fluid .row .btn-mi-piace, #recensioni-container .comment .container-fluid .row .btn-non-mi-piace {
     font-size: 12px;
   }
 }
-/* line 334, ../scss/restaurant.scss */
-#recensioni-container .comment .container-fluid .row .comment-content .comment-nome-ristorante {
-  float: right;
-  margin-top: 5px;
-}
-/* line 337, ../scss/restaurant.scss */
-#recensioni-container .comment .container-fluid .row .comment-content .comment-nome-ristorante a {
-  color: #FFC300;
-  font-weight: bold;
-}
 
-/* line 349, ../scss/restaurant.scss */
+/* line 350, ../scss/restaurant.scss */
 #map {
   height: 400px;
   width: 100%;
@@ -429,27 +430,27 @@
   box-shadow: 0px 0px 5px 1px #999;
 }
 
-/* line 358, ../scss/restaurant.scss */
+/* line 359, ../scss/restaurant.scss */
 #dettagli-container .dettagli-lable {
   font-weight: bold;
   margin-top: 0px;
 }
-/* line 363, ../scss/restaurant.scss */
+/* line 364, ../scss/restaurant.scss */
 #dettagli-container #punteggi-riassunto .rating-stars {
   margin-left: 0px;
   margin-bottom: 10px;
   display: block;
 }
-/* line 367, ../scss/restaurant.scss */
+/* line 368, ../scss/restaurant.scss */
 #dettagli-container #punteggi-riassunto .rating-stars img {
   height: 20px;
   width: auto;
 }
-/* line 374, ../scss/restaurant.scss */
+/* line 375, ../scss/restaurant.scss */
 #dettagli-container #cucina .tipi-di-cucina {
   font-size: 18px;
 }
-/* line 379, ../scss/restaurant.scss */
+/* line 380, ../scss/restaurant.scss */
 #dettagli-container #qr-code #qr-code-img {
   height: 150px;
   width: 150px;

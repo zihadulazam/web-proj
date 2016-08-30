@@ -416,30 +416,25 @@
                                                         </div>
                                                     </div>
                                                 </c:if>
-                                                
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="col-md-12">
-                                                                <button type="button" class="btn btn-danger btn-mi-piace" 
-                                                                            <c:if test="${sessionScope.user.getNickname()==null}">
-                                                                                disabled="disabled"
-                                                                            </c:if>
-                                                                                onclick="miPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,1)"
-                                                                                id="btn-mipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
-                                                                                ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
-                                                                <button type="button" class="btn btn-danger btn-non-mi-piace" 
-                                                                        <c:if test="${sessionScope.user.getNickname()==null}">
-                                                                            disabled="disabled"
-                                                                        </c:if>
-                                                                        onclick="nonMiPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,0)"
-                                                                        id="btn-nonmipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
-                                                                        ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></span></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="row container-fluid">
+                                                <div class="col-md-12 text-right">
+                                                        <button type="button" class="btn btn-danger btn-mi-piace" 
+                                                                <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                    disabled="disabled"
+                                                                </c:if>
+                                                                    onclick="miPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,1)"
+                                                                    id="btn-mipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
+                                                                    ><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Mi Piace <span class="badge"><c:out value="${allComments.getReview().getLikes()}" /></span></button>
+                                                    <button type="button" class="btn btn-danger btn-non-mi-piace" 
+                                                            <c:if test="${sessionScope.user.getNickname()==null}">
+                                                                disabled="disabled"
+                                                            </c:if>
+                                                            onclick="nonMiPiace(<c:out value="${allComments.getReview().getId()}"></c:out>,0)"
+                                                            id="btn-nonmipiace-<c:out value="${allComments.getReview().getId()}"></c:out>"
+                                                            ><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Non Mi Piace <span class="badge"><c:out value="${allComments.getReview().getDislikes()}" /></span></span></button>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -574,7 +569,7 @@
                     <p id="button-rec-foto">
                         <c:choose>
                             <c:when test="${sessionScope.user.getId()==restaurant_context.getOwner().getId() && sessionScope.user.getNickname()!=null}">
-                                <a type="button" class="btn btn-primary btn-lg btn-config" href="${baseURL}/GetRestaurantInfoServlet?restaurant_id=<c:out value="${restaurant_context.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Modifica Ristorante
+                                <a type="button" class="btn btn-primary btn-lg btn-config" href="${baseURL}/GetRestaurantInfoServlet?restaurant_id=<c:out value="${restaurant_context.getRestaurant().getId()}"/>"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Modifica Ristorante
                                 </a> 
                             </c:when>
                             <c:otherwise>
@@ -589,6 +584,17 @@
                                     </c:choose>
                                     ><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Sono io il Proprietario!
                                 </button>
+                            </c:otherwise>
+                        </c:choose>
+                        <!-- button crea Ristorante -->
+                        <c:choose>
+                            <c:when test="${sessionScope.user.getNickname()==null}">
+                                <button type="button" class="btn btn-primary btn-lg btn-config" onclick="primaFaiLogin()"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Crea Un Ristorante
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <a type="button" class="btn btn-primary btn-lg btn-config" href="${baseURL}/restaurant_setup"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Crea Un Ristorante
+                                </a>
                             </c:otherwise>
                         </c:choose>
                     </p>
